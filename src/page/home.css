@@ -1,0 +1,632 @@
+/* Home.css - File CSS riêng cho trang Home */
+
+/* Container chính */
+.home-container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* Hero Slider */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.active-slide {
+  opacity: 1;
+}
+
+.slide-background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent);
+}
+
+.slide-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 2rem;
+}
+
+@media (min-width: 768px) {
+  .slide-content {
+    padding: 0 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slide-content {
+    padding: 0 6rem;
+  }
+}
+
+.slide-text {
+  max-width: 48rem;
+}
+
+.slide-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .slide-title {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slide-title {
+    font-size: 5rem;
+  }
+}
+
+.slide-description {
+  font-size: 1.25rem;
+  color: #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .slide-description {
+    font-size: 1.5rem;
+  }
+}
+
+.slide-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #eab308;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #000;
+  transition: all 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.primary-button:hover {
+  background-color: #ca8a04;
+  transform: scale(1.05);
+}
+
+.secondary-button {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s;
+}
+
+.secondary-button:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.05);
+}
+
+.button-icon {
+  margin-left: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.button-icon-small {
+  margin-left: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.slide-indicators {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.slide-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.active-indicator {
+  background-color: white;
+  width: 3rem;
+}
+
+/* Sections */
+.section {
+  padding: 4rem 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding: 4rem 2rem;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .section-header {
+    flex-direction: row;
+  }
+}
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.section-title.center {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #4b5563;
+}
+
+.view-all-button {
+  display: none;
+  align-items: center;
+  color: #2563eb;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+@media (min-width: 768px) {
+  .view-all-button {
+    display: flex;
+  }
+}
+
+.view-all-button:hover {
+  color: #1d4ed8;
+}
+
+/* Destinations */
+.destinations-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .destinations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .destinations-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.destination-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.destination-card:hover {
+  transform: scale(1.05);
+}
+
+.destination-image-container {
+  position: relative;
+}
+
+.destination-image {
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+}
+
+.destination-rating {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.star-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #eab308;
+  margin-right: 0.25rem;
+}
+
+.rating-value {
+  font-weight: 600;
+}
+
+.destination-details {
+  padding: 1.5rem;
+}
+
+.destination-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.location-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #ef4444;
+  margin-right: 0.5rem;
+}
+
+.destination-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.destination-description {
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.destination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.destination-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.details-button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.details-button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Promotion */
+.promotion-section {
+  background: linear-gradient(to right, #2563eb, #7c3aed);
+  padding: 4rem 1.5rem;
+}
+
+.promotion-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.promotion-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .promotion-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.promotion-text {
+  color: white;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .promotion-text {
+    width: 50%;
+    margin-bottom: 0;
+  }
+}
+
+.promotion-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.promotion-description {
+  font-size: 1.25rem;
+  color: #93c5fd;
+  margin-bottom: 1.5rem;
+}
+
+.promotion-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.promotion-primary-button {
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  color: #2563eb;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.promotion-primary-button:hover {
+  background-color: #f3f4f6;
+  transform: scale(1.05);
+}
+
+.promotion-secondary-button {
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.promotion-secondary-button:hover {
+  background-color: white;
+  color: #2563eb;
+  transform: scale(1.05);
+}
+
+.promotion-deals {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .promotion-deals {
+    width: 50%;
+  }
+}
+
+.deals-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 24rem;
+}
+
+.deals-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.deals-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #2563eb;
+  margin-right: 0.75rem;
+}
+
+.deals-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.deals-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.deal-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.deal-item:hover {
+  background-color: #f3f4f6;
+}
+
+.deal-name {
+  font-weight: 500;
+}
+
+.deal-info {
+  display: flex;
+  align-items: center;
+}
+
+.deal-price {
+  font-weight: 700;
+  color: #1f2937;
+  margin-right: 0.75rem;
+}
+
+.deal-trend {
+  display: flex;
+  align-items: center;
+  color: #10b981;
+}
+
+.trend-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+}
+
+.trend-value {
+  font-size: 0.875rem;
+}
+
+/* Services */
+.services-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.service-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.service-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.service-description {
+  color: #4b5563;
+}
+
+/* Newsletter */
+.newsletter-section {
+  background-color: #f3f4f6;
+  padding: 4rem 1.5rem;
+}
+
+.newsletter-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.newsletter-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.newsletter-description {
+  color: #4b5563;
+  max-width: 36rem;
+  margin: 0 auto 2rem auto;
+}
+
+.newsletter-form {
+  max-width: 36rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .newsletter-form {
+    flex-direction: row;
+  }
+}
+
+.newsletter-input {
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  transition: all 0.3s;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.newsletter-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.newsletter-button:hover {
+  background-color: #1d4ed8;
+}
