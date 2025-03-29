@@ -1,20 +1,13 @@
 /* Header Styles */
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  transition: all 0.3s ease;
+/* .site-header { */
+/*   position: sticky; */
+/*   left: 0; */
+/*   width: 100%; */
+/*   z-index: 1000; */
+/*   transition: all 0.3s ease; */
+/*   background-color: skyblue; */
 }
 
-/* Top Bar */
-.top-bar {
-  background-color: #87cdbe;
-  color: #fff;
-  font-size: 0.875rem;
-  padding: 8px 0;
-}
 
 .top-bar-container {
   max-width: 1280px;
@@ -43,21 +36,23 @@
 .user-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px; /* Khoảng cách giữa các mục */
+  margin-left: auto; /* Đẩy user-actions sang phải */
 }
 
 .user-action-link {
-  color: #fff;
+  color: #333;
   text-decoration: none;
-  transition: color 0.2s ease;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .user-action-link:hover {
-  color: pink;
+  color: #2563eb;
 }
 
 .separator {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 /* Main Header */
@@ -238,6 +233,16 @@
   cursor: pointer;
 }
 
+/* Fix cho nội dung bên dưới header */
+body {
+  margin-top: var(--header-height, 140px);
+}
+
+/* Thiết lập biến CSS cho chiều cao header */
+:root {
+  --header-height: 140px; /* Mặc định (top-bar + main-header) */
+}
+
 /* Mobile Responsive */
 @media (max-width: 992px) {
   .main-navigation {
@@ -278,32 +283,12 @@
     justify-content: space-between;
   }
 
-  .dropdown-menu {
-    position: static;
-    box-shadow: none;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    width: 100%;
-    padding: 0 0 10px 15px;
-    display: none;
-  }
-
-  .nav-item:hover .dropdown-menu {
-    display: block;
-  }
-
-  .dropdown-menu li a {
-    padding: 8px 0;
-  }
-
-  .dropdown-menu li a:hover {
-    padding-left: 5px;
-    background-color: transparent;
-  }
-
   .mobile-menu-button {
     display: block;
+  }
+
+  :root {
+    --header-height: 90px; /* Chiều cao header giảm xuống trên mobile */
   }
 }
 
@@ -311,17 +296,30 @@
   .top-bar {
     display: none;
   }
-  
+
+  body {
+    padding-top: var(--header-height, 70px);
+  }
+
   .logo {
     font-size: 1.5rem;
   }
-  
+
   .header-actions {
     gap: 10px;
   }
-  
+
   .search-button,
   .wishlist-button {
     display: none;
   }
+
+  /* :root { */
+  /*   --header-height: 70px; */
+  /* } */
+  html, body {
+  overflow-x: hidden;
 }
+
+}
+

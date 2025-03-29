@@ -1,0 +1,162 @@
+/* contact.css */
+
+/* Reset lại một số style mặc định */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* Container chính */
+.contact-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-container h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.contact-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #3498db;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+  font-size: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.8rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border 0.3s, box-shadow 0.3s;
+  width: calc(100% - 1.6rem); /* Trừ đi padding */
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+.contact-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* Nút gửi nhỏ hơn */
+.contact-form button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  align-self: flex-end; /* Đặt nút ở bên phải */
+  width: auto; /* Chiều rộng tự động theo nội dung */
+  max-width: 150px; /* Giới hạn chiều rộng tối đa */
+}
+
+.contact-form button:hover {
+  background-color: #2980b9;
+}
+
+.contact-form button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.success-message {
+  text-align: center;
+  color: #27ae60;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 2rem;
+  border: 1px solid #27ae60;
+  border-radius: 4px;
+  background-color: rgba(39, 174, 96, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 1.5rem;
+    margin: 1rem;
+    width: auto;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.7rem;
+  }
+  
+  .contact-form button {
+    padding: 0.7rem 1.2rem;
+    align-self: center; /* Đặt nút ở giữa trên mobile */
+  }
+}
+
+/* Hiệu ứng khi di chuyển giữa các trạng thái */
+.contact-form input,
+.contact-form textarea,
+.contact-form button,
+.success-message {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Đảm bảo header và footer không chiếm quá nhiều không gian */
+header, footer {
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Đảm bảo nội dung chính không bị ảnh hưởng bởi header và footer */
+main {
+  min-height: calc(100vh - 150px); /* Điều chỉnh theo chiều cao thực tế của header và footer */
+  padding: 1rem 0;
+}

@@ -1,19 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { Search, Menu, X, Phone, Mail, ChevronDown, User, Heart, ShoppingBag } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Search,
+  Menu,
+  X,
+  ChevronDown,
+  Heart,
+  ShoppingBag,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import "./header.css";
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        const headerHeight = headerRef.current.offsetHeight;
+        document.documentElement.style.setProperty(
+          "--header-height",
+          `${headerHeight}px`
+        );
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+    };
   }, []);
 
   const toggleMobileMenu = () => {
@@ -21,31 +38,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`site-header ${isScrolled ? "scrolled" : ""}`}>
-      <div className="top-bar">
-        <div className="top-bar-container">
-          <div className="contact-info">
-            <div className="contact-item">
-              <Phone className="contact-icon" size={16} />
-              <span>Hotline: 0123456789</span>
-            </div>
-            <div className="contact-item">
-              <Mail className="contact-icon" size={16} />
-              <span>Email: info@nhom12.com</span>
-            </div>
-          </div>
-          <div className="user-actions">
-            <Link to="/account" className="user-action-link">
-              Đăng nhập
-            </Link>
-            <span className="separator">|</span>
-            <Link to="/register" className="user-action-link">
-              Đăng ký
-            </Link>
-          </div>
-        </div>
-      </div>
-
+    <header ref={headerRef}>
       <div className="main-header">
         <div className="main-header-container">
           <div className="logo-container">
@@ -54,7 +47,9 @@ const Header = () => {
             </Link>
           </div>
 
-          <nav className={`main-navigation ${mobileMenuOpen ? "menu-open" : ""}`}>
+          <nav
+            className={`main-navigation ${mobileMenuOpen ? "menu-open" : ""}`}
+          >
             <button className="close-menu" onClick={toggleMobileMenu}>
               <X size={24} />
             </button>
@@ -69,10 +64,18 @@ const Header = () => {
                   Tour du lịch <ChevronDown size={16} className="dropdown-icon" />
                 </Link>
                 <ul className="dropdown-menu">
-                  <li><Link to="/tours/MienBac">Tour Miền Bắc</Link></li>
-                  <li><Link to="/tours/MienTrung">Tour Miền Trung</Link></li>
-                  <li><Link to="/tours/MienNam">Tour Miền Nam</Link></li>
-                  <li><Link to="/tours/VIP">Tour Vip Miền</Link></li>
+                  <li>
+                    <Link to="/tours/MienBac">Tour Miền Bắc</Link>
+                  </li>
+                  <li>
+                    <Link to="/tours/MienTrung">Tour Miền Trung</Link>
+                  </li>
+                  <li>
+                    <Link to="/tours/MienNam">Tour Miền Nam</Link>
+                  </li>
+                  <li>
+                    <Link to="/tours/VIP">Tour Vip</Link>
+                  </li>
                 </ul>
               </li>
               <li className="nav-item">
@@ -105,6 +108,17 @@ const Header = () => {
               <ShoppingBag size={20} />
               <span className="badge">0</span>
             </Link>
+
+            <div className="user-actions">
+              <Link to="/account" className="user-action-link">
+                Đăng nhập
+              </Link>
+              <span className="separator">|</span>
+              <Link to="/register" className="user-action-link">
+                Đăng ký
+              </Link>
+            </div>
+
             <button className="mobile-menu-button" onClick={toggleMobileMenu}>
               <Menu size={24} />
             </button>
@@ -116,4 +130,3 @@ const Header = () => {
 };
 
 export default Header;
-
