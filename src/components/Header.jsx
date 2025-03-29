@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Search,
-  Menu,
-  X,
-  ChevronDown,
-  Heart,
-  ShoppingBag,
-} from "lucide-react";
+import { Search, Menu, X, ChevronDown, Heart, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./header.css";
 
@@ -20,7 +13,7 @@ const Header = () => {
         const headerHeight = headerRef.current.offsetHeight;
         document.documentElement.style.setProperty(
           "--header-height",
-          `${headerHeight}px`
+          `${headerHeight}px`,
         );
       }
     };
@@ -61,7 +54,8 @@ const Header = () => {
               </li>
               <li className="nav-item dropdown">
                 <Link to="/tours" className="nav-link">
-                  Tour du lịch <ChevronDown size={16} className="dropdown-icon" />
+                  Tour du lịch{" "}
+                  <ChevronDown size={16} className="dropdown-icon" />
                 </Link>
                 <ul className="dropdown-menu">
                   <li>
@@ -74,7 +68,7 @@ const Header = () => {
                     <Link to="/tours/MienNam">Tour Miền Nam</Link>
                   </li>
                   <li>
-                    <Link to="/tours/VIP">Tour Vip</Link>
+                    <Link to="/tours/VIP">Tour Vip 3 Miền</Link>
                   </li>
                 </ul>
               </li>
