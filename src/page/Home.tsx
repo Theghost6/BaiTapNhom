@@ -6,19 +6,19 @@ const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const slides = [
     {
-      image: "https://source.unsplash.com/1600x900/?vietnam",
+      image: "https://cdn.pixabay.com/photo/2019/05/29/00/08/vietnam-4236430_1280.jpg",
       title: "Vịnh Hạ Long",
       description: "Kỳ quan thiên nhiên thế giới tại Việt Nam",
     },
     {
-      image: "https://source.unsplash.com/1600x900/?beach",
+      image: "https://cdn.xanhsm.com/2025/02/f69feca7-canh-dep-phu-quoc-7.jpg",
       title: "Phú Quốc",
       description: "Thiên đường biển đảo của miền Nam",
     },
     {
-      image: "https://source.unsplash.com/1600x900/?mountains",
-      title: "Sa Pa",
-      description: "Thị trấn trong sương mù",
+      image: "https://mia.vn/media/uploads/blog-du-lich/an-tuong-ve-dep-hung-vi-noi-quan-the-danh-thang-trang-an-1-1640247493.jpg",
+      title: "Tràng An",
+      description: "Khu du lịch sinh thái Tràng An",
     },
   ];
 
@@ -41,14 +41,14 @@ const Home = () => {
     },
     {
       name: "Hội An",
-      image: "https://source.unsplash.com/400x300/?hoian",
+      image: "https://hoianpark.com/userfiles/image/du-lich/net-dep-ha/ky-uc-hoi-an-ve-dem/ky-uc-hoi-an-ve-dem-1.jpg",
       description: "Phố cổ lãng mạn với những chiếc đèn lồng đầy màu sắc.",
       rating: 4.9,
       price: "2,800,000đ",
     },
     {
       name: "Nha Trang",
-      image: "https://source.unsplash.com/400x300/?nhatrang",
+      image: "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
       description:
         "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
       rating: 4.7,

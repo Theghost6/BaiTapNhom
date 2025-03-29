@@ -31,7 +31,7 @@ const Header = () => {
             </div>
             <div className="contact-item">
               <Mail className="contact-icon" size={16} />
-              <span>Email: info@nhom11.com</span>
+              <span>Email: info@nhom12.com</span>
             </div>
           </div>
           <div className="user-actions">
@@ -50,7 +50,7 @@ const Header = () => {
         <div className="main-header-container">
           <div className="logo-container">
             <Link to="/" className="logo-link">
-              <h1 className="logo">Nhom11 Travel</h1>
+              <h1 className="logo">Nhom12 Travel</h1>
             </Link>
           </div>
 
