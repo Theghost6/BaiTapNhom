@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search, Menu, X, ChevronDown, Heart, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
-import "./header.css";
+import "../style/header.css";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

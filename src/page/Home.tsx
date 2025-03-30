@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
-import "./home.css"; // Import CSS từ file riêng
+import "../style/home.css"; // Import CSS từ file riêng
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);

@@ -4,10 +4,10 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Contact from "./page/Contact";
 import Home from "./page/Home";
-import "./page/home.css";
-import "./page/contact.css";
-import "./components/header.css"
-import "./components/footer.css";
+import "./style/home.css";
+import "./style/contact.css";
+import "./style/header.css"
+import "./style/footer.css";
 
 const App = () => {
   return (
