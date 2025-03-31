@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const Account = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -11,22 +10,35 @@ const Account = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setMessage('');
-
     try {
+      console.log('Đang gửi request đến:', 'http://localhost/backend/account.php');
+      console.log('Dữ liệu gửi đi:', JSON.stringify(credentials));
+      
       const response = await fetch('http://localhost/backend/account.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
       });
-
-      const data = await response.json();
-      setMessage(data.success ? 'Đăng nhập thành công!' : data.message || 'Đăng nhập thất bại!');
+      
+      console.log('Mã trạng thái phản hồi:', response.status);
+      console.log('Headers phản hồi:', response.headers);
+      
+      // Kiểm tra nếu response có thể được parse thành JSON
+      const text = await response.text();
+      console.log('Phản hồi dạng text:', text);
+      
+      try {
+        const data = JSON.parse(text);
+        console.log('Dữ liệu JSON:', data);
+        setMessage(data.success ? 'Đăng nhập thành công!' : data.message || 'Đăng nhập thất bại!');
+      } catch (jsonError) {
+        console.error('Lỗi parse JSON:', jsonError);
+        setMessage('Phản hồi không phải định dạng JSON hợp lệ');
+      }
     } catch (error) {
+      console.error('Chi tiết lỗi kết nối:', error);
       setMessage('Lỗi kết nối đến server!');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -46,11 +58,12 @@ const Account = () => {
           <input type="password" id="password" name="password" value={credentials.password} onChange={handleChange} required />
         </div>
         
-        <button type="submit" disabled={loading}>{loading ? 'Đang xử lý...' : 'Đăng Nhập'}</button>
+        <button type="submit">Đăng Nhập</button>
       </form>
     </div>
   );
 };
 
 export default Account;
+
 
