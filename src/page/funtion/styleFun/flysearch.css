@@ -1,0 +1,164 @@
+/* Add these styles to your home.css file */
+
+/* Travel Navigation Bar Styles */
+.travel-container {
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  top: -20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Navigation Tabs */
+.travel-tabs {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: white;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+  color: #666;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+
+.tab-item.active {
+  color: #2a6ded;
+  font-weight: 500;
+}
+
+.tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #2a6ded;
+}
+
+.tab-icon {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-icon svg {
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+}
+
+.tab-item.dropdown .dropdown-arrow {
+  margin-left: 4px;
+  fill: currentColor;
+}
+
+/* Search Panel */
+.search-panel {
+  padding: 16px;
+  background-color: white;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.search-field {
+  flex: 1;
+  padding: 8px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.search-field label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.search-field .required {
+  color: red;
+}
+
+.search-field input {
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  outline: none;
+  padding: 4px 0;
+   color: black;
+  background-color: white;
+  color-scheme: light;
+}
+
+.location-field {
+  flex: 2;
+}
+
+.date-picker, .guest-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333;
+}
+
+.date-picker svg, .guest-picker svg {
+  fill: #666;
+  margin-left: 8px;
+}
+
+.search-button {
+  width: 48px;
+  height: 48px;
+  background-color: #2a6ded;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-button svg {
+  fill: white;
+}
+
+@media (max-width: 768px) {
+  .search-row {
+    flex-direction: column;
+  }
+  
+  .search-field {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  
+  .search-button {
+    width: 100%;
+  }
+}

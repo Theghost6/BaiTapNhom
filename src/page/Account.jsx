@@ -1,60 +1,56 @@
-import React, { useState } from "react";
-// import "./LoginForm.css"; // Import file CSS thuần
+import React, { useState } from 'react';
 
 const Account = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setLoading(true);
+    setMessage('');
 
-    if (!email || !password) {
-      setError("Vui lòng nhập đầy đủ email và mật khẩu.");
-      return;
+    try {
+      const response = await fetch('http://localhost/backend/account.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+      setMessage(data.success ? 'Đăng nhập thành công!' : data.message || 'Đăng nhập thất bại!');
+    } catch (error) {
+      setMessage('Lỗi kết nối đến server!');
+    } finally {
+      setLoading(false);
     }
-
-    console.log("Đăng nhập với:", { email, password });
   };
 
   return (
     <div className="login-container">
-      <div className="login-box">
-        <h2 className="login-title">Đăng Nhập</h2>
-
-        {error && <p className="error-message">{error}</p>}
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-field"
-              placeholder="Nhập email của bạn"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Mật khẩu</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
-              placeholder="Nhập mật khẩu"
-            />
-          </div>
-
-          <button type="submit" className="submit-button">
-            Đăng Nhập
-          </button>
-        </form>
-      </div>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Đăng Nhập</h2>
+        {message && <div className={`message ${message.includes('thành công') ? 'success' : 'error'}`}>{message}</div>}
+        
+        <div className="form-group">
+          <label htmlFor="username">Tên đăng nhập</label>
+          <input type="text" id="username" name="username" value={credentials.username} onChange={handleChange} required />
+        </div>
+        
+        <div className="form-group">
+          <label htmlFor="password">Mật khẩu</label>
+          <input type="password" id="password" name="password" value={credentials.password} onChange={handleChange} required />
+        </div>
+        
+        <button type="submit" disabled={loading}>{loading ? 'Đang xử lý...' : 'Đăng Nhập'}</button>
+      </form>
     </div>
   );
 };
 
 export default Account;
+

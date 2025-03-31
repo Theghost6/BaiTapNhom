@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
 import "../style/home.css"; // Import CSS từ file riêng
+import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
+import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [activeTab, setActiveTab] = useState("khachsan");
+  const [expanded, setExpanded] = useState(false);
+
   const slides = [
     {
-      image: "https://cdn.pixabay.com/photo/2019/05/29/00/08/vietnam-4236430_1280.jpg",
+      image:
+        "https://cdn.pixabay.com/photo/2019/05/29/00/08/vietnam-4236430_1280.jpg",
       title: "Vịnh Hạ Long",
       description: "Kỳ quan thiên nhiên thế giới tại Việt Nam",
     },
@@ -16,7 +22,8 @@ const Home = () => {
       description: "Thiên đường biển đảo của miền Nam",
     },
     {
-      image: "https://mia.vn/media/uploads/blog-du-lich/an-tuong-ve-dep-hung-vi-noi-quan-the-danh-thang-trang-an-1-1640247493.jpg",
+      image:
+        "https://mia.vn/media/uploads/blog-du-lich/an-tuong-ve-dep-hung-vi-noi-quan-the-danh-thang-trang-an-1-1640247493.jpg",
       title: "Tràng An",
       description: "Khu du lịch sinh thái Tràng An",
     },
@@ -34,21 +41,24 @@ const Home = () => {
   const destinations = [
     {
       name: "Đà Nẵng",
-      image: "https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20%C4%91%C3%A0%20n%E1%BA%B5ng/anh-dep-da-nang-2.jpg",
+      image:
+        "https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20%C4%91%C3%A0%20n%E1%BA%B5ng/anh-dep-da-nang-2.jpg",
       description: "Thành phố đáng sống với bãi biển tuyệt đẹp và cầu Rồng.",
       rating: 4.8,
       price: "3,500,000đ",
     },
     {
       name: "Hội An",
-      image: "https://hoianpark.com/userfiles/image/du-lich/net-dep-ha/ky-uc-hoi-an-ve-dem/ky-uc-hoi-an-ve-dem-1.jpg",
+      image:
+        "https://hoianpark.com/userfiles/image/du-lich/net-dep-ha/ky-uc-hoi-an-ve-dem/ky-uc-hoi-an-ve-dem-1.jpg",
       description: "Phố cổ lãng mạn với những chiếc đèn lồng đầy màu sắc.",
       rating: 4.9,
       price: "2,800,000đ",
     },
     {
       name: "Nha Trang",
-      image: "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
+      image:
+        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
       description:
         "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
       rating: 4.7,
@@ -96,6 +106,88 @@ const Home = () => {
               aria-label={`Slide ${index + 1}`}
             />
           ))}
+        </div>
+      </div>
+
+      {/* Travel Navigation Bar - added here as requested */}
+      <div className="travel-container">
+        {/* Navigation Tabs */}
+        <div className="travel-tabs">
+          <div
+            className={`tab-item ${activeTab === "khachsan" ? "active" : ""}`}
+            onClick={() => setActiveTab("khachsan")}
+          >
+            <div className="tab-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M19,7h-8C9.9,7,9,7.9,9,9v10h12V9C21,7.9,20.1,7,19,7z M13,15h-2v-2h2V15z M13,11h-2V9h2V11z M17,15h-2v-2h2V15z M17,11h-2V9h2V11z M7,9H3v10h4V9z M5,15H3v-2h2V15z M5,11H3V9h2V11z M14,5c-1.1,0-2,0.9-2,2h-2.2C9.9,4.9,8.1,3.5,6,3.5v2C7.3,5.5,8.4,6.3,8.8,7.5H6C4.9,7.5,4,8.4,4,9.5v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-10c0-0.3-0.1-0.6-0.2-0.9c0-0.1,0.2-0.6,0.2-1.1C20,5.7,17.3,5,14,5z" />
+              </svg>
+            </div>
+            <span>Khách sạn</span>
+          </div>
+
+          <div
+            className={`tab-item ${activeTab === "maybay" ? <FlySearch /> : ""}`}
+            onClick={() => setActiveTab("maybay")}
+          >
+            <div className="tab-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z" />
+              </svg>
+            </div>
+            <span>Vé máy bay</span>
+          </div>
+
+          <div
+            className={`tab-item ${activeTab === "combo" ? "active" : ""}`}
+            onClick={() => setActiveTab("combo")}
+          >
+            <div className="tab-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M19,7h-8C9.9,7,9,7.9,9,9v10h12V9C21,7.9,20.1,7,19,7z M13,15h-2v-2h2V15z M13,11h-2V9h2V11z M17,15h-2v-2h2V15z M17,11h-2V9h2V11z M7,9H3v10h4V9z M5,15H3v-2h2V15z M5,11H3V9h2V11z" />
+              </svg>
+              <span>+</span>
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z" />
+              </svg>
+            </div>
+            <span>Combo</span>
+          </div>
+
+          <div
+            className={`tab-item dropdown ${activeTab === "dichvu" ? "active" : ""} ${expanded ? "expanded" : ""}`}
+            onClick={() => {
+              setActiveTab("dichvu");
+              setExpanded(!expanded);
+            }}
+          >
+            <div className="tab-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M4,8h4V4H4V8z M10,20h4v-4h-4V20z M4,20h4v-4H4V20z M4,14h4v-4H4V14z M10,14h4v-4h-4V14z M16,4v4h4V4H16z M10,8h4V4h-4V8z M16,14h4v-4h-4V14z M16,20h4v-4h-4V20z" />
+              </svg>
+            </div>
+            <span>Dịch vụ khác</span>
+            <svg
+              className="dropdown-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+            >
+              <path d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z" />
+            </svg>
+          </div>
+        </div>
+        {activeTab === "khachsan" && <HotelSearch />}
+        {activeTab === "maybay" && <FlySearch />}
+        {/* Search Panel */}
+        <div className="search-panel">
+          <div className="search-row">
+            {/* Search button */}
+            <button className="search-button">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M15.5,14h-0.79l-0.28-0.27C15.41,12.59,16,11.11,16,9.5C16,5.91,13.09,3,9.5,3S3,5.91,3,9.5S5.91,16,9.5,16 c1.61,0,3.09-0.59,4.23-1.57L14,14.71v0.79l5,4.99L20.49,19L15.5,14z M9.5,14C7.01,14,5,11.99,5,9.5S7.01,5,9.5,5S14,7.01,14,9.5 S11.99,14,9.5,14z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
