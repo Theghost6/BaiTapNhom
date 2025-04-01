@@ -1,12 +1,13 @@
 /* contact.css */
 
 /* Reset lại một số style mặc định */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   background-color: #f5f5f5;
   color: #333;
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
 }
 
 /* Container chính */
@@ -29,7 +30,7 @@ body, html {
 }
 
 .contact-container h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -117,12 +118,12 @@ body, html {
     margin: 1rem;
     width: auto;
   }
-  
+
   .contact-form input,
   .contact-form textarea {
     padding: 0.7rem;
   }
-  
+
   .contact-form button {
     padding: 0.7rem 1.2rem;
     align-self: center; /* Đặt nút ở giữa trên mobile */
@@ -149,14 +150,19 @@ body, html {
 }
 
 /* Đảm bảo header và footer không chiếm quá nhiều không gian */
-header, footer {
+header,
+footer {
   padding: 1rem;
-  background-color: #ffffff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
 }
 
 /* Đảm bảo nội dung chính không bị ảnh hưởng bởi header và footer */
 main {
-  min-height: calc(100vh - 150px); /* Điều chỉnh theo chiều cao thực tế của header và footer */
+  min-height: calc(
+    100vh - 150px
+  ); /* Điều chỉnh theo chiều cao thực tế của header và footer */
   padding: 1rem 0;
+  margin-top: 100px;
 }
