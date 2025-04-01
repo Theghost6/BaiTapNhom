@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../funtion/styleFun/flysearch.css"; // Tạo file CSS riêng
+import "../../style/flysearch.css"; // Tạo file CSS riêng
 
 const FlySearch = () => {
   const [departure, setDeparture] = useState("");

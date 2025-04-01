@@ -323,4 +323,103 @@ body {
 }
 
 }
+/* Thêm vào file CSS header hiện có của bạn */
 
+/* Styles cho phần user profile */
+.user-profile {
+  position: relative;
+  margin-left: 15px;
+}
+
+.user-profile-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.user-profile-button:hover {
+  color: #f0632c;
+}
+
+.user-icon {
+  color: #f0632c;
+}
+
+.username {
+  margin-left: 5px;
+  font-weight: 500;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* User Dropdown Styles */
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 200px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 1000;
+  margin-top: 5px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  width: 100%;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #f0632c;
+}
+
+.dropdown-item svg {
+  margin-right: 10px;
+}
+
+.logout-button {
+  border-top: 1px solid #eee;
+  margin-top: 5px;
+  padding-top: 12px;
+  color: #dc3545;
+}
+
+.logout-button:hover {
+  background-color: #ffeeee;
+  color: #dc3545;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .user-profile {
+    margin-left: 0;
+  }
+  
+  .username {
+    display: none;
+  }
+  
+  .user-dropdown {
+    right: -60px;
+  }
+}

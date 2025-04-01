@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -32,6 +34,9 @@ const Account = () => {
         const data = JSON.parse(text);
         console.log('Dữ liệu JSON:', data);
         setMessage(data.success ? 'Đăng nhập thành công!' : data.message || 'Đăng nhập thất bại!');
+      setTimeout(() => {
+        navigate('/');
+      },1500 );
       } catch (jsonError) {
         console.error('Lỗi parse JSON:', jsonError);
         setMessage('Phản hồi không phải định dạng JSON hợp lệ');
