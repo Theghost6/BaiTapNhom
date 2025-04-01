@@ -38,7 +38,7 @@ const Account = () => {
       }
     } catch (error) {
       console.error('Chi tiết lỗi kết nối:', error);
-      setMessage('Lỗi kết nối đến server!');
+      setMessage('Lỗi kết nối đến server!!!!');
     }
   };
 
