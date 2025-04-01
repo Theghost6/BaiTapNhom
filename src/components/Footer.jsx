@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {  Phone, Mail, Clock } from "lucide-react";
+import { Phone, Mail, Clock } from "lucide-react";
 import "../style/footer.css";
 
 const Footer = () => {
@@ -13,32 +13,58 @@ const Footer = () => {
               <h2 className="footer-logo-text">Nhom12 Travel</h2>
             </div>
             <p className="footer-description">
-              Thành viên trong nhóm 12 đã cố gắng xây dựng lên website 
+              Thành viên trong nhóm 12 đã cố gắng xây dựng lên website
             </p>
           </div>
 
           <div className="footer-column links-column">
             <h3 className="column-title">Liên kết nhanh</h3>
             <ul className="footer-links">
-              <li><Link to="/about">Về chúng tôi</Link></li>
-              <li><Link to="/tours">Tour du lịch</Link></li>
-              <li><Link to="/destinations">Điểm đến</Link></li>
-              <li><Link to="/promotions">Khuyến mãi</Link></li>
-              <li><Link to="/blog">Blog du lịch</Link></li>
-              <li><Link to="/faq">Câu hỏi thường gặp</Link></li>
+              <li>
+                <Link to="/about">Về chúng tôi</Link>
+              </li>
+              <li>
+                <Link to="/tours">Tour du lịch</Link>
+              </li>
+              <li>
+                <Link to="/destinations">Điểm đến</Link>
+              </li>
+              <li>
+                <Link to="/promotions">Khuyến mãi</Link>
+              </li>
+              <li>
+                <Link to="/blog">Blog du lịch</Link>
+              </li>
+              <li>
+                <Link to="/faq">Câu hỏi thường gặp</Link>
+              </li>
             </ul>
           </div>
 
           <div className="footer-column tours-column">
             <h3 className="column-title">Tour phổ biến</h3>
             <ul className="footer-links">
-              <li><Link to="/tours/ha-long">Vịnh Hạ Long</Link></li>
-              <li><Link to="/tours/da-nang">Đà Nẵng - Hội An</Link></li>
-              <li><Link to="/tours/phu-quoc">Phú Quốc</Link></li>
-              <li><Link to="/tours/da-lat">Đà Lạt</Link></li>
-              <li><Link to="/tours/sapa">Sa Pa</Link></li>
-              <li><Link to="/tours/nha-trang">Nha Trang</Link></li>
-              <li><Link to="/tours/trang-an">Tràng An</Link></li>
+              <li>
+                <Link to="/tours/ha-long">Vịnh Hạ Long</Link>
+              </li>
+              <li>
+                <Link to="/tours/da-nang">Đà Nẵng - Hội An</Link>
+              </li>
+              <li>
+                <Link to="/tours/phu-quoc">Phú Quốc</Link>
+              </li>
+              <li>
+                <Link to="/tours/da-lat">Đà Lạt</Link>
+              </li>
+              <li>
+                <Link to="/tours/sapa">Sa Pa</Link>
+              </li>
+              <li>
+                <Link to="/tours/nha-trang">Nha Trang</Link>
+              </li>
+              <li>
+                <Link to="/tours/trang-an">Tràng An</Link>
+              </li>
             </ul>
           </div>
 
