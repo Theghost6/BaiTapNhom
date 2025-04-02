@@ -262,7 +262,7 @@ body {
     right: -300px;
     width: 280px;
     height: 100vh;
-    background-color: #fff;
+    background-color: skyblue;
     padding: 60px 20px 20px;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
     transition: right 0.3s ease;
