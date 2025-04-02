@@ -3,7 +3,8 @@
 /* Container chính */
 .home-container {
   min-height: 100vh;
-  background-color: #f9fafb;
+  background: linear-gradient(to right, #e8f7fd, skyblue);
+  margin-top: -110px;
 }
 
 /* Hero Slider */

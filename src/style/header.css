@@ -42,7 +42,7 @@
 }
 
 .user-action-link {
-  color: #333;
+  color: #fff;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
@@ -53,12 +53,12 @@
 }
 
 .separator {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Main Header */
 .main-header {
-  background: linear-gradient(to right, #2563eb, #7c3aed);
+  background: transparent;
   color: #fff;
   padding: 15px 0px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -137,9 +137,16 @@
   gap: 3px;
 }
 
-.nav-link:hover,
+.nav-link:hover {
+  color: #2563eb;
+}
+
 .nav-link.active {
-  color: #333;
+  color: #fff;
+}
+
+.nav-link.active:hover {
+  color: #2563eb;
 }
 
 .dropdown-icon {
@@ -199,7 +206,7 @@
 .action-button {
   background: none;
   border: none;
-  color: #333;
+  color: #fff;
   padding: 5px;
   cursor: pointer;
   position: relative;

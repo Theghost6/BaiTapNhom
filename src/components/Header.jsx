@@ -13,7 +13,7 @@ const Header = () => {
         const headerHeight = headerRef.current.offsetHeight;
         document.documentElement.style.setProperty(
           "--header-height",
-          `${headerHeight}px`,
+          `${headerHeight}px`
         );
       }
     };
@@ -36,7 +36,7 @@ const Header = () => {
         <div className="main-header-container">
           <div className="logo-container">
             <Link to="/" className="logo-link">
-              <h1 className="logo">Nhom12 Travel</h1>
+              <h1 className="logo">Group 12 Travel</h1>
             </Link>
           </div>
 
