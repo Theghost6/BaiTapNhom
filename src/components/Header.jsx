@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search, Menu, X, ChevronDown, Heart, ShoppingBag, UserCircle, LogOut } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { User } from "lucide-react"; // Import icon người từ Lucide React
 import "../style/header.css";
 
 const Header = () => {
@@ -205,12 +206,9 @@ const Header = () => {
               </div>
             ) : (
               <div className="user-actions">
-                <Link to="/account" className="user-action-link">
-                  Đăng nhập
-                </Link>
                 <span className="separator">|</span>
                 <Link to="/register" className="user-action-link">
-                  Đăng ký
+                            <User size={24} strokeWidth={1.5} /> {/* Hiển thị icon */}
                 </Link>
               </div>
             )}
