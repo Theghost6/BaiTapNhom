@@ -3,6 +3,7 @@ import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
 import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
+import Combo from "../page/funtion/Combo";
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -64,6 +65,33 @@ const Home = () => {
       rating: 4.7,
       price: "4,200,000đ",
     },
+    {
+      name: "Nha Trang",
+      image:
+        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
+      description:
+        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
+      rating: 4.7,
+      price: "4,200,000đ",
+    },
+    {
+      name: "Nha Trang",
+      image:
+        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
+      description:
+        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
+      rating: 4.7,
+      price: "4,200,000đ",
+    },
+    {
+      name: "Nha Trang",
+      image:
+        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
+      description:
+        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
+      rating: 4.7,
+      price: "4,200,000đ",
+    },
   ];
 
   return (
@@ -102,13 +130,14 @@ const Home = () => {
             <button
               key={index}
               onClick={() => setActiveSlide(index)}
-              className={`slide-indicator ${index === activeSlide ? "active-indicator" : ""}`}
+              className={`slide-indicator ${
+                index === activeSlide ? "active-indicator" : ""
+              }`}
               aria-label={`Slide ${index + 1}`}
             />
           ))}
         </div>
       </div>
-
       {/* Travel Navigation Bar - added here as requested */}
       <div className="travel-container">
         {/* Navigation Tabs */}
@@ -126,7 +155,9 @@ const Home = () => {
           </div>
 
           <div
-            className={`tab-item ${activeTab === "maybay" ? <FlySearch /> : ""}`}
+            className={`tab-item ${
+              activeTab === "maybay" ? <FlySearch /> : ""
+            }`}
             onClick={() => setActiveTab("maybay")}
           >
             <div className="tab-icon">
@@ -154,7 +185,9 @@ const Home = () => {
           </div>
 
           <div
-            className={`tab-item dropdown ${activeTab === "dichvu" ? "active" : ""} ${expanded ? "expanded" : ""}`}
+            className={`tab-item dropdown ${
+              activeTab === "dichvu" ? "active" : ""
+            } ${expanded ? "expanded" : ""}`}
             onClick={() => {
               setActiveTab("dichvu");
               setExpanded(!expanded);
@@ -178,6 +211,7 @@ const Home = () => {
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
         {activeTab === "maybay" && <FlySearch />}
+        {activeTab === "combo" && <Combo />}
         {/* Search Panel */}
         <div className="search-panel">
           <div className="search-row">
@@ -190,8 +224,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {/* Trending Destinations */}
+      /* Trending Destinations */
       <div className="section destinations-section">
         <div className="section-header">
           <div>
@@ -227,14 +260,20 @@ const Home = () => {
                 <p className="destination-description">{dest.description}</p>
                 <div className="destination-footer">
                   <span className="destination-price">Từ {dest.price}</span>
-                  <button className="details-button">Xem chi tiết</button>
+                  <button
+                    className="details-button"
+                    onClick={() =>
+                      (window.location.href = `/destination/${idx}`)
+                    }
+                  >
+                    Xem chi tiết
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-
       {/* Promotion */}
       <div className="promotion-section">
         <div className="promotion-container">
@@ -289,7 +328,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       {/* Services */}
       <div className="section services-section">
         <h2 className="section-title center">Dịch vụ của chúng tôi</h2>
@@ -319,7 +357,6 @@ const Home = () => {
           ))}
         </div>
       </div>
-
       {/* Newsletter */}
       <div className="newsletter-section">
         <div className="newsletter-container">
