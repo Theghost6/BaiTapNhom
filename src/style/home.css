@@ -3,7 +3,8 @@
 /* Container chính */
 .home-container {
   min-height: 100vh;
-  background-color: #f9fafb;
+  background: linear-gradient(to right, #e8f7fd, skyblue);
+  margin-top: -110px;
 }
 
 /* Hero Slider */
@@ -110,7 +111,8 @@
   font-weight: 600;
   color: #000;
   transition: all 0.3s;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .primary-button:hover {
@@ -259,7 +261,8 @@
   background-color: white;
   border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s;
 }
 
@@ -412,7 +415,8 @@
   border-radius: 9999px;
   font-weight: 600;
   transition: all 0.3s;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .promotion-primary-button:hover {
@@ -452,7 +456,8 @@
   background-color: white;
   padding: 1.5rem;
   border-radius: 0.75rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   width: 100%;
   max-width: 24rem;
 }
@@ -547,7 +552,8 @@
   background-color: white;
   border-radius: 0.75rem;
   padding: 2rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
@@ -637,7 +643,8 @@
 /* Travel Navigation Bar Styles */
 .travel-container {
   width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 30px;
@@ -704,11 +711,10 @@
   fill: currentColor;
 }
 
-
 .search-button {
   width: 48px;
   height: 48px;
-  background-color: #2a6ded;
+  background-color: #030303;
   border: none;
   border-radius: 4px;
   display: flex;
@@ -718,20 +724,20 @@
 }
 
 .search-button svg {
-  fill: white;
+  fill: rgb(0, 0, 0);
 }
 
 @media (max-width: 768px) {
   .search-row {
     flex-direction: column;
   }
-  
+
   .search-field {
     width: 100%;
     margin-right: 0;
     margin-bottom: 8px;
   }
-  
+
   .search-button {
     width: 100%;
   }

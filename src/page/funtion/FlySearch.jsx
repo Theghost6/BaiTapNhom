@@ -8,7 +8,9 @@ const FlySearch = () => {
   const [passengers, setPassengers] = useState(1);
 
   const handleSearch = () => {
-    alert(`Tìm vé máy bay từ ${departure} đến ${destination} vào ngày ${date} cho ${passengers} hành khách.`);
+    alert(
+      `Tìm vé máy bay từ ${departure} đến ${destination} vào ngày ${date} cho ${passengers} hành khách.`
+    );
   };
 
   return (
@@ -16,28 +18,48 @@ const FlySearch = () => {
       <h2>Đặt vé máy bay</h2>
       <div className="form-group">
         <label>Điểm đi:</label>
-        <input type="text" value={departure} onChange={(e) => setDeparture(e.target.value)} placeholder="VD: Hà Nội" />
+        <input
+          type="text"
+          value={departure}
+          onChange={(e) => setDeparture(e.target.value)}
+          placeholder="VD: Hà Nội"
+        />
       </div>
 
       <div className="form-group">
         <label>Điểm đến:</label>
-        <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)} placeholder="VD: TP. HCM" />
+        <input
+          type="text"
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+          placeholder="VD: TP. HCM"
+        />
       </div>
 
       <div className="form-group">
         <label>Ngày khởi hành:</label>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
       </div>
 
       <div className="form-group">
         <label>Số hành khách:</label>
-        <input type="number" value={passengers} onChange={(e) => setPassengers(Number(e.target.value))} min="1" />
+        <input
+          type="number"
+          value={passengers}
+          onChange={(e) => setPassengers(Number(e.target.value))}
+          min="1"
+        />
       </div>
 
-      <button onClick={handleSearch} className="search-button">Tìm chuyến bay</button>
+      <button onClick={handleSearch} className="search-button">
+        Tìm chuyến bay
+      </button>
     </div>
   );
 };
 
 export default FlySearch;
-

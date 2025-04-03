@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./styleFun/hotelsearch.css"; // Tạo file CSS riêng
+
 const HotelSearch = () => {
   return (
     <div className="search-panel">
