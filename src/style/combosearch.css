@@ -1,0 +1,191 @@
+/* Add this to your combosearch.css file */
+
+.combo-search-container {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.combo-types {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.combo-type-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.combo-type-btn.active {
+  background-color: #e6f7ff;
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.combo-type-icon {
+  display: flex;
+  align-items: center;
+}
+
+.combo-type-icon svg {
+  fill: currentColor;
+}
+
+.combo-type-icon span {
+  margin: 0 4px;
+}
+
+.combo-search-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.search-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  flex: 1;
+}
+
+.search-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.required {
+  color: #f5222d;
+  margin-left: 2px;
+}
+
+.search-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.calendar-icon {
+  right: 10px;
+  left: auto;
+}
+
+.input-dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.combo-search-button {
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 48px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.combo-search-button:hover {
+  background-color: #40a9ff;
+}
+
+.combo-search-button svg {
+  fill: white;
+}
+
+/* Custom Combo Styles */
+.custom-combo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-container {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #f0f7ff;
+  border-radius: 50%;
+  color: #1890ff;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: #333;
+}
+
+.flight-form-grid, .hotel-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.date-range {
+  display: flex;
+  align-items: center;
+}
+
+.date-input {
+  width: calc(50% - 10px);
+  padding: 8px;
+}
+
+.date-separator {
+  margin: 0 5px;
+  color: #999;
+}

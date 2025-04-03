@@ -3,6 +3,7 @@ import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
 import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
+import ComboSearch from "../page/funtion/ComboSearch"; // Import file chức năng đặt vé máy bay
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -126,7 +127,7 @@ const Home = () => {
           </div>
 
           <div
-            className={`tab-item ${activeTab === "maybay" ? <FlySearch /> : ""}`}
+            className={`tab-item ${activeTab === "maybay" ? "active" : ""}`}
             onClick={() => setActiveTab("maybay")}
           >
             <div className="tab-icon">
@@ -178,6 +179,7 @@ const Home = () => {
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
         {activeTab === "maybay" && <FlySearch />}
+        {activeTab === "combo" && <ComboSearch />}
         {/* Search Panel */}
         <div className="search-panel">
           <div className="search-row">
