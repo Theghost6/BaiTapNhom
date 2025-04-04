@@ -216,8 +216,9 @@
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
+  font-size: 1.35rem;
   color: #4b5563;
+  font-weight: bold;
 }
 
 .view-all-button {
