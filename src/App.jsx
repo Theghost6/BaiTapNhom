@@ -6,6 +6,7 @@ import Contact from "./page/Contact";
 import Home from "./page/Home";
 import Account from "./page/Account";
 import Register from "./page/Register";
+import AllDiaDiem from "./page/funtion/AllDiaDiem";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css"
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/account" element={<Account />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/AllDiaDiem" element={<AllDiaDiem />} />
           {/* <Route path="/about" element={<About />} /> */}
           <Route path="/contact" element={<Contact />} />
           {/* Add more routes as needed */}
