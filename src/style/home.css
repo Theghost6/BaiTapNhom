@@ -226,6 +226,7 @@
   color: #2563eb;
   font-weight: 600;
   transition: color 0.3s;
+  margin-left: 500px;
 }
 
 @media (min-width: 768px) {
