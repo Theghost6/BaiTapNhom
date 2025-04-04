@@ -137,7 +137,7 @@ export default function Register() {
             <div className="input-box">
               <input
                 type="text"
-                name="name"
+                name="username"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}

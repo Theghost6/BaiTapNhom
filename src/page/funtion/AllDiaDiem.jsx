@@ -13,8 +13,8 @@ const AllDiaDiem = () => {
       <p className="page-subtitle">Khám phá những điểm đến hấp dẫn nhất</p>
 
       <div className="destinations-grid">
-        {Dia_Diem.map((dest, idx) => (
-          <div key={idx} className="destination-card">
+        {Dia_Diem.map((dest) => (
+          <div key={dest.id} className="destination-card">
             <div className="destination-image-container">
               <img
                 src={dest.image}
@@ -36,7 +36,7 @@ const AllDiaDiem = () => {
                 <span className="destination-price">Từ {dest.price}</span>
                 <button
                   className="details-button"
-                  onClick={() => navigate(`/dia-diem/${idx}`)}
+                  onClick={() => navigate(`/Dia-Diem/${dest.id}`)} // Dùng `dest.id` để điều hướng
                 >
                   Xem chi tiết
                 </button>

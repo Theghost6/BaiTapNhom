@@ -7,6 +7,7 @@ import Home from "./page/Home";
 import Account from "./page/Account";
 import Register from "./page/Register";
 import AllDiaDiem from "./page/funtion/AllDiaDiem";
+import ChiTietDiaDiem from "./page/funtion/ChiTietDiaDiem";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css"
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/account" element={<Account />} />
           <Route path="/register" element={<Register />} />
           <Route path="/AllDiaDiem" element={<AllDiaDiem />} />
+          <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
           {/* <Route path="/about" element={<About />} /> */}
           <Route path="/contact" element={<Contact />} />
           {/* Add more routes as needed */}
