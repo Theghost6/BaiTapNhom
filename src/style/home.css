@@ -224,9 +224,11 @@
 .view-all-button {
   display: none;
   align-items: center;
+  margin-left: auto;
   color: #2563eb;
   font-weight: 600;
   transition: color 0.3s;
+  right: 100%;
 }
 
 @media (min-width: 768px) {

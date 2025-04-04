@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./styleFun/Combo.css"; // Tạo file CSS riêng
+import "../../style/Combo.css"; // Tạo file CSS riêng
 
 const Combo = () => {
   const [planeTicket, setPlaneTicket] = useState("");

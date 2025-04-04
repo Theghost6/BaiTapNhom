@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
 import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
@@ -32,7 +32,7 @@ const Home = () => {
   ];
   const Dia_Diem = [
     {
-      id:1,
+      id: 1,
       name: "Đà Nẵng",
       image:
         "https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20%C4%91%C3%A0%20n%E1%BA%B5ng/anh-dep-da-nang-2.jpg",
@@ -41,7 +41,7 @@ const Home = () => {
       price: "3,500,000đ",
     },
     {
-      id:2,
+      id: 2,
       name: "Hội An",
       image:
         "https://hoianpark.com/userfiles/image/du-lich/net-dep-ha/ky-uc-hoi-an-ve-dem/ky-uc-hoi-an-ve-dem-1.jpg",
@@ -50,34 +50,7 @@ const Home = () => {
       price: "2,800,000đ",
     },
     {
-      id:3,
-      name: "Nha Trang",
-      image:
-        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
-      description:
-        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
-      rating: 4.7,
-      price: "4,200,000đ",
-    },
-    {
-      name: "Nha Trang",
-      image:
-        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
-      description:
-        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
-      rating: 4.7,
-      price: "4,200,000đ",
-    },
-    {
-      name: "Nha Trang",
-      image:
-        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
-      description:
-        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
-      rating: 4.7,
-      price: "4,200,000đ",
-    },
-    {
+      id: 3,
       name: "Nha Trang",
       image:
         "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
@@ -234,7 +207,7 @@ const Home = () => {
           </div>
           <button
             className="view-all-button"
-            onClick={() => (window.location.href = "/destinations")}
+            onClick={() => navigate("/AllDiaDiem")}
           >
             Xem tất cả <ArrowRight className="button-icon-small" />
           </button>
@@ -265,12 +238,10 @@ const Home = () => {
                   <span className="destination-price">Từ {dest.price}</span>
                   <button
                     className="details-button"
-                    onClick={() =>
-                      (window.location.href = `/destination/${idx}`)
-                    }
+                    onClick={() => navigate(`/dia-diem/${dest.id}`)}
                   >
                     Xem chi tiết
-                  </button>
+                  </button>{" "}
                 </div>
               </div>
             </div>
