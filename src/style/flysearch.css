@@ -1,14 +1,15 @@
-.flight-booking {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-}
+/* .flight-booking { */
+/*   max-width: 800px; */
+/*   /* width: 100%; */ */
+/*   margin: 20px auto; */
+/*   padding: 20px; */
+/*   background: #fff; */
+/*   border-radius: 5px; */
+/*   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+/*   display: flex; */
+/*   align-items: center; */
+/*   border: 1px solid #ddd; */
+/* } */
 
 h2 {
   display: none;

@@ -15,7 +15,6 @@ const FlySearch = () => {
 
   return (
     <div className="flight-booking">
-      <h2>Đặt vé máy bay</h2>
       <div className="form-group">
         <label>Điểm đi:</label>
         <input
