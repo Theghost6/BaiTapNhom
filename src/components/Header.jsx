@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Search, Menu, X, ChevronDown, Heart, ShoppingBag, UserCircle, LogOut } from "lucide-react";
+import {
+  Search,
+  Menu,
+  X,
+  ChevronDown,
+  Heart,
+  ShoppingBag,
+  UserCircle,
+  LogOut,
+} from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { User } from "lucide-react"; // Import icon người từ Lucide React
 import "../style/header.css";
@@ -16,16 +25,16 @@ const Header = () => {
 
   // Function to check authentication status
   const checkAuthStatus = () => {
-    const userData = localStorage.setItem("user", JSON.stringify({ username: "Tên người dùng" }));    
+   const userData = localStorage.getItem("user");
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setIsLoggedIn(true);
         setUser(parsedUser);
       } catch (error) {
-        console.error('Lỗi phân tích dữ liệu người dùng:', error);
+        console.error("Lỗi phân tích dữ liệu người dùng:", error);
         // Clear invalid data
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
         setIsLoggedIn(false);
         setUser(null);
       }
@@ -48,15 +57,15 @@ const Header = () => {
   // Add event listener for storage events to detect changes from other tabs/windows
   useEffect(() => {
     const handleStorageChange = (event) => {
-      if (event.key === 'user') {
+      if (event.key === "user") {
         checkAuthStatus();
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    
+    window.addEventListener("storage", handleStorageChange);
+
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -66,7 +75,7 @@ const Header = () => {
         const headerHeight = headerRef.current.offsetHeight;
         document.documentElement.style.setProperty(
           "--header-height",
-          `${headerHeight}px`
+          `${headerHeight}px`,
         );
       }
     };
@@ -76,7 +85,10 @@ const Header = () => {
 
     // Thêm sự kiện click outside để đóng dropdown
     const handleClickOutside = (event) => {
-      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(event.target)
+      ) {
         setShowUserDropdown(false);
       }
     };
@@ -99,12 +111,12 @@ const Header = () => {
 
   const handleLogout = () => {
     // Xóa token và thông tin user khỏi localStorage
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     setUser(null);
     setShowUserDropdown(false);
     // Chuyển hướng về trang chủ
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -182,11 +194,14 @@ const Header = () => {
 
             {isLoggedIn ? (
               <div className="user-profile" ref={userDropdownRef}>
-                <button className="user-profile-button" onClick={toggleUserDropdown}>
+                <button
+                  className="user-profile-button"
+                  onClick={toggleUserDropdown}
+                >
                   <UserCircle size={24} className="user-icon" />
                   <span className="username">{user?.username}</span>
                 </button>
-                
+
                 {showUserDropdown && (
                   <div className="user-dropdown">
                     <Link to="/profile" className="dropdown-item">
@@ -197,7 +212,10 @@ const Header = () => {
                       <ShoppingBag size={16} />
                       <span>Đơn hàng của tôi</span>
                     </Link>
-                    <button className="dropdown-item logout-button" onClick={handleLogout}>
+                    <button
+                      className="dropdown-item logout-button"
+                      onClick={handleLogout}
+                    >
                       <LogOut size={16} />
                       <span>Đăng xuất</span>
                     </button>
@@ -208,7 +226,7 @@ const Header = () => {
               <div className="user-actions">
                 <span className="separator">|</span>
                 <Link to="/register" className="user-action-link">
-                            <User size={24} strokeWidth={1.5} /> {/* Hiển thị icon */}
+                  <User size={24} strokeWidth={1.5} /> {/* Hiển thị icon */}
                 </Link>
               </div>
             )}
