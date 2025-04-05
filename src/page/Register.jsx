@@ -41,8 +41,7 @@ export default function Register() {
     setMessage("");
 
     const url = isRegistering
-      ? "http://localhost/backend/register.php"
-      : "http://localhost/backend/account.php"; // Chọn file PHP phù hợp
+       "http://localhost/backend/register.php"
 
     try {
       const response = await fetch(url, {
