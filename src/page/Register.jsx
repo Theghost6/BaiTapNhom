@@ -39,15 +39,20 @@ export default function Register() {
     if (!validate()) return;
 
     setMessage("");
+// Tạo bản sao formData
+  let payload = { ...formData };
 
-    const url = isRegistering
-       "http://localhost/backend/register.php"
+  // Nếu đang đăng nhập thì bỏ các field không cần
+  if (!isRegistering) {
+    delete payload.email;
+    delete payload.confirmPassword;
+  }
 
     try {
-      const response = await fetch(url, {
+      const response = await fetch('http://localhost/backend/register.php', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const text = await response.text();
