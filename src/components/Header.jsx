@@ -8,9 +8,9 @@ import {
   ShoppingBag,
   UserCircle,
   LogOut,
+  User,
 } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { User } from "lucide-react"; // Import icon người từ Lucide React
 import "../style/header.css";
 
 const Header = () => {
@@ -21,20 +21,24 @@ const Header = () => {
   const headerRef = useRef(null);
   const userDropdownRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation(); // Add this to detect route changes
+  const location = useLocation();
 
-  // Function to check authentication status
+  const USER_KEY = "user";
+
+  // Function to check authentication status with detailed logging
   const checkAuthStatus = () => {
-   const userData = localStorage.getItem("user");
+    const userData = localStorage.getItem(USER_KEY);
+    console.log("Checking auth status, userData from localStorage:", userData);
+
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setIsLoggedIn(true);
         setUser(parsedUser);
+        console.log("Parsed user data:", parsedUser);
       } catch (error) {
-        console.error("Lỗi phân tích dữ liệu người dùng:", error);
-        // Clear invalid data
-        localStorage.removeItem("user");
+        console.error("Error parsing user data:", error);
+        localStorage.removeItem(USER_KEY);
         setIsLoggedIn(false);
         setUser(null);
       }
@@ -44,38 +48,30 @@ const Header = () => {
     }
   };
 
-  // Initial check on component mount
+  // Sync with Register component's backend and handle storage changes
   useEffect(() => {
     checkAuthStatus();
-  }, []);
 
-  // Check again when location changes (user navigates)
-  useEffect(() => {
-    checkAuthStatus();
-  }, [location]);
-
-  // Add event listener for storage events to detect changes from other tabs/windows
-  useEffect(() => {
     const handleStorageChange = (event) => {
-      if (event.key === "user") {
+      if (event.key === USER_KEY) {
+        console.log("Storage changed, key:", event.key, "new value:", event.newValue);
         checkAuthStatus();
       }
     };
 
     window.addEventListener("storage", handleStorageChange);
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [location]);
 
+  // Handle header height and dropdown click outside
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
         const headerHeight = headerRef.current.offsetHeight;
         document.documentElement.style.setProperty(
           "--header-height",
-          `${headerHeight}px`,
+          `${headerHeight}px`
         );
       }
     };
@@ -83,7 +79,6 @@ const Header = () => {
     updateHeaderHeight();
     window.addEventListener("resize", updateHeaderHeight);
 
-    // Thêm sự kiện click outside để đóng dropdown
     const handleClickOutside = (event) => {
       if (
         userDropdownRef.current &&
@@ -101,140 +96,138 @@ const Header = () => {
     };
   }, []);
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
 
-  const toggleUserDropdown = () => {
-    setShowUserDropdown(!showUserDropdown);
-  };
+  // Enhanced logout function to sync with backend if needed
+  const handleLogout = async () => {
+      try {
+        // Call backend logout endpoint if it exists (optional)
+        await fetch("http://localhost/backend/logout.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }).catch(error => console.warn("No logout endpoint or error:", error));
 
-  const handleLogout = () => {
-    // Xóa token và thông tin user khỏi localStorage
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    setUser(null);
-    setShowUserDropdown(false);
-    // Chuyển hướng về trang chủ
-    navigate("/");
+        // Clear all user data from localStorage
+        localStorage.removeItem(USER_KEY);
+
+        // Update state
+        setIsLoggedIn(false);
+        setUser(null);
+        setShowUserDropdown(false);
+
+
+        // Redirect to login or home page
+        navigate("/");
+
+        // Optional: Reload to ensure clean state
+        window.location.reload();
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("Đăng xuất thất bại. Vui lòng thử lại!");
+      }
+    
   };
 
   return (
-    <header ref={headerRef}>
-      <div className="main-header">
-        <div className="main-header-container">
-          <div className="logo-container">
-            <Link to="/" className="logo-link">
-              <h1 className="logo">Group 12 Travel</h1>
-            </Link>
-          </div>
+    <header ref={headerRef} className="main-header">
+      <div className="main-header-container">
+        <div className="logo-container">
+          <Link to="/" className="logo-link">
+            <h1 className="logo">Group 12 Travel</h1>
+          </Link>
+        </div>
 
-          <nav
-            className={`main-navigation ${mobileMenuOpen ? "menu-open" : ""}`}
-          >
-            <button className="close-menu" onClick={toggleMobileMenu}>
-              <X size={24} />
-            </button>
-            <ul className="nav-list">
-              <li className="nav-item">
-                <Link to="/" className="nav-link active">
-                  Trang chủ
-                </Link>
-              </li>
-              <li className="nav-item dropdown">
-                <Link to="/tours" className="nav-link">
-                  Tour du lịch{" "}
-                  <ChevronDown size={16} className="dropdown-icon" />
-                </Link>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link to="/tours/MienBac">Tour Miền Bắc</Link>
-                  </li>
-                  <li>
-                    <Link to="/tours/MienTrung">Tour Miền Trung</Link>
-                  </li>
-                  <li>
-                    <Link to="/tours/MienNam">Tour Miền Nam</Link>
-                  </li>
-                  <li>
-                    <Link to="/tours/VIP">Tour Vip 3 Miền</Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link to="/destinations" className="nav-link">
-                  Điểm đến
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/hotels" className="nav-link">
-                  Khách sạn
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/contact" className="nav-link">
-                  Liên hệ
-                </Link>
-              </li>
-            </ul>
-          </nav>
+        <nav className={`main-navigation ${mobileMenuOpen ? "menu-open" : ""}`}>
+          <button className="close-menu" onClick={toggleMobileMenu}>
+            <X size={24} />
+          </button>
+          <ul className="nav-list">
+            <li className="nav-item">
+              <Link to="/" className="nav-link active">
+                Trang chủ
+              </Link>
+            </li>
+            <li className="nav-item dropdown">
+              <Link to="/tours" className="nav-link">
+                Tour du lịch <ChevronDown size={16} className="dropdown-icon" />
+              </Link>
+              <ul className="dropdown-menu">
+                <li><Link to="/tours/MienBac">Tour Miền Bắc</Link></li>
+                <li><Link to="/tours/MienTrung">Tour Miền Trung</Link></li>
+                <li><Link to="/tours/MienNam">Tour Miền Nam</Link></li>
+                <li><Link to="/tours/VIP">Tour Vip 3 Miền</Link></li>
+              </ul>
+            </li>
+            <li className="nav-item">
+              <Link to="/destinations" className="nav-link">
+                Điểm đến
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/hotels" className="nav-link">
+                Khách sạn
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/contact" className="nav-link">
+                Liên hệ
+              </Link>
+            </li>
+          </ul>
+        </nav>
 
-          <div className="header-actions">
-            <button className="action-button search-button">
-              <Search size={20} />
-            </button>
-            <Link to="/wishlist" className="action-button wishlist-button">
-              <Heart size={20} />
-              <span className="badge">0</span>
-            </Link>
-            <Link to="/cart" className="action-button cart-button">
-              <ShoppingBag size={20} />
-              <span className="badge">0</span>
-            </Link>
+        <div className="header-actions">
+          <button className="action-button search-button">
+            <Search size={20} />
+          </button>
+          <Link to="/wishlist" className="action-button wishlist-button">
+            <Heart size={20} />
+            <span className="badge">0</span>
+          </Link>
 
-            {isLoggedIn ? (
-              <div className="user-profile" ref={userDropdownRef}>
-                <button
-                  className="user-profile-button"
-                  onClick={toggleUserDropdown}
-                >
-                  <UserCircle size={24} className="user-icon" />
-                  <span className="username">{user?.username}</span>
-                </button>
+          {isLoggedIn ? (
+            <div className="user-profile" ref={userDropdownRef}>
+              <button
+                className="user-profile-button"
+                onClick={toggleUserDropdown}
+              >
+                <UserCircle size={24} className="user-icon" />
+                <span className="username">
+                  {user?.username || user?.identifier || "Người dùng"}
+                </span>
+              </button>
 
-                {showUserDropdown && (
-                  <div className="user-dropdown">
-                    <Link to="/profile" className="dropdown-item">
-                      <UserCircle size={16} />
-                      <span>Thông tin cá nhân</span>
-                    </Link>
-                    <Link to="/my-bookings" className="dropdown-item">
-                      <ShoppingBag size={16} />
-                      <span>Đơn hàng của tôi</span>
-                    </Link>
-                    <button
-                      className="dropdown-item logout-button"
-                      onClick={handleLogout}
-                    >
-                      <LogOut size={16} />
-                      <span>Đăng xuất</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="user-actions">
-                <span className="separator">|</span>
-                <Link to="/register" className="user-action-link">
-                  <User size={24} strokeWidth={1.5} /> {/* Hiển thị icon */}
-                </Link>
-              </div>
-            )}
+              {showUserDropdown && (
+                <div className="user-dropdown">
+                  <Link to="/Profile" className="dropdown-item">
+                    <UserCircle size={16} /> Thông tin cá nhân
+                  </Link>
+                  <Link to="/my-bookings" className="dropdown-item">
+                    <ShoppingBag size={16} /> Đơn hàng của tôi
+                  </Link>
+                  <button
+                    className="dropdown-item logout-button"
+                    onClick={handleLogout}
+                  >
+                    <LogOut size={16} /> Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="user-actions">
+              <span className="separator">|</span>
+              <Link to="/register" className="user-action-link">
+                <User size={24} strokeWidth={1.5} />
+              </Link>
+            </div>
+          )}
 
-            <button className="mobile-menu-button" onClick={toggleMobileMenu}>
-              <Menu size={24} />
-            </button>
-          </div>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <Menu size={24} />
+          </button>
         </div>
       </div>
     </header>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Thêm để chuyển hướng sau khi đăng nhập
 import "../style/register.css";
 
 export default function Register() {
@@ -13,6 +14,7 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const navigate = useNavigate(); // Hook để chuyển hướng
 
   const validate = () => {
     let newErrors = {};
@@ -55,7 +57,6 @@ export default function Register() {
     if (!validate()) return;
 
     setMessage("");
-    // Tạo bản sao formData
     let payload = { ...formData };
 
     // Xử lý payload dựa trên form đang sử dụng
@@ -72,7 +73,6 @@ export default function Register() {
         payload.email = payload.loginIdentifier;
         delete payload.phone;
       } else {
-        // Không phải email cũng không phải số điện thoại
         setErrors({
           ...errors,
           loginIdentifier: "Email hoặc số điện thoại không hợp lệ"
@@ -105,7 +105,23 @@ export default function Register() {
         setMessage(data.success ? data.message : data.message || "Lỗi xảy ra!");
 
         if (data.success) {
-          // Reset form sau khi thành công
+          // Nếu là đăng nhập, lưu thông tin vào localStorage
+          if (!isRegistering) {
+            const userData = {
+              username: data.username || data.user?.username || "Người dùng", // Lấy username từ response
+              identifier: payload.email || payload.phone, // Lưu email hoặc phone làm identifier
+              type: payload.email ? "email" : "phone", // Loại identifier
+            };
+
+            // Lưu vào localStorage
+            localStorage.setItem("user", JSON.stringify(userData));
+            console.log("User data saved to localStorage:", userData);
+
+            // Chuyển hướng về trang chủ hoặc nơi khác sau khi đăng nhập
+            navigate("/");
+          }
+
+          // Reset form sau khi thành công (cả đăng ký và đăng nhập)
           setFormData({
             username: "",
             phone: "",
