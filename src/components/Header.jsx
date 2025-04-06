@@ -204,7 +204,7 @@ const Header = () => {
                   <Link to="/Profile" className="dropdown-item">
                     <UserCircle size={16} /> Thông tin cá nhân
                   </Link>
-                  <Link to="/my-bookings" className="dropdown-item">
+                  <Link to="/cart" className="dropdown-item">
                     <ShoppingBag size={16} /> Đơn hàng của tôi
                   </Link>
                   <button

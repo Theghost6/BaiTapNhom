@@ -1,34 +1,34 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Thêm để chuyển hướng sau khi đăng nhập
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "../style/register.css";
+import { AuthContext } from "./funtion/AuthContext"; // Sửa đường dẫn nếu cần
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    username: "", // Giữ lại cho form đăng ký
+    username: "",
     phone: "",
     email: "",
     password: "",
     confirmPassword: "",
-    loginIdentifier: "", // Thêm trường mới cho đăng nhập (email hoặc phone)
+    loginIdentifier: "",
   });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const navigate = useNavigate(); // Hook để chuyển hướng
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useContext(AuthContext); // Sử dụng cả login và isAuthenticated
 
   const validate = () => {
     let newErrors = {};
 
-    // Validate based on current form type
     if (isRegistering) {
-      // Registration form validation
       if (!formData.username) newErrors.name = "Tên không được để trống";
       if (!formData.phone)
         newErrors.phone = "Số điện thoại không được để trống";
       else if (!/^\d{10}$/.test(formData.phone))
         newErrors.phone = "Số điện thoại không hợp lệ";
       if (!formData.email) newErrors.email = "Email không được để trống";
-      else if (!formData.email.includes("@"))
+      else if (!/^\S+@\S+\.\S+$/.test(formData.email)) // Sử dụng regex tốt hơn
         newErrors.email = "Email không hợp lệ";
       if (!formData.password)
         newErrors.password = "Mật khẩu không được để trống";
@@ -37,8 +37,7 @@ export default function Register() {
       if (formData.password !== formData.confirmPassword)
         newErrors.confirmPassword = "Mật khẩu xác nhận không khớp";
     } else {
-      // Login form validation
-      if (!formData.loginIdentifier) 
+      if (!formData.loginIdentifier)
         newErrors.loginIdentifier = "Email hoặc số điện thoại không được để trống";
       if (!formData.password)
         newErrors.password = "Mật khẩu không được để trống";
@@ -59,36 +58,30 @@ export default function Register() {
     setMessage("");
     let payload = { ...formData };
 
-    // Xử lý payload dựa trên form đang sử dụng
     if (!isRegistering) {
-      // Đang đăng nhập
       delete payload.confirmPassword;
-      delete payload.username; // Không cần username khi đăng nhập
-      
-      // Phân biệt email hay phone dựa trên định dạng
+      delete payload.username;
+
       if (/^\d{10}$/.test(payload.loginIdentifier)) {
         payload.phone = payload.loginIdentifier;
         delete payload.email;
-      } else if (/\S+@\S+\.\S+/.test(payload.loginIdentifier)) {
+      } else if (/^\S+@\S+\.\S+$/.test(payload.loginIdentifier)) {
         payload.email = payload.loginIdentifier;
         delete payload.phone;
       } else {
         setErrors({
           ...errors,
-          loginIdentifier: "Email hoặc số điện thoại không hợp lệ"
+          loginIdentifier: "Email hoặc số điện thoại không hợp lệ",
         });
         return;
       }
-      
-      // Xóa trường loginIdentifier vì đã chuyển sang email hoặc phone
+
       delete payload.loginIdentifier;
     } else {
-      // Đang đăng ký - xóa trường không cần thiết
       delete payload.loginIdentifier;
     }
 
     try {
-      // Endpoint chung cho cả đăng nhập và đăng ký
       const response = await fetch("http://localhost/backend/register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -105,23 +98,27 @@ export default function Register() {
         setMessage(data.success ? data.message : data.message || "Lỗi xảy ra!");
 
         if (data.success) {
-          // Nếu là đăng nhập, lưu thông tin vào localStorage
           if (!isRegistering) {
             const userData = {
-              username: data.username || data.user?.username || "Người dùng", // Lấy username từ response
-              identifier: payload.email || payload.phone, // Lưu email hoặc phone làm identifier
-              type: payload.email ? "email" : "phone", // Loại identifier
+              username: data.username || data.user?.username || "Người dùng",
+              identifier: payload.email || payload.phone,
+              type: payload.email ? "email" : "phone",
             };
 
-            // Lưu vào localStorage
-            localStorage.setItem("user", JSON.stringify(userData));
-            console.log("User data saved to localStorage:", userData);
+            // Cập nhật AuthContext
+            login(userData);
 
-            // Chuyển hướng về trang chủ hoặc nơi khác sau khi đăng nhập
+            // Lưu vào localStorage (dù đã có trong AuthContext)
+            localStorage.setItem("user", JSON.stringify(userData));
+            console.log("User data saved:", userData);
+
+            // Chuyển hướng về trang chủ
             navigate("/");
+          } else {
+            setMessage("Đăng ký thành công! Vui lòng đăng nhập.");
+            setIsRegistering(false); // Chuyển sang form đăng nhập sau khi đăng ký
           }
 
-          // Reset form sau khi thành công (cả đăng ký và đăng nhập)
           setFormData({
             username: "",
             phone: "",
@@ -150,14 +147,14 @@ export default function Register() {
       const handleRegisterClick = () => {
         container.classList.add("active");
         setIsRegistering(true);
-        setErrors({}); // Clear errors when switching forms
+        setErrors({});
         setMessage("");
       };
 
       const handleLoginClick = () => {
         container.classList.remove("active");
         setIsRegistering(false);
-        setErrors({}); // Clear errors when switching forms
+        setErrors({});
         setMessage("");
       };
 
@@ -174,18 +171,11 @@ export default function Register() {
   return (
     <div>
       <div className="container">
-        {/* Form Đăng nhập */}
         <div className="form-box login">
           <form onSubmit={handleSubmit}>
             <h1>Đăng nhập</h1>
             {message && (
-              <p
-                className={
-                  message.includes("thành công")
-                    ? "message success"
-                    : "message error"
-                }
-              >
+              <p className={message.includes("thành công") ? "message success" : "message error"}>
                 {message}
               </p>
             )}
@@ -220,18 +210,11 @@ export default function Register() {
           </form>
         </div>
 
-        {/* Form Đăng ký */}
         <div className="form-box register">
           <form onSubmit={handleSubmit}>
             <h1>Đăng ký</h1>
             {message && (
-              <p
-                className={
-                  message.includes("thành công")
-                    ? "message success"
-                    : "message error"
-                }
-              >
+              <p className={message.includes("thành công") ? "message success" : "message error"}>
                 {message}
               </p>
             )}
@@ -288,9 +271,7 @@ export default function Register() {
                 onChange={handleChange}
               />
               <i className="bx bxs-lock-alt" />
-              {errors.confirmPassword && (
-                <p className="error">{errors.confirmPassword}</p>
-              )}
+              {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
             </div>
             <button type="submit" className="btn">
               Đăng ký
@@ -298,7 +279,6 @@ export default function Register() {
           </form>
         </div>
 
-        {/* Toggle chuyển đổi */}
         <div className="toggle-box">
           <div className="toggle-panel toggle-left">
             <h1>Hello, Welcome!</h1>

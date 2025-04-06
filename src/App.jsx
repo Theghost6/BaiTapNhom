@@ -9,6 +9,7 @@ import Register from "./page/Register";
 import AllDiaDiem from "./page/funtion/AllDiaDiem";
 import ChiTietDiaDiem from "./page/funtion/ChiTietDiaDiem";
 import Profile from "./page/funtion/Profile";
+import {AuthProvider} from "./page/funtion/AuthContext";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css"
@@ -16,6 +17,7 @@ import "./style/footer.css";
 
 const App = () => {
   return (
+    <AuthProvider>
     <Router>
       <Header />
       <main className="main-content">
@@ -34,6 +36,7 @@ const App = () => {
      
       <Footer/>
     </Router>
+    </ AuthProvider >
   );
 };
 

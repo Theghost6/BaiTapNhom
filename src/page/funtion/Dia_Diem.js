@@ -111,7 +111,7 @@ const destinations = [
     id:14,
     name: "Đà Lạt",
     image:
-      "https://cdn3.ivivu.com/2023/06/du-lich-da-lat.jpg",
+      "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/07/anh-da-lat.jpg",
     description: "Thành phố ngàn hoa với không khí se lạnh và cảnh đẹp thơ mộng.",
     rating: 4.8,
     price: "3,200,000đ",

@@ -1,0 +1,59 @@
+.destination-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.destination-detail-container h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.destination-detail-container img {
+  width: 100%;
+  height: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.destination-detail-container p {
+  line-height: 1.6;
+  color: #333;
+}
+
+.booking-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.book-now-button, .add-to-cart-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.book-now-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.book-now-button:hover {
+  background-color: #0056b3;
+}
+
+.add-to-cart-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.add-to-cart-button:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.add-to-cart-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
