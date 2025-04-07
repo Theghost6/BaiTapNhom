@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";<<<<<<< HEAD
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   Star,
