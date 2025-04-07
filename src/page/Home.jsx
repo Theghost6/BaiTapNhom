@@ -16,7 +16,6 @@ import Combo from "../page/funtion/Combo";
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeTab, setActiveTab] = useState("khachsan");
-  const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
   const slides = [
     {
