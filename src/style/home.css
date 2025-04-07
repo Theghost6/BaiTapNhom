@@ -706,10 +706,31 @@
   height: 24px;
 }
 
-.tab-item.dropdown .dropdown-arrow {
+/* .tab-item.dropdown .dropdown-arrow {
   margin-left: 4px;
-  fill: currentColor;
+  color: #7c3aed;
+} */
+
+.nav-link-arrow {
+  /* display: block; */
+  padding: 10px 0px;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(100%, 50%);
 }
+
+/* .nav-link-arrow:hover {
+  color: #2563eb;
+} */
 
 .search-button {
   width: 48px;

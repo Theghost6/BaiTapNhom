@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowRight, Star, MapPin, Calendar, TrendingUp } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  ArrowRight,
+  Star,
+  MapPin,
+  Calendar,
+  TrendingUp,
+  ChevronDown,
+} from "lucide-react";
 import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
@@ -160,28 +167,31 @@ const Home = () => {
           </div>
 
           <div
-            className={`tab-item dropdown ${
-              activeTab === "dichvu" ? "active" : ""
-            } ${expanded ? "expanded" : ""}`}
-            onClick={() => {
-              setActiveTab("dichvu");
-              setExpanded(!expanded);
-            }}
+            className={`tab-item nav-item dropdown ${
+              activeTab === "services" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("services")}
           >
             <div className="tab-icon">
               <svg viewBox="0 0 24 24" width="24" height="24">
                 <path d="M4,8h4V4H4V8z M10,20h4v-4h-4V20z M4,20h4v-4H4V20z M4,14h4v-4H4V14z M10,14h4v-4h-4V14z M16,4v4h4V4H16z M10,8h4V4h-4V8z M16,14h4v-4h-4V14z M16,20h4v-4h-4V20z" />
               </svg>
             </div>
-            <span>Dịch vụ khác</span>
-            <svg
-              className="dropdown-arrow"
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-            >
-              <path d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z" />
-            </svg>
+            <span>Dịch vụ</span>
+            <Link to="/services" className="nav-link-arrow">
+              <ChevronDown size={16} className="dropdown-icon" />
+            </Link>
+            <ul className="dropdown-menu">
+              <li>
+                <Link to="/services/Xe dua don">Xe đưa đón</Link>
+              </li>
+              <li>
+                <Link to="/services/Du thuyền">Thuê du thuyền</Link>
+              </li>
+              <li>
+                <Link to="/services/Party">Tổ chức tiệc</Link>
+              </li>
+            </ul>
           </div>
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
