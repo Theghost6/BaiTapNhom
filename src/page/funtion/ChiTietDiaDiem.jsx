@@ -23,7 +23,7 @@ const DiaDiemDetail = () => {
   // Sử dụng AuthContext để kiểm tra đăng nhập
   const { isAuthenticated } = useContext(AuthContext);
 
-   // Hàm xử lý khi nhấn "Thêm vào giỏ hàng"
+  // Hàm xử lý khi nhấn "Thêm vào giỏ hàng"
   const handleAddToCart = () => {
     if (!isAuthenticated) {
       alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
@@ -33,7 +33,8 @@ const DiaDiemDetail = () => {
 
     addToCart(destination); // Gọi hàm addToCart từ CartContext
     setIsInCart(true); // Cập nhật trạng thái
-    alert(`${destination.name} đã được thêm vào giỏ hàng!`);  };
+    alert(`${destination.name} đã được thêm vào giỏ hàng!`);
+  };
 
   // Hàm xử lý khi nhấn "Đặt ngay"
   const handleBookNow = () => {
@@ -44,6 +45,7 @@ const DiaDiemDetail = () => {
     }
 
     console.log(`Đặt ngay ${destination.name}!`);
+    // addToCart(destination); // Gọi hàm addToCart từ CartContext
     navigate("/checkout", { state: { destination } }); // Chuyển đến trang thanh toán
   };
 

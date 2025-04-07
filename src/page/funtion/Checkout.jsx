@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useCart } from './useCart'; // Make sure to use the correct path to CartContext
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useCart } from "./useCart";
 import "../../style/checkout.css";
 
 const Checkout = () => {
   const cartContext = useCart();
+  const location = useLocation();
 
   if (!cartContext) {
     return <div>Đang tải giỏ hàng...</div>;
@@ -11,50 +13,82 @@ const Checkout = () => {
 
   const { cartItems, totalQuantity, totalAmount, clearCart } = cartContext;
 
+  const destination = location.state?.destination;
+
   const [bookingInfo, setBookingInfo] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    checkInDate: '',
-    checkOutDate: '',
+    fullName: "",
+    email: "",
+    phone: "",
+    checkInDate: "",
+    checkOutDate: "",
     numberOfPeople: 1,
-    specialRequests: ''
+    specialRequests: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsProcessing(true);
-    setError('');
+  e.preventDefault();
+  setIsProcessing(true);
+  setError("");
 
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+  try {
+    const bookingData = {
+      cartItems: cartItems || [],
+      bookingInfo,
+      paymentMethod,
+      totalAmount,
+      totalQuantity,
+    };
+    console.log(bookingInfo);
 
-      const bookingData = {
-        cartItems: cartItems || [],
-        bookingInfo,
-        paymentMethod,
-        totalAmount,
-        totalQuantity
-      };
+    const response = await fetch("http://localhost/backend/payments.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    });
 
-      console.log('Booking and payment data:', bookingData);
+    // Kiểm tra Content-Type của phản hồi
+    const contentType = response.headers.get("Content-Type");
+    let result = null;
 
+    // Nếu phản hồi là JSON, xử lý JSON
+    if (contentType && contentType.includes("application/json")) {
+      result = await response.json(); // Lấy JSON từ phản hồi
+    } else {
+      // Nếu không phải JSON, lấy dưới dạng văn bản
+      const text = await response.text();
+      console.error("Unexpected response:", text); // In ra phản hồi không phải JSON
+      setError("Có lỗi xảy ra trong quá trình kết nối với server.");
+      return;
+    }
+
+    console.log("API Response:", result);
+
+    if (result.status === "success") {
       if (clearCart) {
         clearCart();
       }
-
-      alert('Đặt chỗ và thanh toán thành công! Vui lòng kiểm tra email để xác nhận.');
-
-    } catch (err) {
-      setError('Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán');
-    } finally {
-      setIsProcessing(false);
+      alert(
+        "Đặt chỗ và thanh toán thành công! Vui lòng kiểm tra email để xác nhận."
+      );
+    } else {
+      setError(
+        result.message ||
+        "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán"
+      );
     }
-  };
+  } catch (err) {
+    console.error("Error occurred during the fetch request:", err);
+    setError("Có lỗi xảy ra trong quá trình kết nối với server");
+  } finally {
+    setIsProcessing(false);
+  }
+};
 
   return (
     <div className="checkout-page">
@@ -62,15 +96,24 @@ const Checkout = () => {
 
       {error && <div className="error">{error}</div>}
 
+      {destination && (
+        <div className="destination-info">
+          <h3>Thông tin địa điểm</h3>
+          <p><strong>Tên địa điểm:</strong> {destination.name}</p>
+          <p><strong>Mô tả:</strong> {destination.description}</p>
+          <p><strong>Giá:</strong> {destination.price}</p>
+        </div>
+      )}
+
       <div className="cart-summary">
         <h3>Tóm tắt giỏ hàng</h3>
         <p>Tổng số sản phẩm: {totalQuantity}</p>
-        <p>Tổng giá trị: ${totalAmount}</p>
-        {cartItems && cartItems.length > 0 ? (
-          cartItems.map(item => (
+        <p>Tổng giá trị: {totalAmount}</p>
+        {cartItems.length > 0 ? (
+          cartItems.map((item) => (
             <div key={item.id} className="cart-item">
-              <span>{item.name} - {item.type || 'Dịch vụ'}</span>
-              <span>${item.price || 0}</span>
+              <span>{item.name} - {item.type || "Dịch vụ"}</span>
+              <span>{item.price || 0}</span>
             </div>
           ))
         ) : (
@@ -137,17 +180,14 @@ const Checkout = () => {
         />
 
         <h3>Phương thức thanh toán</h3>
-        <select
-          value={paymentMethod}
-          onChange={(e) => setPaymentMethod(e.target.value)}
-        >
+        <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
           <option value="credit-card">Thẻ tín dụng</option>
           <option value="paypal">PayPal</option>
           <option value="cod">Thanh toán khi nhận dịch vụ</option>
         </select>
 
         <button type="submit" disabled={isProcessing}>
-          {isProcessing ? 'Đang xử lý...' : 'Hoàn tất đặt chỗ và thanh toán'}
+          {isProcessing ? "Đang xử lý..." : "Hoàn tất đặt chỗ và thanh toán"}
         </button>
       </form>
     </div>
@@ -155,3 +195,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
