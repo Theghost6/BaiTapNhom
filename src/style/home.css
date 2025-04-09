@@ -216,16 +216,19 @@
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
+  font-size: 1.35rem;
   color: #4b5563;
+  font-weight: bold;
 }
 
 .view-all-button {
   display: none;
   align-items: center;
+  margin-left: auto;
   color: #2563eb;
   font-weight: 600;
   transition: color 0.3s;
+  right: 100%;
 }
 
 @media (min-width: 768px) {
