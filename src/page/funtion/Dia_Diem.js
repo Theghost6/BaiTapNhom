@@ -2,44 +2,44 @@ const destinations = [
   {
     id: 1,
     name: "Hà Nội",
-    image: 
+    image:
       "https://media.loveitopcdn.com/40838/thumb/upload/images/tour-tham-quan-thu-do-ha-noi.jpg",
-    images:[
+    images: [
       "https://media.loveitopcdn.com/40838/thumb/upload/images/tour-tham-quan-thu-do-ha-noi.jpg",
       "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/pho-co-ha-noi-1.jpg",
       "https://media.istockphoto.com/id/481045024/vi/anh/tran-quoc-pagoda.jpg?s=612x612&w=0&k=20&c=yPbbMc3B_WSMM7QG1WrsqgpzNhf9KATeyO6mllBgDfE=",
-      "https://vcdn1-dulich.vnecdn.net/2022/09/09van-mieu-quoc-tu-giam-ha-noi-1.jpg"
+      "https://vcdn1-dulich.vnecdn.net/2022/09/09van-mieu-quoc-tu-giam-ha-noi-1.jpg",
     ],
     description: "36 phố phường ngàn năm văn hiến",
     fulldescription:
       " Hà nội, thủ đô của Viẹt Nam, là thành phố có lịch sử hơn 1000 năm tuổi, với sự giao thoa giữa kiến trúc Pháp thuộc và văn hóa truyền thống, Hà nội mang đến cho du khách trải nghiệm văn hóa đặc sắc. Phố cổ Hà Nội với 36 phố phường, mỗi phố mang tên một nghề thủ công truyền thống là không thể bỏ qua. Hồ Hoàn kiếm với tháp Rùa huyền thoại nằm giữa nằm giữa lòng thành phố tạo lên biểu tượng của thủ đô ngàn năm văn hiến. Hà Nội còn nổi tiếng với ẩm thực phong phú, như phở bún cá, cà phê trứng, và nhiều món ăn đường phố đặc sắc khác ",
     rating: 4.9,
     price: "2,000,000đ",
-    location:{
-      address: "Quận Hoàng Kiếm,Hà Nội",
-      latitude:21.028511,
-      longitude:105.804817,
-      mapUrl:"https://www.google.com/maps?q=Hà+Nội"
-    },
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị giày dép thoải mái để đi bộ.",
-      "Tránh mang theo nhiều tiền mặt khi đi dạo phố cổ."
+      "Tránh mang theo nhiều tiền mặt khi đi dạo phố cổ.",
     ],
-    duration:"3 Ngày 2 đêm",
-    Highlights:[
+    duration: "3 Ngày 2 đêm",
+    Highlights: [
       "Tham quan phố cổ",
       "Thưởng thức ẩm thực đường phố",
       "Thăm lăng bác",
     ],
-    reviews:[
+    reviews: [
       {
         user: "Đỗ Hoàng toong",
-        comment:"Quá đẹp, thức ăn quá osi",
-        rating:5
-      }
+        comment: "Quá đẹp, thức ăn quá osi",
+        rating: 5,
+      },
     ],
-    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố"]
+    tag: ["Văn hóa", "Lịch sử", "Ẩm thực", "Thành phố"],
+    location: {
+      address: "Quận Hoàng Kiếm,Hà Nội",
+      latitude: 21.028511,
+      longitude: 105.804817,
+      mapUrl: "https://www.google.com/maps?q=Hà+Nội",
+    },
   },
   {
     id: 2,

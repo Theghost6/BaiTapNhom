@@ -11,7 +11,7 @@ import {
 import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
-import Combo from "../page/funtion/Combo";
+import ComboSearch from "../page/funtion/ComboSearch";
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -194,9 +194,9 @@ const Home = () => {
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
         {activeTab === "maybay" && <FlySearch />}
-        {activeTab === "combo" && <Combo />}
+        {activeTab === "combo" && <ComboSearch />}
         {/* Search Panel */}
-        <div className="search-panel">
+        {/* <div className="search-panel">
           <div className="search-row">
             <button className="search-button">
               <svg viewBox="0 0 24 24" width="24" height="24">
@@ -204,7 +204,7 @@ const Home = () => {
               </svg>
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="section destinations-section">
         <div className="section-header">
