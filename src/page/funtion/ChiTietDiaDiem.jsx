@@ -50,23 +50,140 @@ const DiaDiemDetail = () => {
   };
 
   return (
-    <div className="destination-detail-container">
-      <h1>{destination.name}</h1>
-      <img src={destination.image} alt={destination.name} />
-      <p>{destination.description}</p>
-      <span>Giá: {destination.price}</span>
-      <div>
-        <span>Đánh giá: {destination.rating}</span>
+    <div className="tour-detail-wrapper">
+      <div
+        className="tour-hero"
+        style={{ backgroundImage: `url(${destination.image})` }}
+      >
+        <div className="tour-hero-overlay">
+          <h1>Tour Details</h1>
+          <p>Home &gt; Tour List &gt; {destination.name}</p>
+        </div>
       </div>
 
-      {/* Nút "Đặt ngay" và "Thêm vào giỏ hàng" */}
-      <div className="booking-actions">
-        <button onClick={handleBookNow} className="book-now-button">
-          Đặt ngay
-        </button>
-        <button onClick={handleAddToCart} className="add-to-cart-button">
-          {isInCart ? "Đã thêm vào giỏ hàng" : "Thêm vào giỏ hàng"}
-        </button>
+      <div className="tour-main-content">
+        {/* Left column - Tour info */}
+        <div className="destination-detail-container">
+          <div
+            className="destination-header"
+            style={{
+              backgroundImage: `url(${destination.image}), url(${destination.images[0]})`,
+              backgroundrepeat: "no-repeat, repeat",
+              backgroundSize: "cover, contain",
+              backgroundPosition: "center, top right",
+              height: "400px",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              textShadow: "0px 1px 4px rgba(0,0,0,0.8)",
+            }}
+          >
+            <h1>{destination.name}</h1>
+            <p>{destination.location}</p>
+          </div>
+
+          <div className="destination-info-box">
+            <div className="info-item">
+              <span>From</span>
+              <strong>${destination.price}</strong>
+            </div>
+            <div className="info-item">
+              <span>Tag</span>
+              <strong>{destination.tag}</strong>
+            </div>
+            <div className="info-item">
+              <span>Duration</span>
+              <strong>{destination.duration}</strong>
+            </div>
+            <div className="info-item">
+              <span>Description</span>
+              <strong>{destination.description}</strong>
+            </div>
+            <div className="info-item">
+              <span>Full Description</span>
+              <strong>{destination.fulldescription}</strong>
+            </div>
+            <div className="info-item">
+              <span>Notes</span>
+              <strong>{destination.notes}+</strong>
+            </div>
+            <div className="info-item">
+              <span>HighLights</span>
+              <strong>{destination.Highlights}</strong>
+            </div>
+            <div className="info-item">
+              <span>Rating</span>
+              <strong>{destination.rating} ★</strong>
+            </div>
+          </div>
+        </div>
+
+        {/* Right column - Booking box */}
+        <div className="tour-book-box">
+          <h3>Book This Tour</h3>
+          <label>Chọn ngày:</label>
+          <input type="date" />
+          <label>Chọn giờ:</label>
+          <div className="tour-time-options">
+            <button>12:00</button>
+            <button>17:00</button>
+          </div>
+
+          <label>Số lượng:</label>
+          <select>
+            <option value="1">1 người</option>
+            <option value="2">2 người</option>
+            <option value="3">3 người</option>
+          </select>
+
+          <div className="tour-buttons">
+            <button onClick={handleBookNow} className="book-now-button">
+              Đặt ngay
+            </button>
+            <button onClick={handleAddToCart} className="add-to-cart-button">
+              {isInCart ? "Đã thêm vào giỏ hàng" : "Thêm vào giỏ hàng"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* review */}
+      <div className="tour-review-section">
+        <h3>Reviews</h3>
+        <div className="review-summary">
+          <span>
+            <strong>{destination.reviews?.length || 0} Review</strong>
+          </span>
+          <span className="star-display">⭐⭐⭐⭐⭐</span>
+          <span>
+            Sort By:
+            <select>
+              <option value="rating">Rating</option>
+              <option value="date">Date</option>
+            </select>
+          </span>
+        </div>
+
+        <hr />
+
+        {destination.reviews?.map((review, index) => (
+          <div className="review-item" key={index}>
+            <div className="review-avatar">
+              <img src={review.avatar} alt={review.name} />
+            </div>
+            <div className="review-content">
+              <div className="review-header">
+                <strong>{review.name}</strong>{" "}
+                <span className="role">{review.role}</span>
+              </div>
+              <p className="review-comment">{review.comment}</p>
+              <div className="review-stars">{"⭐".repeat(review.rating)}</div>
+              <div className="review-date">{review.date}</div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

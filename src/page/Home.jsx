@@ -11,8 +11,8 @@ import {
 import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
-import Combo from "../page/funtion/Combo";
-
+import ComboSearch from "../page/funtion/ComboSearch";
+/*1*/
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeTab, setActiveTab] = useState("khachsan");
@@ -194,7 +194,7 @@ const Home = () => {
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
         {activeTab === "maybay" && <FlySearch />}
-        {activeTab === "combo" && <Combo />}
+        {activeTab === "combo" && <ComboSearch />}
         {/* Search Panel */}
         {/* <div className="search-panel">
           <div className="search-row">

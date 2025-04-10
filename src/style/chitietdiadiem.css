@@ -1,59 +1,319 @@
-.destination-detail-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+.tour-detail-wrapper {
+  font-family: "Segoe UI", sans-serif;
 }
 
-.destination-detail-container h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
+/* Hero section */
+.tour-hero {
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin-top: -100px;
 }
 
-.destination-detail-container img {
+.tour-hero-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 80px;
+}
+
+.tour-hero-overlay h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.tour-main-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 40px 80px;
+  gap: 40px;
+}
+
+.tour-left {
+  flex: 2;
+}
+
+.tour-left h2 {
+  margin-top: 0;
+  font-size: 32px;
+}
+
+.tour-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.tour-gallery img {
   width: 100%;
-  height: auto;
-  margin: 20px 0;
-  border-radius: 8px;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
-.destination-detail-container p {
-  line-height: 1.6;
-  color: #333;
+/* Booking box */
+.tour-book-box {
+  flex: 1;
+  background-color: #f8f8f8;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  max-height: 450px;
 }
 
-.booking-actions {
+.tour-book-box h3 {
+  margin-top: 0;
+}
+
+.tour-book-box label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.tour-time-options {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.tour-time-options button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tour-buttons {
   margin-top: 20px;
   display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
-.book-now-button, .add-to-cart-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.book-now-button,
+.add-to-cart-button {
+  padding: 12px;
   font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .book-now-button {
-  background-color: #007bff;
+  background-color: #ff5722;
+  color: white;
+}
+
+.add-to-cart-button {
+  background-color: #4caf50;
   color: white;
 }
 
 .book-now-button:hover {
-  background-color: #0056b3;
+  background-color: #e64a19;
 }
 
+.add-to-cart-button:hover {
+  background-color: #388e3c;
+}
+
+/* review */
+.tour-review-section {
+  margin-top: 40px;
+}
+
+.review-summary {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.review-summary select {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.review-item {
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 0;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.review-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-content {
+  margin-left: 20px;
+}
+
+.review-header {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.review-header .role {
+  color: gray;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.review-comment {
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.review-stars {
+  color: #ffa500;
+}
+
+.review-date {
+  color: gray;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tour-main-content {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .tour-hero-overlay {
+    padding-left: 20px;
+  }
+}
+
+.destination-info-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #444;
+}
+
+.info-item span {
+  color: gray;
+  margin-bottom: 6px;
+}
+
+.info-item strong {
+  font-size: 16px;
+  color: #222;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.book-now-button,
 .add-to-cart-button {
-  background-color: #28a745;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.book-now-button {
+  background-color: #ff7b29;
   color: white;
 }
 
-.add-to-cart-button:hover:not(:disabled) {
-  background-color: #218838;
+.add-to-cart-button {
+  background-color: #f0f0f0;
+  color: #333;
 }
 
-.add-to-cart-button:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+.tour-review-section {
+  margin-top: 40px;
+}
+
+.review-summary {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.review-summary select {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.review-item {
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 0;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.review-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-content {
+  margin-left: 20px;
+}
+
+.review-header {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.review-header .role {
+  color: gray;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.review-comment {
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.review-stars {
+  color: #ffa500;
+}
+
+.review-date {
+  color: gray;
+  font-size: 14px;
 }
