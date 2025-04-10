@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .tour-detail-wrapper {
   font-family: "Segoe UI", sans-serif;
 }
@@ -66,6 +67,112 @@
   max-height: 450px;
 }
 
+=======
+.destination-detail-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.destination-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.destination-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.destination-info .info-group {
+  margin-bottom: 20px;
+}
+
+.info-group h3 {
+  margin-bottom: 8px;
+  color: #1e90ff;
+}
+
+.hotel,
+.review {
+  background: #f7f7f7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid #1e90ff;
+}
+
+.tour-detail-wrapper {
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Hero section */
+.tour-hero {
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin-top: -100px;
+}
+
+.tour-hero-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 80px;
+}
+
+.tour-hero-overlay h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.tour-main-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 40px 80px;
+  gap: 40px;
+}
+
+.tour-left {
+  flex: 2;
+}
+
+.tour-left h2 {
+  margin-top: 0;
+  font-size: 32px;
+}
+
+.tour-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.tour-gallery img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* booking-box */
+
+.tour-book-box {
+  flex: 1;
+  background-color: #f8f8f8;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  max-height: 450px;
+}
+
+>>>>>>> main
 .tour-book-box h3 {
   margin-top: 0;
 }
@@ -108,6 +215,7 @@
 }
 
 .book-now-button {
+<<<<<<< HEAD
   background-color: #ff5722;
   color: white;
 }
@@ -247,14 +355,52 @@
 
 .book-now-button {
   background-color: #ff7b29;
+=======
+  background-color: #28a745;
+>>>>>>> main
   color: white;
 }
 
 .add-to-cart-button {
+<<<<<<< HEAD
   background-color: #f0f0f0;
   color: #333;
 }
 
+=======
+  background-color: #ffc107;
+  color: black;
+}
+
+.book-now-button:hover {
+  background-color: #e64a19;
+}
+
+.add-to-cart-button:hover {
+  background-color: #388e3c;
+}
+
+/*  */
+
+.image-slider img {
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.image-slider img:hover {
+  transform: scale(1.02);
+}
+
+.info-group {
+  margin-top: 20px;
+  padding: 15px;
+  border-left: 4px solid #4caf50;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* review */
+>>>>>>> main
 .tour-review-section {
   margin-top: 40px;
 }
@@ -316,4 +462,82 @@
 .review-date {
   color: gray;
   font-size: 14px;
+<<<<<<< HEAD
+=======
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tour-main-content {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .tour-hero-overlay {
+    padding-left: 20px;
+  }
+}
+
+/*  */
+.destination-info-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #444;
+}
+
+.info-item span {
+  color: gray;
+  margin-bottom: 6px;
+}
+
+.info-item strong {
+  font-size: 16px;
+  color: #222;
+}
+
+/* Short description style */
+.short-description {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Full description style */
+.full-description {
+  font-style: italic;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  white-space: pre-line;
+}
+
+/* Toggle view more/less */
+.toggle-description {
+  color: #0077cc;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+  transition: color 0.2s ease;
+}
+
+.toggle-description:hover {
+  color: #005fa3;
+>>>>>>> main
 }

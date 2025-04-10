@@ -2,51 +2,44 @@ import React, { useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Dia_Diem from "./Dia_Diem";
 import { useCart } from "./useCart";
-import { AuthContext } from "../funtion/AuthContext"; // Sửa đường dẫn nếu cần
+import { AuthContext } from "../funtion/AuthContext";
 import "../../style/chitietdiadiem.css";
 
 const DiaDiemDetail = () => {
-  // Lấy id từ URL
   const { id } = useParams();
-
-  // Tìm địa điểm tương ứng với<BS> id trong mảng Dia_Diem
   const destination = Dia_Diem.find((dest) => dest.id === parseInt(id));
+  const navigate = useNavigate();
+  const [isInCart, setIsInCart] = useState(false);
+  const { addToCart } = useCart();
+  const { isAuthenticated } = useContext(AuthContext);
+  const [showFull, setShowFull] = useState(false);
 
-  // Nếu không tìm thấy địa điểm, hiển thị thông báo lỗi
+  const toggleDescription = () => {
+    setShowFull(!showFull);
+  };
+
   if (!destination) {
     return <div>Không tìm thấy địa điểm này.</div>;
   }
 
-  const navigate = useNavigate();
-  const [isInCart, setIsInCart] = useState(false); // State để kiểm tra xem sản phẩm đã trong giỏ hàng chưa
-  const { cartItems, addToCart } = useCart(); // Lấy hàm addToCart từ CartContext
-  // Sử dụng AuthContext để kiểm tra đăng nhập
-  const { isAuthenticated } = useContext(AuthContext);
-
-  // Hàm xử lý khi nhấn "Thêm vào giỏ hàng"
   const handleAddToCart = () => {
     if (!isAuthenticated) {
       alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
-      navigate("/register"); // Chuyển hướng đến trang đăng nhập
+      navigate("/register");
       return;
     }
-
-    addToCart(destination); // Gọi hàm addToCart từ CartContext
-    setIsInCart(true); // Cập nhật trạng thái
+    addToCart(destination);
+    setIsInCart(true);
     alert(`${destination.name} đã được thêm vào giỏ hàng!`);
   };
 
-  // Hàm xử lý khi nhấn "Đặt ngay"
   const handleBookNow = () => {
     if (!isAuthenticated) {
       alert("Vui lòng đăng nhập để đặt ngay!");
-      navigate("/register"); // Chuyển hướng đến trang đăng nhập
+      navigate("/register");
       return;
     }
-
-    console.log(`Đặt ngay ${destination.name}!`);
-    // addToCart(destination); // Gọi hàm addToCart từ CartContext
-    navigate("/checkout", { state: { destination } }); // Chuyển đến trang thanh toán
+    navigate("/checkout", { state: { destination } });
   };
 
   return (
@@ -60,11 +53,11 @@ const DiaDiemDetail = () => {
           <p>Home &gt; Tour List &gt; {destination.name}</p>
         </div>
       </div>
-
       <div className="tour-main-content">
-        {/* Left column - Tour info */}
         <div className="destination-detail-container">
-          <div
+          <h1 className="destination-title">{destination.name}</h1>
+          {/*  */}
+          {/* <div
             className="destination-header"
             style={{
               backgroundImage: `url(${destination.image}), url(${destination.images[0]})`,
@@ -81,9 +74,42 @@ const DiaDiemDetail = () => {
             }}
           >
             <h1>{destination.name}</h1>
-            <p>{destination.location}</p>
+            <p>{destination.location.address}</p>
+          </div> */}
+
+          {/* Slider ảnh */}
+          <div className="image-slider">
+            <h3>🖼️ Hình ảnh nổi bật</h3>
+            <div className="slider-container">
+              {destination.images?.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Ảnh ${index + 1}`}
+                  style={{
+                    width: "100%",
+                    maxHeight: "300px",
+                    objectFit: "cover",
+                    marginBottom: "1rem",
+                    borderRadius: "12px",
+                  }}
+                />
+              ))}
+              {/* <h1>{destination.name}</h1> */}
+              <p>{destination.location.address}</p>
+            </div>
+          </div>
+          <div className="destination-info">
+            <p className="short-description">{destination.description}</p>
+            {showFull && (
+              <p className="full-description">{destination.fulldescription}</p>
+            )}
+            <span className="toggle-description" onClick={toggleDescription}>
+              {showFull ? "View Less ↩" : "View More →"}
+            </span>
           </div>
 
+          {/* Specific */}
           <div className="destination-info-box">
             <div className="info-item">
               <span>From</span>
@@ -91,27 +117,23 @@ const DiaDiemDetail = () => {
             </div>
             <div className="info-item">
               <span>Tag</span>
-              <strong>{destination.tag}</strong>
+              <strong>{destination.tag.join(", ")}</strong>
             </div>
             <div className="info-item">
               <span>Duration</span>
               <strong>{destination.duration}</strong>
             </div>
             <div className="info-item">
-              <span>Description</span>
-              <strong>{destination.description}</strong>
-            </div>
-            <div className="info-item">
-              <span>Full Description</span>
-              <strong>{destination.fulldescription}</strong>
-            </div>
-            <div className="info-item">
               <span>Notes</span>
-              <strong>{destination.notes}+</strong>
+              <strong>
+                {destination.notes.map((note, index) => (
+                  <div key={index}>• {note}</div>
+                ))}
+              </strong>
             </div>
             <div className="info-item">
               <span>HighLights</span>
-              <strong>{destination.Highlights}</strong>
+              <strong>{destination.Highlights.join(", ")}</strong>
             </div>
             <div className="info-item">
               <span>Rating</span>
@@ -120,7 +142,7 @@ const DiaDiemDetail = () => {
           </div>
         </div>
 
-        {/* Right column - Booking box */}
+        {/* Right column_booking */}
         <div className="tour-book-box">
           <h3>Book This Tour</h3>
           <label>Chọn ngày:</label>
@@ -143,13 +165,39 @@ const DiaDiemDetail = () => {
               Đặt ngay
             </button>
             <button onClick={handleAddToCart} className="add-to-cart-button">
-              {isInCart ? "Đã thêm vào giỏ hàng" : "Thêm vào giỏ hàng"}
+              {isInCart ? "✅Đã thêm vào giỏ hàng" : "🛒Thêm vào giỏ hàng"}
             </button>
           </div>
         </div>
       </div>
 
-      {/* review */}
+      {/* Location */}
+      <div className="info-group">
+        <h3>📍 Vị trí</h3>
+        <p>{destination.location.address}</p>
+        <div className="map-embed">
+          <iframe
+            title="Bản đồ"
+            width="100%"
+            height="300"
+            style={{ border: "none", borderRadius: "12px" }}
+            src={`https://www.google.com/maps?q=${destination.location.latitude},${destination.location.longitude}&hl=vi&z=14&output=embed`}
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+
+      {/* Outstanding */}
+      <div className="info-group">
+        <h3>🌟 Điểm nổi bật</h3>
+        <ul>
+          {destination.Highlights?.map((item, index) => (
+            <li key={index}>✅ {item}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Review */}
       <div className="tour-review-section">
         <h3>Reviews</h3>
         <div className="review-summary">

@@ -12,7 +12,11 @@ import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
 import ComboSearch from "../page/funtion/ComboSearch";
+<<<<<<< HEAD
 /*1*/
+=======
+
+>>>>>>> main
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeTab, setActiveTab] = useState("khachsan");
