@@ -12,6 +12,7 @@ import Profile from "./page/funtion/Profile";
 import { AuthProvider } from "./page/funtion/AuthContext";
 import Checkout from "./page/funtion/Checkout";
 import Cart from "./page/funtion/Cart";
+import Admin from "./page/funtion/Admin";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";
@@ -34,6 +35,7 @@ const App = () => {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
+              <Route path="/admin" element={<Admin />} />
               {/* <Route path="/about" element={<About />} /> */}
               <Route path="/contact" element={<Contact />} />
               {/* Add more routes as needed */}
