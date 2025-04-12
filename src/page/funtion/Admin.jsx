@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DiaDiem from "../funtion/Dia_Diem"
 
 function Admin() {
   // States for different data types
@@ -132,25 +133,29 @@ function Admin() {
                   <th>SĐT</th>
                   <th>Ngày</th>
                   <th>Số người</th>
-                  <th>Hành động</th>
+                  <th>Thông Tin Địa Điểm</th>
                 </tr>
               </thead>
-              <tbody>
-                {bookings.map(b => (
-                  <tr key={b.id}>
-                    <td>{b.id}</td>
-                    <td>{b.ten}</td>
-                    <td>{b.email}</td>
-                    <td>{b.sdt}</td>
-                    <td>{b.ngay_vao} → {b.ngay_ra}</td>
-                    <td>{b.so_nguoi}</td>
-                    <td>
-                      <button onClick={() => viewDetails(b.id)}>Chi tiết</button>
-                      <button onClick={() => deleteBooking(b.id)} style={{ color: "red", marginLeft: 10 }}>Xóa</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+             <tbody>
+  {bookings.length === 0 ? (
+    <tr>
+      <td colSpan="7" style={{ textAlign: 'center' }}>Không có booking nào</td>
+    </tr>
+  ) : bookings.map(b => (
+    <tr key={b.id}>
+      <td>{b.id}</td>
+      <td>{b.ten}</td>
+      <td>{b.email}</td>
+      <td>{b.sdt}</td>
+      <td>{b.ngay_vao} → {b.ngay_ra}</td>
+      <td>{b.so_nguoi}</td>
+      <td>
+        <button onClick={() => viewDetails(b.id)}>Chi tiết</button>
+        <button onClick={() => deleteBooking(b.id)} style={{ color: "red", marginLeft: 10 }}>Xóa</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
             </table>
             
             {selectedBooking && (
@@ -236,21 +241,23 @@ function Admin() {
                     <td colSpan="7" style={{ textAlign: 'center' }}>Không có đánh giá nào</td>
                   </tr>
                 ) : (
-                  reviews.map(review => (
-                    <tr key={review.id}>
-                      <td>{review.id}</td>
-                      <td>{review.id_tour}</td>
-                      <td>{review.ten_nguoi_dung}</td>
-                      <td>{review.danh_gia} ★</td>
-                      <td>{review.binh_luan}</td>
-                      <td>{review.ngay}</td>
-                      <td>
-                        <button onClick={() => deleteReview(review.id)} style={{ color: "red" }}>Xóa</button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
+                   reviews.map((review) => {
+              const diaDiem = DiaDiem.find((item) => item.name)
+              return (
+                <tr key={review.id}>
+                  <td>{review.id}</td>
+                  <td>{diaDiem ? diaDiem.name : "Không rõ"}</td>
+                  <td>{review.ten_nguoi_dung}</td>
+                  <td>{review.danh_gia} ★</td>
+                  <td>{review.binh_luan}</td>
+                  <td>{review.ngay}</td>
+                  <td>
+                    <button onClick={() => deleteReview(review.id)} style={{ color: "red" }}>Xóa</button>
+                  </td>
+                </tr>
+              );
+            })
+          )}              </tbody>
             </table>
           </div>
         );

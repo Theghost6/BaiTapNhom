@@ -28,14 +28,12 @@ const Header = () => {
   // Function to check authentication status with detailed logging
   const checkAuthStatus = () => {
     const userData = localStorage.getItem(USER_KEY);
-    console.log("Checking auth status, userData from localStorage:", userData);
 
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setIsLoggedIn(true);
         setUser(parsedUser);
-        console.log("Parsed user data:", parsedUser);
       } catch (error) {
         console.error("Error parsing user data:", error);
         localStorage.removeItem(USER_KEY);
@@ -190,14 +188,6 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
-          <button className="action-button search-button">
-            <Search size={20} />
-          </button>
-          <Link to="/wishlist" className="action-button wishlist-button">
-            <Heart size={20} />
-            <span className="badge">0</span>
-          </Link>
-
           {isLoggedIn ? (
             <div className="user-profile" ref={userDropdownRef}>
               <button

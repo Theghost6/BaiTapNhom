@@ -12,7 +12,10 @@ const DiaDiemDetail = () => {
   const navigate = useNavigate();
   const [isInCart, setIsInCart] = useState(false);
   const { addToCart } = useCart();
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+const { isAuthenticated, user } = authContext || {};
+
+  // const { isAuthenticated, user } = useContext(AuthContext);
   const [showFull, setShowFull] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
@@ -93,13 +96,12 @@ const DiaDiemDetail = () => {
       alert("Vui lòng nhập nội dung đánh giá");
       return;
     }
-
     setIsSubmitting(true);
 
     // Create form data for PHP
     const formData = new FormData();
     formData.append("id_tour", id);
-    formData.append("ten_nguoi_dung", user?.user || "Khách"); // Use user.user based on your register table
+    formData.append("ten_nguoi_dung", user.username || "Khách"); // Use user.user based on your register table
     formData.append("danh_gia", newReview.danh_gia);
     formData.append("binh_luan", newReview.binh_luan);
     // Current date in YYYY-MM-DD format
@@ -115,7 +117,7 @@ const DiaDiemDetail = () => {
         const newReviewItem = {
           id: response.data.id || Math.random(), // Use the ID from response or generate temporary one
           id_tour: parseInt(id),
-          ten_nguoi_dung: user.user || "Khách",
+          ten_nguoi_dung: user.username || "Khách",
           danh_gia: newReview.danh_gia,
           binh_luan: newReview.binh_luan,
           ngay: today,
