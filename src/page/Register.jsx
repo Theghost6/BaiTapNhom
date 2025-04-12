@@ -28,8 +28,7 @@ export default function Register() {
       else if (!/^\d{10}$/.test(formData.phone))
         newErrors.phone = "Số điện thoại không hợp lệ";
       if (!formData.email) newErrors.email = "Email không được để trống";
-      else if (!/^\S+@\S+\.\S+$/.test(formData.email))
-        // Sử dụng regex tốt hơn
+      else if (!/^\S+@\S+\.\S+$/.test(formData.email)) // Sử dụng regex tốt hơn
         newErrors.email = "Email không hợp lệ";
       if (!formData.password)
         newErrors.password = "Mật khẩu không được để trống";
@@ -39,8 +38,7 @@ export default function Register() {
         newErrors.confirmPassword = "Mật khẩu xác nhận không khớp";
     } else {
       if (!formData.loginIdentifier)
-        newErrors.loginIdentifier =
-          "Email hoặc số điện thoại không được để trống";
+        newErrors.loginIdentifier = "Email hoặc số điện thoại không được để trống";
       if (!formData.password)
         newErrors.password = "Mật khẩu không được để trống";
     }
@@ -100,7 +98,6 @@ export default function Register() {
         setMessage(data.success ? data.message : data.message || "Lỗi xảy ra!");
 
         if (data.success) {
-          const role = data.user?.role || "user";
           if (!isRegistering) {
             const userData = {
               username: data.username || data.user?.username || "Người dùng",
@@ -110,14 +107,13 @@ export default function Register() {
 
             // Cập nhật AuthContext
             login(userData);
+
             // Lưu vào localStorage (dù đã có trong AuthContext)
             localStorage.setItem("user", JSON.stringify(userData));
             console.log("User data saved:", userData);
-            if (role === "admin") {
-              navigate("/admin");
-            } else {
-              navigate("/");
-            }
+
+            // Chuyển hướng về trang chủ
+            navigate("/");
           } else {
             setMessage("Đăng ký thành công! Vui lòng đăng nhập.");
             setIsRegistering(false); // Chuyển sang form đăng nhập sau khi đăng ký
@@ -179,13 +175,7 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <h1>Đăng nhập</h1>
             {message && (
-              <p
-                className={
-                  message.includes("thành công")
-                    ? "message success"
-                    : "message error"
-                }
-              >
+              <p className={message.includes("thành công") ? "message success" : "message error"}>
                 {message}
               </p>
             )}
@@ -198,9 +188,7 @@ export default function Register() {
                 onChange={handleChange}
               />
               <i className="bx bxs-user" />
-              {errors.loginIdentifier && (
-                <p className="error">{errors.loginIdentifier}</p>
-              )}
+              {errors.loginIdentifier && <p className="error">{errors.loginIdentifier}</p>}
             </div>
             <div className="input-box">
               <input
@@ -226,13 +214,7 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <h1>Đăng ký</h1>
             {message && (
-              <p
-                className={
-                  message.includes("thành công")
-                    ? "message success"
-                    : "message error"
-                }
-              >
+              <p className={message.includes("thành công") ? "message success" : "message error"}>
                 {message}
               </p>
             )}
@@ -289,9 +271,7 @@ export default function Register() {
                 onChange={handleChange}
               />
               <i className="bx bxs-lock-alt" />
-              {errors.confirmPassword && (
-                <p className="error">{errors.confirmPassword}</p>
-              )}
+              {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
             </div>
             <button type="submit" className="btn">
               Đăng ký

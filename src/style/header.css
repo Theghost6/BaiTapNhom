@@ -320,6 +320,10 @@ body {
     gap: 10px;
   }
 
+  .search-button,
+  .wishlist-button {
+    display: none;
+  }
 
   /* :root { */
   /*   --header-height: 70px; */

@@ -179,6 +179,9 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
+          <button className="action-button search-button">
+            <Search size={20} />
+          </button>
           <Link to="/wishlist" className="action-button wishlist-button">
             <Heart size={20} />
             <span className="badge">0</span>
