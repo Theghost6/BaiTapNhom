@@ -166,7 +166,7 @@
 .image-slider img {
   border-radius: 12px;
   transition: transform 0.3s ease;
-  max-width: 550px;
+  /* max-width: 550px; */
 }
 
 .image-slider img:hover {

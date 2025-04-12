@@ -24,8 +24,17 @@ const AllDiaDiem = () => {
 
   return (
     <div className="all-dia-diem-container">
-      <h1 className="page-title">Tất cả điểm đến</h1>
-      <p className="page-subtitle">Khám phá những điểm đến hấp dẫn nhất</p>
+      <div class="hero-banner">
+        <img
+          src="https://transviet.com.vn/Media/Uploads/avatar/Cover/vietnam.webp"
+          alt="Background"
+          class="hero-image"
+        />
+        <div class="hero-text">
+          <h1 class="hero-title">Tất cả điểm đến</h1>
+          <p class="hero-subtitle">Khám phá những điểm đến hấp dẫn nhất</p>
+        </div>
+      </div>
 
       <div className="destinations-grid">
         {currentItems.map((dest) => (
