@@ -205,6 +205,8 @@ const filteredItems = Dia_Diem.filter((dest) => {
               <p className="destination-description">{dest.description}</p>
               <div className="destination-footer">
                 <span className="destination-price">Từ {dest.price.toLocaleString()}đ/<small>khách</small></span>
+                <p className="destination-duration">{dest.duration}</p>
+
                 <button
                   className="details-button"
                   onClick={() => navigate(`/Dia-Diem/${dest.id}`)}
