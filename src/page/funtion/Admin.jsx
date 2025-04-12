@@ -14,7 +14,7 @@ function Admin() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   
-  // Fetch data based on current view
+
   useEffect(() => {
     switch(view) {
       case "bookings":
