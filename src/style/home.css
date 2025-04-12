@@ -245,7 +245,7 @@
 .destinations-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 30px;
 }
 
 @media (min-width: 640px) {
@@ -262,11 +262,15 @@
 
 .destination-card {
   background-color: white;
-  border-radius: 0.75rem;
+  border-radius: 2px;
   overflow: hidden;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
 }
 
 .destination-card:hover {
@@ -308,6 +312,7 @@
 
 .destination-details {
   padding: 1.5rem;
+  margin-top: -30px;
 }
 
 .destination-header {
@@ -338,12 +343,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 }
 
 .destination-price {
   font-size: 1.125rem;
-  font-weight: 700;
-  color: #2563eb;
+  font-weight: bold;
+  color: #030303;
 }
 
 .details-button {
