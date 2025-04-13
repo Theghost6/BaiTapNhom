@@ -34,8 +34,8 @@ const App = () => {
               <Route path="/Profile" element={<Profile />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
               {/* <Route path="/about" element={<About />} /> */}
               <Route path="/contact" element={<Contact />} />
               {/* Add more routes as needed */}

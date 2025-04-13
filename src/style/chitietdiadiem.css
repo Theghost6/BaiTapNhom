@@ -163,15 +163,15 @@
 
 /*  */
 
-.image-slider img {
+/* .image-slider img {
   border-radius: 12px;
   transition: transform 0.3s ease;
-  /* max-width: 550px; */
-}
+  max-width: 550px;
+} */
 
-.image-slider img:hover {
+/* .image-slider img:hover {
   transform: scale(1.02);
-}
+} */
 
 .info-group {
   margin-top: 20px;

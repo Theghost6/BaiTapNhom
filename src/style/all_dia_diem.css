@@ -183,3 +183,75 @@
   color: white;
   border-color: #007bff;
 }
+/* Styles for the filter bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.filter-bar select {
+  padding: 8px;
+  margin: 5px;
+  font-size: 14px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 150px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.filter-bar select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.filter-bar .tag-select {
+  flex: 1;
+  max-width: 200px;
+}
+
+.filter-bar label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.filter-bar select option {
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
+}
+
+.filter-bar select option:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Hover effect for the dropdown items */
+.filter-bar select:hover {
+  cursor: pointer;
+}
+
+/* Styles for active filters */
+.filter-bar .active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Media Query for responsiveness */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-bar select {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
+
