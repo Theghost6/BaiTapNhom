@@ -155,6 +155,7 @@
 
 .book-now-button:hover {
   background-color: #e64a19;
+<<<<<<< HEAD
 }
 
 .add-to-cart-button:hover {
@@ -167,11 +168,25 @@
   border-radius: 12px;
   transition: transform 0.3s ease;
   max-width: 550px;
+=======
+>>>>>>> main
 }
 
-.image-slider img:hover {
-  transform: scale(1.02);
+.add-to-cart-button:hover {
+  background-color: #388e3c;
 }
+
+/*  */
+
+/* .image-slider img {
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  max-width: 550px;
+} */
+
+/* .image-slider img:hover {
+  transform: scale(1.02);
+} */
 
 .info-group {
   margin-top: 20px;

@@ -28,14 +28,12 @@ const Header = () => {
   // Function to check authentication status with detailed logging
   const checkAuthStatus = () => {
     const userData = localStorage.getItem(USER_KEY);
-    console.log("Checking auth status, userData from localStorage:", userData);
 
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setIsLoggedIn(true);
         setUser(parsedUser);
-        console.log("Parsed user data:", parsedUser);
       } catch (error) {
         console.error("Error parsing user data:", error);
         localStorage.removeItem(USER_KEY);
@@ -54,7 +52,12 @@ const Header = () => {
 
     const handleStorageChange = (event) => {
       if (event.key === USER_KEY) {
-        console.log("Storage changed, key:", event.key, "new value:", event.newValue);
+        console.log(
+          "Storage changed, key:",
+          event.key,
+          "new value:",
+          event.newValue
+        );
         checkAuthStatus();
       }
     };
@@ -101,33 +104,31 @@ const Header = () => {
 
   // Enhanced logout function to sync with backend if needed
   const handleLogout = async () => {
-      try {
-        // Call backend logout endpoint if it exists (optional)
-        await fetch("http://localhost/backend/logout.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }).catch(error => console.warn("No logout endpoint or error:", error));
+    try {
+      // Call backend logout endpoint if it exists (optional)
+      await fetch("http://localhost/backend/logout.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }).catch((error) => console.warn("No logout endpoint or error:", error));
 
-        // Clear all user data from localStorage
-        localStorage.removeItem(USER_KEY);
+      // Clear all user data from localStorage
+      localStorage.removeItem(USER_KEY);
 
-        // Update state
-        setIsLoggedIn(false);
-        setUser(null);
-        setShowUserDropdown(false);
+      // Update state
+      setIsLoggedIn(false);
+      setUser(null);
+      setShowUserDropdown(false);
 
+      // Redirect to login or home page
+      navigate("/");
 
-        // Redirect to login or home page
-        navigate("/");
-
-        // Optional: Reload to ensure clean state
-        window.location.reload();
-      } catch (error) {
-        console.error("Logout error:", error);
-        alert("Đăng xuất thất bại. Vui lòng thử lại!");
-      }
-    
+      // Optional: Reload to ensure clean state
+      window.location.reload();
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("Đăng xuất thất bại. Vui lòng thử lại!");
+    }
   };
 
   return (
@@ -154,10 +155,18 @@ const Header = () => {
                 Tour du lịch <ChevronDown size={16} className="dropdown-icon" />
               </Link>
               <ul className="dropdown-menu">
-                <li><Link to="/tours/MienBac">Tour Miền Bắc</Link></li>
-                <li><Link to="/tours/MienTrung">Tour Miền Trung</Link></li>
-                <li><Link to="/tours/MienNam">Tour Miền Nam</Link></li>
-                <li><Link to="/tours/VIP">Tour Vip 3 Miền</Link></li>
+                <li>
+                  <Link to="/tours/MienBac">Tour Miền Bắc</Link>
+                </li>
+                <li>
+                  <Link to="/tours/MienTrung">Tour Miền Trung</Link>
+                </li>
+                <li>
+                  <Link to="/tours/MienNam">Tour Miền Nam</Link>
+                </li>
+                <li>
+                  <Link to="/tours/VIP">Tour Vip 3 Miền</Link>
+                </li>
               </ul>
             </li>
             <li className="nav-item">
@@ -179,14 +188,6 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
-          <button className="action-button search-button">
-            <Search size={20} />
-          </button>
-          <Link to="/wishlist" className="action-button wishlist-button">
-            <Heart size={20} />
-            <span className="badge">0</span>
-          </Link>
-
           {isLoggedIn ? (
             <div className="user-profile" ref={userDropdownRef}>
               <button
