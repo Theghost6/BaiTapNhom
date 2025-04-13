@@ -37,6 +37,13 @@
   font-family: "Segoe UI", sans-serif;
 }
 
+/* Section styles */
+.section-divider {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
 /* Hero section */
 .tour-hero {
   height: 600px;
@@ -100,6 +107,8 @@
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   max-height: 450px;
+  max-width: 300px;
+  z-index: 100;
 }
 
 .tour-book-box h3 {
@@ -179,6 +188,7 @@
   border-left: 4px solid #4caf50;
   background: #f9f9f9;
   border-radius: 8px;
+  max-width: 100%;
 }
 
 /* review */

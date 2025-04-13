@@ -5,6 +5,8 @@ import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
 import axios from "axios";
 import ImageSlider from "../funtion/ImageSlider";
+import TabMenu from "../funtion/TabMenu";
+
 import "../../style/chitietdiadiem.css";
 
 const DiaDiemDetail = () => {
@@ -15,6 +17,7 @@ const DiaDiemDetail = () => {
   const { addToCart } = useCart();
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext || {};
+  const [selectedTab, setSelectedTab] = useState("Overview");
 
   // const { isAuthenticated, user } = useContext(AuthContext);
   const [showFull, setShowFull] = useState(false);
@@ -164,53 +167,67 @@ const DiaDiemDetail = () => {
         <div className="destination-detail-container">
           <h1 className="destination-title">{destination.name}</h1>
 
+          <TabMenu onChange={(tab) => setSelectedTab(tab)} />
           {/* Slider ảnh */}
-          <ImageSlider
-            images={destination.images}
-            address={destination.location.address}
-          />
+          {selectedTab === "Overview" && (
+            <>
+              <ImageSlider
+                images={destination.images}
+                address={destination.location.address}
+              />
 
-          <div className="destination-info">
-            <p className="short-description">{destination.description}</p>
-            {showFull && (
-              <p className="full-description">{destination.fulldescription}</p>
-            )}
-            <span className="toggle-description" onClick={toggleDescription}>
-              {showFull ? "View Less ↩" : "View More →"}
-            </span>
-          </div>
+              <hr className="section-divider" />
+
+              <div className="destination-info">
+                <p className="short-description">{destination.description}</p>
+                {showFull && (
+                  <p className="full-description">
+                    {destination.fulldescription}
+                  </p>
+                )}
+                <span
+                  className="toggle-description"
+                  onClick={toggleDescription}
+                >
+                  {showFull ? "View Less ↩" : "View More →"}
+                </span>
+              </div>
+            </>
+          )}
 
           {/* Specific */}
-          <div className="destination-info-box">
-            <div className="info-item">
-              <span>From</span>
-              <strong>${destination.price}</strong>
+          {selectedTab === "Tour plan" && (
+            <div className="destination-info-box">
+              <div className="info-item">
+                <span>From</span>
+                <strong>${destination.price}</strong>
+              </div>
+              <div className="info-item">
+                <span>Tag</span>
+                <strong>{destination.tag.join(", ")}</strong>
+              </div>
+              <div className="info-item">
+                <span>Duration</span>
+                <strong>{destination.duration}</strong>
+              </div>
+              <div className="info-item">
+                <span>Notes</span>
+                <strong>
+                  {destination.notes.map((note, index) => (
+                    <div key={index}>• {note}</div>
+                  ))}
+                </strong>
+              </div>
+              <div className="info-item">
+                <span>HighLights</span>
+                <strong>{destination.Highlights.join(", ")}</strong>
+              </div>
+              <div className="info-item">
+                <span>Rating</span>
+                <strong>{destination.rating} ★</strong>
+              </div>
             </div>
-            <div className="info-item">
-              <span>Tag</span>
-              <strong>{destination.tag.join(", ")}</strong>
-            </div>
-            <div className="info-item">
-              <span>Duration</span>
-              <strong>{destination.duration}</strong>
-            </div>
-            <div className="info-item">
-              <span>Notes</span>
-              <strong>
-                {destination.notes.map((note, index) => (
-                  <div key={index}>• {note}</div>
-                ))}
-              </strong>
-            </div>
-            <div className="info-item">
-              <span>HighLights</span>
-              <strong>{destination.Highlights.join(", ")}</strong>
-            </div>
-            <div className="info-item">
-              <span>Rating</span>
-              <strong>{destination.rating} ★</strong>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Right column_booking */}
@@ -243,119 +260,123 @@ const DiaDiemDetail = () => {
       </div>
 
       {/* Location */}
-      <div className="info-group">
-        <h3>📍 Vị trí</h3>
-        <p>{destination.location.address}</p>
-        <div className="map-embed">
-          <iframe
-            title="Bản đồ"
-            width="100%"
-            height="300"
-            style={{ border: "none", borderRadius: "12px" }}
-            src={`https://www.google.com/maps?q=${destination.location.latitude},${destination.location.longitude}&hl=vi&z=14&output=embed`}
-            allowFullScreen
-          ></iframe>
+      {selectedTab === "Location" && (
+        <div className="info-group">
+          <h3>📍 Vị trí</h3>
+          <p>{destination.location.address}</p>
+          <div className="map-embed">
+            <iframe
+              title="Bản đồ"
+              width="100%"
+              height="300"
+              style={{ border: "none", borderRadius: "12px" }}
+              src={`https://www.google.com/maps?q=${destination.location.latitude},${destination.location.longitude}&hl=vi&z=14&output=embed`}
+              allowFullScreen
+            ></iframe>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Outstanding */}
-      <div className="info-group">
-        <h3>🌟 Điểm nổi bật</h3>
-        <ul>
-          {destination.Highlights?.map((item, index) => (
-            <li key={index}>✅ {item}</li>
-          ))}
-        </ul>
-      </div>
+      {selectedTab === "Outstanding" && (
+        <div className="info-group">
+          <h3>🌟 Điểm nổi bật</h3>
+          <ul>
+            {destination.Highlights?.map((item, index) => (
+              <li key={index}>✅ {item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Review Section */}
-      <div className="tour-review-section">
-        <h3>Đánh Giá</h3>
-        <div className="review-summary">
-          <span>
-            <strong>{reviews.length || 0} Đánh giá</strong>
-          </span>
-          <span className="star-display">⭐⭐⭐⭐⭐</span>
-          <span>
-            Sắp xếp theo:
-            <select>
-              <option value="rating">Đánh giá</option>
-              <option value="date">Ngày</option>
-            </select>
-          </span>
-        </div>
-
-        <hr />
-
-        {/* Existing reviews */}
-        {reviews.length > 0 ? (
-          reviews.map((review, index) => (
-            <div className="review-item" key={index}>
-              <div className="review-avatar">
-                <img src="/default-avatar.png" alt={review.ten_nguoi_dung} />
-              </div>
-              <div className="review-content">
-                <div className="review-header">
-                  <strong>{review.ten_nguoi_dung}</strong>
-                </div>
-                <p className="review-comment">{review.binh_luan}</p>
-                <div className="review-stars">
-                  {"⭐".repeat(review.danh_gia)}
-                </div>
-                <div className="review-date">{review.ngay}</div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>
-            Chưa có đánh giá nào cho địa điểm này. Hãy là người đầu tiên đánh
-            giá!
-          </p>
-        )}
-
-        {/* Add new review form */}
-        <div className="add-review-section">
-          <h4>Thêm đánh giá của bạn về {destination.name}</h4>
-          <form onSubmit={handleSubmitReview}>
-            <div className="rating-input">
-              <label htmlFor="danh_gia">Đánh giá của bạn:</label>
-              <select
-                id="danh_gia"
-                name="danh_gia"
-                value={newReview.danh_gia}
-                onChange={handleReviewChange}
-              >
-                <option value="5">5 sao ⭐⭐⭐⭐⭐</option>
-                <option value="4">4 sao ⭐⭐⭐⭐</option>
-                <option value="3">3 sao ⭐⭐⭐</option>
-                <option value="2">2 sao ⭐⭐</option>
-                <option value="1">1 sao ⭐</option>
+      {selectedTab === "Reviews" && (
+        <div className="tour-review-section">
+          <h3>Đánh Giá</h3>
+          <div className="review-summary">
+            <span>
+              <strong>{reviews.length || 0} Đánh giá</strong>
+            </span>
+            <span className="star-display">⭐⭐⭐⭐⭐</span>
+            <span>
+              Sắp xếp theo:
+              <select>
+                <option value="rating">Đánh giá</option>
+                <option value="date">Ngày</option>
               </select>
-            </div>
+            </span>
+          </div>
 
-            <div className="comment-input">
-              <label htmlFor="binh_luan">Nhận xét của bạn:</label>
-              <textarea
-                id="binh_luan"
-                name="binh_luan"
-                rows="4"
-                value={newReview.binh_luan}
-                onChange={handleReviewChange}
-                placeholder="Chia sẻ trải nghiệm của bạn về địa điểm này..."
-                required
-              ></textarea>
-            </div>
+          {/* Existing reviews */}
+          {reviews.length > 0 ? (
+            reviews.map((review, index) => (
+              <div className="review-item" key={index}>
+                <div className="review-avatar">
+                  <img src="/default-avatar.png" alt={review.ten_nguoi_dung} />
+                </div>
+                <div className="review-content">
+                  <div className="review-header">
+                    <strong>{review.ten_nguoi_dung}</strong>
+                  </div>
+                  <p className="review-comment">{review.binh_luan}</p>
+                  <div className="review-stars">
+                    {"⭐".repeat(review.danh_gia)}
+                  </div>
+                  <div className="review-date">{review.ngay}</div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>
+              Chưa có đánh giá nào cho địa điểm này. Hãy là người đầu tiên đánh
+              giá!
+            </p>
+          )}
 
-            <button
-              type="submit"
-              className="submit-review-btn"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Đang gửi..." : "Gửi đánh giá"}
-            </button>
-          </form>
+          {/* Add new review form */}
+          <div className="add-review-section">
+            <h4>Thêm đánh giá của bạn về {destination.name}</h4>
+            <form onSubmit={handleSubmitReview}>
+              <div className="rating-input">
+                <label htmlFor="danh_gia">Đánh giá của bạn:</label>
+                <select
+                  id="danh_gia"
+                  name="danh_gia"
+                  value={newReview.danh_gia}
+                  onChange={handleReviewChange}
+                >
+                  <option value="5">5 sao ⭐⭐⭐⭐⭐</option>
+                  <option value="4">4 sao ⭐⭐⭐⭐</option>
+                  <option value="3">3 sao ⭐⭐⭐</option>
+                  <option value="2">2 sao ⭐⭐</option>
+                  <option value="1">1 sao ⭐</option>
+                </select>
+              </div>
+
+              <div className="comment-input">
+                <label htmlFor="binh_luan">Nhận xét của bạn:</label>
+                <textarea
+                  id="binh_luan"
+                  name="binh_luan"
+                  rows="4"
+                  value={newReview.binh_luan}
+                  onChange={handleReviewChange}
+                  placeholder="Chia sẻ trải nghiệm của bạn về địa điểm này..."
+                  required
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="submit-review-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Đang gửi..." : "Gửi đánh giá"}
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
