@@ -204,7 +204,7 @@ const AllDiaDiem = () => {
               <p className="destination-description">{dest.description}</p>
               <div className="destination-footer">
                 <span className="destination-price">
-                  Từ {dest.price.toLocaleString()}đ/<small>khách</small>
+                  Từ {dest.price.toLocaleString()}/<small>khách</small>
                 </span>
                 <p className="destination-duration">{dest.duration}</p>
 

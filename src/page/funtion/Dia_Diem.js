@@ -14,7 +14,7 @@ const destinations = [
     fulldescription:
       " Hà nội, thủ đô của Viẹt Nam, là thành phố có lịch sử hơn 1000 năm tuổi, với sự giao thoa giữa kiến trúc Pháp thuộc và văn hóa truyền thống, Hà nội mang đến cho du khách trải nghiệm văn hóa đặc sắc. Phố cổ Hà Nội với 36 phố phường, mỗi phố mang tên một nghề thủ công truyền thống là không thể bỏ qua. Hồ Hoàn kiếm với tháp Rùa huyền thoại nằm giữa nằm giữa lòng thành phố tạo lên biểu tượng của thủ đô ngàn năm văn hiến. Hà Nội còn nổi tiếng với ẩm thực phong phú, như phở bún cá, cà phê trứng, và nhiều món ăn đường phố đặc sắc khác ",
     rating: 4.9,
-    price: "2,000,000",
+    price: "2,000,000đ",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị giày dép thoải mái để đi bộ.",
@@ -66,8 +66,6 @@ const destinations = [
     description: "Vẻ đẹp hùng vĩ nơi biên giới",
     rating: 4.6,
     price: "1,800,000đ",
-  },
-  {
     id: 4,
     name: "Mai Châu-Hòa Bình",
     image:

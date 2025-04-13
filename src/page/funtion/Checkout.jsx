@@ -30,65 +30,65 @@ const Checkout = () => {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsProcessing(true);
-  setError("");
+    e.preventDefault();
+    setIsProcessing(true);
+    setError("");
 
-  try {
-    const bookingData = {
-      cartItems: cartItems || [],
-      bookingInfo,
-      paymentMethod,
-      totalAmount,
-      totalQuantity,
-    };
-    console.log(bookingInfo);
+    try {
+      const bookingData = {
+        cartItems: cartItems || [],
+        bookingInfo,
+        paymentMethod,
+        totalAmount,
+        totalQuantity,
+      };
+      console.log(bookingInfo);
 
-    const response = await fetch("http://localhost/backend/payments.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bookingData),
-    });
+      const response = await fetch("http://localhost/backend/payments.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
 
-    // Kiểm tra Content-Type của phản hồi
-    const contentType = response.headers.get("Content-Type");
-    let result = null;
+      // Kiểm tra Content-Type của phản hồi
+      const contentType = response.headers.get("Content-Type");
+      let result = null;
 
-    // Nếu phản hồi là JSON, xử lý JSON
-    if (contentType && contentType.includes("application/json")) {
-      result = await response.json(); // Lấy JSON từ phản hồi
-    } else {
-      // Nếu không phải JSON, lấy dưới dạng văn bản
-      const text = await response.text();
-      console.error("Unexpected response:", text); // In ra phản hồi không phải JSON
-      setError("Có lỗi xảy ra trong quá trình kết nối với server.");
-      return;
-    }
-
-    console.log("API Response:", result);
-
-    if (result.status === "success") {
-      if (clearCart) {
-        clearCart();
+      // Nếu phản hồi là JSON, xử lý JSON
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json(); // Lấy JSON từ phản hồi
+      } else {
+        // Nếu không phải JSON, lấy dưới dạng văn bản
+        const text = await response.text();
+        console.error("Unexpected response:", text); // In ra phản hồi không phải JSON
+        setError("Có lỗi xảy ra trong quá trình kết nối với server.");
+        return;
       }
-      alert(
-        "Đặt chỗ và thanh toán thành công! Vui lòng kiểm tra email để xác nhận."
-      );
-    } else {
-      setError(
-        result.message ||
-        "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán"
-      );
+
+      console.log("API Response:", result);
+
+      if (result.status === "success") {
+        if (clearCart) {
+          clearCart();
+        }
+        alert(
+          "Đặt chỗ và thanh toán thành công! Vui lòng kiểm tra email để xác nhận."
+        );
+      } else {
+        setError(
+          result.message ||
+            "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán"
+        );
+      }
+    } catch (err) {
+      console.error("Error occurred during the fetch request:", err);
+      setError("Có lỗi xảy ra trong quá trình kết nối với server");
+    } finally {
+      setIsProcessing(false);
     }
-  } catch (err) {
-    console.error("Error occurred during the fetch request:", err);
-    setError("Có lỗi xảy ra trong quá trình kết nối với server");
-  } finally {
-    setIsProcessing(false);
-  }
-};
+  };
 
   return (
     <div className="checkout-page">
@@ -99,9 +99,15 @@ const Checkout = () => {
       {destination && (
         <div className="destination-info">
           <h3>Thông tin địa điểm</h3>
-          <p><strong>Tên địa điểm:</strong> {destination.name}</p>
-          <p><strong>Mô tả:</strong> {destination.description}</p>
-          <p><strong>Giá:</strong> {destination.price}</p>
+          <p>
+            <strong>Tên địa điểm:</strong> {destination.name}
+          </p>
+          <p>
+            <strong>Mô tả:</strong> {destination.description}
+          </p>
+          <p>
+            <strong>Giá:</strong> {destination.price}
+          </p>
         </div>
       )}
 
@@ -112,7 +118,9 @@ const Checkout = () => {
         {cartItems.length > 0 ? (
           cartItems.map((item) => (
             <div key={item.id} className="cart-item">
-              <span>{item.name} - {item.type || "Dịch vụ"}</span>
+              <span>
+                {item.name} - {item.type || "Dịch vụ"}
+              </span>
               <span>{item.price || 0}</span>
             </div>
           ))
@@ -128,7 +136,9 @@ const Checkout = () => {
           type="text"
           placeholder="Họ và tên"
           value={bookingInfo.fullName}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, fullName: e.target.value })}
+          onChange={(e) =>
+            setBookingInfo({ ...bookingInfo, fullName: e.target.value })
+          }
           required
         />
 
@@ -136,7 +146,9 @@ const Checkout = () => {
           type="email"
           placeholder="Email"
           value={bookingInfo.email}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, email: e.target.value })}
+          onChange={(e) =>
+            setBookingInfo({ ...bookingInfo, email: e.target.value })
+          }
           required
         />
 
@@ -144,7 +156,9 @@ const Checkout = () => {
           type="tel"
           placeholder="Số điện thoại"
           value={bookingInfo.phone}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, phone: e.target.value })}
+          onChange={(e) =>
+            setBookingInfo({ ...bookingInfo, phone: e.target.value })
+          }
           required
         />
 
@@ -152,7 +166,9 @@ const Checkout = () => {
           type="date"
           placeholder="Ngày nhận dịch vụ"
           value={bookingInfo.checkInDate}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, checkInDate: e.target.value })}
+          onChange={(e) =>
+            setBookingInfo({ ...bookingInfo, checkInDate: e.target.value })
+          }
           required
         />
 
@@ -160,7 +176,9 @@ const Checkout = () => {
           type="date"
           placeholder="Ngày trả dịch vụ"
           value={bookingInfo.checkOutDate}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, checkOutDate: e.target.value })}
+          onChange={(e) =>
+            setBookingInfo({ ...bookingInfo, checkOutDate: e.target.value })
+          }
           required
         />
 
@@ -168,7 +186,12 @@ const Checkout = () => {
           type="number"
           placeholder="Số lượng người"
           value={bookingInfo.numberOfPeople}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, numberOfPeople: parseInt(e.target.value) || 1 })}
+          onChange={(e) =>
+            setBookingInfo({
+              ...bookingInfo,
+              numberOfPeople: parseInt(e.target.value) || 1,
+            })
+          }
           min="1"
           required
         />
@@ -176,11 +199,16 @@ const Checkout = () => {
         <textarea
           placeholder="Yêu cầu đặc biệt (nếu có)"
           value={bookingInfo.specialRequests}
-          onChange={(e) => setBookingInfo({ ...bookingInfo, specialRequests: e.target.value })}
+          onChange={(e) =>
+            setBookingInfo({ ...bookingInfo, specialRequests: e.target.value })
+          }
         />
 
         <h3>Phương thức thanh toán</h3>
-        <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+        <select
+          value={paymentMethod}
+          onChange={(e) => setPaymentMethod(e.target.value)}
+        >
           <option value="credit-card">Thẻ tín dụng</option>
           <option value="paypal">PayPal</option>
           <option value="cod">Thanh toán khi nhận dịch vụ</option>
@@ -195,4 +223,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-

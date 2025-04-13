@@ -1,47 +1,86 @@
 .checkout-page {
-  max-width: 800px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  font-family: Arial, sans-serif;
   padding: 20px;
+  background-color: white;
 }
 
 .cart-summary {
+  width: 300px;
   border: 1px solid #ddd;
   padding: 15px;
-  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  font-size: 14px;
 }
 
-.cart-item {
+.cart-summary h3 {
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.cart-summary p,
+.cart-summary .cart-item {
+  margin: 6px 0;
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
 }
 
-.total {
+.checkout-form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-form h3 {
+  margin-top: 20px;
+  font-size: 18px;
   font-weight: bold;
-  margin-top: 15px;
 }
 
-.checkout-form input, .checkout-form select, .checkout-form textarea {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
+.checkout-form input,
+.checkout-form textarea,
+.checkout-form select {
   padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.checkout-form textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
 .checkout-form button {
-  background-color: #4CAF50;
+  padding: 10px;
+  background-color: #756042;
   color: white;
-  padding: 10px 20px;
+  font-weight: bold;
   border: none;
+  border-radius: 3px;
   cursor: pointer;
 }
 
 .checkout-form button:disabled {
-  background-color: #cccccc;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
 .error {
   color: red;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+}
+
+.destination-info {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.destination-info p {
+  margin: 4px 0;
 }
