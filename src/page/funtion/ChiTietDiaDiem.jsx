@@ -13,11 +13,6 @@ const DiaDiemDetail = () => {
   const navigate = useNavigate();
   const [isInCart, setIsInCart] = useState(false);
   const { addToCart } = useCart();
-<<<<<<< HEAD
-  const { isAuthenticated } = useContext(AuthContext);
-  const [showFull, setShowFull] = useState(false);
-
-=======
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext || {};
 
@@ -53,7 +48,6 @@ const DiaDiemDetail = () => {
   };
 
   // And update this line in handleSubmitReview function:
->>>>>>> main
   const toggleDescription = () => {
     setShowFull(!showFull);
   };
@@ -169,61 +163,6 @@ const DiaDiemDetail = () => {
       <div className="tour-main-content">
         <div className="destination-detail-container">
           <h1 className="destination-title">{destination.name}</h1>
-<<<<<<< HEAD
-          {/*  */}
-          {/* <div
-            className="destination-header"
-            style={{
-              backgroundImage: `url(${destination.image}), url(${destination.images[0]})`,
-              backgroundrepeat: "no-repeat, repeat",
-              backgroundSize: "cover, contain",
-              backgroundPosition: "center, top right",
-              height: "400px",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              textShadow: "0px 1px 4px rgba(0,0,0,0.8)",
-            }}
-          >
-            <h1>{destination.name}</h1>
-            <p>{destination.location.address}</p>
-          </div> */}
-
-          {/* Slider ảnh */}
-          <div className="image-slider">
-            <h3>🖼️ Hình ảnh nổi bật</h3>
-            <div className="slider-container">
-              {destination.images?.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt={`Ảnh ${index + 1}`}
-                  style={{
-                    width: "100%",
-                    maxHeight: "300px",
-                    objectFit: "cover",
-                    marginBottom: "1rem",
-                    borderRadius: "12px",
-                  }}
-                />
-              ))}
-              {/* <h1>{destination.name}</h1> */}
-              <p>{destination.location.address}</p>
-            </div>
-          </div>
-          <div className="destination-info">
-            <p className="short-description">{destination.description}</p>
-            {showFull && (
-              <p className="full-description">{destination.fulldescription}</p>
-            )}
-            <span className="toggle-description" onClick={toggleDescription}>
-              {showFull ? "View Less ↩" : "View More →"}
-            </span>
-          </div>
-
-=======
 
           {/* Slider ảnh */}
           <ImageSlider
@@ -241,7 +180,6 @@ const DiaDiemDetail = () => {
             </span>
           </div>
 
->>>>>>> main
           {/* Specific */}
           <div className="destination-info-box">
             <div className="info-item">
@@ -330,21 +268,6 @@ const DiaDiemDetail = () => {
         </ul>
       </div>
 
-<<<<<<< HEAD
-      {/* Review */}
-      <div className="tour-review-section">
-        <h3>Reviews</h3>
-        <div className="review-summary">
-          <span>
-            <strong>{destination.reviews?.length || 0} Review</strong>
-          </span>
-          <span className="star-display">⭐⭐⭐⭐⭐</span>
-          <span>
-            Sort By:
-            <select>
-              <option value="rating">Rating</option>
-              <option value="date">Date</option>
-=======
       {/* Review Section */}
       <div className="tour-review-section">
         <h3>Đánh Giá</h3>
@@ -358,31 +281,12 @@ const DiaDiemDetail = () => {
             <select>
               <option value="rating">Đánh giá</option>
               <option value="date">Ngày</option>
->>>>>>> main
             </select>
           </span>
         </div>
 
         <hr />
 
-<<<<<<< HEAD
-        {destination.reviews?.map((review, index) => (
-          <div className="review-item" key={index}>
-            <div className="review-avatar">
-              <img src={review.avatar} alt={review.name} />
-            </div>
-            <div className="review-content">
-              <div className="review-header">
-                <strong>{review.name}</strong>{" "}
-                <span className="role">{review.role}</span>
-              </div>
-              <p className="review-comment">{review.comment}</p>
-              <div className="review-stars">{"⭐".repeat(review.rating)}</div>
-              <div className="review-date">{review.date}</div>
-            </div>
-          </div>
-        ))}
-=======
         {/* Existing reviews */}
         {reviews.length > 0 ? (
           reviews.map((review, index) => (
@@ -451,7 +355,6 @@ const DiaDiemDetail = () => {
             </button>
           </form>
         </div>
->>>>>>> main
       </div>
     </div>
   );
