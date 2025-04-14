@@ -35,7 +35,7 @@ const Cart = () => {
           <i className="fa fa-shopping-cart"></i>
           <p>Giỏ hàng của bạn đang trống</p>
           <button onClick={handleContinueShopping} className="continue-shopping-btn">
-            Tiếp tục mua sắm
+            Tiếp tục đặt tour
           </button>
         </div>
       </div>
@@ -90,7 +90,7 @@ const Cart = () => {
       <div className="cart-actions">
         <div className="cart-buttons">
           <button onClick={handleContinueShopping} className="continue-shopping-btn">
-            Tiếp tục mua sắm
+            Tiếp tục đặt tour
           </button>
           <button onClick={handleClearCart} className="clear-cart-btn">
             Xóa giỏ hàng
