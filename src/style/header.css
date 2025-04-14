@@ -65,7 +65,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
   transition: all 0.3s ease;
   border-radius: 10px;
-  position: fixed;
+  position: absolute;
   width: 100vw;
   margin-left: calc(-50vw + 49%);
   /* background: linear-gradient(to right, #4a90e2, #e2e2e2); */
