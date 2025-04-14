@@ -111,7 +111,6 @@ export default function Register() {
 
             // Lưu vào localStorage (dù đã có trong AuthContext)
             localStorage.setItem("user", JSON.stringify(userData));
-            console.log("User data saved:", userData);
 
             // Chuyển hướng về trang chủ
             navigate("/");

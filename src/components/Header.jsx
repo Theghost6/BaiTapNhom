@@ -120,9 +120,6 @@ const Header = () => {
     }
   };
 
-  // Debugging: Log the current user
-  console.log(user);  // Ensure the role is properly set in the user object
-
   return (
     <header ref={headerRef} className="main-header">
       <div className="main-header-container">
