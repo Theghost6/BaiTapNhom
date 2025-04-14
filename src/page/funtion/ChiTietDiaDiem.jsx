@@ -88,6 +88,29 @@ const DiaDiemDetail = () => {
     });
   };
 
+  //reply review
+  const [replyOpenIndex, setReplyOpenIndex] = useState(null);
+  const [replies, setReplies] = useState({});
+
+  const toggleReply = (index) => {
+    setReplyOpenIndex(replyOpenIndex === index ? null : index);
+  };
+
+  const handleReplyChange = (e, index) => {
+    setReplies({ ...replies, [index]: e.target.value });
+  };
+
+  const handleReplySubmit = (e, index) => {
+    e.preventDefault();
+    const replyText = replies[index];
+    if (replyText) {
+      console.log(`Reply to review ${index}: ${replyText}`);
+      // TODO: Gửi reply về server tại đây
+      setReplyOpenIndex(null); // ẩn lại form sau khi gửi
+      setReplies({ ...replies, [index]: "" }); // xóa nội dung
+    }
+  };
+
   // Submit review to database
   const handleSubmitReview = async (e) => {
     e.preventDefault();
@@ -278,12 +301,39 @@ const DiaDiemDetail = () => {
                     <div className="review-content">
                       <div className="review-header">
                         <strong>{review.ten_nguoi_dung}</strong>
+                        <span className="review-date">{review.ngay}</span>
                       </div>
                       <p className="review-comment">{review.binh_luan}</p>
                       <div className="review-stars">
                         {"⭐".repeat(review.danh_gia)}
                       </div>
-                      <div className="review-date">{review.ngay}</div>
+
+                      {/* Reply Button */}
+                      <button
+                        className="reply-button"
+                        onClick={() => toggleReply(index)}
+                      >
+                        ↩️ Reply
+                      </button>
+
+                      {/* Optional: Reply Form (Hiện khi mở) */}
+                      {replyOpenIndex === index && (
+                        <form
+                          className="reply-form"
+                          onSubmit={(e) => handleReplySubmit(e, index)}
+                        >
+                          <textarea
+                            placeholder="Phản hồi đánh giá này..."
+                            value={replies[index] || ""}
+                            onChange={(e) => handleReplyChange(e, index)}
+                            rows={3}
+                            required
+                          ></textarea>
+                          <button type="submit" className="submit-reply-btn">
+                            Gửi phản hồi
+                          </button>
+                        </form>
+                      )}
                     </div>
                   </div>
                 ))
