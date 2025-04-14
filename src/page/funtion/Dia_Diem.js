@@ -66,6 +66,9 @@ const destinations = [
     description: "Vẻ đẹp hùng vĩ nơi biên giới",
     rating: 4.6,
     price: "1,800,000đ",
+    },
+
+  {
     id: 4,
     name: "Mai Châu-Hòa Bình",
     image:

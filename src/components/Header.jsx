@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Search,
   Menu,
   X,
   ChevronDown,
-  Heart,
   ShoppingBag,
   UserCircle,
   LogOut,
@@ -26,25 +24,27 @@ const Header = () => {
   const USER_KEY = "user";
 
   // Function to check authentication status with detailed logging
-  const checkAuthStatus = () => {
-    const userData = localStorage.getItem(USER_KEY);
+ const checkAuthStatus = () => {
+  const userData = localStorage.getItem(USER_KEY);
 
-    if (userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        setIsLoggedIn(true);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-        localStorage.removeItem(USER_KEY);
-        setIsLoggedIn(false);
-        setUser(null);
-      }
-    } else {
+  if (userData) {
+    try {
+      const parsedUser = JSON.parse(userData);
+      // Add role manually for testing
+      parsedUser.role = parsedUser.role || "user"; // Default to "user" if role is missing
+      setIsLoggedIn(true);
+      setUser(parsedUser);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      localStorage.removeItem(USER_KEY);
       setIsLoggedIn(false);
       setUser(null);
     }
-  };
+  } else {
+    setIsLoggedIn(false);
+    setUser(null);
+  }
+};
 
   // Sync with Register component's backend and handle storage changes
   useEffect(() => {
@@ -52,12 +52,7 @@ const Header = () => {
 
     const handleStorageChange = (event) => {
       if (event.key === USER_KEY) {
-        console.log(
-          "Storage changed, key:",
-          event.key,
-          "new value:",
-          event.newValue
-        );
+        console.log("Storage changed, key:", event.key, "new value:", event.newValue);
         checkAuthStatus();
       }
     };
@@ -72,10 +67,7 @@ const Header = () => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
         const headerHeight = headerRef.current.offsetHeight;
-        document.documentElement.style.setProperty(
-          "--header-height",
-          `${headerHeight}px`
-        );
+        document.documentElement.style.setProperty("--header-height", `${headerHeight}px`);
       }
     };
 
@@ -83,10 +75,7 @@ const Header = () => {
     window.addEventListener("resize", updateHeaderHeight);
 
     const handleClickOutside = (event) => {
-      if (
-        userDropdownRef.current &&
-        !userDropdownRef.current.contains(event.target)
-      ) {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
         setShowUserDropdown(false);
       }
     };
@@ -106,11 +95,11 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       // Call backend logout endpoint if it exists (optional)
-      await fetch("http://localhost/backend/logout.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }).catch((error) => console.warn("No logout endpoint or error:", error));
+      // await fetch("http://localhost/backend/logout.php", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   credentials: "include",
+      // }).catch((error) => console.warn("No logout endpoint or error:", error));
 
       // Clear all user data from localStorage
       localStorage.removeItem(USER_KEY);
@@ -130,6 +119,9 @@ const Header = () => {
       alert("Đăng xuất thất bại. Vui lòng thử lại!");
     }
   };
+
+  // Debugging: Log the current user
+  console.log(user);  // Ensure the role is properly set in the user object
 
   return (
     <header ref={headerRef} className="main-header">
@@ -155,34 +147,20 @@ const Header = () => {
                 Tour du lịch <ChevronDown size={16} className="dropdown-icon" />
               </Link>
               <ul className="dropdown-menu">
-                <li>
-                  <Link to="/tours/MienBac">Tour Miền Bắc</Link>
-                </li>
-                <li>
-                  <Link to="/tours/MienTrung">Tour Miền Trung</Link>
-                </li>
-                <li>
-                  <Link to="/tours/MienNam">Tour Miền Nam</Link>
-                </li>
-                <li>
-                  <Link to="/tours/VIP">Tour Vip 3 Miền</Link>
-                </li>
+                <li><Link to="/tours/MienBac">Tour Miền Bắc</Link></li>
+                <li><Link to="/tours/MienTrung">Tour Miền Trung</Link></li>
+                <li><Link to="/tours/MienNam">Tour Miền Nam</Link></li>
+                <li><Link to="/tours/VIP">Tour Vip 3 Miền</Link></li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link to="/destinations" className="nav-link">
-                Điểm đến
-              </Link>
+              <Link to="/AllDiaDiem" className="nav-link">Điểm đến</Link>
             </li>
             <li className="nav-item">
-              <Link to="/hotels" className="nav-link">
-                Khách sạn
-              </Link>
+              <Link to="/hotels" className="nav-link">Khách sạn</Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className="nav-link">
-                Liên hệ
-              </Link>
+              <Link to="/contact" className="nav-link">Liên hệ</Link>
             </li>
           </ul>
         </nav>
@@ -190,14 +168,9 @@ const Header = () => {
         <div className="header-actions">
           {isLoggedIn ? (
             <div className="user-profile" ref={userDropdownRef}>
-              <button
-                className="user-profile-button"
-                onClick={toggleUserDropdown}
-              >
+              <button className="user-profile-button" onClick={toggleUserDropdown}>
                 <UserCircle size={24} className="user-icon" />
-                <span className="username">
-                  {user?.username || user?.identifier || "Người dùng"}
-                </span>
+                <span className="username">{user?.username || user?.identifier || "Người dùng"}</span>
               </button>
 
               {showUserDropdown && (
@@ -208,10 +181,12 @@ const Header = () => {
                   <Link to="/cart" className="dropdown-item">
                     <ShoppingBag size={16} /> Đơn hàng của tôi
                   </Link>
-                  <button
-                    className="dropdown-item logout-button"
-                    onClick={handleLogout}
-                  >
+                  {user?.role === "admin" && (
+                    <Link to="/admin" className="dropdown-item">
+                      <User size={16} /> Quản trị viên
+                    </Link>
+                  )}
+                  <button className="dropdown-item logout-button" onClick={handleLogout}>
                     <LogOut size={16} /> Đăng xuất
                   </button>
                 </div>
@@ -236,3 +211,4 @@ const Header = () => {
 };
 
 export default Header;
+

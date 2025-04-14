@@ -103,6 +103,7 @@ export default function Register() {
               username: data.username || data.user?.username || "Người dùng",
               identifier: payload.email || payload.phone,
               type: payload.email ? "email" : "phone",
+                role: data.user?.role || "user", // Lấy role từ backend
             };
 
             // Cập nhật AuthContext
