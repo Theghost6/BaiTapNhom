@@ -212,7 +212,10 @@
 
 .section-title.center {
   text-align: center;
-  margin-bottom: 4rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 3rem;
 }
 
 .section-subtitle {

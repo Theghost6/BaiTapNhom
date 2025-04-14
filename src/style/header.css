@@ -74,8 +74,15 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.main-header :hover {
-  background-color: rgb(214, 231, 231);
+.main-header:hover {
+  background-color: #000; /* Đổi nền thành đen */
+  color: #fff; /* Đổi chữ thành trắng */
+}
+
+.main-header:hover .nav-link,
+.main-header:hover .logo,
+.main-header:hover .action-button {
+  color: #fff;
 }
 
 .site-header.scrolled .main-header {
@@ -359,7 +366,7 @@ body {
   border: none;
   cursor: pointer;
   padding: 5px;
-  color: #333;
+  color: #fff;
   transition: color 0.3s;
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../style/TabMenu.css";
 
-const tabs = ["Overview", "Tour plan", "Location", "Reviews", "Điểm nổi bật"];
+const tabs = ["Overview", "Tour plan", "Location", "Reviews"];
 
 const TabMenu = ({ onChange }) => {
   const [activeTab, setActiveTab] = useState("Overview");

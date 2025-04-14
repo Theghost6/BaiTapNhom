@@ -1,6 +1,6 @@
 .destination-detail-container {
   max-width: 900px;
-  margin: auto;
+  margin: 20px;
   padding: 20px;
   font-family: sans-serif;
 }
@@ -71,12 +71,16 @@
 .tour-main-content {
   display: flex;
   flex-wrap: wrap;
-  padding: 40px 80px;
-  gap: 40px;
+  padding: 20px 20px;
+  gap: 20px;
+  justify-content: space-between; /* để chia 2 bên rõ ràng */
+  align-items: flex-start;
+  position: relative; /* đảm bảo các phần tử con không bị chồng */
 }
 
 .tour-left {
-  flex: 2;
+  flex: 1 1 60%;
+  min-width: 0;
 }
 
 .tour-left h2 {
@@ -101,7 +105,7 @@
 /* booking-box */
 
 .tour-book-box {
-  flex: 1;
+  flex: 0 0 300px;
   background-color: #f8f8f8;
   padding: 24px;
   border-radius: 12px;
@@ -109,6 +113,9 @@
   max-height: 450px;
   max-width: 300px;
   z-index: 100;
+  position: sticky;
+  top: 120px;
+  align-self: flex-start;
 }
 
 .tour-book-box h3 {
@@ -188,35 +195,48 @@
   border-left: 4px solid #4caf50;
   background: #f9f9f9;
   border-radius: 8px;
-  max-width: 100%;
+  max-width: 800px;
 }
 
-/* review */
+/* Review tổng quát + đánh giá từng mục */
 .tour-review-section {
   margin-top: 40px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .review-summary {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  margin-bottom: 20px;
   font-size: 16px;
-  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.star-display {
+  font-size: 20px;
+  color: #ff9800;
 }
 
 .review-summary select {
   padding: 5px 10px;
-  border: 1px solid #ccc;
   border-radius: 6px;
-  background-color: #fff;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
+/* Review chi tiết */
 .review-item {
   display: flex;
-  align-items: flex-start;
-  margin: 20px 0;
-  border-top: 1px solid #eee;
-  padding-top: 20px;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
 }
 
 .review-avatar img {
@@ -227,32 +247,74 @@
 }
 
 .review-content {
-  margin-left: 20px;
+  flex: 1;
 }
 
 .review-header {
   font-size: 16px;
+  font-weight: bold;
   margin-bottom: 4px;
 }
 
-.review-header .role {
-  color: gray;
-  font-size: 14px;
-  margin-left: 10px;
-}
-
 .review-comment {
-  font-style: italic;
-  margin: 5px 0;
+  font-size: 15px;
+  margin: 10px 0;
+  color: #333;
+  line-height: 1.5;
 }
 
 .review-stars {
-  color: #ffa500;
+  color: #ff9800;
+  font-size: 14px;
 }
 
 .review-date {
-  color: gray;
+  font-size: 13px;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* Review form mới */
+.add-review-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.add-review-section h4 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.rating-input,
+.comment-input {
+  margin-bottom: 20px;
+}
+
+.rating-input select,
+.comment-input textarea {
+  width: 100%;
+  padding: 10px;
   font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+}
+
+.submit-review-btn {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-review-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 /* Responsive */
@@ -262,8 +324,15 @@
     padding: 20px;
   }
 
-  .tour-hero-overlay {
+  /* .tour-hero-overlay {
     padding-left: 20px;
+  } */
+
+  .tour-book-box {
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin-top: 20px;
   }
 }
 
