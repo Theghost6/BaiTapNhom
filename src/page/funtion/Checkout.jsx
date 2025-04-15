@@ -61,7 +61,7 @@ const price = parseFloat(destination.price.replace(/[^\d]/g, ""));
           : totalAmount,
         totalQuantity: isSingleBooking ? 1 : totalQuantity,
       };
-
+console.log("Đang gửi bookingData:", bookingData);
       const response = await fetch("http://localhost/backend/payments.php", {
         method: "POST",
         headers: {
