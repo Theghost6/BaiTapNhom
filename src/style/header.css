@@ -75,14 +75,14 @@
 }
 
 .main-header:hover {
-  background-color: #000; /* Đổi nền thành đen */
-  color: #fff; /* Đổi chữ thành trắng */
+  background-color: #fff; /* Đổi nền thành đen */
+  color: #333; /* Đổi chữ thành trắng */
 }
 
 .main-header:hover .nav-link,
 .main-header:hover .logo,
 .main-header:hover .action-button {
-  color: #fff;
+  color: #333;
 }
 
 .site-header.scrolled .main-header {
@@ -143,6 +143,10 @@
   position: relative;
 }
 
+.nav-item:hover {
+  color: #2563eb;
+}
+
 .nav-link {
   display: block;
   padding: 10px 15px;
@@ -175,6 +179,7 @@
 
 .nav-item:hover .dropdown-icon {
   transform: rotate(180deg);
+  color: #2563eb;
 }
 
 .dropdown-menu {
