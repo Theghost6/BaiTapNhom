@@ -103,6 +103,7 @@ export default function Register() {
               username: data.username || data.user?.username || "Người dùng",
               identifier: payload.email || payload.phone,
               type: payload.email ? "email" : "phone",
+                role: data.user?.role || "user", // Lấy role từ backend
             };
 
             // Cập nhật AuthContext
@@ -110,7 +111,6 @@ export default function Register() {
 
             // Lưu vào localStorage (dù đã có trong AuthContext)
             localStorage.setItem("user", JSON.stringify(userData));
-            console.log("User data saved:", userData);
 
             // Chuyển hướng về trang chủ
             navigate("/");

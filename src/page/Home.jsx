@@ -19,17 +19,20 @@ const Home = () => {
   const navigate = useNavigate();
   const slides = [
     {
+      id:7,
       image:
         "https://cdn.pixabay.com/photo/2019/05/29/00/08/vietnam-4236430_1280.jpg",
       title: "Vịnh Hạ Long",
       description: "Kỳ quan thiên nhiên thế giới tại Việt Nam",
     },
     {
+      id:25,
       image: "https://cdn.xanhsm.com/2025/02/f69feca7-canh-dep-phu-quoc-7.jpg",
       title: "Phú Quốc",
       description: "Thiên đường biển đảo của miền Nam",
     },
     {
+      id:8,
       image:
         "https://mia.vn/media/uploads/blog-du-lich/an-tuong-ve-dep-hung-vi-noi-quan-the-danh-thang-trang-an-1-1640247493.jpg",
       title: "Tràng An",
@@ -94,11 +97,13 @@ const Home = () => {
                 <h1 className="slide-title">{slide.title}</h1>
                 <p className="slide-description">{slide.description}</p>
                 <div className="slide-buttons">
-                  <button className="primary-button">
-                    Đặt tour ngay <ArrowRight className="button-icon" />
-                  </button>
-                  <button className="secondary-button">Tìm hiểu thêm</button>
-                </div>
+  <button className="primary-button" onClick={() => navigate(`/Dia-Diem/${slide.id}`)}>
+    Đặt tour ngay <ArrowRight className="button-icon" />
+  </button>
+  <button className="secondary-button" onClick={() => navigate(`/dia-diem/${slide.id}`)}>
+    Tìm hiểu thêm
+  </button>
+</div>
               </div>
             </div>
           </div>

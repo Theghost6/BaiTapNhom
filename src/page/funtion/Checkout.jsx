@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "./useCart";
 import "../../style/checkout.css";
 
 const Checkout = () => {
   const cartContext = useCart();
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (!cartContext) {
     return <div>Đang tải giỏ hàng...</div>;
@@ -14,6 +15,7 @@ const Checkout = () => {
   const { cartItems, totalQuantity, totalAmount, clearCart } = cartContext;
 
   const destination = location.state?.destination;
+  const isSingleBooking = !!destination;
 
   const [bookingInfo, setBookingInfo] = useState({
     fullName: "",
@@ -35,14 +37,30 @@ const Checkout = () => {
     setError("");
 
     try {
+      // Xử lý dữ liệu cart cho đặt ngay
+      let finalCartItems = cartItems;
+const price = parseFloat(destination.price.replace(/[^\d]/g, ""));
+      if (isSingleBooking && (!cartItems || cartItems.length === 0)) {
+        finalCartItems = [
+          {
+            id: destination.id,
+            name: destination.name,
+            description: destination.description,
+            price: price,
+            type: "Đặt ngay",
+          },
+        ];
+      }
+
       const bookingData = {
-        cartItems: cartItems || [],
+        cartItems: finalCartItems,
         bookingInfo,
         paymentMethod,
-        totalAmount,
-        totalQuantity,
+        totalAmount: isSingleBooking
+          ? destination.price
+          : totalAmount,
+        totalQuantity: isSingleBooking ? 1 : totalQuantity,
       };
-      console.log(bookingInfo);
 
       const response = await fetch("http://localhost/backend/payments.php", {
         method: "POST",
@@ -52,44 +70,37 @@ const Checkout = () => {
         body: JSON.stringify(bookingData),
       });
 
-      // Kiểm tra Content-Type của phản hồi
       const contentType = response.headers.get("Content-Type");
       let result = null;
 
-      // Nếu phản hồi là JSON, xử lý JSON
       if (contentType && contentType.includes("application/json")) {
-        result = await response.json(); // Lấy JSON từ phản hồi
+        result = await response.json();
       } else {
-        // Nếu không phải JSON, lấy dưới dạng văn bản
         const text = await response.text();
-        console.error("Unexpected response:", text); // In ra phản hồi không phải JSON
+        console.error("Unexpected response:", text);
         setError("Có lỗi xảy ra trong quá trình kết nối với server.");
         return;
       }
 
-      console.log("API Response:", result);
-
       if (result.status === "success") {
-        if (clearCart) {
+        if (!isSingleBooking && clearCart) {
           clearCart();
         }
-        alert(
-          "Đặt chỗ và thanh toán thành công! Vui lòng kiểm tra email để xác nhận."
-        );
+        alert("Đặt chỗ và thanh toán thành công!");
+        navigate("/thankyou");
       } else {
         setError(
-          result.message ||
-            "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán"
+          result.message || "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán"
         );
       }
     } catch (err) {
-      console.error("Error occurred during the fetch request:", err);
+      console.error("Error occurred:", err);
       setError("Có lỗi xảy ra trong quá trình kết nối với server");
     } finally {
       setIsProcessing(false);
     }
   };
-
+console.log("Destination gửi đi:", destination); // Kiểm tra destination.price ở đây
   return (
     <div className="checkout-page">
       <h2>Thanh Toán & Đặt Chỗ</h2>
@@ -98,36 +109,30 @@ const Checkout = () => {
 
       {destination && (
         <div className="destination-info">
-          <h3>Thông tin địa điểm</h3>
-          <p>
-            <strong>Tên địa điểm:</strong> {destination.name}
-          </p>
-          <p>
-            <strong>Mô tả:</strong> {destination.description}
-          </p>
-          <p>
-            <strong>Giá:</strong> {destination.price}
-          </p>
+          <h3>Thông tin địa điểm (Đặt ngay)</h3>
+          <p><strong>Tên địa điểm:</strong> {destination.name}</p>
+          <p><strong>Mô tả:</strong> {destination.description}</p>
+          <p><strong>Giá:</strong> {parseFloat(destination.price.replace(/[^\d]/g, "")).toLocaleString("vi-VN")} đ</p>
         </div>
       )}
 
-      <div className="cart-summary">
-        <h3>Tóm tắt giỏ hàng</h3>
-        <p>Tổng số sản phẩm: {totalQuantity}</p>
-        <p>Tổng giá trị: {totalAmount}</p>
-        {cartItems.length > 0 ? (
-          cartItems.map((item) => (
-            <div key={item.id} className="cart-item">
-              <span>
-                {item.name} - {item.type || "Dịch vụ"}
-              </span>
-              <span>{item.price || 0}</span>
-            </div>
-          ))
-        ) : (
-          <div>Giỏ hàng trống</div>
-        )}
-      </div>
+      {!isSingleBooking && (
+        <div className="cart-summary">
+          <h3>Tóm tắt giỏ hàng</h3>
+          <p>Tổng số sản phẩm: {totalQuantity}</p>
+          <p>Tổng giá trị: {parseFloat(totalAmount).toLocaleString('vi-VN')}</p>
+          {cartItems.length > 0 ? (
+            cartItems.map((item) => (
+              <div key={item.id} className="cart-item">
+                <span>{item.name} - {item.type || "Dịch vụ"}</span>
+                <span>{parseFloat(item.price).toLocaleString('vi-VN')}</span>
+              </div>
+            ))
+          ) : (
+            <div>Giỏ hàng trống</div>
+          )}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="checkout-form">
         <h3>Thông tin đặt chỗ</h3>
@@ -141,7 +146,6 @@ const Checkout = () => {
           }
           required
         />
-
         <input
           type="email"
           placeholder="Email"
@@ -151,7 +155,6 @@ const Checkout = () => {
           }
           required
         />
-
         <input
           type="tel"
           placeholder="Số điện thoại"
@@ -161,7 +164,6 @@ const Checkout = () => {
           }
           required
         />
-
         <input
           type="date"
           placeholder="Ngày nhận dịch vụ"
@@ -171,7 +173,6 @@ const Checkout = () => {
           }
           required
         />
-
         <input
           type="date"
           placeholder="Ngày trả dịch vụ"
@@ -181,7 +182,6 @@ const Checkout = () => {
           }
           required
         />
-
         <input
           type="number"
           placeholder="Số lượng người"
@@ -195,12 +195,14 @@ const Checkout = () => {
           min="1"
           required
         />
-
         <textarea
           placeholder="Yêu cầu đặc biệt (nếu có)"
           value={bookingInfo.specialRequests}
           onChange={(e) =>
-            setBookingInfo({ ...bookingInfo, specialRequests: e.target.value })
+            setBookingInfo({
+              ...bookingInfo,
+              specialRequests: e.target.value,
+            })
           }
         />
 
@@ -223,3 +225,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
