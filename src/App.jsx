@@ -4,7 +4,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Contact from "./page/Contact";
 import Home from "./page/Home";
-import Account from "./page/Account";
 import Register from "./page/Register";
 import AllDiaDiem from "./page/funtion/AllDiaDiem";
 import ChiTietDiaDiem from "./page/funtion/ChiTietDiaDiem";
@@ -29,7 +28,6 @@ const App = () => {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/account" element={<Account />} />
               <Route path="/register" element={<Register />} />
               <Route path="/AllDiaDiem" element={<AllDiaDiem />} />
               <Route path="/Profile" element={<Profile />} />
