@@ -2,11 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from './useCart';
 import '../../style/cart.css';
+import Dia_Diem from './Dia_Diem';
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart } = useCart();
   
+  const destination = Dia_Diem.find((dest) => dest.id === parseInt(id));
   
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
@@ -19,8 +21,9 @@ const Cart = () => {
   };
   
   const handleCheckout = () => {
-    navigate('/checkout');
-  };
+  navigate('/checkout', { state: { destination } }); // hoặc bỏ `state` nếu bạn muốn chỉ xử lý giỏ hàng
+};
+
   
   const handleContinueShopping = () => {
     navigate('/AllDiaDiem');
