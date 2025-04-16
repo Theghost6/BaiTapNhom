@@ -66,7 +66,7 @@
   transition: all 0.3s ease;
   border-radius: 10px;
   position: absolute;
-  width: 100vw;
+  width: 99.7vw;
   margin-left: calc(-50vw + 49%);
   /* background: linear-gradient(to right, #4a90e2, #e2e2e2); */
   padding: 10px 0;
@@ -75,14 +75,14 @@
 }
 
 .main-header:hover {
-  background-color: #fff; /* Đổi nền thành đen */
-  color: #333; /* Đổi chữ thành trắng */
+  background-color: skyblue; /* Đổi nền thành đen */
+  color: #fff; /* Đổi chữ thành trắng */
 }
 
 .main-header:hover .nav-link,
 .main-header:hover .logo,
 .main-header:hover .action-button {
-  color: #333;
+  color: #fff;
 }
 
 .site-header.scrolled .main-header {

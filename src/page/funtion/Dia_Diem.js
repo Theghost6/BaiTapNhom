@@ -36,7 +36,7 @@ const destinations = [
         rating:5
       }
     ],
-    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố"]
+    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố","Thủ Đô"]
   },
   
   {
@@ -69,7 +69,7 @@ const destinations = [
         rating:5
       }
     ],
-    tag:["Văn hóa","Ẩm thực","Thành phố"],
+    tag:["Văn hóa","Ẩm thực"],
   },
 
   {
@@ -87,7 +87,7 @@ const destinations = [
     fulldescription:
       "Nằm trên đường biên giới Việt - Trung, thác Bản Giốc được mệnh danh là một trong những thác nước đẹp nhất Việt Nam, là thác nước tự nhiên lớn nhất khu vực Đông Nam Á và là thác lớn thứ tư thế giới trong các thác nước nằm trên một đường biên giới. Thác Bản Giốc cao hơn 60m với chỗ dốc dài nhất 30m. Chia thành nhiều tầng đá vôi nối tiếp nhau và trải rộng đến cả trăm mét. Giữa thác có mô đất rộng với nhiều cây xanh bao phủ, chia con sông thành ba nhánh khác nhau.Đến với Bản Giốc, du khách không những được chiêm ngưỡng vẻ đẹp của cảnh quan thiên nhiên hùng vĩ, mà còn được đắm mình trong câu chuyện tình yêu đậm màu sắc huyền thoại của đôi trai gái miền sơn cước. ",
     rating: 4.6,
-    price: "2.500,000đ",
+    price: "2,500,000đ",
     location:{
       mapUrl:"https://www.google.com/maps/place/Th%C3%A1c+B%E1%BA%A3n+Gi%E1%BB%91c/"
     },
@@ -192,7 +192,7 @@ const destinations = [
     fulldescription:
       "Đồng Văn là một huyện miền núi thuộc tỉnh Hà Giang, đồng thời là huyện cực Bắc của Việt Nam. Nơi đây nổi tiếng với vẻ đẹp hoang sơ với những dãy núi đá vôi hùng vĩ, ruộng bậc thang mênh mông, và văn hóa truyền thống đặc sắc. Hãy bỏ lại phố thị ồn ào để tận hưởng cảnh quan thiên nhiên tươi đẹp và đắm chìm trong cuộc sống của các dân tộc thiểu số đầy sắc màu tại nơi đây!",
     rating: 4.5,
-    price: "2.700,000đ",
+    price: "2,700,000đ",
     location:{
       mapUrl:"https://www.google.com/maps/place/%C4%90%E1%BB%93ng+V%C4%83n,+H%C3%A0+Giang,+Vi%E1%BB%87t+Nam/"
     },
@@ -262,7 +262,7 @@ const destinations = [
     fulldescription:
       "Tràng An là một khu du lịch sinh thái nằm trong Quần thể danh thắng Tràng An thuộc tỉnh Ninh Bình. Nơi đây đã được Chính phủ Việt Nam xếp hạng di tích quốc gia đặc biệt quan trọng và UNESCO công nhận là di sản thế giới kép từ năm 2014.Khu du lịch Tràng An Ninh Bình từ lâu đã nổi tiếng là một tuyệt tác thiên nhiên với quần thể núi đá vôi, hang động và đầm phá hùng vĩ, lung linh. Nơi đây được thiên nhiên ban tặng đã được hình thành từ hàng triệu năm trước, hệ thống núi đá vôi này là tượng điêu khắc tự nhiên của thời gian, thể hiện sự đa dạng và độc đáo trong từng chi tiết . Trải qua hàng 250 triệu năm, những dãy núi đá vôi đã chịu tác động nhiều bởi khí hậu và thời tiết. Các núi đá vôi ở Tràng An có hình dáng độc đáo cao vút, từng bức tranh núi đa dạng tạo nên một cảnh quan thiên nhiên hùng vĩ và cuốn hút chính vì thế mỗi năm rất nhiều du khách đến tham quan.",
     rating: 4.8,
-    price: "3.700,000đ",
+    price: "3,700,000đ",
     location:{
       mapUrl:"https://www.google.com/maps/place/Tr%C3%A0ng+An,+Ninh+B%C3%ACnh,+Vi%E1%BB%87t+Nam/"
     },
@@ -645,7 +645,7 @@ const destinations = [
     fulldescription:
       "Là một tỉnh thuộc toạ độ du lịch Nam Trung Bộ, Khánh Hòa có bờ biển kéo dài 385km với gần 200 đảo lớn, nhỏ ven bờ và trên 100 đảo, bãi đá ngầm thuộc quần đảo Trường Sa. Khánh Hoà nổi tiếng cho du lịch vì có nhiều bãi tắm đẹp, cát trắng, nước biển trong xanh. Khánh Hòa cũng có Khánh Sơn, được ví như một tiểu Đà Lạt thu nhỏ với khí hậu mát mẻ, trong lành quanh năm.",
     rating: 4.6,
-    price: "2.400,000đ",
+    price: "2,400,000đ",
     location:{
       mapUrl:"https://www.google.com/maps/place/Kh%C3%A1nh+H%C3%B2a,+Vi%E1%BB%87t+Nam/@12.319277,108.4106988,9z/data=!3m1!4b1!4m6!3m5!1s0x31701b8ca8dcd395:0x69c20827322308ce!8m2!3d12.2098868!4d109.0928764!16zL20vMDdsX19w?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
     },

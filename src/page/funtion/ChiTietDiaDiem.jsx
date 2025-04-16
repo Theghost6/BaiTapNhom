@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Dia_Diem from "./Dia_Diem";
 import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
-import axios from "axios";
+// import axios from "axios";
 import ImageSlider from "../funtion/ImageSlider";
 import TabMenu from "../funtion/TabMenu";
 
