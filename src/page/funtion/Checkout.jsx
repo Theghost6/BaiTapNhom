@@ -39,7 +39,10 @@ const Checkout = () => {
     try {
       // Xử lý dữ liệu cart cho đặt ngay
       let finalCartItems = cartItems;
-const price = parseFloat(destination.price.replace(/[^\d]/g, ""));
+      const price = destination?.price
+        ? parseFloat(destination.price.replace(/[^\d]/g, ""))
+        : 0;
+
       if (isSingleBooking && (!cartItems || cartItems.length === 0)) {
         finalCartItems = [
           {
@@ -56,12 +59,10 @@ const price = parseFloat(destination.price.replace(/[^\d]/g, ""));
         cartItems: finalCartItems,
         bookingInfo,
         paymentMethod,
-        totalAmount: isSingleBooking
-          ? destination.price
-          : totalAmount,
+        totalAmount: isSingleBooking ? destination.price : totalAmount,
         totalQuantity: isSingleBooking ? 1 : totalQuantity,
       };
-console.log("Đang gửi bookingData:", bookingData);
+      console.log("Đang gửi bookingData:", bookingData);
       const response = await fetch("http://localhost/backend/payments.php", {
         method: "POST",
         headers: {
@@ -90,7 +91,8 @@ console.log("Đang gửi bookingData:", bookingData);
         navigate("/thankyou");
       } else {
         setError(
-          result.message || "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán"
+          result.message ||
+            "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán",
         );
       }
     } catch (err) {
@@ -100,7 +102,7 @@ console.log("Đang gửi bookingData:", bookingData);
       setIsProcessing(false);
     }
   };
-console.log("Destination gửi đi:", destination); // Kiểm tra destination.price ở đây
+  console.log("Destination gửi đi:", destination); // Kiểm tra destination.price ở đây
   return (
     <div className="checkout-page">
       <h2>Thanh Toán & Đặt Chỗ</h2>
@@ -110,9 +112,19 @@ console.log("Destination gửi đi:", destination); // Kiểm tra destination.pr
       {destination && (
         <div className="destination-info">
           <h3>Thông tin địa điểm (Đặt ngay)</h3>
-          <p><strong>Tên địa điểm:</strong> {destination.name}</p>
-          <p><strong>Mô tả:</strong> {destination.description}</p>
-          <p><strong>Giá:</strong> {parseFloat(destination.price.replace(/[^\d]/g, "")).toLocaleString("vi-VN")} đ</p>
+          <p>
+            <strong>Tên địa điểm:</strong> {destination.name}
+          </p>
+          <p>
+            <strong>Mô tả:</strong> {destination.description}
+          </p>
+          <p>
+            <strong>Giá:</strong>{" "}
+            {parseFloat(destination.price.replace(/[^\d]/g, "")).toLocaleString(
+              "vi-VN",
+            )}{" "}
+            đ
+          </p>
         </div>
       )}
 
@@ -120,12 +132,14 @@ console.log("Destination gửi đi:", destination); // Kiểm tra destination.pr
         <div className="cart-summary">
           <h3>Tóm tắt giỏ hàng</h3>
           <p>Tổng số sản phẩm: {totalQuantity}</p>
-          <p>Tổng giá trị: {parseFloat(totalAmount).toLocaleString('vi-VN')}</p>
+          <p>Tổng giá trị: {parseFloat(totalAmount).toLocaleString("vi-VN")}</p>
           {cartItems.length > 0 ? (
             cartItems.map((item) => (
               <div key={item.id} className="cart-item">
-                <span>{item.name} - {item.type || "Dịch vụ"}</span>
-                <span>{parseFloat(item.price).toLocaleString('vi-VN')}</span>
+                <span>
+                  {item.name} - {item.type || "Dịch vụ"}
+                </span>
+                <span>{parseFloat(item.price).toLocaleString("vi-VN")}</span>
               </div>
             ))
           ) : (
@@ -225,5 +239,3 @@ console.log("Destination gửi đi:", destination); // Kiểm tra destination.pr
 };
 
 export default Checkout;
-
-
