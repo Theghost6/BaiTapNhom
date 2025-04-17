@@ -13,6 +13,7 @@ import Checkout from "./page/funtion/Checkout";
 import Cart from "./page/funtion/Cart";
 import Admin from "./page/funtion/Admin";
 import ThankYou from "./page/funtion/ThankYou";
+import Hotels from "./page/funtion/Hotels";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";
@@ -35,6 +36,7 @@ const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/thankyou" element={<ThankYou />} />
+              <Route path="/hotels" element={<Hotels />} />
               <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
               {/* <Route path="/about" element={<About />} /> */}
               <Route path="/contact" element={<Contact />} />
