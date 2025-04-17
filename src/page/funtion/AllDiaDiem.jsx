@@ -8,7 +8,7 @@ const AllDiaDiem = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Bộ lọc
+  // Bộ lọc tab
   const [selectedTag, setSelectedTag] = useState("Tất cả");
   const [selectedTransport, setSelectedTransport] = useState("Tất cả");
   const [selectedDeparture, setSelectedDeparture] = useState("Tất cả");
@@ -24,13 +24,14 @@ const AllDiaDiem = () => {
     "Tất cả",
     ...new Set(Dia_Diem.map((d) => d.destination)),
   ];
+
   const ratings = ["Tất cả", 5, 4, 3, 2, 1];
   const budgets = ["Tất cả", "Dưới 2 triệu", "2-5 triệu", "Trên 5 triệu"];
 
   const filteredItems = Dia_Diem.filter((dest) => {
     const priceNumber = parseInt(dest.price.replace(/,/g, ""), 10); // "2,000,000" => 2000000
 
-    const matchesSearchTerm =
+    const matchesSearchTerm = 
       !searchTerm || dest.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesTag =
       selectedTag === "Tất cả" || dest.tag.includes(selectedTag);
@@ -97,6 +98,7 @@ const AllDiaDiem = () => {
         <input
           type="text"
           value={searchTerm}
+          placeholder="Nhập thông tin địa chỉ bạn muốn tìm "
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />

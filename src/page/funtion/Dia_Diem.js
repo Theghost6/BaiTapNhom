@@ -18,6 +18,7 @@ const destinations = [
     location:{
       mapUrl:"https://www.google.com/maps?q=Hà+Nội"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị giày dép thoải mái để đi bộ.",

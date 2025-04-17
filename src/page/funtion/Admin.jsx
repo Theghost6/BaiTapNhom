@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import DiaDiem from "../funtion/Dia_Diem";
 
 function Admin() {
