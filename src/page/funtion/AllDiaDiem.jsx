@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Star, MapPin } from "lucide-react";
 import Dia_Diem from "./Dia_Diem";
 import "../../style/all_dia_diem.css";
-
 const AllDiaDiem = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +15,7 @@ const AllDiaDiem = () => {
   const [selectedDestination, setSelectedDestination] = useState("Tất cả");
   const [selectedRating, setSelectedRating] = useState("Tất cả");
   const [selectedBudget, setSelectedBudget] = useState("Tất cả");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const tags = ["Tất cả", ...new Set(Dia_Diem.flatMap((dest) => dest.tag))];
   const transports = ["Tất cả", ...new Set(Dia_Diem.map((d) => d.transport))];
@@ -30,6 +30,8 @@ const AllDiaDiem = () => {
   const filteredItems = Dia_Diem.filter((dest) => {
     const priceNumber = parseInt(dest.price.replace(/,/g, ""), 10); // "2,000,000" => 2000000
 
+    const matchesSearchTerm =
+      !searchTerm || dest.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesTag =
       selectedTag === "Tất cả" || dest.tag.includes(selectedTag);
 
@@ -57,6 +59,7 @@ const AllDiaDiem = () => {
       (selectedBudget === "Trên 5 triệu" && priceNumber > 5000000);
 
     return (
+      matchesSearchTerm &&
       matchesTag &&
       matchesTransport &&
       matchesDeparture &&
@@ -89,7 +92,15 @@ const AllDiaDiem = () => {
           <p className="hero-subtitle">Khám phá những điểm đến hấp dẫn nhất</p>
         </div>
       </div>
-
+      {/* Thanh tìm kiếm*/}
+      <div className="search-bar">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
       <div className="filter-bar">
         <select
           value={selectedTag}

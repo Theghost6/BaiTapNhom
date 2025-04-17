@@ -23,7 +23,7 @@ const destinations = [
       "Chuẩn bị giày dép thoải mái để đi bộ.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo phố cổ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan phố cổ",
       "Thưởng thức ẩm thực đường phố",
@@ -55,7 +55,7 @@ const destinations = [
     rating: 4.5,
     price: "3,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/tt.+Sa+Pa,+Sa+Pa,+L%C3%A0o+Cai,+Vi%E1%BB%87t+Nam"
+      mapUrl:"https://www.google.com/maps?q=Lào+Cai"
     },
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
@@ -89,7 +89,7 @@ const destinations = [
     rating: 4.6,
     price: "2,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Th%C3%A1c+B%E1%BA%A3n+Gi%E1%BB%91c/"
+      mapUrl:"https://www.google.com/maps?q=Thác+Bản+Giốc,+Cao+Bằng"
     },
     notes: [
       "Các loại vật dụng y tế như urgo, băng gạc, thuốc cảm, dầu gió, kem chống nắng và chống côn trùng",
@@ -339,7 +339,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan du lịch chùa Tam Chúc và các ngôi chùa cổ ở Hà Nam",
       "Tham quan các làng nghề hay các hang động tuyệt đẹp.",
@@ -378,7 +378,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Đi du lịch Bà Nà Hills.",
       "Tham quan đảo Sơn Trà, đi trải nghiệm đèo Hải Vân và vô số địa điểm khác.",
@@ -417,7 +417,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Đi dạo phố cổ về đêm.",
       "Tham quan, trải nghiệm các làng nghề, rừng dừa Bảy Mẫu.",
@@ -457,7 +457,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan Vinwonders hay thủy cung Trí Nguyên",
       "Tham quan các hòn đảo xinh đẹp ở Nha Trang",
@@ -497,7 +497,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Nhiều địa điểm check-in tuyệt đẹp và thơ mộng",
       "Tham quan dinh thự Dinh Bảo Đại-vị hoàng đế cuối cùng của Việt Nam",
@@ -536,7 +536,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Đi dạo về đêm, cầu Trường Tiền bắc qua sông Hương thơ mộng về đêm ",
       "Tham quan các di tích lịch sử gắn liền với Cố Đô Huế",
@@ -575,7 +575,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo, mang thêm đồ ăn nhẹ khi tham quan ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan các hang động nổi tiếng như hang Sơn Đoòng",
       "Tham quan các di tích lịch sử ",
@@ -614,7 +614,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Địa điểm check-in với thiên nhiên xanh mướt",
       "Trải nghiệm các hoạt động như lặn biển, dù lượn,... ở Kỳ Co",
@@ -654,7 +654,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Check-in Mũi Đôi - Cực Đông trên dất liền Việt Nam ",
       "Tham quan tòa tháp Bảo Tích được làm từ vỏ ốc tại chùa Từ Vân",
@@ -693,7 +693,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan cánh đồng tỏi xanh ngút ngàn",
       " Nhiều địa điểm check-in sống ảo ",
@@ -732,7 +732,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Check-in sống ảo đến biển đá Ông Địa",
       "Trải nghiệm các hoạt động ở đồi Cát Bay",
@@ -772,7 +772,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Dinh Độc Lập là một trong những địa điểm tham quan k thể bỏ qua ",
       "Tham quan di tích Địa đạo củ chi ",
@@ -811,7 +811,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan di tích lịch sử Hòn Đá Bạc",
       "Đến rừng quốc gia U Minh Hạ Ngồi thuyền đi giữa cánh rừng nguyên sơ ",
@@ -851,7 +851,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Nghe đờn ca tài tử với bài Dạ cổ hoài lang",
       "Tham quan các di tích như Nhà công tử Bạc Liêu ",
@@ -891,7 +891,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo và nên đi vào tháng 9 - tháng 11."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Check-in ở làng hoa Sa Đéc",
       "Khu du lịch Xẻo Quýt để chiêm ngưỡng vẻ hoang sơ ",
@@ -930,7 +930,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo và tinh thần sẵn sàng cho chuyến đi chơi."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Đi Công Viên VinWonders Phú Quốc",
       "Sống Ảo Ở Sunset Sanato Beach Club,Bay Dù Lượn ở Sunset Town Phú Quốc",
@@ -969,7 +969,7 @@ const destinations = [
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan các Tháp cổ",
       "Lên núi Bà Đen, cắm trại săn mây trên đỉnh núi",
@@ -1008,7 +1008,7 @@ const destinations = [
         "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
         "Tránh đi vào các ngày cuối tuần, ngày lễ Tết."
       ],
-      duration:"3 Ngày 2 đêm",
+      duration:"3N2Đ",
       Highlights:[
         "Trải nghiệm chợ nổi Cái Răng",
         "Bến Ninh Kiều về đêm",
@@ -1047,7 +1047,7 @@ const destinations = [
       "Chuẩn bị  giày đi bộ thoải mái và quần áo nhẹ cho các cuộc phiêu lưu ngoài trời.",
       "Nhớ mang theo thuốc chống côn trùng, một ít đồ ăn nhẹ ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Tham quan nhà tù Côn Đảo",
       "Trải nghiệm du lịch sinh thái ngoài khơi Côn Đảo.",
@@ -1086,7 +1086,7 @@ const destinations = [
       "Chuẩn bị  giày đi bộ thoải mái và quần áo nhẹ cho các cuộc phiêu lưu ngoài trời.",
       "Nhớ mang theo thuốc chống côn trùng, một ít đồ ăn nhẹ ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Trải nghiệm không gian thiên nhiên rừng tràm",
       "Ngắm hệ sinh thái động thực vật khi mùa lũ về.",
@@ -1125,7 +1125,7 @@ const destinations = [
       "Chuẩn bị  giày đi bộ thoải mái và quần áo nhẹ cho các cuộc phiêu lưu ngoài trời.",
       "Nhớ mang theo thuốc chống côn trùng, một ít đồ ăn nhẹ ."
     ],
-    duration:"3 Ngày 2 đêm",
+    duration:"3N2Đ",
     Highlights:[
       "Trải nghiệm trekking, đi bộ xuyên rừng tại VQG. Nam Cát Tiên",
       "Đi thuyền trên hồ Bàu Sấu",

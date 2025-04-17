@@ -3,9 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import Dia_Diem from "./Dia_Diem";
 import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
-// import axios from "axios";
+import axios from "axios";
 import ImageSlider from "../funtion/ImageSlider";
 import TabMenu from "../funtion/TabMenu";
+import {hotelsList} from "./khach_San"; // Import hotel data
 
 import "../../style/chitietdiadiem.css";
 
@@ -17,9 +18,12 @@ const DiaDiemDetail = () => {
   const { addToCart } = useCart();
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext || {};
-  const [selectedTab, setSelectedTab] = useState("Overview");
-
-  // const { isAuthenticated, user } = useContext(AuthContext);
+  
+  // Default tabs array
+  const tabs = ["Overview", "Tour plan", "Location", "Reviews", "Outstanding", "Hotel"];
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+// Khách sạn với địa điểm 
+  const matchedHotel = hotelsList.find((h) => h.id === destination.id);
   const [showFull, setShowFull] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
@@ -35,10 +39,8 @@ const DiaDiemDetail = () => {
     }
   }, [id]);
 
-  // Change these lines in your DiaDiemDetail.jsx file
   const fetchReviews = async () => {
     try {
-      // Update this URL to point to your combined PHP script
       const response = await axios.get(
         `http://localhost/backend/reviews.php?id_tour=${id}`
       );
@@ -50,7 +52,6 @@ const DiaDiemDetail = () => {
     }
   };
 
-  // And update this line in handleSubmitReview function:
   const toggleDescription = () => {
     setShowFull(!showFull);
   };
@@ -130,7 +131,7 @@ const DiaDiemDetail = () => {
     // Create form data for PHP
     const formData = new FormData();
     formData.append("id_tour", id);
-    formData.append("ten_nguoi_dung", user.username || "Khách"); // Use user.user based on your register table
+    formData.append("ten_nguoi_dung", user.username || "Khách");
     formData.append("danh_gia", newReview.danh_gia);
     formData.append("binh_luan", newReview.binh_luan);
     // Current date in YYYY-MM-DD format
@@ -147,7 +148,7 @@ const DiaDiemDetail = () => {
       if (response.data.success) {
         // Add the new review to the existing reviews
         const newReviewItem = {
-          id: response.data.id || Math.random(), // Use the ID from response or generate temporary one
+          id: response.data.id || Math.random(),
           id_tour: parseInt(id),
           ten_nguoi_dung: user.username || "Khách",
           danh_gia: newReview.danh_gia,
@@ -175,6 +176,12 @@ const DiaDiemDetail = () => {
     }
   };
 
+  // Handle tab selection
+  const handleTabChange = (tab) => {
+    console.log("Selected tab:", tab); // Debug log
+    setSelectedTab(tab);
+  };
+
   return (
     <div className="tour-detail-wrapper">
       <div
@@ -190,7 +197,19 @@ const DiaDiemDetail = () => {
         <div className="destination-detail-container">
           <h1 className="destination-title">{destination.name}</h1>
 
-          <TabMenu onChange={(tab) => setSelectedTab(tab)} />
+          {/* Custom TabMenu implementation */}
+          <div className="custom-tab-menu">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                className={`tab-button ${selectedTab === tab ? 'active' : ''}`}
+                onClick={() => handleTabChange(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
           {/* Slider ảnh */}
           {selectedTab === "Overview" && (
             <>
@@ -222,19 +241,19 @@ const DiaDiemDetail = () => {
           {selectedTab === "Tour plan" && (
             <div className="destination-info-box">
               <div className="info-item">
-                <span>From</span>
-                <strong>${destination.price}</strong>
+                <span>Từ</span>
+                <strong>{destination.price}</strong>
               </div>
               <div className="info-item">
                 <span>Tag</span>
                 <strong>{destination.tag.join(", ")}</strong>
               </div>
               <div className="info-item">
-                <span>Duration</span>
+                <span>Khoảng thời gian</span>
                 <strong>{destination.duration}</strong>
               </div>
               <div className="info-item">
-                <span>Notes</span>
+                <span>Chú ý</span>
                 <strong>
                   {destination.notes.map((note, index) => (
                     <div key={index}>• {note}</div>
@@ -242,11 +261,11 @@ const DiaDiemDetail = () => {
                 </strong>
               </div>
               <div className="info-item">
-                <span>HighLights</span>
+                <span>Điểm nổi bật</span>
                 <strong>{destination.Highlights.join(", ")}</strong>
               </div>
               <div className="info-item">
-                <span>Rating</span>
+                <span>Đánh giá</span>
                 <strong>{destination.rating} ★</strong>
               </div>
             </div>
@@ -263,7 +282,7 @@ const DiaDiemDetail = () => {
                   width="690px"
                   height="300"
                   style={{ border: "none", borderRadius: "12px" }}
-                  src={`https://www.google.com/maps?q=${destination.location.latitude},${destination.location.longitude}&hl=vi&z=14&output=embed`}
+                  src={destination.location.mapUrl + "&output=embed"}
                   allowFullScreen
                 ></iframe>
               </div>
@@ -388,6 +407,74 @@ const DiaDiemDetail = () => {
               </div>
             </div>
           )}
+
+          {/* Outstanding */}
+          {selectedTab === "Outstanding" && (
+            <div className="info-group">
+              <h3>🌟 Điểm nổi bật</h3>
+              <ul>
+                {destination.Highlights?.map((item, index) => (
+                  <li key={index}>✅ {item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Hconst matchedHotel = hotelsList.find((h) => h.id === destination.id);otel Tab Section */}
+{selectedTab === "Hotel" && (
+  <div className="hotel-info-section">
+    <h3>🏨 Thông tin khách sạn</h3>
+
+    {matchedHotel ? (
+      <div className="hotel-details">
+        <div className="hotel-header">
+          <h2>{matchedHotel.name}</h2>
+          <div className="hotel-rating">
+            {"⭐".repeat(Math.floor(matchedHotel.rating))}
+            <span className="rating-number"> {matchedHotel.rating}/5</span>
+          </div>
+        </div>
+
+        <div className="hotel-images">
+          {matchedHotel.images && matchedHotel.images.length > 0 ? (
+            <ImageSlider
+              images={matchedHotel.images}
+              address={matchedHotel.address}
+            />
+          ) : (
+            <img
+              src={matchedHotel.image || "/default-hotel.jpg"}
+              alt={matchedHotel.name}
+              style={{ width: "100%", borderRadius: "8px" }}
+            />
+          )}
+        </div>
+
+        <div className="hotel-description">
+          <p>{matchedHotel.description}</p>
+          <p>{matchedHotel.fullDescription}</p>
+        </div>
+
+        <div className="hotel-address">
+          <h4>📍 Địa chỉ</h4>
+          <p>{matchedHotel.address}</p>
+        </div>
+
+        <div className="hotel-amenities">
+          <h4>🛎️ Tiện nghi</h4>
+          <ul className="amenities-list">
+            {matchedHotel.amenities &&
+              matchedHotel.amenities.map((amenity, index) => (
+                <li key={index}>✅ {amenity}</li>
+              ))}
+          </ul>
+        </div>
+      </div>
+    ) : (
+      <p>Chưa có thông tin khách sạn cho địa điểm này.</p>
+    )}
+  </div>
+)}
         </div>
 
         {/* Right column_booking */}
@@ -418,18 +505,6 @@ const DiaDiemDetail = () => {
           </div>
         </div>
       </div>
-
-      {/* Outstanding */}
-      {selectedTab === "Outstanding" && (
-        <div className="info-group">
-          <h3>🌟 Điểm nổi bật</h3>
-          <ul>
-            {destination.Highlights?.map((item, index) => (
-              <li key={index}>✅ {item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
