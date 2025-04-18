@@ -11,19 +11,12 @@ const AllDiaDiem = () => {
   // Bộ lọc tab
   const [selectedTag, setSelectedTag] = useState("Tất cả");
   const [selectedTransport, setSelectedTransport] = useState("Tất cả");
-  const [selectedDeparture, setSelectedDeparture] = useState("Tất cả");
-  const [selectedDestination, setSelectedDestination] = useState("Tất cả");
   const [selectedRating, setSelectedRating] = useState("Tất cả");
   const [selectedBudget, setSelectedBudget] = useState("Tất cả");
   const [searchTerm, setSearchTerm] = useState("");
 
   const tags = ["Tất cả", ...new Set(Dia_Diem.flatMap((dest) => dest.tag))];
   const transports = ["Tất cả", ...new Set(Dia_Diem.map((d) => d.transport))];
-  const departures = ["Tất cả", ...new Set(Dia_Diem.map((d) => d.departure))];
-  const destinations = [
-    "Tất cả",
-    ...new Set(Dia_Diem.map((d) => d.destination)),
-  ];
 
   const ratings = ["Tất cả", 5, 4, 3, 2, 1];
   const budgets = ["Tất cả", "Dưới 2 triệu", "2-5 triệu", "Trên 5 triệu"];
@@ -38,13 +31,6 @@ const AllDiaDiem = () => {
 
     const matchesTransport =
       selectedTransport === "Tất cả" || dest.transport === selectedTransport;
-
-    const matchesDeparture =
-      selectedDeparture === "Tất cả" || dest.departure === selectedDeparture;
-
-    const matchesDestination =
-      selectedDestination === "Tất cả" ||
-      dest.destination === selectedDestination;
 
     const matchesRating =
       selectedRating === "Tất cả" ||
@@ -63,8 +49,6 @@ const AllDiaDiem = () => {
       matchesSearchTerm &&
       matchesTag &&
       matchesTransport &&
-      matchesDeparture &&
-      matchesDestination &&
       matchesRating &&
       matchesBudget
     );
@@ -134,35 +118,7 @@ const AllDiaDiem = () => {
           ))}
         </select>
 
-        <select
-          value={selectedDeparture}
-          onChange={(e) => {
-            setSelectedDeparture(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="tag-select"
-        >
-          {departures.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
 
-        <select
-          value={selectedDestination}
-          onChange={(e) => {
-            setSelectedDestination(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="tag-select"
-        >
-          {destinations.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
 
         <select
           value={selectedRating}

@@ -8,8 +8,10 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart } = useCart();
   
-  const destination = Dia_Diem.find((dest) => dest.id === parseInt(id));
-  
+ const destinations = cartItems.map(item =>
+  Dia_Diem.find(dest => dest.id === item.id)
+);
+ 
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
   };
@@ -21,7 +23,7 @@ const Cart = () => {
   };
   
   const handleCheckout = () => {
-  navigate('/checkout', { state: { destination } }); // hoặc bỏ `state` nếu bạn muốn chỉ xử lý giỏ hàng
+  navigate('/checkout', { state: { destinations} }); // hoặc bỏ `state` nếu bạn muốn chỉ xử lý giỏ hàng
 };
 
   

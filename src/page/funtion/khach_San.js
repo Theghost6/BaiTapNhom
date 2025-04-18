@@ -14,6 +14,7 @@ const hotel = [
     rating: 4.9,
     amenities: ["Wifi", "Bể bơi", "Nhà hàng", "Spa", "Bãi đậu xe","Xe đưa đón","Bữa sáng tuyệt vời"],
   },
+
   {
     id: 3,
     name: "Khách sạn Mường Thanh Cao Bằng",
