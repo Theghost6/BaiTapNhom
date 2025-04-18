@@ -45,8 +45,6 @@ const Header = () => {
     setUser(null);
   }
 };
-
-  // Sync with Register component's backend and handle storage changes
   useEffect(() => {
     checkAuthStatus();
 
@@ -119,7 +117,6 @@ const Header = () => {
       alert("Đăng xuất thất bại. Vui lòng thử lại!");
     }
   };
-
   return (
     <header ref={headerRef} className="main-header">
       <div className="main-header-container">

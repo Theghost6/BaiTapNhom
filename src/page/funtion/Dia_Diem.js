@@ -37,7 +37,7 @@ const destinations = [
         rating:5
       }
     ],
-    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố","Thủ Đô"]
+    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố",""]
   },
   
   {

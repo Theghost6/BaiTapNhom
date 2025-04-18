@@ -6,9 +6,10 @@ import { AuthContext } from "../funtion/AuthContext";
 import axios from "axios";
 import ImageSlider from "../funtion/ImageSlider";
 import TabMenu from "../funtion/TabMenu";
-import {hotelsList} from "./khach_San"; // Import hotel data
+import { hotelsList } from "./khach_San"; // Import hotel data
 
 import "../../style/chitietdiadiem.css";
+import { Hotel } from "lucide-react";
 
 const DiaDiemDetail = () => {
   const { id } = useParams();
@@ -18,12 +19,19 @@ const DiaDiemDetail = () => {
   const { addToCart } = useCart();
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext || {};
-  
+
   // Default tabs array
-  const tabs = ["Overview", "Tour plan", "Location", "Reviews", "Outstanding", "Hotel"];
+  const tabs = [
+    "Overview",
+    "Tour plan",
+    "Location",
+    "Reviews",
+    "Outstanding",
+    "Hotel",
+  ];
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
-// Khách sạn với địa điểm 
-  const matchedHotel = hotelsList.find((h) => h.id === destination.id);
+  // Khách sạn với địa điểm
+  const matchHotels = hotelsList.filter((h) => h.id === destination.id);
   const [showFull, setShowFull] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
@@ -42,7 +50,7 @@ const DiaDiemDetail = () => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost/backend/reviews.php?id_tour=${id}`
+        `http://localhost/backend/reviews.php?id_tour=${id}`,
       );
       if (response.data && Array.isArray(response.data)) {
         setReviews(response.data);
@@ -142,7 +150,7 @@ const DiaDiemDetail = () => {
       // Send to your PHP backend
       const response = await axios.post(
         "http://localhost/backend/reviews.php",
-        formData
+        formData,
       );
 
       if (response.data.success) {
@@ -202,7 +210,7 @@ const DiaDiemDetail = () => {
             {tabs.map((tab) => (
               <button
                 key={tab}
-                className={`tab-button ${selectedTab === tab ? 'active' : ''}`}
+                className={`tab-button ${selectedTab === tab ? "active" : ""}`}
                 onClick={() => handleTabChange(tab)}
               >
                 {tab}
@@ -421,60 +429,66 @@ const DiaDiemDetail = () => {
           )}
 
           {/* Hconst matchedHotel = hotelsList.find((h) => h.id === destination.id);otel Tab Section */}
-{selectedTab === "Hotel" && (
-  <div className="hotel-info-section">
-    <h3>🏨 Thông tin khách sạn</h3>
+          {selectedTab === "Hotel" && (
+            <div className="hotel-info-section">
+              <h3>🏨 Thông tin khách sạn</h3>
 
-    {matchedHotel ? (
-      <div className="hotel-details">
-        <div className="hotel-header">
-          <h2>{matchedHotel.name}</h2>
-          <div className="hotel-rating">
-            {"⭐".repeat(Math.floor(matchedHotel.rating))}
-            <span className="rating-number"> {matchedHotel.rating}/5</span>
-          </div>
-        </div>
+              {matchHotels ? (
+                matchHotels.map((hotel, index) => (
+                  <div className="hotel-details" key={index}>
+                    <div className="hotel-header">
+                      <h2>{hotel.name}</h2>
+                      <div className="hotel-rating">
+                        {"⭐".repeat(Math.floor(hotel.rating))}
+                        <span className="rating-number">
+                          {" "}
+                          {hotel.rating}/5
+                        </span>
+                      </div>
+                    </div>
 
-        <div className="hotel-images">
-          {matchedHotel.images && matchedHotel.images.length > 0 ? (
-            <ImageSlider
-              images={matchedHotel.images}
-              address={matchedHotel.address}
-            />
-          ) : (
-            <img
-              src={matchedHotel.image || "/default-hotel.jpg"}
-              alt={matchedHotel.name}
-              style={{ width: "100%", borderRadius: "8px" }}
-            />
+                    <div className="hotel-images">
+                      {hotel.images && hotel.images.length > 0 ? (
+                        <ImageSlider
+                          images={hotel.images}
+                          address={hotel.address}
+                        />
+                      ) : (
+                        <img
+                          src={hotel.image || "/default-hotel.jpg"}
+                          alt={hotel.name}
+                          style={{ width: "100%", borderRadius: "8px" }}
+                        />
+                      )}
+                    </div>
+
+                    <div className="hotel-description">
+                      <p>{hotel.description}</p>
+                      <p>{hotel.fullDescription}</p>
+                    </div>
+
+                    <div className="hotel-address">
+                      <h4>📍 Địa chỉ</h4>
+                      <p>{hotel.address}</p>
+                    </div>
+
+                    <div className="hotel-amenities">
+                      <h4>🛎️ Tiện nghi</h4>
+                      <ul className="amenities-list">
+                        {hotel.amenities &&
+                          hotel.amenities.map((amenity, i) => (
+                            <li key={i}>✅ {amenity}</li>
+                          ))}
+                      </ul>
+                    </div>
+                    <hr className="section-divider" />
+                  </div>
+                ))
+              ) : (
+                <p>Chưa có thông tin khách sạn cho địa điểm này.</p>
+              )}
+            </div>
           )}
-        </div>
-
-        <div className="hotel-description">
-          <p>{matchedHotel.description}</p>
-          <p>{matchedHotel.fullDescription}</p>
-        </div>
-
-        <div className="hotel-address">
-          <h4>📍 Địa chỉ</h4>
-          <p>{matchedHotel.address}</p>
-        </div>
-
-        <div className="hotel-amenities">
-          <h4>🛎️ Tiện nghi</h4>
-          <ul className="amenities-list">
-            {matchedHotel.amenities &&
-              matchedHotel.amenities.map((amenity, index) => (
-                <li key={index}>✅ {amenity}</li>
-              ))}
-          </ul>
-        </div>
-      </div>
-    ) : (
-      <p>Chưa có thông tin khách sạn cho địa điểm này.</p>
-    )}
-  </div>
-)}
         </div>
 
         {/* Right column_booking */}
