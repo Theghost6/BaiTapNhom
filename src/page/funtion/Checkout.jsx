@@ -70,30 +70,25 @@ const Checkout = () => {
         },
         body: JSON.stringify(bookingData),
       });
+      const rawText = await response.text();
+      try {
+        const result = JSON.parse(rawText);
 
-      const contentType = response.headers.get("Content-Type");
-      let result = null;
-
-      if (contentType && contentType.includes("application/json")) {
-        result = await response.json();
-      } else {
-        const text = await response.text();
-        console.error("Unexpected response:", text);
-        setError("Có lỗi xảy ra trong quá trình kết nối với server.");
-        return;
-      }
-
-      if (result.status === "success") {
-        if (!isSingleBooking && clearCart) {
-          clearCart();
+        if (result.status === "success") {
+          if (!isSingleBooking && clearCart) {
+            clearCart();
+          }
+          alert("Đặt chỗ và thanh toán thành công!");
+          navigate("/thankyou");
+        } else {
+          setError(
+            result.message ||
+              "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán",
+          );
         }
-        alert("Đặt chỗ và thanh toán thành công!");
-        navigate("/thankyou");
-      } else {
-        setError(
-          result.message ||
-            "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán",
-        );
+      } catch (jsonError) {
+        console.error("JSON parsing error:", jsonError);
+        setError("Server returned invalid format");
       }
     } catch (err) {
       console.error("Error occurred:", err);
@@ -120,7 +115,7 @@ const Checkout = () => {
           </p>
           <p>
             <strong>Giá:</strong>{" "}
-            {parseFloat(destination.price.replace(/[^\d]/g, "")).toLocaleString(
+            {parseInt(destination.price.replace(/[^\d]/g, "")).toLocaleString(
               "vi-VN",
             )}{" "}
             đ
@@ -139,7 +134,7 @@ const Checkout = () => {
                 <span>
                   {item.name} - {item.type || "Dịch vụ"}
                 </span>
-                <span>{parseFloat(item.price).toLocaleString("vi-VN")}</span>
+                <span>{parseInt(item.price).toLocaleString("vi-VN")}</span>
               </div>
             ))
           ) : (

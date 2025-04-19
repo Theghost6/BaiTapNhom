@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DiaDiem from "../funtion/Dia_Diem";
+import  destinations from "../funtion/Dia_Diem";
 
 function Admin() {
   // States for different data types
@@ -10,6 +10,7 @@ function Admin() {
   const [reviews, setReviews] = useState([]);
   const [payments, setPayments] = useState([]);
   const [hotels, setHotels] = useState([]);
+  const [total_payment, setTotalPayment] = useState([]);
 
   // States for selected items and related data
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -48,6 +49,12 @@ function Admin() {
           .then((res) => setHotels(res.data))
           .catch((err) => console.error("Error fetching hotels:", err));
         break;
+      case "total_payment":
+        axios
+          .get("http://localhost/backend/api.php?action=get_total_payment")
+          .then((res) => setTotalPayment(res.data))
+          .catch((err) => console.error("Error fetching total:", err));
+        break;
       default:
         break;
     }
@@ -57,7 +64,7 @@ function Admin() {
   const viewDetails = (id) => {
     axios
       .get(
-        `http://localhost/backend/api.php?action=get_booking_detail&id=${id}`
+        `http://localhost/backend/api.php?action=get_booking_detail&id=${id}`,
       )
       .then((res) => {
         setCartItems(res.data);
@@ -87,7 +94,7 @@ function Admin() {
     if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
       axios
         .get(
-          `http://localhost/backend/api.php?action=delete_user&phone=${phone}`
+          `http://localhost/backend/api.php?action=delete_user&phone=${phone}`,
         )
         .then(() => {
           setUsers(users.filter((u) => u.phone !== phone));
@@ -293,7 +300,8 @@ function Admin() {
                   </tr>
                 ) : (
                   reviews.map((review) => {
-                    const diaDiem = DiaDiem.find((item) => item.name);
+                      
+                    const diaDiem = destinations.find((item) => item.id === Number( review.id_tour ));
                     return (
                       <tr key={review.id}>
                         <td>{review.id}</td>
@@ -435,7 +443,27 @@ function Admin() {
             </table>
           </div>
         );
-
+      case "total_payment":
+        return (
+          <div>
+            <h2>Tổng số tiền đã thanh toán</h2>
+            <div
+              style={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                marginTop: "20px",
+                padding: "20px",
+                background: "#f8f9fa",
+                borderRadius: "8px",
+              }}
+            >
+              Tổng tiền:{" "}
+              {total_payment && total_payment.tong
+                ? Number(total_payment.tong).toLocaleString("vi-VN") + " đ"
+                : "Chưa có dữ liệu"}
+            </div>
+          </div>
+        );
       default:
         return <div>Chọn một mục từ menu để quản lý</div>;
     }
@@ -520,6 +548,19 @@ function Admin() {
           }}
         >
           Khách sạn
+        </button>
+        <button
+          onClick={() => setView("total_payment")}
+          style={{
+            padding: "10px 15px",
+            backgroundColor: view === "total_payment" ? "#007bff" : "#e9e9e9",
+            color: view === "total_payment" ? "white" : "black",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Thống Kê
         </button>
       </div>
 
