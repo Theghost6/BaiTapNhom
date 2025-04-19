@@ -17,23 +17,22 @@ const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeTab, setActiveTab] = useState("khachsan");
   const navigate = useNavigate();
-  const [menuVisible, setMenuVisible] = useState(false);
   const slides = [
     {
-      id: 7,
+      id:7,
       image:
         "https://cdn.pixabay.com/photo/2019/05/29/00/08/vietnam-4236430_1280.jpg",
       title: "Vịnh Hạ Long",
       description: "Kỳ quan thiên nhiên thế giới tại Việt Nam",
     },
     {
-      id: 25,
+      id:25,
       image: "https://cdn.xanhsm.com/2025/02/f69feca7-canh-dep-phu-quoc-7.jpg",
       title: "Phú Quốc",
       description: "Thiên đường biển đảo của miền Nam",
     },
     {
-      id: 8,
+      id:8,
       image:
         "https://mia.vn/media/uploads/blog-du-lich/an-tuong-ve-dep-hung-vi-noi-quan-the-danh-thang-trang-an-1-1640247493.jpg",
       title: "Tràng An",
@@ -80,24 +79,9 @@ const Home = () => {
   }, [slides.length]);
   return (
     <div className="home-container">
-      {/* Toggle button */}
-      <button className="menu-toggle-button" onClick={() => setMenuVisible(!menuVisible)}>
-        ☰ Menu
-      </button>
-
-      {/* Left Box Menu */}
-      {menuVisible && (
-        <div className="left-box-menu">
-          <ul>
-            <li><Link to="/">🏠 Trang chủ</Link></li>
-            <li><Link to="/AllDiaDiem">📍 Điểm đến</Link></li>
-            <li><Link to="/services">🛎️ Dịch vụ</Link></li>
-            <li><Link to="/contact">📞 Liên hệ</Link></li>
-          </ul>
-        </div>
-      )}
-
       {/* Hero Slider */}
+      <div className="slider-container">
+
       <div className="hero-slider">
         {slides.map((slide, index) => (
           <div
@@ -115,13 +99,13 @@ const Home = () => {
                 <h1 className="slide-title">{slide.title}</h1>
                 <p className="slide-description">{slide.description}</p>
                 <div className="slide-buttons">
-                  <button className="primary-button" onClick={() => navigate(`/Dia-Diem/${slide.id}`)}>
-                    Đặt tour ngay <ArrowRight className="button-icon" />
-                  </button>
-                  <button className="secondary-button" onClick={() => navigate(`/dia-diem/${slide.id}`)}>
-                    Tìm hiểu thêm
-                  </button>
-                </div>
+  <button className="primary-button" onClick={() => navigate(`/Dia-Diem/${slide.id}`)}>
+    Đặt tour ngay <ArrowRight className="button-icon" />
+  </button>
+  <button className="secondary-button" onClick={() => navigate(`/dia-diem/${slide.id}`)}>
+    Tìm hiểu thêm
+  </button>
+</div>
               </div>
             </div>
           </div>
@@ -133,12 +117,14 @@ const Home = () => {
             <button
               key={index}
               onClick={() => setActiveSlide(index)}
-              className={`slide-indicator ${index === activeSlide ? "active-indicator" : ""
-                }`}
+              className={`slide-indicator ${
+                index === activeSlide ? "active-indicator" : ""
+              }`}
               aria-label={`Slide ${index + 1}`}
             />
           ))}
         </div>
+      </div>
       </div>
       {/* Travel Navigation Bar - added here as requested */}
       <div className="travel-container">
@@ -174,8 +160,9 @@ const Home = () => {
           </div>
 
           <div
-            className={`tab-item nav-item dropdown ${activeTab === "services" ? "active" : ""
-              }`}
+            className={`tab-item nav-item dropdown ${
+              activeTab === "services" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("services")}
           >
             <div className="tab-icon">
