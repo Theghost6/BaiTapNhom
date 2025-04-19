@@ -70,9 +70,10 @@ try {
             VALUES ('$ngay_vao', '$ngay_ra', '$email', '$ten', $so_nguoi, '$sdt')";
     $conn->query($sql);
     $bookingId = $conn->insert_id;
-
+    if (!$conn->query($sql)) {
+        throw new Exception("Error in booking insert: " . $conn->error);
+    }
     foreach ($cartItems as $item) {
-        $id = intval($item['id']);
         $name = $conn->real_escape_string($item['name']);
         $description = $conn->real_escape_string($item['description']);
         $price = floatval($item['price']); // ✅ đã sửa
@@ -81,6 +82,19 @@ try {
                       VALUES ($bookingId, '$name',' $description', '$price')";
         $conn->query($sqlDetail);
     }
+    // Insert payment data
+    $payment_method = $conn->real_escape_string($paymentMethod);
+    // Add some safety checks
+    if (!is_numeric(str_replace([',', '.', ' ', 'đ'], '', $totalAmount))) {
+        throw new Exception("Invalid total amount format");
+    }
+
+    $total_amount = intval(str_replace([',', '.', ' ', 'đ'], '', $totalAmount));
+    $total_quantity = intval($totalQuantity);
+
+    $sqlPayment = "INSERT INTO thanh_toan (booking_id, pp_thanh_toan, tong_sotien, tong_solg) 
+               VALUES ($bookingId, '$payment_method', $total_amount, $total_quantity)";
+    $conn->query($sqlPayment);
 
     $conn->commit();
     echo json_encode([

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import  destinations from "../funtion/Dia_Diem";
+import  DiaDiem from "../funtion/Dia_Diem";
 
 function Admin() {
   // States for different data types
@@ -301,7 +301,7 @@ function Admin() {
                 ) : (
                   reviews.map((review) => {
                       
-                    const diaDiem = destinations.find((item) => item.id === Number( review.id_tour ));
+                    const diaDiem = DiaDiem.find((item) => item.id === Number( review.id_tour ));
                     return (
                       <tr key={review.id}>
                         <td>{review.id}</td>

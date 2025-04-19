@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Dia_Diem from "./Dia_Diem";
+import DiaDiem from "./Dia_Diem";
 import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
 import axios from "axios";
@@ -13,7 +13,7 @@ import { Hotel } from "lucide-react";
 
 const DiaDiemDetail = () => {
   const { id } = useParams();
-  const destination = Dia_Diem.find((dest) => dest.id === parseInt(id));
+  const destination = DiaDiem.find((dest) => dest.id === parseInt(id));
   const navigate = useNavigate();
   const [isInCart, setIsInCart] = useState(false);
   const { addToCart } = useCart();
@@ -22,11 +22,11 @@ const DiaDiemDetail = () => {
 
   // Default tabs array
   const tabs = [
-    "Overview",
-    "Tour plan",
-    "Location",
+    "Tổng quan",
+    "Kế hoạch",
+    "Vị trí",
     "Reviews",
-    "Outstanding",
+    "Nổi bật",
     "Hotel",
   ];
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
@@ -219,7 +219,7 @@ const DiaDiemDetail = () => {
           </div>
 
           {/* Slider ảnh */}
-          {selectedTab === "Overview" && (
+          {selectedTab === "Tổng quan" && (
             <>
               <ImageSlider
                 images={destination.images}
@@ -246,7 +246,7 @@ const DiaDiemDetail = () => {
           )}
 
           {/* Specific */}
-          {selectedTab === "Tour plan" && (
+          {selectedTab === "Kế hoạch" && (
             <div className="destination-info-box">
               <div className="info-item">
                 <span>Từ</span>
@@ -280,7 +280,7 @@ const DiaDiemDetail = () => {
           )}
 
           {/* Location */}
-          {selectedTab === "Location" && (
+          {selectedTab === "Vị trí" && (
             <div className="info-group">
               <h3>📍 Vị trí</h3>
               <p>{destination.location.address}</p>
@@ -417,7 +417,7 @@ const DiaDiemDetail = () => {
           )}
 
           {/* Outstanding */}
-          {selectedTab === "Outstanding" && (
+          {selectedTab === "Nổi bật" && (
             <div className="info-group">
               <h3>🌟 Điểm nổi bật</h3>
               <ul>
@@ -493,22 +493,6 @@ const DiaDiemDetail = () => {
 
         {/* Right column_booking */}
         <div className="tour-book-box">
-          <h3>Book This Tour</h3>
-          <label>Chọn ngày:</label>
-          <input type="date" />
-          <label>Chọn giờ:</label>
-          <div className="tour-time-options">
-            <button>12:00</button>
-            <button>17:00</button>
-          </div>
-
-          <label>Số lượng:</label>
-          <select>
-            <option value="1">1 người</option>
-            <option value="2">2 người</option>
-            <option value="3">3 người</option>
-          </select>
-
           <div className="tour-buttons">
             <button onClick={handleBookNow} className="book-now-button">
               Đặt ngay

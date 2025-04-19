@@ -155,9 +155,21 @@ switch ($action) {
         
         echo json_encode(["success" => $success]);
         break;
+        //Tính tổng tiền
+    case 'get_total_payment':
+        $sql = "SELECT SUM(tong_sotien) AS tong FROM thanh_toan";
+        $result = $conn->query($sql);
+
+        if($result){
+            $row = $result->fetch_assoc();
+            echo json_encode(['tong' => $row['tong']] ?? 0);
+        }else{
+            echo json_encode(['error' => "Tinh toan bi loi"]);
+        }
+        break;
         
     default:
-        echo json_encode(["error" => "Invalid action"]);
+        echo json_encode(["error" => "Lỗi action"]);
         break;
 }
 
