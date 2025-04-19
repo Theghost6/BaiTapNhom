@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Phone, Mail, Clock } from "lucide-react";
 import "../style/footer.css";
+import { Facebook, Twitter, Instagram } from "lucide-react";
+import { ArrowUp } from "lucide-react";
+
 
 const Footer = () => {
   return (
@@ -13,8 +16,11 @@ const Footer = () => {
               <h2 className="footer-logo-text">Nhom12 Travel</h2>
             </div>
             <p className="footer-description">
-              Thành viên trong nhóm 12 đã cố gắng xây dựng lên website
+              -4th floor, Royal City, 666 Nguyen Trai District, Ho Chi Minh
             </p>
+            <div className ="footer-phone-number" >
+              <a href="tel:+ (+84) 394 02 1004">(+84) 394 02 1004</a>
+            </div>
           </div>
 
           <div className="footer-column links-column">
@@ -99,7 +105,23 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      <div className="fixed-social-icons">
+        <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
+        <a href="#" aria-label="Twitter"><Twitter size={20} /></a>
+        <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
+      </div>
+
+      <button
+        className="scroll-to-top"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp size={24} />
+      </button>
+
     </footer>
+
   );
 };
 
