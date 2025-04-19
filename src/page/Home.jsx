@@ -29,7 +29,7 @@ const Home = () => {
     {
       id: 7,
       image:
-        "https://cdn.pixabay.com/photo/2019/05/29/00/08/vietnam-4236430_1280.jpg",
+        "https://cdn.pixabay.com/photo/2016/10/16/17/03/vietnam-1745819_1280.jpg",
       title: "Vịnh Hạ Long",
       description: "Kỳ quan thiên nhiên thế giới tại Việt Nam",
     },
