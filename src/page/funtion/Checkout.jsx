@@ -161,7 +161,6 @@ const Checkout = () => {
     e.preventDefault();
     setIsProcessing(true);
     setError("");
-
     try {
       // Tạo dữ liệu booking
       // Trong hàm handleSubmit của Checkout.jsx, thêm thông tin cần thiết

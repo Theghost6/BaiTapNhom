@@ -212,14 +212,14 @@ const DiaDiemDetail = () => {
         "http://localhost/backend/reviews.php",
         formData,
       );
-console.log(response)
+      console.log(response);
       if (response.data.success) {
         // Add the new review to the existing reviews
         const newReviewItem = {
           // id: response.data.id || Math.random(),
           id_tour: parseInt(id),
           ten_nguoi_dung: user.username || "Khách",
-          danh_gia: newReview.danh_gia,
+          so_sao: newReview.danh_gia,
           binh_luan: newReview.binh_luan,
           ngay: today,
         };
@@ -261,7 +261,7 @@ console.log(response)
       >
         <div className="tour-hero-overlay">
           <h1>Tour Details</h1>
-          <p>Home> Tour List >{destination.name}</p>
+           <p>Home &gt; Tour List &gt; {destination.name}</p>
         </div>
       </div>
       <div className="tour-main-content">
@@ -395,7 +395,7 @@ console.log(response)
                       </div>
                       <p className="review-comment">{review.binh_luan}</p>
                       <div className="review-stars">
-                        {"⭐".repeat(review.so_sao||review.danh_gia)}
+                        {"⭐".repeat(review.so_sao || review.danh_gia)}
                       </div>
 
                       {/* Reply Button */}

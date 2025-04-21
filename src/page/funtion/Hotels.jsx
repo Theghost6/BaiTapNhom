@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { hotelsList, getHotelsByDestinationId } from "./khach_San";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import "../../style/hotels.css"; // Import CSS
+import DiaDiem from "./Dia_Diem";
 
 const Hotels = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [hotelsToDisplay, setHotelsToDisplay] = useState([]);
+  const { id } = useParams();
+  const destination = DiaDiem.find((dest) => dest.id === parseInt(id));
 
+
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
+  const [guests, setGuests] = useState(1);
   useEffect(() => {
     // Kiểm tra xem có dữ liệu destination được truyền qua không
     if (location.state && location.state.destination) {
@@ -20,8 +27,54 @@ const Hotels = () => {
       setHotelsToDisplay(hotelsList);
     }
   }, [location.state]);
-  const handleClick = (hotel) => {
-    navigate(`/hotel/${hotel.id}`, { state: { hotel } });
+  const handleClick = () => {
+     let processedPrice = destination.price;
+    if (typeof processedPrice === "string") {
+      processedPrice = parseFloat(processedPrice.replace(/[^\d]/g, ""));
+    }
+    // Tìm khách sạn tương ứng với địa điểm
+    const matchedHotel = hotelsList.find((h) => h.id === destination.id);
+
+    if (matchedHotel) {
+      // Chuyển sang trang chi tiết khách sạn và truyền đầy đủ dữ liệu
+      navigate(`/hotel/${matchedHotel.id}`, {
+        state: {
+          hotel: matchedHotel,
+          fromDestination: true,
+          destinationInfo: {
+            id: destination.id,
+            name: destination.name,
+            description: destination.description,
+            price: destination.price,
+            image: destination.image,
+            location: destination.location,
+            tag: destination.tag,
+            duration: destination.duration,
+          },
+          checkInDate,
+          checkOutDate,
+          guests,
+        },
+      });
+    } else {
+      // Nếu không có khách sạn khớp, chuyển thẳng sang checkout
+      navigate("/checkout", {
+        state: {
+          destination: {
+            id: destination.id,
+            name: destination.name,
+            description: destination.description,
+            price: destination.price,
+            image: destination.image,
+            location: destination.location,
+          },
+          checkInDate,
+          checkOutDate,
+          guests,
+        },
+      });
+    }
+
   };
 
   return (
