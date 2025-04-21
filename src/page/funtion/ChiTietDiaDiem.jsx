@@ -3,11 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import DiaDiem from "./Dia_Diem";
 import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
-import axios from "axios";
 import ImageSlider from "../funtion/ImageSlider";
 import TabMenu from "../funtion/TabMenu";
 import { hotelsList } from "./khach_San"; // Import hotel data
-
 import "../../style/chitietdiadiem.css";
 import { Hotel } from "lucide-react";
 
@@ -20,16 +18,15 @@ const DiaDiemDetail = () => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext || {};
 
+  // State cho form đặt phòng
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
+  const [guests, setGuests] = useState(1);
+
   // Default tabs array
-  const tabs = [
-    "Tổng quan",
-    "Kế hoạch",
-    "Vị trí",
-    "Reviews",
-    "Nổi bật",
-    "Hotel",
-  ];
+  const tabs = ["Tổng quan", "Kế hoạch", "Vị trí", "Reviews", "Nổi bật", "Hotel"];
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
+
   // Khách sạn với địa điểm
   const matchHotels = hotelsList.filter((h) => h.id === destination.id);
   const [showFull, setShowFull] = useState(false);
@@ -50,7 +47,7 @@ const DiaDiemDetail = () => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost/backend/reviews.php?id_tour=${id}`,
+        `http://localhost/backend/reviews.php?id_tour=${id}`
       );
       if (response.data && Array.isArray(response.data)) {
         setReviews(response.data);
@@ -85,7 +82,59 @@ const DiaDiemDetail = () => {
       navigate("/register");
       return;
     }
-    navigate("/checkout", { state: { destination } });
+
+    // Kiểm tra xem đã chọn ngày và số khách chưa
+    if (!checkInDate || !checkOutDate) {
+      alert("Vui lòng chọn ngày nhận và trả phòng!");
+      return;
+    }
+    if (!guests || guests < 1) {
+      alert("Vui lòng chọn số khách!");
+      return;
+    }
+
+    // Tìm khách sạn tương ứng với địa điểm
+    const matchedHotel = hotelsList.find((h) => h.id === destination.id);
+
+    if (matchedHotel) {
+      // Chuyển sang trang chi tiết khách sạn và truyền đầy đủ dữ liệu
+      navigate(`/hotel/${matchedHotel.id}`, {
+        state: {
+          hotel: matchedHotel,
+          fromDestination: true,
+          destinationInfo: {
+            id: destination.id,
+            name: destination.name,
+            description: destination.description,
+            price: destination.price,
+            image: destination.image,
+            location: destination.location,
+            tag: destination.tag,
+            duration: destination.duration,
+          },
+          checkInDate,
+          checkOutDate,
+          guests,
+        },
+      });
+    } else {
+      // Nếu không có khách sạn khớp, chuyển thẳng sang checkout
+      navigate("/checkout", {
+        state: {
+          destination: {
+            id: destination.id,
+            name: destination.name,
+            description: destination.description,
+            price: destination.price,
+            image: destination.image,
+            location: destination.location,
+          },
+          checkInDate,
+          checkOutDate,
+          guests,
+        },
+      });
+    }
   };
 
   // Handle change in review form inputs
@@ -97,7 +146,7 @@ const DiaDiemDetail = () => {
     });
   };
 
-  //reply review
+  // Reply review
   const [replyOpenIndex, setReplyOpenIndex] = useState(null);
   const [replies, setReplies] = useState({});
 
@@ -115,8 +164,8 @@ const DiaDiemDetail = () => {
     if (replyText) {
       console.log(`Reply to review ${index}: ${replyText}`);
       // TODO: Gửi reply về server tại đây
-      setReplyOpenIndex(null); // ẩn lại form sau khi gửi
-      setReplies({ ...replies, [index]: "" }); // xóa nội dung
+      setReplyOpenIndex(null); // Ẩn lại form sau khi gửi
+      setReplies({ ...replies, [index]: "" }); // Xóa nội dung
     }
   };
 
@@ -150,7 +199,7 @@ const DiaDiemDetail = () => {
       // Send to your PHP backend
       const response = await axios.post(
         "http://localhost/backend/reviews.php",
-        formData,
+        formData
       );
 
       if (response.data.success) {
@@ -190,6 +239,9 @@ const DiaDiemDetail = () => {
     setSelectedTab(tab);
   };
 
+  // Ngày hôm nay để giới hạn input date
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="tour-detail-wrapper">
       <div
@@ -198,7 +250,7 @@ const DiaDiemDetail = () => {
       >
         <div className="tour-hero-overlay">
           <h1>Tour Details</h1>
-          <p>Home &gt; Tour List &gt; {destination.name}</p>
+          <p>Home > Tour List > {destination.name}</p>
         </div>
       </div>
       <div className="tour-main-content">
@@ -428,12 +480,12 @@ const DiaDiemDetail = () => {
             </div>
           )}
 
-          {/* Hconst matchedHotel = hotelsList.find((h) => h.id === destination.id);otel Tab Section */}
+          {/* Hotel Tab Section */}
           {selectedTab === "Hotel" && (
             <div className="hotel-info-section">
               <h3>🏨 Thông tin khách sạn</h3>
 
-              {matchHotels ? (
+              {matchHotels.length > 0 ? (
                 matchHotels.map((hotel, index) => (
                   <div className="hotel-details" key={index}>
                     <div className="hotel-header">
@@ -493,12 +545,46 @@ const DiaDiemDetail = () => {
 
         {/* Right column_booking */}
         <div className="tour-book-box">
+          <h3>Thông tin đặt tour</h3>
+          <div className="form-group">
+            <label>Ngày nhận phòng</label>
+            <input
+              type="date"
+              min={today}
+              value={checkInDate}
+              onChange={(e) => setCheckInDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Ngày trả phòng</label>
+            <input
+              type="date"
+              min={checkInDate || today}
+              value={checkOutDate}
+              onChange={(e) => setCheckOutDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Số khách</label>
+            <select
+              value={guests}
+              onChange={(e) => setGuests(parseInt(e.target.value))}
+            >
+              {[1, 2, 3, 4, 5, 6].map((num) => (
+                <option key={num} value={num}>
+                  {num} người
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="tour-buttons">
             <button onClick={handleBookNow} className="book-now-button">
               Đặt ngay
             </button>
             <button onClick={handleAddToCart} className="add-to-cart-button">
-              {isInCart ? "✅Đã thêm vào giỏ hàng" : "🛒Thêm vào giỏ hàng"}
+              {isInCart ? "✅ Đã thêm vào giỏ hàng" : "🛒 Thêm vào giỏ hàng"}
             </button>
           </div>
         </div>

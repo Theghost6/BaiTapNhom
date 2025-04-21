@@ -1,39 +1,66 @@
-// src/pages/Hotels.jsx
-import React from "react";
-import { hotelsList } from "./khach_San"; // hoặc nơi bạn lưu
-// import { DiaDiem } from "./Dia_Diem"; // hoặc nơi bạn lưu
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { hotelsList, getHotelsByDestinationId } from "./khach_San";
+import { useNavigate, useLocation } from "react-router-dom";
+import "../../style/hotels.css"; // Import CSS
 
 const Hotels = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [hotelsToDisplay, setHotelsToDisplay] = useState([]);
 
+  useEffect(() => {
+    // Kiểm tra xem có dữ liệu destination được truyền qua không
+    if (location.state && location.state.destination) {
+      const destinationId = location.state.destination.id;
+      // Lấy danh sách khách sạn theo ID địa điểm
+      const filteredHotels = getHotelsByDestinationId(destinationId);
+      setHotelsToDisplay(filteredHotels);
+    } else {
+      // Nếu không có, hiển thị tất cả khách sạn
+      setHotelsToDisplay(hotelsList);
+    }
+  }, [location.state]);
   const handleClick = (hotel) => {
-    navigate(`/dia-diem/${hotel.id}`);
+    navigate(`/hotel/${hotel.id}`, { state: { hotel } });
   };
-  
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Danh sách khách sạn</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {hotelsList.map((hotel) => (
-          <div
-            key={hotel.id}
-            className="border rounded-lg shadow hover:shadow-lg cursor-pointer transition"
-            onClick={() => handleClick(hotel)}
-          >
-            <img
-              src={hotel.images[0]}
-              alt={hotel.name}
-              className="w-full h-48 object-cover rounded-t-lg"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold">{hotel.name}</h2>
-              <p className="text-sm text-gray-600">{hotel.description}</p>
-              <p className="mt-1 text-yellow-500">⭐ {hotel.rating}</p>
+    <div className="hotels-container">
+      <h1 className="hotels-title">Danh sách khách sạn</h1>
+      {location.state?.destination && (
+        <p className="hotels-subtitle">
+          Khách sạn tại: <strong>{location.state.destination.name}</strong>
+        </p>
+      )}
+
+      {hotelsToDisplay.length > 0 ? (
+        <div className="hotel-grid">
+          {hotelsToDisplay.map((hotel, index) => (
+            <div
+              key={`${hotel.id}-${index}`}
+              className="hotel-card"
+              onClick={() => handleClick(hotel)}
+            >
+              <img
+                src={hotel.images[0] || "/default-hotel.jpg"}
+                alt={hotel.name}
+                className="hotel-image"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/default-hotel.jpg";
+                }}
+              />
+              <div className="hotel-info">
+                <h2 className="hotel-name">{hotel.name}</h2>
+                <p className="hotel-description">{hotel.description}</p>
+                <p className="hotel-rating">⭐ {hotel.rating}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-600 mt-6">Không có khách sạn nào phù hợp với địa điểm này.</p>
+      )}
     </div>
   );
 };

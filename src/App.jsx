@@ -14,11 +14,13 @@ import Cart from "./page/funtion/Cart";
 import Admin from "./page/funtion/Admin";
 import ThankYou from "./page/funtion/ThankYou";
 import Hotels from "./page/funtion/Hotels";
+import ChiTietHotel from "./page/funtion/ChiTietHotel";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";
 import "./style/footer.css";
 import { CartProvider } from "./page/funtion/useCart";
+import { Hotel } from "lucide-react";
 
 const App = () => {
   return (
@@ -36,8 +38,9 @@ const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/thankyou" element={<ThankYou />} />
-              <Route path="/hotels" element={<Hotels />} />
               <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
+              <Route path="/hotels" element={<Hotels />} />
+              <Route path="/hotel/:id" element={<ChiTietHotel/>} />
               {/* <Route path="/about" element={<About />} /> */}
               <Route path="/contact" element={<Contact />} />
               {/* Add more routes as needed */}

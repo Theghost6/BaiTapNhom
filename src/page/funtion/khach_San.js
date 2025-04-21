@@ -68,10 +68,20 @@ const hotel = [
 ];
 
 // Phần này để nguyên
+// export const hotelsList = hotel;
+// export function getHotelsByDestinationId(destinationId) {
+//   return hotelsList.filter((hotel) => hotel.id === destinationId);
+// }
+//
+// export default hotelsList;
+// 2. Cập nhật hàm trong khach_San.js để đảm bảo chức năng lọc hoạt động đúng
 export const hotelsList = hotel;
+
 export function getHotelsByDestinationId(destinationId) {
-  return hotelsList.filter((hotel) => hotel.id === destinationId);
+  // Đảm bảo destinationId là số
+  const numDestId = parseInt(destinationId);
+  // Trả về tất cả các khách sạn có id trùng với destinationId
+  return hotelsList.filter((hotel) => hotel.id === numDestId);
 }
 
 export default hotelsList;
-

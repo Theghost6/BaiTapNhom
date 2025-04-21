@@ -1,0 +1,72 @@
+/* Hotels.css */
+
+.hotels-container {
+  padding: 2rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.hotels-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+}
+
+.hotels-subtitle {
+  text-align: center;
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  color: #374151;
+}
+
+.hotel-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.hotel-card {
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.hotel-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.hotel-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.hotel-info {
+  padding: 1rem;
+}
+
+.hotel-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.hotel-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  height: 60px;
+  overflow: hidden;
+}
+
+.hotel-rating {
+  margin-top: 0.5rem;
+  color: #f59e0b;
+  font-weight: 500;
+}
+
