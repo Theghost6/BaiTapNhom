@@ -8,6 +8,7 @@ import TabMenu from "../funtion/TabMenu";
 import { hotelsList } from "./khach_San"; // Import hotel data
 import "../../style/chitietdiadiem.css";
 import { Hotel } from "lucide-react";
+import axios from "axios";
 
 const DiaDiemDetail = () => {
   const { id } = useParams();
@@ -24,7 +25,14 @@ const DiaDiemDetail = () => {
   const [guests, setGuests] = useState(1);
 
   // Default tabs array
-  const tabs = ["Tổng quan", "Kế hoạch", "Vị trí", "Reviews", "Nổi bật", "Hotel"];
+  const tabs = [
+    "Tổng quan",
+    "Kế hoạch",
+    "Vị trí",
+    "Reviews",
+    "Nổi bật",
+    "Hotel",
+  ];
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   // Khách sạn với địa điểm
@@ -47,7 +55,7 @@ const DiaDiemDetail = () => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost/backend/reviews.php?id_tour=${id}`
+        `http://localhost/backend/reviews.php?id_tour=${id}`,
       );
       if (response.data && Array.isArray(response.data)) {
         setReviews(response.data);
@@ -92,7 +100,10 @@ const DiaDiemDetail = () => {
       alert("Vui lòng chọn số khách!");
       return;
     }
-
+    let processedPrice = destination.price;
+    if (typeof processedPrice === "string") {
+      processedPrice = parseFloat(processedPrice.replace(/[^\d]/g, ""));
+    }
     // Tìm khách sạn tương ứng với địa điểm
     const matchedHotel = hotelsList.find((h) => h.id === destination.id);
 
@@ -142,7 +153,7 @@ const DiaDiemDetail = () => {
     const { name, value } = e.target;
     setNewReview({
       ...newReview,
-      [name]: name === "danh_gia" ? parseInt(value) : value,
+      [name]: name === "so_sao" ? parseInt(value) : value,
     });
   };
 
@@ -189,7 +200,7 @@ const DiaDiemDetail = () => {
     const formData = new FormData();
     formData.append("id_tour", id);
     formData.append("ten_nguoi_dung", user.username || "Khách");
-    formData.append("danh_gia", newReview.danh_gia);
+    formData.append("so_sao", newReview.danh_gia);
     formData.append("binh_luan", newReview.binh_luan);
     // Current date in YYYY-MM-DD format
     const today = new Date().toISOString().split("T")[0];
@@ -199,13 +210,13 @@ const DiaDiemDetail = () => {
       // Send to your PHP backend
       const response = await axios.post(
         "http://localhost/backend/reviews.php",
-        formData
+        formData,
       );
-
+console.log(response)
       if (response.data.success) {
         // Add the new review to the existing reviews
         const newReviewItem = {
-          id: response.data.id || Math.random(),
+          // id: response.data.id || Math.random(),
           id_tour: parseInt(id),
           ten_nguoi_dung: user.username || "Khách",
           danh_gia: newReview.danh_gia,
@@ -250,7 +261,7 @@ const DiaDiemDetail = () => {
       >
         <div className="tour-hero-overlay">
           <h1>Tour Details</h1>
-          <p>Home > Tour List > {destination.name}</p>
+          <p>Home> Tour List >{destination.name}</p>
         </div>
       </div>
       <div className="tour-main-content">
@@ -384,7 +395,7 @@ const DiaDiemDetail = () => {
                       </div>
                       <p className="review-comment">{review.binh_luan}</p>
                       <div className="review-stars">
-                        {"⭐".repeat(review.danh_gia)}
+                        {"⭐".repeat(review.so_sao||review.danh_gia)}
                       </div>
 
                       {/* Reply Button */}
@@ -492,10 +503,7 @@ const DiaDiemDetail = () => {
                       <h2>{hotel.name}</h2>
                       <div className="hotel-rating">
                         {"⭐".repeat(Math.floor(hotel.rating))}
-                        <span className="rating-number">
-                          {" "}
-                          {hotel.rating}/5
-                        </span>
+                        <span className="rating-number"> {hotel.rating}/5</span>
                       </div>
                     </div>
 
