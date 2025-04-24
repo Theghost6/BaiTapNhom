@@ -82,25 +82,25 @@ const Home = () => {
     <div className="home-container">
       {/* Toggle button */}
       <button className="menu-toggle-button" onClick={() => setMenuVisible(!menuVisible)}>
-        ☰ Menu
+        ☰ 
       </button>
 
       {/* Left Box Menu */}
       {menuVisible && (
         <div className="left-box-menu">
           <ul>
-            <li><Link to="/">🏠 Trang chủ</Link></li>
-            <li><Link to="/AllDiaDiem">📍 Điểm đến</Link></li>
-            <li><Link to="/services">🛎️ Dịch vụ</Link></li>
-            <li><Link to="/contact">📞 Liên hệ</Link></li>
+            <li><button onClick={() => document.getElementById('hero-slider').scrollIntoView({ behavior: 'smooth' })}>🏠 Trang chủ</button></li>
+            <li><button onClick={() => document.getElementById('diem-den').scrollIntoView({ behavior: 'smooth' })}>📍 Điểm đến</button></li>
+            <li><button onClick={() => document.getElementById('discount').scrollIntoView({ behavior: 'smooth' })}>🛎️ Ưu đãi nổi bật</button></li>
+            <li><button onClick={() => document.getElementById('dang-ki').scrollIntoView({ behavior: 'smooth' })}>📞 Đăng kí ưu đãi</button></li>
           </ul>
         </div>
       )}
 
       {/* Hero Slider */}
-      <div className="hero-slider">
+      <div className="hero-slider" id="hero-slider">
         <div
-          className="slide active-slide"
+          className="slide-background"
           style={{ backgroundImage: `url('${slides[activeSlide].image}')` }}
         >
           <div className="slide-overlay"></div>
@@ -219,7 +219,7 @@ const Home = () => {
       <div className="section destinations-section">
         <div className="section-header">
           <div>
-            <h2 className="section-title">Điểm đến nổi bật</h2>
+            <h2 className="section-title" id="diem-den">Điểm đến nổi bật</h2>
             <p className="section-subtitle">
               Những địa điểm được yêu thích nhất năm 2025
             </p>
@@ -271,7 +271,7 @@ const Home = () => {
         <div className="promotion-container">
           <div className="promotion-content">
             <div className="promotion-text">
-              <h2 className="promotion-title">Ưu đãi mùa hè 2025</h2>
+              <h2 className="promotion-title" id="discount">Ưu đãi mùa hè 2025</h2>
               <p className="promotion-description">
                 Giảm đến 30% cho các tour du lịch biển đảo. Đặt ngay hôm nay để
                 nhận thêm quà tặng đặc biệt!
@@ -350,7 +350,7 @@ const Home = () => {
         </div>
       </div>
       {/* Newsletter */}
-      <div className="newsletter-section">
+      <div className="newsletter-section" id="dang-ki">
         <div className="newsletter-container">
           <h2 className="newsletter-title">Đăng ký nhận thông tin ưu đãi</h2>
           <p className="newsletter-description">

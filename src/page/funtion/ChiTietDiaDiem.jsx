@@ -558,40 +558,22 @@ const DiaDiemDetail = () => {
 
         {/* Right column_booking */}
         <div className="tour-book-box">
-          <h3>Thông tin đặt tour</h3>
-          <div className="form-group">
-            <label>Ngày nhận phòng</label>
-            <input
-              type="date"
-              min={today}
-              value={checkInDate}
-              onChange={(e) => setCheckInDate(e.target.value)}
-              required
-            />
+          <h3>Book This Tour</h3>
+          {/* <label>Chọn ngày:</label>
+          <input type="date" />
+          <label>Chọn giờ:</label>
+          <div className="tour-time-options">
+            <button>12:00</button>
+            <button>17:00</button>
           </div>
-          <div className="form-group">
-            <label>Ngày trả phòng</label>
-            <input
-              type="date"
-              min={checkInDate || today}
-              value={checkOutDate}
-              onChange={(e) => setCheckOutDate(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Số khách</label>
-            <select
-              value={guests}
-              onChange={(e) => setGuests(parseInt(e.target.value))}
-            >
-              {[1, 2, 3, 4, 5, 6].map((num) => (
-                <option key={num} value={num}>
-                  {num} người
-                </option>
-              ))}
-            </select>
-          </div>
+
+          <label>Số lượng:</label>
+          <select>
+            <option value="1">1 người</option>
+            <option value="2">2 người</option>
+            <option value="3">3 người</option>
+          </select> */}
+
           <div className="tour-buttons">
             <button onClick={handleBookNow} className="book-now-button">
               Đặt ngay

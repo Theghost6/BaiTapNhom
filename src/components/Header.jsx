@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Menu,
-  X,
   ChevronDown,
   ShoppingBag,
   UserCircle,
@@ -12,7 +10,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../style/header.css";
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -23,44 +20,37 @@ const Header = () => {
 
   const USER_KEY = "user";
 
-  // Function to check authentication status with detailed logging
- const checkAuthStatus = () => {
-  const userData = localStorage.getItem(USER_KEY);
-
-  if (userData) {
-    try {
-      const parsedUser = JSON.parse(userData);
-      // Add role manually for testing
-      parsedUser.role = parsedUser.role || "user"; // Default to "user" if role is missing
-      setIsLoggedIn(true);
-      setUser(parsedUser);
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-      localStorage.removeItem(USER_KEY);
+  const checkAuthStatus = () => {
+    const userData = localStorage.getItem(USER_KEY);
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        parsedUser.role = parsedUser.role || "user";
+        setIsLoggedIn(true);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        localStorage.removeItem(USER_KEY);
+        setIsLoggedIn(false);
+        setUser(null);
+      }
+    } else {
       setIsLoggedIn(false);
       setUser(null);
     }
-  } else {
-    setIsLoggedIn(false);
-    setUser(null);
-  }
-};
+  };
+
   useEffect(() => {
     checkAuthStatus();
-
     const handleStorageChange = (event) => {
       if (event.key === USER_KEY) {
-        console.log("Storage changed, key:", event.key, "new value:", event.newValue);
         checkAuthStatus();
       }
     };
-
     window.addEventListener("storage", handleStorageChange);
-
     return () => window.removeEventListener("storage", handleStorageChange);
   }, [location]);
 
-  // Handle header height and dropdown click outside
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
@@ -79,44 +69,28 @@ const Header = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       window.removeEventListener("resize", updateHeaderHeight);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
 
-  // Enhanced logout function to sync with backend if needed
   const handleLogout = async () => {
     try {
-      // Call backend logout endpoint if it exists (optional)
-      // await fetch("http://localhost/backend/logout.php", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   credentials: "include",
-      // }).catch((error) => console.warn("No logout endpoint or error:", error));
-
-      // Clear all user data from localStorage
       localStorage.removeItem(USER_KEY);
-
-      // Update state
       setIsLoggedIn(false);
       setUser(null);
       setShowUserDropdown(false);
-
-      // Redirect to login or home page
       navigate("/");
-
-      // Optional: Reload to ensure clean state
       window.location.reload();
     } catch (error) {
       console.error("Logout error:", error);
       alert("Đăng xuất thất bại. Vui lòng thử lại!");
     }
   };
+
   return (
     <header ref={headerRef} className="main-header">
       <div className="main-header-container">
@@ -126,15 +100,10 @@ const Header = () => {
           </Link>
         </div>
 
-        <nav className={`main-navigation ${mobileMenuOpen ? "menu-open" : ""}`}>
-          <button className="close-menu" onClick={toggleMobileMenu}>
-            <X size={24} />
-          </button>
+        <nav className="main-navigation">
           <ul className="nav-list">
             <li className="nav-item">
-              <Link to="/" className="nav-link active">
-                Trang chủ
-              </Link>
+              <Link to="/" className="nav-link active">Trang chủ</Link>
             </li>
             <li className="nav-item dropdown">
               <Link to="/tours" className="nav-link">
@@ -147,15 +116,9 @@ const Header = () => {
                 <li><Link to="/tours/VIP">Tour Vip 3 Miền</Link></li>
               </ul>
             </li>
-            <li className="nav-item">
-              <Link to="/AllDiaDiem" className="nav-link">Điểm đến</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/hotels" className="nav-link">Khách sạn</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/contact" className="nav-link">Liên hệ</Link>
-            </li>
+            <li className="nav-item"><Link to="/AllDiaDiem" className="nav-link">Điểm đến</Link></li>
+            <li className="nav-item"><Link to="/hotels" className="nav-link">Khách sạn</Link></li>
+            <li className="nav-item"><Link to="/contact" className="nav-link">Liên hệ</Link></li>
           </ul>
         </nav>
 
@@ -166,7 +129,6 @@ const Header = () => {
                 <UserCircle size={24} className="user-icon" />
                 <span className="username">{user?.username || user?.identifier || "Người dùng"}</span>
               </button>
-
               {showUserDropdown && (
                 <div className="user-dropdown">
                   <Link to="/Profile" className="dropdown-item">
@@ -194,10 +156,6 @@ const Header = () => {
               </Link>
             </div>
           )}
-
-          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
-            <Menu size={24} />
-          </button>
         </div>
       </div>
     </header>
@@ -205,4 +163,3 @@ const Header = () => {
 };
 
 export default Header;
-

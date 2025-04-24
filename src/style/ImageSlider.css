@@ -13,7 +13,7 @@
 
 .slider-img {
   width: 100%;
-  max-height: 300px;
+  max-height: 700px;
   object-fit: cover;
   border-radius: 12px;
   transition: opacity 0.5s ease-in-out;
