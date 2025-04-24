@@ -26,25 +26,32 @@ const Checkout = () => {
 
   const {
     cartItems: contextCartItems = [],
-    // totalQuantity = 0,
-    // totalAmount = 0,
     clearCart,
   } = cartContext || {};
 
   // State để lưu danh sách mục và tổng giá trị
   const [finalCartItems, setFinalCartItems] = useState([]);
   const [finalTotalAmount, setFinalTotalAmount] = useState(0);
-  //Chuyển giá tiền từ String sang num trong địa điểm
+  
+  // Chuyển giá tiền từ String sang num trong địa điểm
   const destPrice = destination?.price
     ? parseFloat(destination.price.replace(/[^\d]/g, ""))
     : 0;
+    
+  // Định dạng giá tiền
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(amount);
+  };
+
   // Tính toán danh sách mục và tổng giá trị
   useEffect(() => {
     let calculatedCartItems = [];
     let calculatedTotal = 0;
 
     if (isDirectDestinationBooking) {
-      // Trường hợp 1: Đặt trực tiếp từ DiaDiemDetail
       calculatedCartItems.push({
         id: destination.id,
         name: destination.name,
@@ -54,9 +61,7 @@ const Checkout = () => {
         image: destination.image,
       });
       calculatedTotal = destPrice;
-      console.log("Gia dia diem: ", destPrice);
     } else if (isHotelRoomBooking) {
-      // Trường hợp 2: Đặt một phòng từ HotelDetail
       const days = calculateDays(checkInDateFromRoute, checkOutDateFromRoute);
       calculatedCartItems.push({
         id: room.id,
@@ -74,7 +79,6 @@ const Checkout = () => {
       });
       calculatedTotal += parseFloat(room.price) * days + destPrice;
     } else if (isCartBooking) {
-      // Trường hợp 3: Đặt từ giỏ hàng của HotelDetail
       calculatedCartItems = cartItemsFromRoute.map((item) => ({
         ...item,
         id: item.roomId,
@@ -92,7 +96,6 @@ const Checkout = () => {
       !hotel &&
       !room
     ) {
-      // Trường hợp 4: Sử dụng giỏ hàng từ useCart context
       calculatedCartItems = contextCartItems.map((item) => ({
         ...item,
         price: parseFloat(item.price),
@@ -106,8 +109,7 @@ const Checkout = () => {
           );
         }, 0) + destPrice;
     }
-    console.log("Final calculated items:", calculatedCartItems);
-    console.log("Final calculated total:", calculatedTotal);
+    
     setFinalCartItems(calculatedCartItems);
     setFinalTotalAmount(calculatedTotal);
   }, [
@@ -122,7 +124,9 @@ const Checkout = () => {
     checkInDateFromRoute,
     checkOutDateFromRoute,
     guestsFromRoute,
+    destPrice,
   ]);
+  
   // Khởi tạo thông tin đặt phòng
   const [bookingInfo, setBookingInfo] = useState({
     fullName: "",
@@ -134,9 +138,12 @@ const Checkout = () => {
     specialRequests: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("credit-card");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
+
+  // Validation states
+  const [formErrors, setFormErrors] = useState({});
 
   // Hàm tính số ngày ở
   const calculateDays = (checkIn, checkOut) => {
@@ -148,124 +155,109 @@ const Checkout = () => {
     return diffDays || 1;
   };
 
-  // Định dạng giá tiền
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(amount);
+  // Validate form fields
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!bookingInfo.fullName.trim()) {
+      errors.fullName = "Vui lòng nhập họ và tên";
+    }
+    
+    if (!bookingInfo.email.trim()) {
+      errors.email = "Vui lòng nhập email";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(bookingInfo.email)) {
+      errors.email = "Email không hợp lệ";
+    }
+    
+    if (!bookingInfo.phone.trim()) {
+      errors.phone = "Vui lòng nhập số điện thoại";
+    } else if (!/^\d{10,11}$/.test(bookingInfo.phone.replace(/[^0-9]/g, ""))) {
+      errors.phone = "Số điện thoại không hợp lệ";
+    }
+    
+    if (!bookingInfo.checkInDate) {
+      errors.checkInDate = "Vui lòng chọn ngày nhận phòng";
+    }
+    
+    if (!bookingInfo.checkOutDate) {
+      errors.checkOutDate = "Vui lòng chọn ngày trả phòng";
+    } else if (new Date(bookingInfo.checkOutDate) <= new Date(bookingInfo.checkInDate)) {
+      errors.checkOutDate = "Ngày trả phòng phải sau ngày nhận phòng";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   // Xử lý submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     setIsProcessing(true);
     setError("");
     try {
-      // Tạo dữ liệu booking
-      // Trong hàm handleSubmit của Checkout.jsx, thêm thông tin cần thiết
       const bookingData = {
         cartItems: finalCartItems.map((item) => ({
-          id: item.id, // Đảm bảo id được truyền
-          name: item.name || "Lỗi lấy tên phòng",
+          id: item.id,
+          name: item.name || "Unknown",
           description: item.description || "",
           price: parseFloat(item.price),
           type: item.type || "Dịch vụ",
           quantity: item.quantity || 1,
           checkIn: item.checkIn || bookingInfo.checkInDate,
           checkOut: item.checkOut || bookingInfo.checkOutDate,
-          days:
-            item.days ||
-            calculateDays(bookingInfo.checkInDate, bookingInfo.checkOutDate),
+          days: item.days || calculateDays(bookingInfo.checkInDate, bookingInfo.checkOutDate),
         })),
         bookingInfo,
         paymentMethod,
         totalAmount: finalTotalAmount,
-        totalQuantity: finalCartItems.reduce(
-          (total, item) => total + (item.quantity || 1),
-          0,
-        ),
-
-        // Thêm thông tin chi tiết
-        hotelInfo: hotel
-          ? {
-              id: hotel.id,
-              name: hotel.name,
-              address: hotel.address || "",
-            }
-          : null,
-
-        roomInfo: room
-          ? {
-              id: room.id,
-              name: room.name,
-              price: parseFloat(room.price),
-              capacity: guestsFromRoute || 1,
-            }
-          : null,
-
-        destinationInfo: destination
-          ? {
-              id: destination.id,
-              name: destination.name,
-              description: destination.description || "",
-              price: destPrice,
-              address: destination.location?.address || "",
-            }
-          : null,
-
-        sourceInfo: {
-          fromDestination,
-          destinationId: destination?.id,
-          hotelId: hotel?.id,
-          roomId: room?.id,
-        },
+        totalQuantity: finalCartItems.reduce((total, item) => total + (item.quantity || 1), 0),
+        hotelInfo: hotel ? { id: hotel.id, name: hotel.name, address: hotel.address || "" } : null,
+        roomInfo: room ? { id: room.id, name: room.name, price: parseFloat(room.price), capacity: guestsFromRoute || 1 } : null,
+        destinationInfo: destination ? { id: destination.id, name: destination.name, description: destination.description || "", price: destPrice, address: destination.location?.address || "" } : null,
+        sourceInfo: { fromDestination, destinationId: destination?.id, hotelId: hotel?.id, roomId: room?.id },
+        bookingDate: new Date().toISOString(),
       };
 
-      console.log("Sending bookingData:", bookingData);
-
-      // Send request to backend
       const response = await fetch("http://localhost/backend/payments.php", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
       });
 
       const result = await response.json();
 
       if (response.ok && result.status === "success") {
-        // Clear cart if booking is from context cart
-        if (
-          !isDirectDestinationBooking &&
-          !isHotelRoomBooking &&
-          !isCartBooking &&
-          clearCart
-        ) {
-          clearCart();
+        if (paymentMethod === "vnpay" && result.payUrl) {
+          window.location.href = result.payUrl; // Redirect to VNPay payment page
+        } else {
+          if (!isDirectDestinationBooking && !isHotelRoomBooking && !isCartBooking && clearCart) {
+            clearCart();
+          }
+          navigate("/thankyou", { state: { bookingId: result.bookingId } });
         }
-
-        alert("Đặt chỗ và thanh toán thành công!");
-        navigate("/thankyou", { state: { bookingId: result.bookingId } });
       } else {
-        setError(
-          result.message ||
-            "Có lỗi xảy ra trong quá trình đặt chỗ hoặc thanh toán",
-        );
+        setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
+        setIsProcessing(false);
       }
     } catch (err) {
-      console.error("Error occurred:", err);
-      setError("Có lỗi xảy ra trong quá trình xử lý: " + err.message);
-    } finally {
+      setError("Có lỗi xảy ra: " + err.message);
       setIsProcessing(false);
     }
   };
+
+  // Get today's date for date input min value
+  const today = new Date().toISOString().split("T")[0];
+  
   return (
     <div className="checkout-page">
       <h2>Thanh Toán & Đặt Chỗ</h2>
 
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
       {/* Hiển thị thông tin địa điểm nếu có */}
       {destination && (
@@ -273,7 +265,14 @@ const Checkout = () => {
           <h3>Thông tin địa điểm</h3>
           {destination.image && (
             <div className="item-image">
-              <img src={destination.image} alt={destination.name} />
+              <img 
+                src={destination.image} 
+                alt={destination.name}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/default-destination.jpg";
+                }}
+              />
             </div>
           )}
           <p>
@@ -285,9 +284,7 @@ const Checkout = () => {
           {destination.price && (
             <p>
               <strong>Giá:</strong>{" "}
-              {formatCurrency(
-                parseFloat(destination.price.replace(/[^\d]/g, "")),
-              )}
+              {formatCurrency(destPrice)}
             </p>
           )}
           {destination.location && (
@@ -297,12 +294,12 @@ const Checkout = () => {
           )}
           {checkInDateFromRoute && (
             <p>
-              <strong>Check-in:</strong> {checkInDateFromRoute}
+              <strong>Ngày đến:</strong> {new Date(checkInDateFromRoute).toLocaleDateString("vi-VN")}
             </p>
           )}
           {checkOutDateFromRoute && (
             <p>
-              <strong>Check-out:</strong> {checkOutDateFromRoute}
+              <strong>Ngày đi:</strong> {new Date(checkOutDateFromRoute).toLocaleDateString("vi-VN")}
             </p>
           )}
           {guestsFromRoute && (
@@ -319,7 +316,14 @@ const Checkout = () => {
           <h3>Thông tin đặt phòng</h3>
           {room.image && (
             <div className="item-image">
-              <img src={room.image} alt={room.name} />
+              <img 
+                src={room.image} 
+                alt={room.name}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/default-room.jpg";
+                }}
+              />
             </div>
           )}
           <p>
@@ -332,10 +336,10 @@ const Checkout = () => {
             <strong>Mô tả:</strong> {room.description}
           </p>
           <p>
-            <strong>Check-in:</strong> {checkInDateFromRoute}
+            <strong>Ngày nhận phòng:</strong> {new Date(checkInDateFromRoute).toLocaleDateString("vi-VN")}
           </p>
           <p>
-            <strong>Check-out:</strong> {checkOutDateFromRoute}
+            <strong>Ngày trả phòng:</strong> {new Date(checkOutDateFromRoute).toLocaleDateString("vi-VN")}
           </p>
           <p>
             <strong>Số khách:</strong> {guestsFromRoute} người
@@ -348,7 +352,7 @@ const Checkout = () => {
             <strong>Tổng giá:</strong>{" "}
             {formatCurrency(
               room.price *
-                calculateDays(checkInDateFromRoute, checkOutDateFromRoute),
+                calculateDays(checkInDateFromRoute, checkOutDateFromRoute)
             )}
           </p>
         </div>
@@ -437,7 +441,7 @@ const Checkout = () => {
       <form onSubmit={handleSubmit} className="checkout-form">
         <h3>Thông tin đặt chỗ</h3>
 
-        <div className="form-group">
+        <div className={`form-group ${formErrors.fullName ? "error" : ""}`}>
           <label htmlFor="fullName">Họ và tên</label>
           <input
             id="fullName"
@@ -449,9 +453,10 @@ const Checkout = () => {
             }
             required
           />
+          {formErrors.fullName && <div className="error-text">{formErrors.fullName}</div>}
         </div>
 
-        <div className="form-group">
+        <div className={`form-group ${formErrors.email ? "error" : ""}`}>
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -463,9 +468,10 @@ const Checkout = () => {
             }
             required
           />
+          {formErrors.email && <div className="error-text">{formErrors.email}</div>}
         </div>
 
-        <div className="form-group">
+        <div className={`form-group ${formErrors.phone ? "error" : ""}`}>
           <label htmlFor="phone">Số điện thoại</label>
           <input
             id="phone"
@@ -477,39 +483,43 @@ const Checkout = () => {
             }
             required
           />
+          {formErrors.phone && <div className="error-text">{formErrors.phone}</div>}
         </div>
 
-        <div className="form-group">
+        <div className={`form-group ${formErrors.checkInDate ? "error" : ""}`}>
           <label htmlFor="checkInDate">Ngày nhận dịch vụ</label>
           <input
             id="checkInDate"
             type="date"
+            min={today}
             value={bookingInfo.checkInDate}
             onChange={(e) =>
               setBookingInfo({ ...bookingInfo, checkInDate: e.target.value })
             }
             required
           />
+          {formErrors.checkInDate && <div className="error-text">{formErrors.checkInDate}</div>}
         </div>
 
-        <div className="form-group">
+        <div className={`form-group ${formErrors.checkOutDate ? "error" : ""}`}>
           <label htmlFor="checkOutDate">Ngày trả dịch vụ</label>
           <input
             id="checkOutDate"
             type="date"
+            min={bookingInfo.checkInDate || today}
             value={bookingInfo.checkOutDate}
             onChange={(e) =>
               setBookingInfo({ ...bookingInfo, checkOutDate: e.target.value })
             }
             required
           />
+          {formErrors.checkOutDate && <div className="error-text">{formErrors.checkOutDate}</div>}
         </div>
 
         <div className="form-group">
           <label htmlFor="numberOfPeople">Số lượng người</label>
-          <input
+          <select
             id="numberOfPeople"
-            type="number"
             value={bookingInfo.numberOfPeople}
             onChange={(e) =>
               setBookingInfo({
@@ -517,9 +527,14 @@ const Checkout = () => {
                 numberOfPeople: parseInt(e.target.value) || 1,
               })
             }
-            min="1"
             required
-          />
+          >
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+              <option key={num} value={num}>
+                {num} người
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group">
@@ -542,30 +557,6 @@ const Checkout = () => {
           <div className="payment-option">
             <input
               type="radio"
-              id="credit-card"
-              name="payment"
-              value="credit-card"
-              checked={paymentMethod === "credit-card"}
-              onChange={() => setPaymentMethod("credit-card")}
-            />
-            <label htmlFor="credit-card">Thẻ tín dụng</label>
-          </div>
-
-          <div className="payment-option">
-            <input
-              type="radio"
-              id="paypal"
-              name="payment"
-              value="paypal"
-              checked={paymentMethod === "paypal"}
-              onChange={() => setPaymentMethod("paypal")}
-            />
-            <label htmlFor="paypal">PayPal</label>
-          </div>
-
-          <div className="payment-option">
-            <input
-              type="radio"
               id="cod"
               name="payment"
               value="cod"
@@ -574,18 +565,18 @@ const Checkout = () => {
             />
             <label htmlFor="cod">Thanh toán khi nhận dịch vụ</label>
           </div>
-        </div>
-
-        {paymentMethod === "credit-card" && (
-          <div className="credit-card-fields">
-            <input type="text" placeholder="Tên chủ thẻ" required />
-            <input type="text" placeholder="Số thẻ" required />
-            <div className="card-expiry-cvv">
-              <input type="text" placeholder="MM/YY" required />
-              <input type="text" placeholder="CVV" required />
-            </div>
+          <div className="payment-option">
+            <input
+              type="radio"
+              id="vnpay"
+              name="payment"
+              value="vnpay"
+              checked={paymentMethod === "vnpay"}
+              onChange={() => setPaymentMethod("vnpay")}
+            />
+            <label htmlFor="vnpay">Thanh toán qua VNPay</label>
           </div>
-        )}
+        </div>
 
         <div className="checkout-total">
           <p>Tổng thanh toán:</p>

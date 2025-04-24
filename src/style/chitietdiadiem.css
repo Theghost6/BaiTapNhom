@@ -471,4 +471,34 @@
     padding: 8px 12px;
     font-size: 14px;
   }
+}.reply-list {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid #ddd;
 }
+
+.review-reply {
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.reply-header {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.reply-date {
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.reply-content {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+

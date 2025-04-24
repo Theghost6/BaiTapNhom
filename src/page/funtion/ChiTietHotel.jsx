@@ -9,10 +9,12 @@ const demoRooms = [
     id: 1,
     name: "Phòng Standard",
     price: 800000,
-    description: "Phòng tiêu chuẩn với đầy đủ tiện nghi cơ bản, phù hợp cho 2 người.",
+    description:
+      "Phòng tiêu chuẩn với đầy đủ tiện nghi cơ bản, phù hợp cho 2 người.",
     capacity: 2,
     amenities: ["TV LCD", "Điều hòa", "Wifi miễn phí", "Minibar"],
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/256430583.jpg?...",
+    image:
+      "https://cf.bstatic.com/xdata/images/hotel/max1024x768/256430583.jpg?...",
     totalRooms: 2,
     bookedCount: 0,
   },
@@ -22,8 +24,16 @@ const demoRooms = [
     price: 1200000,
     description: "Phòng cao cấp rộng rãi với view đẹp, thích hợp cho gia đình.",
     capacity: 4,
-    amenities: ["TV LCD", "Điều hòa", "Wifi miễn phí", "Minibar", "Bồn tắm", "Ban công"],
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/210286629.jpg?...",
+    amenities: [
+      "TV LCD",
+      "Điều hòa",
+      "Wifi miễn phí",
+      "Minibar",
+      "Bồn tắm",
+      "Ban công",
+    ],
+    image:
+      "https://cf.bstatic.com/xdata/images/hotel/max1024x768/210286629.jpg?...",
     totalRooms: 2,
     bookedCount: 0,
   },
@@ -33,8 +43,17 @@ const demoRooms = [
     price: 2000000,
     description: "Phòng hạng sang với không gian riêng biệt, dịch vụ VIP.",
     capacity: 2,
-    amenities: ["TV LCD", "Điều hòa", "Wifi miễn phí", "Minibar", "Bồn tắm", "Phòng khách riêng", "Dịch vụ phòng 24h"],
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/350568782.jpg?...",
+    amenities: [
+      "TV LCD",
+      "Điều hòa",
+      "Wifi miễn phí",
+      "Minibar",
+      "Bồn tắm",
+      "Phòng khách riêng",
+      "Dịch vụ phòng 24h",
+    ],
+    image:
+      "https://cf.bstatic.com/xdata/images/hotel/max1024x768/350568782.jpg?...",
     rzecz: 2,
     bookedCount: 0,
   },
@@ -57,7 +76,8 @@ const HotelDetail = () => {
   const [sourceDestination, setSourceDestination] = useState(null);
 
   // Lấy thông tin khách sạn và dữ liệu từ ChiTietDiaDiem
-  const hotel = location.state?.hotel || hotelsList.find((h) => h.id === parseInt(id));
+  const hotel =
+    location.state?.hotel || hotelsList.find((h) => h.id === parseInt(id));
   const destinationInfo = location.state?.destinationInfo;
   const fromDestination = location.state?.fromDestination || false;
 
@@ -93,7 +113,12 @@ const HotelDetail = () => {
         console.error("Lỗi khi đọc giỏ hàng từ localStorage:", error);
       }
     }
-  }, [destinationInfo, checkInDateFromDiaDiem, checkOutDateFromDiaDiem, guestsFromDiaDiem]);
+  }, [
+    destinationInfo,
+    checkInDateFromDiaDiem,
+    checkOutDateFromDiaDiem,
+    guestsFromDiaDiem,
+  ]);
 
   // Lưu giỏ hàng vào localStorage khi thay đổi
   useEffect(() => {
@@ -122,7 +147,7 @@ const HotelDetail = () => {
 
     // Cập nhật số lượng phòng đã đặt (giả lập, không cần backend)
     const updatedRooms = availableRooms.map((r) =>
-      r.id === room.id ? { ...r, bookedCount: r.bookedCount + 1 } : r
+      r.id === room.id ? { ...r, bookedCount: r.bookedCount + 1 } : r,
     );
     setAvailableRooms(updatedRooms);
     setBookingSuccessful(true);
@@ -151,7 +176,9 @@ const HotelDetail = () => {
   // Thêm phòng vào giỏ hàng
   const addToCart = (room) => {
     if (!checkInDate || !checkOutDate) {
-      alert("Vui lòng chọn ngày nhận và trả phòng trước khi thêm vào giỏ hàng!");
+      alert(
+        "Vui lòng chọn ngày nhận và trả phòng trước khi thêm vào giỏ hàng!",
+      );
       return;
     }
 
@@ -165,7 +192,7 @@ const HotelDetail = () => {
         item.roomId === room.id &&
         item.hotelId === hotel.id &&
         item.checkInDate === checkInDate &&
-        item.checkOutDate === checkOutDate
+        item.checkOutDate === checkOutDate,
     );
 
     if (existingItemIndex >= 0) {
@@ -177,21 +204,32 @@ const HotelDetail = () => {
         setCart(updatedCart);
         alert(`Đã thêm 1 ${room.name} vào giỏ hàng!`);
       } else {
-        alert(`Không thể thêm nữa. Chỉ còn ${room.totalRooms - room.bookedCount} phòng loại này!`);
+        alert(
+          `Không thể thêm nữa. Chỉ còn ${room.totalRooms - room.bookedCount} phòng loại này!`,
+        );
       }
     } else {
       const newCartItem = {
         roomId: room.id,
-        hotelId: hotel.id,
-        hotelName: hotel.name,
         roomName: room.name,
         roomImage: room.image,
         price: room.price,
-        checkInDate,
-        checkOutDate,
-        guestCount: guests,
         quantity: 1,
         days: calculateDays(),
+        guestCount: guests,
+        checkInDate,
+        checkOutDate,
+
+        // Thông tin khách sạn đầy đủ
+        hotelId: hotel.id,
+        hotelName: hotel.name,
+        hotelAddress: hotel.address,
+        hotelRating: hotel.rating,
+        hotelImage: hotel.image || hotel.images?.[0],
+
+        // Nếu đến từ trang ChiTietDiaDiem
+        sourceDestination: sourceDestination || null,
+        fromDestination: fromDestination || false,
       };
       setCart([...cart, newCartItem]);
       alert(`Đã thêm ${room.name} vào giỏ hàng!`);
@@ -201,12 +239,17 @@ const HotelDetail = () => {
 
   // Xóa phòng khỏi giỏ hàng
   const removeFromCart = (roomId, checkIn = null, checkOut = null) => {
-    const updatedCart = checkIn && checkOut
-      ? cart.filter(
-          (item) =>
-            !(item.roomId === roomId && item.checkInDate === checkIn && item.checkOutDate === checkOut)
-        )
-      : cart.filter((item) => item.roomId !== roomId);
+    const updatedCart =
+      checkIn && checkOut
+        ? cart.filter(
+            (item) =>
+              !(
+                item.roomId === roomId &&
+                item.checkInDate === checkIn &&
+                item.checkOutDate === checkOut
+              ),
+          )
+        : cart.filter((item) => item.roomId !== roomId);
     setCart(updatedCart);
   };
 
@@ -216,19 +259,28 @@ const HotelDetail = () => {
     const item = updatedCart[index];
     const room = availableRooms.find((r) => r.id === item.roomId);
 
-    if (room && newQuantity > 0 && newQuantity <= room.totalRooms - room.bookedCount) {
+    if (
+      room &&
+      newQuantity > 0 &&
+      newQuantity <= room.totalRooms - room.bookedCount
+    ) {
       item.quantity = newQuantity;
       setCart(updatedCart);
     } else if (newQuantity <= 0) {
       removeFromCart(item.roomId, item.checkInDate, item.checkOutDate);
     } else {
-      alert(`Không thể đặt nhiều hơn ${room.totalRooms - room.bookedCount} phòng loại này!`);
+      alert(
+        `Không thể đặt nhiều hơn ${room.totalRooms - room.bookedCount} phòng loại này!`,
+      );
     }
   };
 
   // Tính tổng tiền giỏ hàng
   const calculateCartTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity * item.days, 0);
+    return cart.reduce(
+      (total, item) => total + item.price * item.quantity * item.days,
+      0,
+    );
   };
 
   // Đặt tất cả phòng trong giỏ hàng
@@ -287,8 +339,9 @@ const HotelDetail = () => {
         <div className="booking-success">
           <p className="success-title">🎉 Đặt phòng thành công!</p>
           <p>
-            Bạn đã đặt {lastBookedRoom.name}. Còn {lastBookedRoom.totalRooms - lastBookedRoom.bookedCount}{" "}
-            phòng loại này.
+            Bạn đã đặt {lastBookedRoom.name}. Còn{" "}
+            {lastBookedRoom.totalRooms - lastBookedRoom.bookedCount} phòng loại
+            này.
           </p>
         </div>
       )}
@@ -334,8 +387,11 @@ const HotelDetail = () => {
                       <h4>{item.roomName}</h4>
                       <p>{item.hotelName}</p>
                       <p className="booking-dates">
-                        {new Date(item.checkInDate).toLocaleDateString("vi-VN")} -{" "}
-                        {new Date(item.checkOutDate).toLocaleDateString("vi-VN")}
+                        {new Date(item.checkInDate).toLocaleDateString("vi-VN")}{" "}
+                        -{" "}
+                        {new Date(item.checkOutDate).toLocaleDateString(
+                          "vi-VN",
+                        )}
                       </p>
                       <p>
                         {item.days} đêm • {item.guestCount} khách
@@ -344,13 +400,17 @@ const HotelDetail = () => {
                     <div className="cart-item-actions">
                       <div className="quantity-controls">
                         <button
-                          onClick={() => updateCartItemQuantity(index, item.quantity - 1)}
+                          onClick={() =>
+                            updateCartItemQuantity(index, item.quantity - 1)
+                          }
                         >
                           -
                         </button>
                         <span>{item.quantity}</span>
                         <button
-                          onClick={() => updateCartItemQuantity(index, item.quantity + 1)}
+                          onClick={() =>
+                            updateCartItemQuantity(index, item.quantity + 1)
+                          }
                         >
                           +
                         </button>
@@ -361,7 +421,11 @@ const HotelDetail = () => {
                       <button
                         className="remove-item"
                         onClick={() =>
-                          removeFromCart(item.roomId, item.checkInDate, item.checkOutDate)
+                          removeFromCart(
+                            item.roomId,
+                            item.checkInDate,
+                            item.checkOutDate,
+                          )
                         }
                       >
                         🗑️
@@ -373,7 +437,9 @@ const HotelDetail = () => {
               <div className="cart-footer">
                 <div className="cart-total">
                   <p>Tổng cộng:</p>
-                  <p className="total-amount">{formatCurrency(calculateCartTotal())}</p>
+                  <p className="total-amount">
+                    {formatCurrency(calculateCartTotal())}
+                  </p>
                 </div>
                 <button className="checkout-button" onClick={bookAllInCart}>
                   Đặt tất cả
@@ -409,7 +475,10 @@ const HotelDetail = () => {
           </div>
           <div className="form-group">
             <label>Số khách</label>
-            <select value={guests} onChange={(e) => setGuests(parseInt(e.target.value))}>
+            <select
+              value={guests}
+              onChange={(e) => setGuests(parseInt(e.target.value))}
+            >
               {[1, 2, 3, 4, 5, 6].map((num) => (
                 <option key={num} value={num}>
                   {num} người
@@ -427,7 +496,10 @@ const HotelDetail = () => {
           const remainingRooms = room.totalRooms - room.bookedCount;
 
           return (
-            <div key={room.id} className={`room-card ${!isAvailable ? "unavailable" : ""}`}>
+            <div
+              key={room.id}
+              className={`room-card ${!isAvailable ? "unavailable" : ""}`}
+            >
               <div className="room-image">
                 <img
                   src={room.image || "/default-room.jpg"}
@@ -461,13 +533,17 @@ const HotelDetail = () => {
                 </div>
 
                 <div className="room-footer">
-                  <span className={`availability ${isAvailable ? "available" : "full"}`}>
+                  <span
+                    className={`availability ${isAvailable ? "available" : "full"}`}
+                  >
                     {isAvailable ? `Còn ${remainingRooms} phòng` : "Hết phòng"}
                   </span>
 
                   {calculateDays() > 0 && (
                     <div className="total-price">
-                      <p>Tổng: {formatCurrency(room.price * calculateDays())}</p>
+                      <p>
+                        Tổng: {formatCurrency(room.price * calculateDays())}
+                      </p>
                       <small>cho {calculateDays()} đêm</small>
                     </div>
                   )}

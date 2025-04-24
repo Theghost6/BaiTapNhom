@@ -7,7 +7,6 @@ import ImageSlider from "../funtion/ImageSlider";
 import TabMenu from "../funtion/TabMenu";
 import { hotelsList } from "./khach_San"; // Import hotel data
 import "../../style/chitietdiadiem.css";
-import { Hotel } from "lucide-react";
 import axios from "axios";
 
 const DiaDiemDetail = () => {
@@ -91,7 +90,6 @@ const DiaDiemDetail = () => {
       return;
     }
 
-    // Kiểm tra xem đã chọn ngày và số khách chưa
     if (!checkInDate || !checkOutDate) {
       alert("Vui lòng chọn ngày nhận và trả phòng!");
       return;
@@ -100,52 +98,15 @@ const DiaDiemDetail = () => {
       alert("Vui lòng chọn số khách!");
       return;
     }
-    let processedPrice = destination.price;
-    if (typeof processedPrice === "string") {
-      processedPrice = parseFloat(processedPrice.replace(/[^\d]/g, ""));
-    }
-    // Tìm khách sạn tương ứng với địa điểm
-    const matchedHotel = hotelsList.find((h) => h.id === destination.id);
 
-    if (matchedHotel) {
-      // Chuyển sang trang chi tiết khách sạn và truyền đầy đủ dữ liệu
-      navigate(`/hotel/${matchedHotel.id}`, {
-        state: {
-          hotel: matchedHotel,
-          fromDestination: true,
-          destinationInfo: {
-            id: destination.id,
-            name: destination.name,
-            description: destination.description,
-            price: destination.price,
-            image: destination.image,
-            location: destination.location,
-            tag: destination.tag,
-            duration: destination.duration,
-          },
-          checkInDate,
-          checkOutDate,
-          guests,
-        },
-      });
-    } else {
-      // Nếu không có khách sạn khớp, chuyển thẳng sang checkout
-      navigate("/checkout", {
-        state: {
-          destination: {
-            id: destination.id,
-            name: destination.name,
-            description: destination.description,
-            price: destination.price,
-            image: destination.image,
-            location: destination.location,
-          },
-          checkInDate,
-          checkOutDate,
-          guests,
-        },
-      });
-    }
+    navigate("/hotels", {
+      state: {
+        destination: destination,
+        checkInDate,
+        checkOutDate,
+        guests,
+      },
+    });
   };
 
   // Handle change in review form inputs
@@ -169,14 +130,41 @@ const DiaDiemDetail = () => {
     setReplies({ ...replies, [index]: e.target.value });
   };
 
-  const handleReplySubmit = (e, index) => {
+  const handleReplySubmit = async (e, index) => {
     e.preventDefault();
     const replyText = replies[index];
-    if (replyText) {
-      console.log(`Reply to review ${index}: ${replyText}`);
-      // TODO: Gửi reply về server tại đây
-      setReplyOpenIndex(null); // Ẩn lại form sau khi gửi
-      setReplies({ ...replies, [index]: "" }); // Xóa nội dung
+
+    if (!isAuthenticated) {
+      alert("Vui lòng đăng nhập để phản hồi!");
+      navigate("/register");
+      return;
+    }
+
+    if (!replyText) return;
+
+    const formData = new FormData();
+    formData.append("id_danh_gia", reviews[index].id); // Lưu ý phải có trường id trong danh_gia
+    formData.append("ten_nguoi_tra_loi", user.username || "Khách");
+    formData.append("noi_dung_phan_hoi", replyText);
+    formData.append("ngay", new Date().toISOString().split("T")[0]);
+
+    try {
+      const response = await axios.post(
+        "http://localhost/backend/reply_review.php",
+        formData,
+      );
+      console.log(response.data);
+      if (response.data.success) {
+        // Gọi lại fetch để cập nhật review có reply mới
+        fetchReviews();
+        setReplies({ ...replies, [index]: "" });
+        setReplyOpenIndex(null);
+      } else {
+        alert("Gửi phản hồi thất bại.");
+      }
+    } catch (error) {
+      console.error("Error submitting reply:", error);
+      alert("Có lỗi khi gửi phản hồi.");
     }
   };
 
@@ -216,12 +204,13 @@ const DiaDiemDetail = () => {
       if (response.data.success) {
         // Add the new review to the existing reviews
         const newReviewItem = {
-          // id: response.data.id || Math.random(),
+          id: response.data.id, // 💥 lấy ID thật từ server
           id_tour: parseInt(id),
           ten_nguoi_dung: user.username || "Khách",
           so_sao: newReview.danh_gia,
           binh_luan: newReview.binh_luan,
           ngay: today,
+          replies: [], // khởi tạo rỗng
         };
 
         setReviews([...reviews, newReviewItem]);
@@ -261,7 +250,7 @@ const DiaDiemDetail = () => {
       >
         <div className="tour-hero-overlay">
           <h1>Tour Details</h1>
-           <p>Home &gt; Tour List &gt; {destination.name}</p>
+          <p>Home &gt; Tour List &gt; {destination.name}</p>
         </div>
       </div>
       <div className="tour-main-content">
@@ -398,7 +387,24 @@ const DiaDiemDetail = () => {
                         {"⭐".repeat(review.so_sao || review.danh_gia)}
                       </div>
 
-                      {/* Reply Button */}
+                      {/* ✅ Hiển thị phản hồi nếu có */}
+                      {review.replies && review.replies.length > 0 && (
+                        <div className="reply-list">
+                          {review.replies.map((reply, rIndex) => (
+                            <div key={rIndex} className="review-reply">
+                              <div className="reply-header">
+                                <strong>{reply.ten_nguoi_tra_loi}</strong> —{" "}
+                                <span className="reply-date">{reply.ngay}</span>
+                              </div>
+                              <p className="reply-content">
+                                {reply.noi_dung_phan_hoi}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* ✅ Nút & Form phản hồi */}
                       <button
                         className="reply-button"
                         onClick={() => toggleReply(index)}
@@ -406,7 +412,6 @@ const DiaDiemDetail = () => {
                         ↩️ Reply
                       </button>
 
-                      {/* Optional: Reply Form (Hiện khi mở) */}
                       {replyOpenIndex === index && (
                         <form
                           className="reply-form"

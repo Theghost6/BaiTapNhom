@@ -46,7 +46,7 @@ try {
         $phone = $data['phone'];
 
         // Kiểm tra email đã tồn tại chưa
-        $stmt = $conn->prepare("SELECT email FROM register WHERE email = ?");
+        $stmt = $conn->prepare("SELECT email FROM dang_ky WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -57,7 +57,7 @@ try {
         }
 
         // Kiểm tra số điện thoại đã tồn tại chưa
-        $stmt = $conn->prepare("SELECT phone FROM register WHERE phone = ?");
+        $stmt = $conn->prepare("SELECT phone FROM dang_ky WHERE phone = ?");
         $stmt->bind_param("s", $phone);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -68,7 +68,7 @@ try {
         }
 
         // Thêm người dùng mới
-        $stmt = $conn->prepare("INSERT INTO register (user, phone, email, pass) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO dang_ky (user, phone, email, pass) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $username, $phone, $email, $password);
 
         if ($stmt->execute()) {
@@ -96,11 +96,11 @@ try {
         // Tạo câu truy vấn dựa trên thông tin đăng nhập được cung cấp
         if ($email !== null) {
             // Đăng nhập bằng email
-            $stmt = $conn->prepare("SELECT user, pass,role FROM register WHERE email = ?");
+            $stmt = $conn->prepare("SELECT user, pass,role FROM dang_ky WHERE email = ?");
             $stmt->bind_param("s", $email);
         } else {
             // Đăng nhập bằng số điện thoại
-            $stmt = $conn->prepare("SELECT user, pass,role FROM register WHERE phone = ?");
+            $stmt = $conn->prepare("SELECT user, pass,role FROM dang_ky WHERE phone = ?");
             $stmt->bind_param("s", $phone);
         }
 
