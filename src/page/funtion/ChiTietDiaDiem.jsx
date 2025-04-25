@@ -18,11 +18,6 @@ const DiaDiemDetail = () => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext || {};
 
-  // State cho form đặt phòng
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
-  const [guests, setGuests] = useState(1);
-
   // Default tabs array
   const tabs = [
     "Tổng quan",
@@ -90,21 +85,9 @@ const DiaDiemDetail = () => {
       return;
     }
 
-    if (!checkInDate || !checkOutDate) {
-      alert("Vui lòng chọn ngày nhận và trả phòng!");
-      return;
-    }
-    if (!guests || guests < 1) {
-      alert("Vui lòng chọn số khách!");
-      return;
-    }
-
     navigate("/hotels", {
       state: {
         destination: destination,
-        checkInDate,
-        checkOutDate,
-        guests,
       },
     });
   };
@@ -239,8 +222,6 @@ const DiaDiemDetail = () => {
     setSelectedTab(tab);
   };
 
-  // Ngày hôm nay để giới hạn input date
-  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="tour-detail-wrapper">
@@ -520,7 +501,7 @@ const DiaDiemDetail = () => {
                         />
                       ) : (
                         <img
-                          src={hotel.image || "/default-hotel.jpg"}
+                          src={hotel.image || "Tạm chưa có ảnh"}
                           alt={hotel.name}
                           style={{ width: "100%", borderRadius: "8px" }}
                         />
@@ -559,21 +540,6 @@ const DiaDiemDetail = () => {
         {/* Right column_booking */}
         <div className="tour-book-box">
           <h3>Book This Tour</h3>
-          {/* <label>Chọn ngày:</label>
-          <input type="date" />
-          <label>Chọn giờ:</label>
-          <div className="tour-time-options">
-            <button>12:00</button>
-            <button>17:00</button>
-          </div>
-
-          <label>Số lượng:</label>
-          <select>
-            <option value="1">1 người</option>
-            <option value="2">2 người</option>
-            <option value="3">3 người</option>
-          </select> */}
-
           <div className="tour-buttons">
             <button onClick={handleBookNow} className="book-now-button">
               Đặt ngay

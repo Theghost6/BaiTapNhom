@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import  DiaDiem from "../funtion/Dia_Diem";
+import DiaDiem from "../funtion/Dia_Diem";
 
 function Admin() {
   // States for different data types
@@ -15,7 +15,9 @@ function Admin() {
   // States for selected items and related data
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [cartItems, setCartItems] = useState([]);
-
+  // reply review
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [reply, setReply] = useState([]);
   // Fetch data based on current view
   useEffect(() => {
     switch (view) {
@@ -40,7 +42,10 @@ function Admin() {
       case "payments":
         axios
           .get("http://localhost/backend/api.php?action=get_payments")
-          .then((res) => setPayments(res.data))
+          .then((res) => {
+            setPayments(res.data);
+            console.log(res.data);
+          })
           .catch((err) => console.error("Error fetching payments:", err));
         break;
       case "hotels":
@@ -68,11 +73,19 @@ function Admin() {
       )
       .then((res) => {
         setCartItems(res.data);
+        console.log(res.data);
         setSelectedBooking(id);
       })
       .catch((err) => console.error("Error fetching booking details:", err));
   };
-
+  //view reply
+  const viewReply = (id) => {
+    axios.get("http://localhost/backend/reply_review.php?id_danh_gia=${id}").then((res) => {
+      setReply(res.data);
+      console.log(res.data);
+    setSelectedReview(id)
+    });
+  };
   // Delete booking
   const deleteBooking = (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa booking này?")) {
@@ -211,16 +224,22 @@ function Admin() {
                     <thead>
                       <tr>
                         <th>Tên Tour</th>
-                        <th>Địa điểm</th>
-                        <th>Giá</th>
+                        <th>Tên khách sạn</th>
+                        <th>Loại phòng</th>
+                        <th>Trạng thái thanh toán</th>
+                        <th>Tổng giá</th>
                       </tr>
                     </thead>
                     <tbody>
                       {cartItems.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.ten}</td>
-                          <td>{item.dia_diem}</td>
-                          <td>{Number(item.gia).toLocaleString("vi-VN")} đ</td>
+                          <td>{item.ten_tour}</td>
+                          <td>{item.ten_ks}</td>
+                          <td>{item.loai_phong}</td>
+                          <td>{item.thanh_toan}</td>
+                          <td>
+                            {Number(item.tong_tien).toLocaleString("vi-VN")} đ
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -300,8 +319,9 @@ function Admin() {
                   </tr>
                 ) : (
                   reviews.map((review) => {
-                      
-                    const diaDiem = DiaDiem.find((item) => item.id === Number( review.id_tour ));
+                    const diaDiem = DiaDiem.find(
+                      (item) => item.id === Number(review.id_tour),
+                    );
                     return (
                       <tr key={review.id}>
                         <td>{review.id}</td>
@@ -311,6 +331,7 @@ function Admin() {
                         <td>{review.binh_luan}</td>
                         <td>{review.ngay}</td>
                         <td>
+                            <button onClick={() => viewReply(review.id)}>Reply</button>
                           <button
                             onClick={() => deleteReview(review.id)}
                             style={{ color: "red" }}
@@ -324,6 +345,35 @@ function Admin() {
                 )}{" "}
               </tbody>
             </table>
+
+            {selectedReview && (
+              <div style={{ marginTop: 40 }}>
+                <h2>Phản hồi Review: {selectedReview}</h2>
+                {reply.length === 0 ? (
+                  <p>Không có reply nào.</p>
+                ) : (
+                  <table
+                    border="1"
+                    cellPadding="8"
+                    style={{ width: "100%", borderCollapse: "collapse" }}
+                  >
+                    <thead>
+                      <tr>
+                        <th>Tên người phản hồi</th>
+                        <th>Nội dung phản hồi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reply.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.ten_tour}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            )}
           </div>
         );
 
@@ -339,10 +389,13 @@ function Admin() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Booking ID</th>
+                  <th>Mã giao dịch</th>
+                  <th>Mã đặt phòng</th>
                   <th>Phương thức thanh toán</th>
                   <th>Tổng tiền</th>
                   <th>Số lượng</th>
+                  <th>Trạng thái thanh toán</th>
+                  <th>Thời gian thanh toán</th>
                   <th>Hành động</th>
                 </tr>
               </thead>
@@ -357,12 +410,15 @@ function Admin() {
                   payments.map((payment) => (
                     <tr key={payment.id}>
                       <td>{payment.id}</td>
-                      <td>{payment.booking_id}</td>
-                      <td>{payment.pp_thanh_toan}</td>
+                      <td>{payment.ma_giao_dich}</td>
+                      <td>{payment.dat_phong_id}</td>
+                      <td>{payment.phuong_thuc_thanh_toan}</td>
                       <td>
-                        {Number(payment.tong_sotien).toLocaleString("vi-VN")} đ
+                        {Number(payment.tong_so_tien).toLocaleString("vi-VN")} đ
                       </td>
-                      <td>{payment.tong_solg}</td>
+                      <td>{payment.tong_so_luong}</td>
+                      <td>{payment.trang_thai_thanh_toan}</td>
+                      <td>{payment.thoi_gian_thanh_toan}</td>
                       <td>
                         <button
                           onClick={() => deletePayment(payment.id)}
@@ -424,7 +480,7 @@ function Admin() {
                   hotels.map((hotel) => (
                     <tr key={hotel.id}>
                       <td>{hotel.id}</td>
-                      <td>{hotel.ten_khach_san}</td>
+                      <td>{hotel.ten}</td>
                       <td>{hotel.dia_chi}</td>
                       <td>{hotel.so_sao} ★</td>
                       <td>

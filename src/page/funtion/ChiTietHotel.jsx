@@ -81,28 +81,12 @@ const HotelDetail = () => {
   const destinationInfo = location.state?.destinationInfo;
   const fromDestination = location.state?.fromDestination || false;
 
-  // Dữ liệu từ ChiTietDiaDiem (nếu có)
-  const checkInDateFromDiaDiem = location.state?.checkInDate;
-  const checkOutDateFromDiaDiem = location.state?.checkOutDate;
-  const guestsFromDiaDiem = location.state?.guests;
-
   // Khởi tạo sourceDestination, danh sách phòng, và điền dữ liệu từ ChiTietDiaDiem
   useEffect(() => {
     if (destinationInfo) {
       setSourceDestination(destinationInfo);
     }
     setAvailableRooms(demoRooms);
-
-    // Điền dữ liệu từ ChiTietDiaDiem vào form nếu có
-    if (checkInDateFromDiaDiem) {
-      setCheckInDate(checkInDateFromDiaDiem);
-    }
-    if (checkOutDateFromDiaDiem) {
-      setCheckOutDate(checkOutDateFromDiaDiem);
-    }
-    if (guestsFromDiaDiem) {
-      setGuests(guestsFromDiaDiem);
-    }
 
     // Khôi phục giỏ hàng từ localStorage
     const savedCart = localStorage.getItem("hotelBookingCart");
@@ -115,9 +99,6 @@ const HotelDetail = () => {
     }
   }, [
     destinationInfo,
-    checkInDateFromDiaDiem,
-    checkOutDateFromDiaDiem,
-    guestsFromDiaDiem,
   ]);
 
   // Lưu giỏ hàng vào localStorage khi thay đổi
@@ -310,6 +291,10 @@ const HotelDetail = () => {
         hotel,
         sourceDestination,
         fromDestination,
+          checkInDate,
+          checkOutDate,
+          guests,
+          bookingId: Math.random().toString(36), // Giả lập bookingId
       },
     });
 

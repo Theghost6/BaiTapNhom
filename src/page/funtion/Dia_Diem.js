@@ -13,7 +13,7 @@ const destinations = [
     description: "36 phố phường ngàn năm văn hiến",
     fulldescription:
       " Hà nội, thủ đô của Viẹt Nam, là thành phố có lịch sử hơn 1000 năm tuổi, với sự giao thoa giữa kiến trúc Pháp thuộc và văn hóa truyền thống, Hà nội mang đến cho du khách trải nghiệm văn hóa đặc sắc. Phố cổ Hà Nội với 36 phố phường, mỗi phố mang tên một nghề thủ công truyền thống là không thể bỏ qua. Hồ Hoàn kiếm với tháp Rùa huyền thoại nằm giữa nằm giữa lòng thành phố tạo lên biểu tượng của thủ đô ngàn năm văn hiến. Hà Nội còn nổi tiếng với ẩm thực phong phú, như phở bún cá, cà phê trứng, và nhiều món ăn đường phố đặc sắc khác ",
-    rating: 4.9,
+    rating: 5.0,
     price: "2,000,000đ",
     location:{
       mapUrl:"https://www.google.com/maps?q=Hà+Nội"
@@ -24,20 +24,14 @@ const destinations = [
       "Chuẩn bị giày dép thoải mái để đi bộ.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo phố cổ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan phố cổ",
       "Thưởng thức ẩm thực đường phố",
       "Thăm lăng Chủ tịch Hồ chí Minh ",
     ],
-    reviews:[
-      {
-        user: "Đỗ Hoàng toong",
-        comment:"Quá đẹp, thức ăn quá osi",
-        rating:5
-      }
-    ],
-    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố",""]
+    
+    tag:["Văn hóa","Lịch sử","Ẩm thực","Thành phố","Thủ Đô"]
   },
   
   {
@@ -58,17 +52,16 @@ const destinations = [
     location:{
       mapUrl:"https://www.google.com/maps?q=Lào+Cai"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị giày dép thoải mái để đi bộ.",
       "Đem theo bản đồ du lịch Sapa để không bị lạc đường"
     ],
-    reviews:[
-      {
-        user: "Nguyễn Hà LinhLinh",
-        comment:"quan cảnh tuyệt đẹp, người dân thân thiện",
-        rating:5
-      }
+    Highlights:[
+      "Tham quan đỉnh Fansipan,Núi Hàm Rồng,Bản Cát Cát ",
+      "Thưởng thức ẩm thực ở Sapa",
+      "Săn mây ở Đỉnh núi Hàm Rồng, Cổng trời Sa Pa ",
     ],
     tag:["Văn hóa","Ẩm thực"],
   },
@@ -92,17 +85,16 @@ const destinations = [
     location:{
       mapUrl:"https://www.google.com/maps?q=Thác+Bản+Giốc,+Cao+Bằng"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Các loại vật dụng y tế như urgo, băng gạc, thuốc cảm, dầu gió, kem chống nắng và chống côn trùng",
       "Bạn cần đem theo áo ấm, giày cao cổ đế mềm, khăn choàng để không bị lạnh",
       "Nếu đi phượt thì đem theo đèn pin, lều bạt, cồn."
     ],
-    reviews:[
-      {
-        user: "Nguyễn Văn Bình",
-        comment:"thác nước thật đẹp, 10đ không có nhưng :))",
-        rating:4.8,
-      }
+    Highlights:[
+      "Trải nghiệm đi bè tre trên sông Quây Sơn",
+      "Thưởng thức ẩm thực Cao Bằng : Vịt quay 7 vị, bánh cuốn Cao Bằng,...",
+      "Tham quan Động Ngườm Ngao, Hồ Thang Hen ",
     ],
     tag:["Văn hóa","Thác nước"],
   },
@@ -121,22 +113,20 @@ const destinations = [
     description: "Vẻ đẹp mộc mạc giữa núi rừng",
     fulldescription:
       "Mai Châu là một thị trấn nhỏ nằm ở phía Tây Bắc tỉnh Hòa Bình, cách trung tâm Hà Nội 135 km, tiếp giáp với Mộc Châu của Sơn La và Pù Luông của Thanh Hóa. Thung lũng Mai Châu được bao quanh bởi những dãy đá vôi đồ sộ, khung cảnh núi rừng hùng vĩ, nên thơ, những cánh đồng xanh mát bình yên cùng bầu không khí trong lành, mát mẻ.Đến với vùng đất xinh đẹp Mai Châu, bạn sẽ được hòa mình vào thiên nhiên, tận hưởng những phút giây thư giãn, bình yên, khám phá cuộc sống và nét đẹp văn hóa của dân tộc Thái, thưởng thức những món ăn đặc sản độc đáo mà không nơi nào có được.",
-    rating: 4.6,
+    rating: 3.9,
     price: "2,300,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Mai+Ch%C3%A2u,+H%C3%B2a+B%C3%ACnh,+Vi%E1%BB%87t+Nam/"
+      mapUrl:"https://www.google.com/maps?q=Mai+Châu,+Hòa+Bình"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Các loại vật dụng y tế như urgo, băng gạc, thuốc cảm, dầu gió, kem chống nắng và chống côn trùng",
       "Chuẩn bị giày dép thoải mái để đi lại.",
       "Nếu đi phượt thì đem theo đèn pin, lều bạt, cồn."
     ],
-    reviews:[
-      {
-        user: "lê Huỳnh NhưNhư",
-        comment:"quan cảnh tuyệt đẹp,không khí trong lành, người dân nơi đây thân thiệt, 10d",
-        rating:4.8
-      }
+    Highlights:[
+      "Tham quan các bản văn Mai Châu, bảo tàng Thái ",
+      "Thưởng thức ẩm thực ở Hòa Bình : cơm lam, xôi xương, măng đắng,...",
     ],
     tag:["Văn hóa","Tây Bắc","rừng núi"],
   },
@@ -159,19 +149,18 @@ const destinations = [
     rating: 4.6,
     price: "3,100,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/M%E1%BB%99c+Ch%C3%A2u,+S%C6%A1n+La,+Vi%E1%BB%87t+Nam/"
+      mapUrl:"https://www.google.com/maps?q=Mộc+Châu,+Sơn+La"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Các loại vật dụng y tế như urgo, băng gạc, thuốc cảm, dầu gió, kem chống nắng và chống côn trùng",
       "Chuẩn bị giày dép thoải mái để đi lại.",
       "Nếu đi phượt thì đem theo đèn pin, lều bạt, cồn."
     ],
-    reviews:[
-      {
-        user: "Phạm Hà Hồng",
-        comment:"Hoa Mận thật đẹp,không khí trong lành, người dân nơi đây thân thiệt, 10d",
-        rating:4.9,
-      }
+    Highlights:[
+      "Tham quan đồi chè trái tim,thác Dải Yếm ",
+      "Thưởng thức ẩm thực ở Mộc Châu : sữa tươi Mộc Châu,Mận",
+      "Check-in ở thung lũng mận Phiêng Cành, bản Pa Phách,thác Nàng Tiên, ",
     ],
     tag:["Văn hóa","hoa mận","rừng núi"],
   },
@@ -195,19 +184,18 @@ const destinations = [
     rating: 4.5,
     price: "2,700,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/%C4%90%E1%BB%93ng+V%C4%83n,+H%C3%A0+Giang,+Vi%E1%BB%87t+Nam/"
+      mapUrl:"https://www.google.com/maps?q=Đồng+Văn,+Hà+Giang"
     },
     notes: [
       "Các loại vật dụng y tế như urgo, băng gạc, thuốc cảm, dầu gió, kem chống nắng và chống côn trùng.",
       "mang theo đầy đủ giấy tờ tùy thân như giấy phép lái xe, chứng minh nhân dân.",
       "Đi phượt,mua xăng dự trữ (khoảng chai 1,5 lít) và mượn những đồ sửa xe cơ bản."
     ],
-    reviews:[
-      {
-        user: "khổng Thu Huyền",
-        comment:"đồi núi hùng vĩ,ruộng bậc thang mênh mông, người dân nơi thân thiện, 10d",
-        rating:4.8
-      }
+    transport: "Otô, Máy bay",
+    Highlights:[
+      "Tham quan phố cổ Đồng Văn,cột cờ Lũng Cú, chợ phiên xã Phố Cáo",
+      "Thưởng thức ẩm thực ở Hà Giang : cháo ấu tẩu, mèn mén,...",
+      "Check-in ở khu dinh thự nhà Vương, cánh đồng hoa tam giác mạch sủng Là ",
     ],
     tag:["Văn hóa","ruộng bậc thang","rừng núi","cực bắc Việt Nam"],
   },
@@ -230,21 +218,20 @@ const destinations = [
     rating: 4.8,
     price: "4,200,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+H%E1%BA%A1+Long,+Qu%E1%BA%A3ng+Ninh,+Vi%E1%BB%87t+Nam/"
+      mapUrl:"https://www.google.com/maps?q=Long+Hạ+Long,+Hạ+Long"
     },
+    transport: "Otô, Máy bay, Du thuyền",
     notes: [
       "Chuẩn bị mũ, dù, áo mưa, kính mát, kem chống nắng để bảo vệ làn da nhé!",
       "Mang theo đầy đủ giấy tờ tùy thân như giấy phép lái xe, chứng minh nhân dân.",
       "Nên đi du lịch Hạ Long vào đầu hoặc cuối hè ."
     ],
-    reviews:[
-      {
-        user: "Lưu Bá Hoàng",
-        comment:"kì quan thật tuyệt vời, thật tự hào khi nước nhà có kì quan thiên nhiên thế giới.",
-        rating:4.8,
-      }
+    Highlights:[
+      "Tham quan động Thiên Cung, hang Đầu Gỗ,... ",
+      "Thưởng thức ẩm thực ở Quảng Ninh : chả mực giã tay, hải sản",
+      "Chèo thuyền kayak,tắm biển trên vịnh,...",
     ],
-    tag:["Du lịch","kì quan thế giới"],
+    tag:["Du lịch","kì quan thế giới","Chả mực giã tay"],
   },
 
   {
@@ -265,21 +252,21 @@ const destinations = [
     rating: 4.8,
     price: "3,700,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tr%C3%A0ng+An,+Ninh+B%C3%ACnh,+Vi%E1%BB%87t+Nam/"
+      mapUrl:"https://www.google.com/maps?q=Tràngràng+An,+Ninh+Bình"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Chuẩn bị mũ, dù, áo mưa, kính mát, kem chống nắng để bảo vệ làn da nhé!",
       "Mang theo đầy đủ giấy tờ tùy thân như giấy phép lái xe, chứng minh nhân dânn.",
       "Bạn cần chuẩn bị những bộ trang phục thoải mái, gọn nhẹ và một đôi giày thể thao để phòng trường hợp tham gia các hoạt động cần đến việc leo núi."
     ],
-    reviews:[
-      {
-        user: "Nguyễn Tuấn Thành",
-        comment:"kì quan thật tuyệt vời, non nước hưu tình.",
-        rating:4.8,
-      }
+    Highlights:[
+      "Tham quan động Am Tiên, Tam Cốc-Bích Động, Cố đô Hoa LưLư ",
+      "Thưởng thức ẩm thực ở Ninh Bình : cơm cháy, các món dê núi,miến lươn",
+      "Đi du thuyền để xem hết toàn cảnh Tràng An",
     ],
-    tag:["Du lịch","Cố đô Hoa Lư"],
+    
+    tag:["Du lịch","Cố đô Hoa Lư","Dê núi"],
   },
 
   {
@@ -299,19 +286,17 @@ const destinations = [
     rating: 4.6,
     price: "3,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Qu%E1%BA%A7n+%C4%91%E1%BA%A3o+C%C3%A1t+B%C3%A0/"
+      mapUrl:"https://www.google.com/maps?q=Đảo+Cát+Bà,+Hải+Phòng"
     },
+    transport: "Otô, Máy bay, Du thuyền",
     notes: [
       "Chuẩn bị mũ, dù, áo mưa, kính mát, kem chống nắng để bảo vệ làn da nhé!",
       "Mang theo đầy đủ giấy tờ tùy thân như giấy phép lái xe, chứng minh nhân dânn.",
       "Không nên tắm biển sau 18h vì thủy triều lên cao."
     ],
-    reviews:[
-      {
-        user: "Nguyễn Bảo Khánh",
-        comment:"Bãi tắm rất đẹp, không khí trong lành, các bạn nên đi vào mùa hè nha thời tiết rất đẹp.",
-        rating:4.8,
-      }
+    Highlights:[
+      "Tham quan làng chài cổ Cái Bèo, đảo khỉ, vườn quốc gia Cát Bà ",
+      "Thưởng thức ẩm thực ở Hải Phòng : sam biển, tôm hùm, bề bề",
     ],
     tag:["Du lịch","Hòn ngọc xanh"],
   },
@@ -333,26 +318,21 @@ const destinations = [
     rating: 4.6,
     price: "2,700,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/H%C3%A0+Nam,+Vi%E1%BB%87t+Nam/@20.5339813,105.6462988,10z/data=!3m1!4b1!4m6!3m5!1s0x3135c511181964e1:0x74a9b90d3b326852!8m2!3d20.5835196!4d105.92299!16zL20vMDdtMTli?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Chùa+Tam+Chúc,+Hà+Nam"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan du lịch chùa Tam Chúc và các ngôi chùa cổ ở Hà Nam",
       "Tham quan các làng nghề hay các hang động tuyệt đẹp.",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương.",
     ],
-    reviews:[
-      {
-        user: "Dũng Xã Đàn",
-        comment:"Đình Tam Chúc tọa lạc giữa lòng hồ Tam Chúc, được xây dựng trên một đảo nhỏ, tạo nên cảnh quan hài hòa giữa thiên nhiên và kiến trúc.",
-        rating:4.5
-      }
-    ],
+   
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -372,26 +352,21 @@ const destinations = [
     rating: 4.8,
     price: "3,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/%C4%90%C3%A0+N%E1%BA%B5ng,+H%E1%BA%A3i+Ch%C3%A2u,+%C4%90%C3%A0+N%E1%BA%B5ng,+Vi%E1%BB%87t+Nam/@16.0471648,108.1655922,13z/data=!3m1!4b1!4m6!3m5!1s0x314219c792252a13:0xfc14e3a044436487!8m2!3d16.0544068!4d108.2021667!16s%2Fg%2F11bc5hq_qy?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Đà+Nẵng"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Đi du lịch Bà Nà Hills.",
       "Tham quan đảo Sơn Trà, đi trải nghiệm đèo Hải Vân và vô số địa điểm khác.",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương.",
     ],
-    reviews:[
-      {
-        user: "Chi Phạm",
-        comment:"Đường đèo thoai thoải dễ chạy. 1 bên núi 1 bên biển, rất đẹp.",
-        rating:4.8
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -411,26 +386,21 @@ const destinations = [
     rating: 4.9,
     price: "2,800,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+H%E1%BB%99i+An,+Qu%E1%BA%A3ng+Nam,+Vi%E1%BB%87t+Nam/@15.918043,108.0881108,10z/data=!3m1!4b1!4m6!3m5!1s0x31420dd4e1353a7b:0xae336435edfcca3!8m2!3d15.8799241!4d108.3267487!16zL20vMDZmYnBk?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Phố+Cổ+Hội+An,+Quảng+Nam"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Đi dạo phố cổ về đêm.",
       "Tham quan, trải nghiệm các làng nghề, rừng dừa Bảy Mẫu.",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương.",
     ],
-    reviews:[
-      {
-        user: "Boss Big",
-        comment:"Một nơi khi đến với Hội An mà bạn nên ghé nhé, không gian trong xanh hoà mình cây cối ở đây cảm giác khá dễ chịu.",
-        rating:4.6
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -451,26 +421,21 @@ const destinations = [
     rating: 4.7,
     price: "4,200,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Nha+Trang,+Kh%C3%A1nh+H%C3%B2a,+Vi%E1%BB%87t+Nam/@12.2592742,108.9175386,10z/data=!3m1!4b1!4m6!3m5!1s0x3170677811cc886f:0x5c4bbc0aa81edcb9!8m2!3d12.2529152!4d109.1899018!16zL20vMDQ0Y2p2?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Nha+Trang"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan Vinwonders hay thủy cung Trí Nguyên",
       "Tham quan các hòn đảo xinh đẹp ở Nha Trang",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương",
     ],
-    reviews:[
-      {
-        user: "Nguyen Davic",
-        comment:"Tháp Trầm Hương là một công trình kiến trúc biểu tượng của Nha Trang, Khánh Hòa.",
-        rating:4.8
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -491,26 +456,21 @@ const destinations = [
     rating: 4.8,
     price: "4,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+%C4%90%C3%A0+L%E1%BA%A1t,+L%C3%A2m+%C4%90%E1%BB%93ng,+Vi%E1%BB%87t+Nam/@11.9043914,108.1210713,10z/data=!3m1!4b1!4m6!3m5!1s0x317112fef20988b1:0xad5f228b672bf930!8m2!3d11.9404192!4d108.4583132!16zL20vMDZjbDly?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Đà+Lạt"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Nhiều địa điểm check-in tuyệt đẹp và thơ mộng",
       "Tham quan dinh thự Dinh Bảo Đại-vị hoàng đế cuối cùng của Việt Nam",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương",
     ],
-    reviews:[
-      {
-        user: "truong hieu",
-        comment:"Tuyệt vời, mọi góc mọi chỗ đều đẹp tuyệt vời.",
-        rating:4.7
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -530,26 +490,21 @@ const destinations = [
     rating: 4.7,
     price: "3,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Th%C3%A0nh+ph%E1%BB%91+Hu%E1%BA%BF,+Vi%E1%BB%87t+Nam/@16.6664171,107.3904035,10.81z/data=!4m6!3m5!1s0x31419c87726490f7:0xab1c0fcaf7cb84b5!8m2!3d16.3546659!4d107.4795173!16zL20vMDYyNG5j?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Cố+Đô+Huế"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Đi dạo về đêm, cầu Trường Tiền bắc qua sông Hương thơ mộng về đêm ",
       "Tham quan các di tích lịch sử gắn liền với Cố Đô Huế",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương",
     ],
-    reviews:[
-      {
-        user: "Nhung Nguyễn",
-        comment:"Chùa Thiên Mụ, còn gọi là chùa Linh Mụ, là một trong những ngôi chùa cổ kính và nổi tiếng nhất ở Huế. Nằm bên dòng sông Hương thơ mộng, trên đồi Hà Khê, chùa không chỉ là một điểm đến tâm linh mà còn là biểu tượng văn hóa của cố đô Huế.",
-        rating:4.5
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -569,26 +524,21 @@ const destinations = [
     rating: 4.7,
     price: "3,200,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Qu%E1%BA%A3ng+B%C3%ACnh,+Vi%E1%BB%87t+Nam/@17.5039265,104.9816401,8z/data=!3m1!4b1!4m6!3m5!1s0x3138b0f638296f2d:0x901f872e6223598f!8m2!3d17.4627582!4d106.2522143!16zL20vMDdsX3h2?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Động+Phong+Nha+Kẻ+Bàng,+Quảng+Bình"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo, mang thêm đồ ăn nhẹ khi tham quan ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan các hang động nổi tiếng như hang Sơn Đoòng",
       "Tham quan các di tích lịch sử ",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương",
     ],
-    reviews:[
-      {
-        user: "Tấn Lê Ngọc",
-        comment:"Nét đẹp thiên nhiên tuyệt đẹp. Cảnh đẹp hoang sơ, người dân thân thiện.Nên trải nghiệm một lần.",
-        rating:4.5
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -605,29 +555,24 @@ const destinations = [
     description: "Vẻ đẹp hoang sơ tại thiên đường biển đảo Quy Nhơn",
     fulldescription:
       "Quy Nhơn - thành phố biển tỉnh Bình Định với những đường bờ biển dài thơ mộng nằm uốn lượn nép mình bên cạnh những dãy núi xinh đẹp. Với đặc trưng phía trước là biển, phía sau là núi đã biến Quy Nhơn trở thành một trong những thành phố du lịch biển xinh đẹp nhất.",
-    rating: 4.8,
+    rating: 4.4,
     price: "3,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Quy+Nh%C6%A1n,+B%C3%ACnh+%C4%90%E1%BB%8Bnh,+Vi%E1%BB%87t+Nam/@13.7859007,109.062895,11z/data=!3m1!4b1!4m6!3m5!1s0x316f6c65736eabd9:0xd362348e5af3d559!8m2!3d13.7829673!4d109.2196634!16zL20vMDZqeXdk?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Kỳ+Co+Beach,+Quy+Nhơn"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Địa điểm check-in với thiên nhiên xanh mướt",
       "Trải nghiệm các hoạt động như lặn biển, dù lượn,... ở Kỳ Co",
       "Ẩm thực phong phú, độc đáo với những món ăn đặc sản địa phương",
     ],
-    reviews:[
-      {
-        user: "Kim ngoc Tran",
-        comment:"Biển Kỳ Co rất đẹp nước biển trong xanh,bãi cát màu vàng nhạt.Ở đây các bạn tha hồ checkin sống ảo vì có nhiều núi non hùng vĩ và các mõm đá lớn nhỏ. Mình đã đi rất nhiều nơi nhưng kỳ co để lại cho mình rất nhiều ấn tượng, được lặn biển.",
-        rating:4.9
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
 
@@ -648,26 +593,21 @@ const destinations = [
     rating: 4.6,
     price: "2,400,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Kh%C3%A1nh+H%C3%B2a,+Vi%E1%BB%87t+Nam/@12.319277,108.4106988,9z/data=!3m1!4b1!4m6!3m5!1s0x31701b8ca8dcd395:0x69c20827322308ce!8m2!3d12.2098868!4d109.0928764!16zL20vMDdsX19w?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Vịnh+Vân+Phong,+Khánh+Hòa"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Check-in Mũi Đôi - Cực Đông trên dất liền Việt Nam ",
       "Tham quan tòa tháp Bảo Tích được làm từ vỏ ốc tại chùa Từ Vân",
       "Ẩm thực phong phú, độc đáo",
     ],
-    reviews:[
-      {
-        user: "Phan Van Long",
-        comment:"Nơi đáng để tới. Phong cảnh thiên nhiên hữu tình. Nước biển trong xanh, hải sản ngon. Đặc biệt tôm hùm rất rẻ. Có thể ăn tại bè và mua về làm quà.",
-        rating:4.7
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -687,26 +627,21 @@ const destinations = [
     rating: 4.6,
     price: "3,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+Qu%E1%BA%A3ng+Ng%C3%A3i,+Qu%E1%BA%A3ng+Ng%C3%A3i,+Vi%E1%BB%87t+Nam/@15.1540465,108.6775368,11z/data=!3m1!4b1!4m6!3m5!1s0x316852cd89603939:0x2e554f035a6642c3!8m2!3d15.1241304!4d108.8143831!16zL20vMDZmZHpj?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Đảo+Lý+sơn,+Quảng+Ngãi"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan cánh đồng tỏi xanh ngút ngàn",
       " Nhiều địa điểm check-in sống ảo ",
       "Ẩm thực đường phố độc đáo",
     ],
-    reviews:[
-      {
-        user: "Thường Nguyễn",
-        comment:"10 điểm cho cái cảnh đón Bình Minh trên huyện đảo Lý Sơn tại ngọn hải đăng Mù Cu này",
-        rating:4.8
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -726,26 +661,21 @@ const destinations = [
     rating: 4.4,
     price: "2,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+Phan+Thi%E1%BA%BFt,+B%C3%ACnh+Thu%E1%BA%ADn,+Vi%E1%BB%87t+Nam/@10.8978582,107.8443068,10z/data=!3m1!4b1!4m6!3m5!1s0x3176830f876e16e5:0x2a82c373d3a16cc8!8m2!3d10.9300676!4d108.10409!16zL20vMDZrYzg5?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Mũi+Né+Beach,+Phan+Thiết"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Check-in sống ảo đến biển đá Ông Địa",
       "Trải nghiệm các hoạt động ở đồi Cát Bay",
       "Ẩm thực đường phố độc đáo",
     ],
-    reviews:[
-      {
-        user: "Nguyễn Thanh Điền",
-        comment:"Mũi né là phong cảnh thiên nhiên đẹp của địa phương",
-        rating:4.5
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -763,29 +693,24 @@ const destinations = [
       "Thành phố sôi động với nền ẩm thực phong phú, di tích lịch sử và nhịp sống hiện đại.",
     fulldescription:
       "TP HCM là nơi hội tụ nhiều nền văn hóa, với các sản phẩm du lịch đa dạng, là thành phố không ngủ với những hoạt động vui chơi, giải trí sôi động cả ngày lẫn đêm..Với sự kết hợp giữa vẻ đẹp của thiên nhiên, kiến trúc độc đáo, văn hóa nổi bật và sự phong phú trong ẩm thực, TP.HCM là một trong những điểm du lịch hàng đầu tại Việt Nam. Du khách sẽ có thể tận hưởng những trải nghiệm độc đáo và khám phá những điều mới mẻ trong thành phố này.",
-    rating: 4.8,
+    rating: 5.0,
     price: "5,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Th%C3%A0nh+ph%E1%BB%91+H%E1%BB%93+Ch%C3%AD+Minh,+H%E1%BB%93+Ch%C3%AD+Minh,+Vi%E1%BB%87t+Nam/@10.9691057,106.6435159,16.47z/data=!4m6!3m5!1s0x317529292e8d3dd1:0xf15f5aad773c112b!8m2!3d10.8230989!4d106.6296638!16zL20vMGhuNGg?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Thành+phố+Hồ+Chí+Minh"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Dinh Độc Lập là một trong những địa điểm tham quan k thể bỏ qua ",
       "Tham quan di tích Địa đạo củ chi ",
       "Ẩm thực đường phố tại phố Tây",
     ],
-    reviews:[
-      {
-        user: "Khánh Hưng",
-        comment:"Trải nghiệm ấn tượng và tuyệt vời! Thực sự hài lòng về chuyến tham quan danh tích, và một bài học về lịch sử",
-        rating:4.8
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -805,26 +730,21 @@ const destinations = [
     rating: 4.6,
     price: "3,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/C%C3%A0+Mau,+Vi%E1%BB%87t+Nam/@9.5526325,104.9356827,9z/data=!4m6!3m5!1s0x31a149a07aa13f7b:0xaff9e753b1b2e6b3!8m2!3d8.9624099!4d105.1258955!16zL20vMDUzY3N4?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Cột+mốc+Quốc+gia+Đất+Mũi,+Cà+Mau"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan di tích lịch sử Hòn Đá Bạc",
       "Đến rừng quốc gia U Minh Hạ Ngồi thuyền đi giữa cánh rừng nguyên sơ ",
       "Ẩm thực phong phú, đa dạng, người dân hiền hòa, nhân hậu",
     ],
-    reviews:[
-      {
-        user: "Khánh Hưng",
-        comment:"Đất Mũi Cà Mau là điểm cực Nam của Việt Nam, thuộc huyện Ngọc Hiển, tỉnh Cà Mau. Đây là một trong những địa danh mang ý nghĩa đặc biệt về địa lý, lịch sử và du lịch.",
-        rating:4.8
-      }
-    ],
+   
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -845,26 +765,21 @@ const destinations = [
     rating: 4.5,
     price: "3,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+B%E1%BA%A1c+Li%C3%AAu,+B%E1%BA%A1c+Li%C3%AAu,+Vi%E1%BB%87t+Nam/@9.2614752,105.7625052,12.33z/data=!4m6!3m5!1s0x31a10a2351f087b3:0x4949992f9e65b750!8m2!3d9.2940027!4d105.7215663!16zL20vMDNjcHJ2?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Bạc+Liêu"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Nghe đờn ca tài tử với bài Dạ cổ hoài lang",
       "Tham quan các di tích như Nhà công tử Bạc Liêu ",
       "Ẩm thực phong phú, đa dạng, người dân hiền hòa, nhân hậu",
     ],
-    reviews:[
-      {
-        user: "Thu Minh ",
-        comment:" Cánh đồng gió điện điểm check in xịn sò cho các bạn, ngắm trời ngắm biển gió mát trong lành thư giãn cuối tuần rất hợp lý.",
-        rating:4.4
-      }
-    ],
+    
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -885,26 +800,21 @@ const destinations = [
     rating: 4.6,
     price: "2,600,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/%C4%90%E1%BB%93ng+Th%C3%A1p,+Vi%E1%BB%87t+Nam/@10.8044175,105.2670913,11.06z/data=!4m6!3m5!1s0x310a65b3d50c121f:0xdca0c95ead346e40!8m2!3d10.4937989!4d105.6881788!16zL20vMDdtMTE3?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Đồng+Pháp"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo và nên đi vào tháng 9 - tháng 11."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Check-in ở làng hoa Sa Đéc",
       "Khu du lịch Xẻo Quýt để chiêm ngưỡng vẻ hoang sơ ",
       "Ẩm thực phong phú, đa dạng",
     ],
-    reviews:[
-      {
-        user: "Vuong TrangTrang ",
-        comment:"Một trong những địa điểm nên đi khi bạn đi tham quan các tỉnh đồng bằng sông Cửu Long. Tuy mình đi vào mùa thấp điểm và ít khách du lịch nhưng thấy vẫn xứng đáng. Phù hợp với những người thích yên tĩnh theo kiểu nghĩ dưỡng chữa lành.",
-        rating:4.5
-      }
-    ],
+   
     tag:["Thiên nhiên","Ẩm thực","Văn hóa","Lịch sử"]
   },
   {
@@ -924,28 +834,24 @@ const destinations = [
     rating: 4.8,
     price: "5,600,000",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Ph%C3%BA+Qu%E1%BB%91c/@10.2288454,103.957424,10z/data=!4m6!3m5!1s0x31a78c62b49eda17:0x8aa79fbbdd72cdb!8m2!3d10.289879!4d103.98402!16zL20vMDVtcG43?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Phú+Quốc,+Kiên+Giang"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo và tinh thần sẵn sàng cho chuyến đi chơi."
     ],
-    duration:"3N2Đ",
+   
     Highlights:[
       "Đi Công Viên VinWonders Phú Quốc",
       "Sống Ảo Ở Sunset Sanato Beach Club,Bay Dù Lượn ở Sunset Town Phú Quốc",
       "Ẩm thực phong phú, đa dạng",
     ],
-    reviews:[
-      {
-        user: "Minh An ",
-        comment:"Tại Phú Quốc có muôn vàn bãi biển xinh đẹp, làm đắm say lòng người, món ăn đường phố ngon hải sản rẻ nữa.",
-        rating:4.8
-      }
-    ],
+   
     tag:["Thiên nhiên","Ẩm thực","Văn hóa"]
   },
+
   {
     id: 26,
     name: "Núi Bà Đen - Tây Ninh",
@@ -963,28 +869,24 @@ const destinations = [
     rating: 4.5,
     price: "4,200,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/Tp.+T%C3%A2y+Ninh,+T%C3%A2y+Ninh,+Vi%E1%BB%87t+Nam/@11.3658516,106.0472504,12z/data=!3m1!4b1!4m6!3m5!1s0x310b6aeab90d3fc5:0xa059d1214008df15!8m2!3d11.3351554!4d106.1098854!16zL20vMDNxa2Ny?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Núi+Bà+Đen,+Tây+Ninh"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
       "Tránh mang theo nhiều tiền mặt khi đi dạo."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan các Tháp cổ",
       "Lên núi Bà Đen, cắm trại săn mây trên đỉnh núi",
       "Ẩm thực phong phú, đa dạng",
     ],
-    reviews:[
-      {
-        user: "Minh Khánh ",
-        comment:"Chạy xe từ SG lên mất tầm 2h. Mua vé cáp treo giá 400k lên đỉnh Vân Sơn .Trời hôm đấy gió khá to và mát. Không gian rộng lớn và sang trọng cho du khách đến tham quan, cúng viếng.",
-        rating:4.7
-      }
-    ],
+    
     tag:["Thiên nhiên","Lịch sử","Ẩm thực","Văn hóa"]
   },
+
   {
     id: 27,
     name: "Tp Cần Thơ",
@@ -1002,26 +904,21 @@ const destinations = [
       rating: 5.0,
       price: "4,500,000đ",
       location:{
-        mapUrl:"https://www.google.com/maps/place/C%E1%BA%A7n+Th%C6%A1,+Ninh+Ki%E1%BB%81u,+C%E1%BA%A7n+Th%C6%A1,+Vi%E1%BB%87t+Nam/@10.0332994,105.7582258,13.25z/data=!4m6!3m5!1s0x31a0629f6de3edb7:0x527f09dbfb20b659!8m2!3d10.0451618!4d105.7468535!16zL20vMDNmY20z?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+        mapUrl:"https://www.google.com/maps?q=Thành+phố,+Cần+Thơ",
       },
+      transport: "Otô, Máy bay",
       notes: [
         "Mang theo giấy tờ tùy thân bản gốc.",
         "Chuẩn bị  giày, dép đi bộ thoải mái và quần áo đẹp cho nhưng chuyến đi chơi.",
         "Tránh đi vào các ngày cuối tuần, ngày lễ Tết."
       ],
-      duration:"3N2Đ",
+      
       Highlights:[
         "Trải nghiệm chợ nổi Cái Răng",
         "Bến Ninh Kiều về đêm",
         "Ẩm thực phong phú, đa dạng",
       ],
-      reviews:[
-        {
-          user: "Lâm Chi ",
-          comment:"Cảnh vật về đêm bên bến Ninh Kiều là 1 nơi đên đến lý tưởng .",
-          rating:4.8
-        }
-      ],
+      
       tag:["Thiên nhiên","Lịch sử","Ẩm thực","Văn hóa"]
   },
   {
@@ -1041,26 +938,21 @@ const destinations = [
     rating: 4.4,
     price: "6,000,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/C%C3%B4n+%C4%90%E1%BA%A3o/@8.6944248,106.557467,12z/data=!3m1!4b1!4m6!3m5!1s0x3198a9186b2f6e91:0xe0a6ec6a3d538a81!8m2!3d8.7009282!4d106.6114474!16zL20vMDVzaDBw?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Côn+Đảo,+Bà+Rịa+Vũng+Tàu",
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày đi bộ thoải mái và quần áo nhẹ cho các cuộc phiêu lưu ngoài trời.",
       "Nhớ mang theo thuốc chống côn trùng, một ít đồ ăn nhẹ ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Tham quan nhà tù Côn Đảo",
       "Trải nghiệm du lịch sinh thái ngoài khơi Côn Đảo.",
       "Ẩm thực phong phú, đa dạng",
     ],
-    reviews:[
-      {
-        user: "Tùng Tùng ",
-        comment:"Đến được tới Côn Đảo phải có duyên với quần đảo này, thật may mắn mình lại lần nữa có duyên đặt chân tới hòn đảo còn mộc mạc hoang sơ thế này.",
-        rating:4.8
-      }
-    ],
+    
     tag:["Thiên nhiên","Lịch sử","Ẩm thực","Văn hóa"]
   },
   {
@@ -1080,26 +972,21 @@ const destinations = [
     rating: 4.4,
     price: "5,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/R%E1%BB%ABng+Tr%C3%A0m+Tr%C3%A0+S%C6%B0/@10.5850515,105.0572887,19z/data=!3m1!4b1!4m6!3m5!1s0x310a1fccc2bc43b9:0xf03dafe8c807a960!8m2!3d10.5850515!4d105.0579324!16s%2Fg%2F12b02pq70?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Rừng+Tràm+Trà+Sư,+An+Giang"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày đi bộ thoải mái và quần áo nhẹ cho các cuộc phiêu lưu ngoài trời.",
       "Nhớ mang theo thuốc chống côn trùng, một ít đồ ăn nhẹ ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Trải nghiệm không gian thiên nhiên rừng tràm",
       "Ngắm hệ sinh thái động thực vật khi mùa lũ về.",
       "Trải nghiệm món ăn ngon",
     ],
-    reviews:[
-      {
-        user: "Tô Thắm ",
-        comment:"Có thể nghe qua thì hơi có gì đó hơi chán chán, nhưng thật sự khi tham gia thì mới thầy hết được sức hút của rừng tràm như thế nào",
-        rating:4.8
-      }
-    ],
+    
     tag:["Thiên nhiên","Lịch sử","Ẩm thực","Văn hóa"]
   },
   {
@@ -1119,29 +1006,25 @@ const destinations = [
     rating: 4.8,
     price: "1,500,000đ",
     location:{
-      mapUrl:"https://www.google.com/maps/place/V%C6%B0%E1%BB%9Dn+qu%E1%BB%91c+gia+C%C3%A1t+Ti%C3%AAn/@11.4233511,107.4282902,17z/data=!3m1!4b1!4m6!3m5!1s0x31747b91abc7ab79:0x85beda439b7b84be!8m2!3d11.4233511!4d107.4308651!16s%2Fg%2F11mwskv7dz?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+      mapUrl:"https://www.google.com/maps?q=Vườn+Quốc+Gia+Cát+Tiên"
     },
+    transport: "Otô, Máy bay",
     notes: [
       "Mang theo giấy tờ tùy thân bản gốc.",
       "Chuẩn bị  giày đi bộ thoải mái và quần áo nhẹ cho các cuộc phiêu lưu ngoài trời.",
       "Nhớ mang theo thuốc chống côn trùng, một ít đồ ăn nhẹ ."
     ],
-    duration:"3N2Đ",
+    
     Highlights:[
       "Trải nghiệm trekking, đi bộ xuyên rừng tại VQG. Nam Cát Tiên",
       "Đi thuyền trên hồ Bàu Sấu",
       "Bản làng Tà Lài",
     ],
-    reviews:[
-      {
-        user: "Nguyến Anh Quân",
-        comment:"Thiên nhiên hoang dã, phong cảnh đẹp, người dân mến khách",
-        rating:5
-      }
-    ],
+   
     tag:["Thiên nhiên","Lịch sử","Ẩm thực"]
   },
 ];
 
 export default destinations;
+
 

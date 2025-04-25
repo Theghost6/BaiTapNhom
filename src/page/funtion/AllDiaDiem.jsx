@@ -118,8 +118,6 @@ const AllDiaDiem = () => {
           ))}
         </select>
 
-
-
         <select
           value={selectedRating}
           onChange={(e) => {
