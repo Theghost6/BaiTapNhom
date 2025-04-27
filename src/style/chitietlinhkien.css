@@ -501,4 +501,80 @@
   font-size: 0.95rem;
   line-height: 1.4;
 }
+.product-info-box {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.product-info-box p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+.review-replies {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid #ddd;
+}
 
+.reply-item {
+  margin-bottom: 10px;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.reply-comment {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+.reply-action {
+  margin-top: 10px;
+}
+
+.reply-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.reply-button:hover {
+  background-color: #0056b3;
+}
+
+.reply-form {
+  margin-top: 10px;
+}
+
+.reply-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.submit-reply-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
+.submit-reply-btn:hover {
+  background-color: #218838;
+}
+
+.submit-reply-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

@@ -1,26 +1,28 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Contact from "./page/Contact";
-import Home from "./page/Home";
-import Register from "./page/Register";
-import AllDiaDiem from "./page/funtion/AllDiaDiem";
-import ChiTietDiaDiem from "./page/funtion/ChiTietDiaDiem";
-import Profile from "./page/funtion/Profile";
 import { AuthProvider } from "./page/funtion/AuthContext";
-import Checkout from "./page/funtion/Checkout";
-import Cart from "./page/funtion/Cart";
-import Admin from "./page/funtion/Admin";
-import ThankYou from "./page/funtion/ThankYou";
-import Hotels from "./page/funtion/Hotels";
-import ChiTietHotel from "./page/funtion/ChiTietHotel";
+import { CartProvider } from "./page/funtion/useCart";
+import { ToastContainer } from "react-toastify";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";
 import "./style/footer.css";
-import { CartProvider } from "./page/funtion/useCart";
-import { Hotel } from "lucide-react";
+
+// Lazy load components
+const Contact = lazy(() => import("./page/Contact"));
+const Home = lazy(() => import("./page/Home"));
+const Register = lazy(() => import("./page/Register"));
+const AllLinhKien = lazy(() => import("./page/funtion/AllLinhKien"));
+const ChiTietLinhKien = lazy(() => import("./page/funtion/ChiTietLinhKien"));
+const Profile = lazy(() => import("./page/funtion/Profile"));
+const Checkout = lazy(() => import("./page/funtion/Checkout"));
+const Cart = lazy(() => import("./page/funtion/Cart"));
+const Admin = lazy(() => import("./page/funtion/Admin"));
+const ThankYou = lazy(() => import("./page/funtion/ThankYou"));
+const Hotels = lazy(() => import("./page/funtion/Hotels"));
+const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 
 const App = () => {
   return (
@@ -29,28 +31,39 @@ const App = () => {
         <Router>
           <Header />
           <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/AllDiaDiem" element={<AllDiaDiem />} />
-              <Route path="/Profile" element={<Profile />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/thankyou" element={<ThankYou />} />
-              <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
-              <Route path="/hotels" element={<Hotels />} />
-              <Route path="/hotel/:id" element={<ChiTietHotel/>} />
-              {/* <Route path="/about" element={<About />} /> */}
-              <Route path="/contact" element={<Contact />} />
-              {/* Add more routes as needed */}
-            </Routes>
+            <Suspense fallback={<div>Đang tải...</div>}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/AllLinhKien" element={<AllLinhKien />} />
+                <Route path="/Profile" element={<Profile />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/thankyou" element={<ThankYou />} />
+                <Route path="/linh-kien/:id" element={<ChiTietLinhKien />} />
+                <Route path="/hotels" element={<Hotels />} />
+                <Route path="/hotel/:id" element={<ChiTietHotel />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </main>
-
           <Footer />
+          <ToastContainer />
         </Router>
       </AuthProvider>
     </CartProvider>
+  );
+};
+
+const NotFound = () => {
+  return (
+    <div className="not-found">
+      <h2>404 - Trang không tìm thấy</h2>
+      <p>Xin lỗi, trang bạn đang tìm không tồn tại.</p>
+      <button onClick={() => window.location.href = "/"}>Quay về trang chủ</button>
+    </div>
   );
 };
 

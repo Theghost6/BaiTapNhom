@@ -226,7 +226,7 @@ const Home = () => {
           </div>
           <button
             className="view-all-button"
-            onClick={() => navigate("/AllDiaDiem")}
+            onClick={() => navigate("/AllLinhKien")}
           >
             Xem tất cả <ArrowRight className="button-icon-small" />
           </button>{" "}

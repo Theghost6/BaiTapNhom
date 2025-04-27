@@ -10,13 +10,25 @@ const products = {
         threads: 32,
         baseClock: "3.0 GHz",
         boostClock: "5.8 GHz",
-        socket: "LGA 1700"
+        socket: "LGA 1700",
+        cache: "36MB"
       },
       so_luong: 50,
-      images: [" ảnh 1", " ảnh 2"]
+      mo_ta: "Intel Core i9-13900K là bộ vi xử lý hàng đầu dành cho game thủ, nhà sáng tạo nội dung và chuyên gia cần hiệu năng vượt trội. Với 24 nhân (8 nhân hiệu năng cao, 16 nhân tiết kiệm điện) và 32 luồng, sản phẩm này vượt trội trong đa nhiệm, dựng hình 3D và chơi game nặng. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz giúp xử lý nhanh các ứng dụng như Adobe After Effects, Blender và các tựa game AAA. Socket LGA 1700 tương thích với bo mạch chủ Intel 600/700-series, hỗ trợ RAM DDR5 và PCIe 5.0, đảm bảo khả năng nâng cấp trong tương lai. Kiến trúc lai tối ưu hiệu suất và tiết kiệm năng lượng, lý tưởng cho ép xung. Công nghệ Intel Turbo Boost Max 3.0 và Thermal Velocity Boost tăng cường hiệu năng khi tải nặng. Dù bạn lắp ráp PC chơi game hay máy trạm dựng phim, i9-13900K mang lại tốc độ và độ tin cậy đỉnh cao.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chơi game", "cao cấp", "intel", "ép xung"],
+      rating: 4.9,
+      reviewCount: 320,
+      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
+      images: ["images/cpu/i9-13900k-1.jpg", "images/cpu/i9-13900k-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2022-10-20",
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
+      tinh_nang: ["Kiến trúc lai", "Turbo Boost Max 3.0", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5"]
     },
     {
-      id: "cpu001",
+      id: "cpu002",
       ten: "Intel Core i9-13900K",
       hang: "Intel",
       gia: 14000000,
@@ -25,10 +37,49 @@ const products = {
         threads: 32,
         baseClock: "3.0 GHz",
         boostClock: "5.8 GHz",
-        socket: "LGA 1700"
+        socket: "LGA 1700",
+        cache: "36MB"
       },
       so_luong: 50,
-      images: ["", ""]
+      mo_ta: "Intel Core i9-13900K là bộ vi xử lý cao cấp dành cho máy trạm và PC chơi game đỉnh cao. Với 24 nhân (8 nhân hiệu năng, 16 nhân tiết kiệm) và 32 luồng, sản phẩm xử lý mượt mà các tác vụ nặng như chỉnh sửa video 4K, mô phỏng 3D và đa nhiệm. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz đảm bảo hiệu năng vượt trội cho các game như Cyberpunk 2077 và phần mềm như AutoCAD. Tương thích socket LGA 1700, hỗ trợ DDR5 và PCIe 5.0, CPU này phù hợp với các bo mạch chủ hiện đại. Kiến trúc lai cân bằng sức mạnh và hiệu quả, hỗ trợ ép xung cho người dùng chuyên sâu. Công nghệ Intel Quick Sync Video và Deep Learning Boost tối ưu mã hóa video và tác vụ AI. Đây là lựa chọn lý tưởng cho người dùng cần CPU mạnh mẽ, bền bỉ và sẵn sàng cho tương lai.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26 F",
+      tags: ["máy trạm", "intel", "cao cấp"],
+      rating: 4.7,
+      reviewCount: 280,
+      khuyen_mai: "Giảm 5% khi mua kèm bo mạch chủ ASUS Z790",
+      images: ["images/cpu/i9-13900k-1.jpg", "images/cpu/i9-13900k-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2022-10-20",
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
+      tinh_nang: ["Kiến trúc lai", "Quick Sync Video", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5"]
+    },
+    {
+      id: "cpu003",
+      ten: "AMD Ryzen 9 7950X3D",
+      hang: "AMD",
+      gia: 16500000,
+      thong_so: {
+        cores: 16,
+        threads: 32,
+        baseClock: "4.2 GHz",
+        boostClock: "5.7 GHz",
+        socket: "AM5",
+        cache: "144MB"
+      },
+      so_luong: 30,
+      mo_ta: "AMD Ryzen 9 7950X3D là bộ vi xử lý tiên tiến dành cho game thủ và nhà sáng tạo, tích hợp công nghệ 3D V-Cache độc quyền của AMD. Với 16 nhân, 32 luồng và bộ nhớ đệm L3 khổng lồ 144MB, CPU này giảm độ trễ, tối ưu cho chơi game và xử lý tác vụ nặng như dựng hình 3D hay mô phỏng. Tốc độ cơ bản 4.2 GHz và tăng tốc tối đa 5.7 GHz đảm bảo hiệu năng mượt mà với các game AAA và phần mềm như Adobe Premiere Pro. Socket AM5 hỗ trợ RAM DDR5 và PCIe 5.0, giúp tương thích với công nghệ mới nhất. Đồ họa Radeon tích hợp hỗ trợ hiển thị cơ bản, trong khi khả năng ép xung thu hút người dùng chuyên sâu. Với hiệu suất cao và tiết kiệm điện, Ryzen 9 7950X3D là lựa chọn hoàn hảo cho PC chơi game hoặc máy trạm sáng tạo, mang lại tốc độ và độ tin cậy vượt trội.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chơi game", "3D V-Cache", "AMD", "sáng tạo nội dung"],
+      rating: 4.8,
+      reviewCount: 200,
+      khuyen_mai: "Tặng quạt AMD Wraith Prism",
+      images: ["images/cpu/ryzen-7950x3d-1.jpg", "images/cpu/ryzen-7950x3d-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2023-02-28",
+      thiet_bi_tuong_thich: ["Bo mạch chủ AM5"],
+      tinh_nang: ["3D V-Cache", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5", "Đồ họa tích hợp"]
     }
   ],
   mainboard: [
@@ -42,10 +93,49 @@ const products = {
         socket: "LGA 1700",
         formFactor: "ATX",
         memorySlots: 4,
-        maxMemory: "128GB"
+        maxMemory: "128GB",
+        pcieSlots: "1 x PCIe 5.0 x16, 2 x PCIe 4.0 x16"
       },
       so_luong: 20,
-      images: ["images/mainboard/asus-z790-e-1.jpg"]
+      mo_ta: "ASUS ROG Strix Z790-E Gaming là bo mạch chủ ATX cao cấp dành cho game thủ và người dùng sử dụng CPU Intel thế hệ 12 và 13. Với chipset Z790 và socket LGA 1700, bo mạch hỗ trợ RAM DDR5 tối đa 128GB và PCIe 5.0 cho GPU và ổ cứng thế hệ mới. Thiết kế VRM mạnh mẽ và tản nhiệt tiên tiến đảm bảo ổn định khi ép xung CPU như i9-13900K. Sản phẩm tích hợp Wi-Fi 6E, Ethernet 2.5Gb và nhiều khe M.2 với tấm tản nhiệt, mang lại tốc độ kết nối và lưu trữ vượt trội. Âm thanh SupremeFX cung cấp trải nghiệm sống động, trong khi đèn RGB tùy chỉnh với Aura Sync tăng tính thẩm mỹ. Phù hợp cho PC chơi game hoặc máy trạm, ROG Strix Z790-E kết hợp độ bền, kết nối và phong cách, là lựa chọn hàng đầu cho hệ thống hiện đại.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chơi game", "ASUS", "ATX", "ép xung"],
+      rating: 4.8,
+      reviewCount: 210,
+      khuyen_mai: "Giảm 5% khi mua kèm CPU Intel i9",
+      images: ["images/mainboard/asus-z790-e-1.jpg", "images/mainboard/asus-z790-e-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2022-10-17",
+      thiet_bi_tuong_thich: ["CPU Intel thế hệ 12/13", "RAM DDR5", "GPU PCIe 5.0"],
+      tinh_nang: ["Wi-Fi 6E", "Âm thanh SupremeFX", "Đèn RGB Aura Sync", "Hỗ trợ PCIe 5.0"]
+    },
+    {
+      id: "mb002",
+      ten: "MSI MPG B650 Tomahawk WiFi",
+      hang: "MSI",
+      gia: 6500000,
+      thong_so: {
+        chipset: "B650",
+        socket: "AM5",
+        formFactor: "ATX",
+        memorySlots: 4,
+        maxMemory: "128GB",
+        pcieSlots: "1 x PCIe 4.0 x16, 2 x PCIe 3.0 x1"
+      },
+      so_luong: 25,
+      mo_ta: "MSI MPG B650 Tomahawk WiFi là bo mạch chủ ATX giá trị cao dành cho CPU AMD Ryzen 7000-series trên nền tảng AM5. Với chipset B650, sản phẩm hỗ trợ RAM DDR5 tối đa 128GB và PCIe 4.0 cho GPU và ổ cứng NVMe tốc độ cao. Thiết kế VRM bền bỉ và tản nhiệt mở rộng đảm bảo hiệu năng ổn định khi ép xung CPU như Ryzen 9 7950X3D. Bo mạch tích hợp Wi-Fi 6, LAN 2.5Gb và nhiều khe M.2 với tấm tản nhiệt, đáp ứng nhu cầu lưu trữ nhanh. Đèn Mystic Light RGB cho phép tùy chỉnh ánh sáng theo phong cách cá nhân. Âm thanh chất lượng cao hỗ trợ chơi game và phát trực tuyến. Phù hợp cho PC chơi game tầm trung đến cao cấp hoặc máy trạm, MPG B650 Tomahawk WiFi mang lại sự cân bằng giữa hiệu năng, kết nối và giá trị, tương thích với công nghệ mới nhất của AMD.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chơi game", "MSI", "AM5", "giá trị"],
+      rating: 4.7,
+      reviewCount: 180,
+      khuyen_mai: "Tặng quạt MSI khi mua kèm CPU Ryzen",
+      images: ["images/mainboard/msi-b650-tomahawk-1.jpg", "images/mainboard/msi-b650-tomahawk-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2022-09-30",
+      thiet_bi_tuong_thich: ["CPU AMD Ryzen 7000-series", "RAM DDR5"],
+      tinh_nang: ["Wi-Fi 6", "Đèn Mystic Light RGB", "Tản nhiệt mở rộng", "Hỗ trợ PCIe 4.0"]
     }
   ],
   ram: [
@@ -53,7 +143,7 @@ const products = {
       id: "ram001",
       ten: "G.Skill Trident Z5 RGB 32GB",
       hang: "G.Skill",
-      gia: 3500000, 
+      gia: 3500000,
       thong_so: {
         capacity: "32GB (2x16GB)",
         speed: "DDR5-6000",
@@ -61,10 +151,45 @@ const products = {
         voltage: "1.35V"
       },
       so_luong: 25,
-      images: ["images/ram/gskill-trident-z5-1.jpg"]
+      mo_ta: "G.Skill Trident Z5 RGB 32GB là bộ RAM DDR5 hiệu năng cao dành cho chơi game và công việc chuyên nghiệp. Với dung lượng 32GB (2x16GB) và tốc độ DDR5-6000, sản phẩm cung cấp băng thông vượt trội cho đa nhiệm, chỉnh sửa video và chơi game nặng. Độ trễ CL36 và điện áp 1.35V đảm bảo ổn định ngay cả khi tải nặng. Tương thích với nền tảng Intel và AMD, RAM hỗ trợ XMP 3.0 để ép xung dễ dàng. Tấm tản nhiệt nhôm và đèn RGB tùy chỉnh qua phần mềm G.Skill hoặc bo mạch chủ nâng cao tính thẩm mỹ. Phù hợp cho PC cao cấp chạy Adobe Photoshop hoặc game như Starfield, bộ RAM này mang lại tốc độ, độ tin cậy và phong cách. Thiết kế thấp đảm bảo tương thích với tản nhiệt CPU lớn, là lựa chọn lý tưởng cho người dùng muốn hiệu năng và vẻ đẹp.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chơi game", "DDR5", "RGB", "hiệu năng cao"],
+      rating: 4.8,
+      reviewCount: 150,
+      khuyen_mai: "Giảm 10% khi mua 2 bộ",
+      images: ["images/ram/gskill-trident-z5-1.jpg", "images/ram/gskill-trident-z5-2.jpg"],
+      bao_hanh: "Bảo hành trọn đời có giới hạn",
+      ngay_phat_hanh: "2022-11-01",
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series, AMD AM5"],
+      tinh_nang: ["XMP 3.0", "Đèn RGB", "Tản nhiệt nhôm", "DDR5"]
+    },
+    {
+      id: "ram002",
+      ten: "Corsair Vengeance DDR5 32GB",
+      hang: "Corsair",
+      gia: 3400000,
+      thong_so: {
+        capacity: "32GB (2x16GB)",
+        speed: "DDR5-5600",
+        latency: "CL36",
+        voltage: "1.25V"
+      },
+      so_luong: 30,
+      mo_ta: "Corsair Vengeance DDR5 32GB là bộ RAM hiệu năng cao dành cho game thủ và chuyên gia cần tốc độ cho PC thế hệ mới. Với dung lượng 32GB (2x16GB) và tốc độ DDR5-5600, sản phẩm đáp ứng tốt đa nhiệm, dựng hình 3D và chơi game. Độ trễ CL36 và điện áp 1.25V đảm bảo hiệu quả và ổn định khi xử lý tác vụ nặng. Tương thích với bo mạch chủ Intel 600/700-series và AMD AM5, RAM hỗ trợ XMP 3.0 để ép xung đơn giản. Tấm tản nhiệt thấp cải thiện hiệu suất nhiệt và phù hợp với tản nhiệt CPU lớn. Không có RGB, sản phẩm tập trung vào hiệu năng và thiết kế tối giản, lý tưởng cho hệ thống gọn gàng. Phù hợp với Unreal Engine hoặc game như Call of Duty, bộ RAM này đảm bảo tốc độ và độ bền, khẳng định chất lượng từ Corsair.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chơi game", "DDR5", "Corsair", "hiệu năng"],
+      rating: 4.7,
+      reviewCount: 120,
+      khuyen_mai: "Tặng miếng lót chuột Corsair khi mua 2 bộ",
+      images: ["images/ram/corsair-vengeance-ddr5-1.jpg", "images/ram/corsair-vengeance-ddr5-2.jpg"],
+      bao_hanh: "Bảo hành trọn đời có giới hạn",
+      ngay_phat_hanh: "2022-12-15",
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series, AMD AM5"],
+      tinh_nang: ["XMP 3.0", "Tản nhiệt thấp", "DDR5"]
     }
   ],
-  // Ổ đĩa
   storage: [
     {
       id: "ssd001",
@@ -79,16 +204,52 @@ const products = {
         interface: "PCIe 4.0"
       },
       so_luong: 69,
-      images: ["images/storage/samsung-990-pro-1.jpg"]
+      mo_ta: "Samsung 990 Pro 1TB là ổ cứng NVMe SSD cao cấp dành cho game thủ, nhà sáng tạo và chuyên gia. Với tốc độ đọc 7450 MB/s và ghi 6900 MB/s, ổ cứng mang lại hiệu năng vượt trội khi tải game, chỉnh sửa video 4K và truyền dữ liệu lớn. Giao thức PCIe 4.0 đảm bảo tương thích với bo mạch chủ hiện đại, trong khi dung lượng 1TB đủ cho game, media và phần mềm. Công nghệ V-NAND của Samsung và bộ điều khiển mạnh mẽ cung cấp độ bền cao (lên đến 1200 TBW) và độ tin cậy tuyệt đối. Phần mềm Samsung Magician tối ưu hiệu suất và theo dõi tình trạng ổ. Phù hợp cho PC hiệu năng cao, ổ cứng này giảm thời gian khởi động và tăng hiệu quả công việc, lý tưởng cho Adobe Premiere hoặc game như Elden Ring, được đảm bảo bởi chất lượng Samsung.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["SSD", "Samsung", "NVMe", "tốc độ cao"],
+      rating: 4.9,
+      reviewCount: 400,
+      khuyen_mai: "Tặng cáp PCIe Gen4 khi mua 2 chiếc",
+      images: ["images/storage/samsung-990-pro-1.jpg", "images/storage/samsung-990-pro-2.jpg"],
+      bao_hanh: "5 năm",
+      ngay_phat_hanh: "2022-10-25",
+      thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "PS5 (kèm tản nhiệt)"],
+      tinh_nang: ["Công nghệ V-NAND", "Phần mềm Samsung Magician", "PCIe 4.0", "Độ bền cao"]
+    },
+    {
+      id: "ssd002",
+      ten: "WD Black SN850X 2TB",
+      hang: "Western Digital",
+      gia: 4500000,
+      thong_so: {
+        type: "NVMe SSD",
+        capacity: "2TB",
+        readSpeed: "7300 MB/s",
+        writeSpeed: "6600 MB/s",
+        interface: "PCIe 4.0"
+      },
+      so_luong: 40,
+      mo_ta: "WD Black SN850X 2TB là ổ cứng NVMe SSD hiệu năng cao tối ưu cho chơi game và công việc chuyên nghiệp. Với tốc độ đọc 7300 MB/s và ghi 6600 MB/s, ổ cứng đảm bảo tải game nhanh, truyền dữ liệu tức thời và khởi động hệ thống siêu tốc. Dung lượng 2TB chứa được thư viện game lớn, dự án video 4K và phần mềm sáng tạo. Giao thức PCIe 4.0 tương thích với PC hiện đại và PS5 (kèm tản nhiệt). Chế độ Game Mode 2.0 của WD tăng hiệu năng khi chơi game nặng, trong khi phần mềm WD Dashboard theo dõi và tối ưu ổ cứng. Với độ bền lên đến 1200 TBW, sản phẩm đảm bảo tuổi thọ cao. Lý tưởng cho người dùng dựng PC cao cấp hoặc sáng tạo với DaVinci Resolve, SN850X mang lại tốc độ, dung lượng và độ tin cậy vượt trội.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["SSD", "WD", "NVMe", "chơi game"],
+      rating: 4.8,
+      reviewCount: 250,
+      khuyen_mai: "Tặng tản nhiệt khi mua cho PS5",
+      images: ["images/storage/wd-sn850x-1.jpg", "images/storage/wd-sn850x-2.jpg"],
+      bao_hanh: "5 năm",
+      ngay_phat_hanh: "2022-08-10",
+      thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "PS5"],
+      tinh_nang: ["Chế độ Game Mode 2.0", "Phần mềm WD Dashboard", "PCIe 4.0", "Độ bền cao"]
     }
   ],
-  // Card màn hình rời
   gpu: [
     {
       id: "gpu001",
       ten: "NVIDIA GeForce RTX 4090",
       hang: "NVIDIA",
-      gia: 40000000, 
+      gia: 40000000,
       thong_so: {
         vram: "24GB GDDR6X",
         cudaCores: 16384,
@@ -96,16 +257,51 @@ const products = {
         power: "450W"
       },
       so_luong: 10,
-      images: ["images/gpu/rtx-4090-1.jpg"]
+      mo_ta: "NVIDIA GeForce RTX 4090 là card đồ họa đỉnh cao cho game thủ và chuyên gia cần hiệu năng 4K và 8K. Với 24GB bộ nhớ GDDR6X và 16384 nhân CUDA, sản phẩm mang lại sức mạnh vượt trội cho chơi game có hiệu ứng ray tracing, công việc AI và dựng hình 3D. Tốc độ tăng tốc 2.52 GHz đảm bảo chơi mượt các tựa game như Starfield và Cyberpunk 2077 ở cài đặt tối đa. Công nghệ DLSS 3 và ray tracing tạo hình ảnh chân thực, tăng FPS đáng kể. Kiến trúc Ada Lovelace cải thiện hiệu suất năng lượng, trong khi mã hóa AV1 hỗ trợ streamer và nhà sáng tạo. Phù hợp cho PC chơi game cao cấp hoặc máy trạm chạy Blender, RTX 4090 hỗ trợ HDMI 2.1 và DisplayPort 1.4. Hệ thống tản nhiệt cao cấp và chất lượng build đảm bảo độ bền, là lựa chọn hàng đầu cho hiệu năng tối ưu.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["RTX", "cao cấp", "chơi game 4K", "ray tracing"],
+      rating: 5.0,
+      reviewCount: 180,
+      khuyen_mai: "Tặng lót chuột RTX khi mua kèm PSU 1000W",
+      images: ["images/gpu/rtx-4090-1.jpg", "images/gpu/rtx-4090-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2022-10-12",
+      thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "Nguồn 850W trở lên"],
+      tinh_nang: ["DLSS 3", "Ray Tracing", "Mã hóa AV1", "Kiến trúc Ada Lovelace"]
+    },
+    {
+      id: "gpu002",
+      ten: "AMD Radeon RX 7900 XTX",
+      hang: "AMD",
+      gia: 25000000,
+      thong_so: {
+        vram: "24GB GDDR6",
+        streamProcessors: 6144,
+        boostClock: "2.5 GHz",
+        power: "355W"
+      },
+      so_luong: 15,
+      mo_ta: "AMD Radeon RX 7900 XTX là card đồ họa mạnh mẽ dành cho chơi game 4K và công việc sáng tạo, sử dụng kiến trúc RDNA 3 tiên tiến. Với 24GB bộ nhớ GDDR6 và 6144 nhân xử lý, sản phẩm mang lại hiệu năng ấn tượng cho game như Assassin’s Creed Valhalla và phần mềm như Adobe After Effects. Tốc độ tăng tốc 2.5 GHz cùng công nghệ FSR 3 đảm bảo hình ảnh mượt mà và chất lượng cao. Hỗ trợ DisplayPort 2.1 và HDMI 2.1, card này lý tưởng cho màn hình tần số quét cao. Với công suất 355W, sản phẩm tiết kiệm năng lượng hơn so với đối thủ. RX 7900 XTX hỗ trợ ray tracing và driver tối ưu cho cả game thủ và nhà sáng tạo. Thiết kế tản nhiệt tiên tiến giữ nhiệt độ thấp, là lựa chọn hấp dẫn cho người dùng muốn hiệu năng cao với giá trị tốt.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["Radeon", "chơi game 4K", "RDNA3", "ray tracing"],
+      rating: 4.8,
+      reviewCount: 160,
+      khuyen_mai: "Tặng game AMD khi mua trước 31/05/2025",
+      images: ["images/gpu/rx-7900-xtx-1.jpg", "images/gpu/rx-7900-xtx-2.jpg"],
+      bao_hanh: "3 năm",
+      ngay_phat_hanh: "2022-12-13",
+      thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "Nguồn 750W trở lên"],
+      tinh_nang: ["FSR 3", "Kiến trúc RDNA 3", "DisplayPort 2.1", "Ray Tracing"]
     }
   ],
-  //Nguồn máy tính
   psu: [
     {
       id: "psu001",
       ten: "Corsair RM850x",
       hang: "Corsair",
-      gia: 3750000, 
+      gia: 3750000,
       thong_so: {
         wattage: "850W",
         efficiency: "80+ Gold",
@@ -113,16 +309,51 @@ const products = {
         connectors: "ATX 24-pin, EPS 8-pin"
       },
       so_luong: 40,
-      images: ["images/psu/corsair-rm850x-1.jpg"]
+      mo_ta: "Corsair RM850x là nguồn máy tính 850W hiệu năng cao dành cho PC chơi game và máy trạm. Với chứng nhận 80+ Gold, nguồn giảm thiểu lãng phí năng lượng và tỏa nhiệt, đảm bảo cấp điện ổn định cho linh kiện cao cấp như RTX 4090 hoặc CPU Ryzen 9. Thiết kế hoàn toàn mô-đun giúp quản lý cáp gọn gàng, cải thiện luồng khí và thẩm mỹ. Quạt 135mm từ tính hoạt động êm ái ngay cả khi tải nặng. Nguồn sử dụng tụ điện cao cấp cho điện áp ổn định và hỗ trợ chuẩn ATX 3.0, tương thích với GPU hiện đại cần đầu nối 12VHPWR. Phù hợp cho người dùng lắp ráp hệ thống mạnh mẽ, RM850x mang lại độ bền, hiệu suất và linh hoạt, được Corsair đảm bảo với bảo hành 10 năm, mang lại sự an tâm tuyệt đối.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["nguồn", "Corsair", "mô-đun", "hiệu suất cao"],
+      rating: 4.7,
+      reviewCount: 130,
+      khuyen_mai: "Giảm 5% khi mua cùng RTX 4090",
+      images: ["images/psu/corsair-rm850x-1.jpg", "images/psu/corsair-rm850x-2.jpg"],
+      bao_hanh: "10 năm",
+      ngay_phat_hanh: "2021-08-10",
+      thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "GPU cao cấp"],
+      tinh_nang: ["80+ Gold", "Hoàn toàn mô-đun", "Quạt từ tính", "Hỗ trợ ATX 3.0"]
+    },
+    {
+      id: "psu002",
+      ten: "Seasonic Prime TX-1000",
+      hang: "Seasonic",
+      gia: 6500000,
+      thong_so: {
+        wattage: "1000W",
+        efficiency: "80+ Titanium",
+        modular: "Fully Modular",
+        connectors: "ATX 24-pin, EPS 8-pin, 12VHPWR"
+      },
+      so_luong: 20,
+      mo_ta: "Seasonic Prime TX-1000 là nguồn máy tính 1000W cao cấp dành cho PC hiệu năng cao và máy trạm chuyên nghiệp. Chứng nhận 80+ Titanium đảm bảo hiệu suất năng lượng tối đa, giảm nhiệt và chi phí điện. Thiết kế hoàn toàn mô-đun hỗ trợ quản lý cáp gọn gàng, phù hợp với GPU như RTX 4090 và CPU như i9-13900K. Quạt 135mm với ổ bi động lực học hoạt động gần như không tiếng ồn, ngay cả khi tải nặng. Hỗ trợ chuẩn ATX 3.0 và đầu nối 12VHPWR, nguồn sẵn sàng cho linh kiện thế hệ mới. Tụ điện cao cấp và thiết kế bền bỉ đảm bảo cấp điện ổn định và tuổi thọ lâu dài. Phù hợp cho người dùng chuyên sâu hoặc hệ thống đa GPU, TX-1000 kết hợp công nghệ tiên tiến và chất lượng vượt trội của Seasonic, được bảo hành 12 năm để đảm bảo sự an tâm.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["nguồn", "Seasonic", "mô-đun", "Titanium"],
+      rating: 4.9,
+      reviewCount: 100,
+      khuyen_mai: "Tặng cáp nối dài Seasonic khi mua",
+      images: ["images/psu/seasonic-tx1000-1.jpg", "images/psu/seasonic-tx1000-2.jpg"],
+      bao_hanh: "12 năm",
+      ngay_phat_hanh: "2022-06-15",
+      thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "GPU thế hệ mới"],
+      tinh_nang: ["80+ Titanium", "Hoàn toàn mô-đun", "Quạt ổ bi động lực", "Hỗ trợ ATX 3.0"]
     }
   ],
-  //Quạt tản nhiệt
   cooling: [
     {
       id: "cool001",
       ten: "Noctua NH-D15",
       hang: "Noctua",
-      gia: 2500000, 
+      gia: 2500000,
       thong_so: {
         type: "Air Cooler",
         fanSize: "140mm",
@@ -130,16 +361,51 @@ const products = {
         compatibility: "AM4, AM5, LGA 1700"
       },
       so_luong: 35,
-      images: ["images/cooling/noctua-nh-d15-1.jpg"]
+      mo_ta: "Noctua NH-D15 là tản nhiệt khí cao cấp nổi tiếng với hiệu năng làm mát vượt trội và độ ồn gần như bằng không. Thiết kế dành cho CPU cao cấp như Intel i9-13900K và AMD Ryzen 9 7950X3D, tản nhiệt sử dụng hai quạt 140mm NF-A15 PWM và bộ tản nhiệt tháp đôi lớn để tản nhiệt hiệu quả. Chiều cao 165mm tương thích với hầu hết vỏ case ATX, hỗ trợ socket AM4, AM5 và LGA 1700, phù hợp cho các hệ thống hiện đại. Hệ thống lắp đặt SecuFirm2 dễ dàng và keo tản nhiệt NT-H1 của Noctua đảm bảo truyền nhiệt tối ưu. Lý tưởng cho ép xung hoặc tác vụ nặng như dựng hình video, NH-D15 mang lại hiệu năng ngang ngửa nhiều tản nhiệt nước AIO mà vẫn êm ái. Với bảo hành 6 năm, đây là lựa chọn hàng đầu cho người dùng cần độ tin cậy và làm mát hiệu quả.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["tản nhiệt", "Noctua", "tản nhiệt khí", "êm ái"],
+      rating: 4.9,
+      reviewCount: 90,
+      khuyen_mai: "Tặng kèm keo tản nhiệt Noctua NT-H1",
+      images: ["images/cooling/noctua-nh-d15-1.jpg", "images/cooling/noctua-nh-d15-2.jpg"],
+      bao_hanh: "6 năm",
+      ngay_phat_hanh: "2014-04-08",
+      thiet_bi_tuong_thich: ["CPU AM4, AM5, LGA 1700"],
+      tinh_nang: ["Thiết kế tháp đôi", "Quạt NF-A15 PWM", "Hệ thống SecuFirm2", "Keo tản nhiệt NT-H1"]
+    },
+    {
+      id: "cool002",
+      ten: "NZXT Kraken Z73 RGB",
+      hang: "NZXT",
+      gia: 6500000,
+      thong_so: {
+        type: "AIO Liquid Cooler",
+        radiatorSize: "360mm",
+        fanSize: "120mm",
+        compatibility: "AM4, AM5, LGA 1700"
+      },
+      so_luong: 20,
+      mo_ta: "NZXT Kraken Z73 RGB là tản nhiệt nước AIO 360mm cao cấp dành cho CPU hiệu năng cao trong PC chơi game và máy trạm. Màn hình LCD tùy chỉnh trên bơm hiển thị thông tin hệ thống, ảnh GIF hoặc logo cá nhân. Ba quạt 120mm Aer RGB 2 và két tản nhiệt lớn đảm bảo làm mát vượt trội cho CPU như Ryzen 9 7950X3D hoặc i9-13900K, ngay cả khi ép xung. Tương thích socket AM4, AM5 và LGA 1700, sản phẩm dễ dàng tích hợp vào hệ thống hiện đại. Phần mềm NZXT CAM cho phép điều chỉnh tốc độ quạt, bơm và đèn RGB chính xác. Ống dẫn gia cố và bơm chất lượng cao đảm bảo độ bền và không rò rỉ. Phù hợp cho người dùng muốn kết hợp phong cách và hiệu năng, Kraken Z73 RGB mang lại làm mát êm ái, hiệu quả và vẻ đẹp độc đáo, với bảo hành 6 năm.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["tản nhiệt", "NZXT", "AIO", "RGB"],
+      rating: 4.8,
+      reviewCount: 110,
+      khuyen_mai: "Tặng bộ điều khiển RGB NZXT",
+      images: ["images/cooling/nzxt-kraken-z73-1.jpg", "images/cooling/nzxt-kraken-z73-2.jpg"],
+      bao_hanh: "6 năm",
+      ngay_phat_hanh: "2020-02-11",
+      thiet_bi_tuong_thich: ["CPU AM4, AM5, LGA 1700"],
+      tinh_nang: ["Màn hình LCD tùy chỉnh", "Quạt Aer RGB 2", "Phần mềm NZXT CAM", "Két tản nhiệt 360mm"]
     }
   ],
-  //Vỏ máy tính
   case: [
     {
       id: "case001",
       ten: "Lian Li PC-O11 Dynamic",
       hang: "Lian Li",
-      gia: 3500000, 
+      gia: 3500000,
       thong_so: {
         type: "Mid Tower",
         material: "Steel, Tempered Glass",
@@ -147,16 +413,51 @@ const products = {
         dimensions: "446 x 272 x 445 mm"
       },
       so_luong: 15,
-      images: ["images/case/lian-li-o11-1.jpg"]
+      mo_ta: "Lian Li PC-O11 Dynamic là vỏ case mid-tower cao cấp dành cho người dùng muốn kết hợp phong cách và chức năng. Với hai mặt kính cường lực, case khoe trọn linh kiện và đèn RGB bên trong. Không gian rộng rãi hỗ trợ bo mạch chủ ATX, Micro-ATX và Mini-ITX, cùng với GPU lớn, nhiều ổ cứng và hệ thống tản nhiệt nước phức tạp. Thiết kế hai khoang tách biệt PSU và cáp, giúp quản lý cáp gọn gàng và cải thiện luồng khí. Hỗ trợ tối đa 9 quạt hoặc két tản nhiệt 360mm, case đảm bảo làm mát hiệu quả cho linh kiện như RTX 4090. Kết cấu nhôm và thép bền bỉ, mang lại vẻ đẹp hiện đại. Phù hợp cho PC chơi game hoặc máy trạm, PC-O11 Dynamic cung cấp sự linh hoạt, dễ nâng cấp và thẩm mỹ ấn tượng, là lựa chọn yêu thích của người lắp ráp PC.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["vỏ case", "LianLi", "mid-tower", "RGB"],
+      rating: 4.8,
+      reviewCount: 60,
+      khuyen_mai: "Tặng 2 quạt RGB khi mua case",
+      images: ["images/case/lian-li-o11-1.jpg", "images/case/lian-li-o11-2.jpg"],
+      bao_hanh: "2 năm",
+      ngay_phat_hanh: "2018-05-15",
+      thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "Két tản nhiệt 360mm"],
+      tinh_nang: ["Mặt kính cường lực đôi", "Thiết kế hai khoang", "Hỗ trợ tản nhiệt nước", "Quản lý cáp"]
+    },
+    {
+      id: "case002",
+      ten: "Fractal Design Meshify 2",
+      hang: "Fractal Design",
+      gia: 3200000,
+      thong_so: {
+        type: "Mid Tower",
+        material: "Steel, Mesh, Tempered Glass",
+        motherboardSupport: "ATX, Micro-ATX, Mini-ITX",
+        dimensions: "474 x 210 x 454 mm"
+      },
+      so_luong: 18,
+      mo_ta: "Fractal Design Meshify 2 là vỏ case mid-tower tối ưu luồng khí, kết hợp hiệu năng và phong cách tối giản. Mặt trước lưới góc cạnh tăng cường luồng khí, đảm bảo làm mát tối ưu cho linh kiện cao cấp như Ryzen 9 hoặc RTX 4090. Hỗ trợ bo mạch chủ ATX, Micro-ATX và Mini-ITX, case cung cấp không gian cho tối đa 7 quạt, két tản nhiệt 360mm và nhiều ổ cứng, với thiết kế mô-đun dễ tùy chỉnh. Mặt kính cường lực khoe linh kiện bên trong, trong khi thiết kế không cần dụng cụ giúp nâng cấp dễ dàng. Quản lý cáp được tối ưu với kênh và dây đai Velcro. Phù hợp cho PC chơi game hoặc máy trạm, Meshify 2 mang lại kết cấu thép bền bỉ, hiệu năng tản nhiệt vượt trội và thẩm mỹ Bắc Âu tinh tế, là lựa chọn lý tưởng cho người dùng ưu tiên luồng khí và chức năng.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["vỏ case", "FractalDesign", "mid-tower", "luồng khí"],
+      rating: 4.7,
+      reviewCount: 80,
+      khuyen_mai: "Tặng bộ lọc bụi khi mua",
+      images: ["images/case/fractal-meshify-2-1.jpg", "images/case/fractal-meshify-2-2.jpg"],
+      bao_hanh: "2 năm",
+      ngay_phat_hanh: "2020-08-18",
+      thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "Két tản nhiệt 360mm"],
+      tinh_nang: ["Lưới luồng khí cao", "Mặt kính cường lực", "Thiết kế mô-đun", "Quản lý cáp"]
     }
   ],
-  //Linh kiện khác như chuột,bàn phím
   peripherals: [
     {
       id: "mouse001",
       ten: "Logitech G Pro X Superlight",
       hang: "Logitech",
-      gia: 3750000, 
+      gia: 3750000,
       thong_so: {
         type: "Wireless Mouse",
         sensor: "HERO 25K",
@@ -165,13 +466,24 @@ const products = {
         connectivity: "USB Receiver, Wireless"
       },
       so_luong: 80,
-      images: ["images/peripherals/logitech-g-pro-x-superlight-1.jpg"]
+      mo_ta: "Logitech G Pro X Superlight là chuột chơi game không dây siêu nhẹ dành cho các game thủ esports và thi đấu chuyên nghiệp. Với trọng lượng chỉ 63g, chuột đảm bảo di chuyển nhanh và chính xác, trong khi cảm biến HERO 25K cung cấp độ chính xác vượt trội với dải DPI 100-25600. Công nghệ không dây Lightspeed cho độ trễ thấp, mang lại trải nghiệm tương đương chuột có dây. Thiết kế tối giản với 5 nút lập trình và hình dáng cân đối, thoải mái cho các phiên chơi dài. Tương thích với phần mềm Logitech G Hub, chuột cho phép tùy chỉnh DPI, nút và tốc độ phản hồi. Lý tưởng cho các game tốc độ cao như Valorant hoặc CS:GO, Superlight có pin 70 giờ và chân đế PTFE mượt mà. Với thiết kế cao cấp và hiệu năng đỉnh cao, đây là lựa chọn hàng đầu cho game thủ cần tốc độ và độ chính xác.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chuột", "không dây", "Logitech", "esports"],
+      rating: 4.9,
+      reviewCount: 300,
+      khuyen_mai: "Giảm 10% khi mua cùng bàn phím Logitech",
+      images: ["images/peripherals/logitech-g-pro-x-superlight-1.jpg", "images/peripherals/logitech-g-pro-x-superlight-2.jpg"],
+      bao_hanh: "2 năm",
+      ngay_phat_hanh: "2020-12-08",
+      thiet_bi_tuong_thich: ["Windows, macOS"],
+      tinh_nang: ["Cảm biến HERO 25K", "Không dây Lightspeed", "Siêu nhẹ", "Chân đế PTFE"]
     },
     {
       id: "kb001",
       ten: "Keychron K8 Pro",
       hang: "Keychron",
-      gia: 2500000, 
+      gia: 2500000,
       thong_so: {
         type: "Mechanical Keyboard",
         switchType: "Gateron Red",
@@ -180,7 +492,44 @@ const products = {
         backlighting: "RGB"
       },
       so_luong: 45,
-      images: ["images/peripherals/keychron-k8-pro-1.jpg"]
+      mo_ta: "Keychron K8 Pro là bàn phím cơ tenkeyless linh hoạt dành cho game thủ, người gõ phím và chuyên gia. Với switch Gateron Red có thể thay nóng, bàn phím mang lại trải nghiệm gõ mượt mà, tuyến tính và dễ dàng tùy chỉnh mà không cần hàn. Kết nối Bluetooth 5.1 và USB-C hỗ trợ chuyển đổi giữa ba thiết bị, lý tưởng cho đa nhiệm trên Windows, macOS và Linux. Đèn RGB tùy chỉnh qua phần mềm QMK/VIA nâng cao tính thẩm mỹ và khả năng sử dụng. Khung nhôm chắc chắn và keycap ABS cân bằng độ bền và tính di động. Pin 4000mAh cho thời gian sử dụng không dây lên đến 100 giờ. Phù hợp cho chơi game, lập trình hoặc công việc, K8 Pro mang lại trải nghiệm gõ cao cấp với độ trễ thấp và khả năng tùy chỉnh sâu, đáp ứng nhu cầu của người dùng muốn linh hoạt và hiệu năng.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["bàn phím", "cơ học", "Keychron", "không dây"],
+      rating: 4.8,
+      reviewCount: 220,
+      khuyen_mai: "Giảm 5% khi mua kèm chuột Logitech",
+      images: ["images/peripherals/keychron-k8-pro-1.jpg", "images/peripherals/keychron-k8-pro-2.jpg"],
+      bao_hanh: "1 năm",
+      ngay_phat_hanh: "2022-07-20",
+      thiet_bi_tuong_thich: ["Windows, macOS, Linux"],
+      tinh_nang: ["Switch thay nóng", "Bluetooth 5.1", "Đèn RGB", "Hỗ trợ QMK/VIA"]
+    },
+    {
+      id: "mouse002",
+      ten: "Razer DeathAdder V3 Pro",
+      hang: "Razer",
+      gia: 4000000,
+      thong_so: {
+        type: "Wireless Mouse",
+        sensor: "Focus Pro 30K",
+        dpi: "100-30000",
+        weight: "63g",
+        connectivity: "USB-C, Wireless"
+      },
+      so_luong: 50,
+      mo_ta: "Razer DeathAdder V3 Pro là chuột chơi game không dây siêu nhẹ dành cho esports và thi đấu chuyên nghiệp. Với trọng lượng 63g, chuột sử dụng cảm biến quang học Focus Pro 30K của Razer, mang lại độ chính xác vượt trội với dải DPI 100-30000. Công nghệ HyperSpeed Wireless đảm bảo độ trễ thấp, trong khi thiết kế công thái học mang lại sự thoải mái cho các phiên chơi dài. Với 6 nút lập trình và phần mềm Razer Synapse, chuột cho phép tùy chỉnh sâu cho các game như Overwatch hoặc Apex Legends. Pin 90 giờ và cáp sạc USB-C đảm bảo sử dụng liên tục. Switch quang học bền bỉ với 90 triệu lần nhấn và chân đế PTFE cho độ trượt mượt mà. Lý tưởng cho game thủ cần độ chính xác và tốc độ, DeathAdder V3 Pro kết hợp công nghệ tiên tiến với thiết kế mang tính biểu tượng của Razer, là lựa chọn cao cấp cho hiệu năng thi đấu.",
+      trang_thai: "Còn hàng",
+      updatedAt: "2025-04-26",
+      tags: ["chuột", "không dây", "Razer", "esports"],
+      rating: 4.9,
+      reviewCount: 200,
+      khuyen_mai: "Tặng lót chuột Razer khi mua",
+      images: ["images/peripherals/razer-deathadder-v3-1.jpg", "images/peripherals/razer-deathadder-v3-2.jpg"],
+      bao_hanh: "2 năm",
+      ngay_phat_hanh: "2022-08-11",
+      thiet_bi_tuong_thich: ["Windows, macOS"],
+      tinh_nang: ["Cảm biến Focus Pro 30K", "Không dây HyperSpeed", "Switch quang học", "Thiết kế công thái học"]
     }
   ]
 };

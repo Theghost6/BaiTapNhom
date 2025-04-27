@@ -280,4 +280,14 @@
   border: 1px solid black;
   max-width: 500px;
 }
-
+.product-warranty {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+.product-compatible {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+  font-style: italic;
+}
