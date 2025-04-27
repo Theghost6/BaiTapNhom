@@ -26,8 +26,8 @@ const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 
 const App = () => {
   return (
-    <CartProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <CartProvider>
         <Router>
           <Header />
           <main className="main-content">
@@ -52,8 +52,8 @@ const App = () => {
           <Footer />
           <ToastContainer />
         </Router>
-      </AuthProvider>
-    </CartProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 };
 
@@ -62,7 +62,9 @@ const NotFound = () => {
     <div className="not-found">
       <h2>404 - Trang không tìm thấy</h2>
       <p>Xin lỗi, trang bạn đang tìm không tồn tại.</p>
-      <button onClick={() => window.location.href = "/"}>Quay về trang chủ</button>
+      <button onClick={() => (window.location.href = "/")}>
+        Quay về trang chủ
+      </button>
     </div>
   );
 };

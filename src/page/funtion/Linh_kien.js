@@ -21,7 +21,7 @@ const products = {
       rating: 4.9,
       reviewCount: 320,
       khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
-      images: ["images/cpu/i9-13900k-1.jpg", "images/cpu/i9-13900k-2.jpg"],
+      images: ["https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/_/t_i_xu_ng_-_2023-02-09t224950.288_1_1_1.png", "images/cpu/i9-13900k-2.jpg"],
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-10-20",
       thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],

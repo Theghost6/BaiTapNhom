@@ -7,38 +7,38 @@ import LinhKien from "./Linh_kien";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const { isAuthenticated, user } = useContext(AuthContext) || {};
+  const context = useContext(AuthContext);
+  if (!context) {
+    console.error("AuthContext is undefined. Ensure AuthProvider wraps CartProvider.");
+  }
+  const { isAuthenticated, user } = context || {};
+
   const [cartItems, setCartItems] = useState([]);
-  const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
-    const generateSessionId = () => {
-      return Math.random().toString(36).substring(2) + Date.now().toString(36);
-    };
-    const storedSessionId = localStorage.getItem("sessionId");
-    if (!storedSessionId) {
-      const newSessionId = generateSessionId();
-      localStorage.setItem("sessionId", newSessionId);
-      setSessionId(newSessionId);
-    } else {
-      setSessionId(storedSessionId);
+    console.log("AuthContext in CartProvider:", { isAuthenticated, user });
+    if (!isAuthenticated) {
+      console.log("isAuthenticated is false in CartProvider");
     }
-  }, []);
+    if (!user?.id) {
+      console.log("user.id is undefined in CartProvider", { user });
+    }
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
-    console.log("AuthContext:", { isAuthenticated, user });
-    console.log("Session ID:", sessionId);
-  }, [isAuthenticated, user, sessionId]);
-
-  useEffect(() => {
-    if (!sessionId && !isAuthenticated) return;
+    if (!isAuthenticated || !user?.id) {
+      console.log("No user or not authenticated, clearing cart");
+      setCartItems([]);
+      return;
+    }
 
     const fetchCart = async () => {
       try {
+        console.log("Fetching cart for user_id:", user.id);
         const response = await axios.get(
           "http://localhost/backend/gio_hang.php",
           {
-            params: { user_id: user?.id || null, session_id: sessionId },
+            params: { user_id: user.id },
           }
         );
         console.log("Initial cart from server:", response.data);
@@ -50,43 +50,7 @@ export function CartProvider({ children }) {
     };
 
     fetchCart();
-  }, [isAuthenticated, user, sessionId]);
-
-  useEffect(() => {
-    if (isAuthenticated && user?.id && sessionId) {
-      const mergeCart = async () => {
-        try {
-          const response = await axios.patch(
-            "http://localhost/backend/gio_hang.php",
-            {
-              user_id: user.id,
-              session_id: sessionId,
-            }
-          );
-          console.log("Merge cart response:", response.data);
-          if (response.data.success) {
-            const updatedResponse = await axios.get(
-              "http://localhost/backend/gio_hang.php",
-              {
-                params: { user_id: user.id, session_id: sessionId },
-              }
-            );
-            setCartItems(
-              updatedResponse.data.success ? updatedResponse.data.data : []
-            );
-            localStorage.removeItem("sessionId");
-            setSessionId(null);
-          } else {
-            toast.error(response.data.message || "Lỗi khi hợp nhất giỏ hàng");
-          }
-        } catch (error) {
-          console.error("Error merging cart:", error);
-          toast.error("Không thể hợp nhất giỏ hàng");
-        }
-      };
-      mergeCart();
-    }
-  }, [isAuthenticated, user, sessionId]);
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -107,18 +71,23 @@ export function CartProvider({ children }) {
   }, [cartItems]);
 
   const addToCart = async (product) => {
-    if (!sessionId && !isAuthenticated) {
-      console.error("Session ID not initialized");
-      toast.error("Không thể thêm vào giỏ hàng do lỗi hệ thống");
+    console.log("addToCart called with product:", product);
+    console.log("Auth state in addToCart:", { isAuthenticated, user });
+    if (!isAuthenticated) {
+      console.log("addToCart: Not authenticated");
+      toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");
+      return;
+    }
+    if (!user?.id) {
+      console.log("addToCart: No user.id", { user });
+      toast.error("Thông tin tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
       return;
     }
 
     const product_id = product.id;
-    const user_id = user?.id || null;
-    console.log("Product data:", product);
+    const user_id = user.id;
     console.log("Adding to cart:", {
       user_id,
-      session_id: sessionId,
       product_id,
       quantity: 1,
     });
@@ -128,7 +97,6 @@ export function CartProvider({ children }) {
         "http://localhost/backend/gio_hang.php",
         {
           user_id,
-          session_id: sessionId,
           product_id,
           quantity: 1,
         }
@@ -138,7 +106,7 @@ export function CartProvider({ children }) {
         const updatedResponse = await axios.get(
           "http://localhost/backend/gio_hang.php",
           {
-            params: { user_id, session_id: sessionId },
+            params: { user_id },
           }
         );
         console.log("GET updated cart response:", updatedResponse.data);
@@ -162,16 +130,20 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = async (product_id) => {
-    if (!sessionId && !isAuthenticated) {
-      console.error("Session ID not initialized");
-      toast.error("Không thể xóa sản phẩm do lỗi hệ thống");
+    if (!isAuthenticated) {
+      console.log("removeFromCart: Not authenticated");
+      toast.error("Vui lòng đăng nhập để xóa sản phẩm");
+      return;
+    }
+    if (!user?.id) {
+      console.log("removeFromCart: No user.id", { user });
+      toast.error("Thông tin tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
       return;
     }
 
-    const user_id = user?.id || null;
+    const user_id = user.id;
     console.log("Removing from cart:", {
       user_id,
-      session_id: sessionId,
       product_id,
     });
 
@@ -181,7 +153,6 @@ export function CartProvider({ children }) {
         {
           action: "delete",
           user_id,
-          session_id: sessionId,
           product_id,
         }
       );
@@ -190,7 +161,7 @@ export function CartProvider({ children }) {
         const updatedResponse = await axios.get(
           "http://localhost/backend/gio_hang.php",
           {
-            params: { user_id, session_id: sessionId },
+            params: { user_id },
           }
         );
         console.log("GET updated cart response:", updatedResponse.data);
@@ -214,9 +185,14 @@ export function CartProvider({ children }) {
   };
 
   const updateQuantity = async (product_id, quantity) => {
-    if (!sessionId && !isAuthenticated) {
-      console.error("Session ID not initialized");
-      toast.error("Không thể cập nhật số lượng do lỗi hệ thống");
+    if (!isAuthenticated) {
+      console.log("updateQuantity: Not authenticated");
+      toast.error("Vui lòng đăng nhập để cập nhật số lượng");
+      return;
+    }
+    if (!user?.id) {
+      console.log("updateQuantity: No user.id", { user });
+      toast.error("Thông tin tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
       return;
     }
 
@@ -225,10 +201,9 @@ export function CartProvider({ children }) {
       return;
     }
 
-    const user_id = user?.id || null;
+    const user_id = user.id;
     console.log("Updating quantity:", {
       user_id,
-      session_id: sessionId,
       product_id,
       quantity,
     });
@@ -239,7 +214,6 @@ export function CartProvider({ children }) {
         {
           action: "update_quantity",
           user_id,
-          session_id: sessionId,
           product_id,
           quantity,
         }
@@ -249,7 +223,7 @@ export function CartProvider({ children }) {
         const updatedResponse = await axios.get(
           "http://localhost/backend/gio_hang.php",
           {
-            params: { user_id, session_id: sessionId },
+            params: { user_id },
           }
         );
         console.log("GET updated cart response:", updatedResponse.data);
@@ -273,16 +247,20 @@ export function CartProvider({ children }) {
   };
 
   const clearCart = async () => {
-    if (!sessionId && !isAuthenticated) {
-      console.error("Session ID not initialized");
-      toast.error("Không thể xóa giỏ hàng do lỗi hệ thống");
+    if (!isAuthenticated) {
+      console.log("clearCart: Not authenticated");
+      toast.error("Vui lòng đăng nhập để xóa giỏ hàng");
+      return;
+    }
+    if (!user?.id) {
+      console.log("clearCart: No user.id", { user });
+      toast.error("Thông tin tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
       return;
     }
 
-    const user_id = user?.id || null;
+    const user_id = user.id;
     console.log("Clearing cart:", {
       user_id,
-      session_id: sessionId,
     });
 
     try {
@@ -291,7 +269,6 @@ export function CartProvider({ children }) {
         {
           action: "clear",
           user_id,
-          session_id: sessionId,
         }
       );
       console.log("CLEAR cart response:", response.data);

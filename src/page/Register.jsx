@@ -100,6 +100,8 @@ export default function Register() {
         if (data.success) {
           if (!isRegistering) {
             const userData = {
+
+              id: data.user.id,
               username: data.username || data.user?.username || "Người dùng",
               identifier: payload.email || payload.phone,
               type: payload.email ? "email" : "phone",

@@ -4,10 +4,13 @@ import { useCart } from './useCart';
 import '../../style/cart.css';
 import LinhKien from './Linh_kien';
 import 'react-toastify/dist/ReactToastify.css';
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart, updateQuantity } = useCart();
+  const { isAuthenticated } = useContext(AuthContext) || {};
 
   // Create a lookup for product details
   const Products = Object.values(LinhKien).flat();
@@ -42,6 +45,10 @@ const Cart = () => {
     navigate('/AllLinhKien');
   };
 
+  const handleLoginRedirect = () => {
+    navigate('/register');
+  };
+
   const handleQuantityChange = (itemId, newQuantity) => {
     if (newQuantity < 1) return;
     updateQuantity(itemId, newQuantity);
@@ -56,7 +63,22 @@ const Cart = () => {
   console.log('cartItems:', cartItems);
   console.log('getProductDetails:', getProductDetails);
 
-  if (!cartItems || cartItems.length === 0) {
+  if (!isAuthenticated) {
+    return (
+      <div className="cart-page empty-cart">
+        <h3>Giỏ Hàng</h3>
+        <div className="empty-cart-message">
+          <i className="fa fa-shopping-cart"></i>
+          <p>Vui lòng đăng nhập để xem giỏ hàng</p>
+          <button onClick={handleLoginRedirect} className="continue-shopping-btn">
+            Đăng nhập
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (cartItems.length === 0) {
     return (
       <div className="cart-page empty-cart">
         <h3>Giỏ Hàng</h3>
