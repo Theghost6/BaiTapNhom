@@ -226,7 +226,7 @@ const handleAddToCart = () => {
       >
         <div className="product-hero-overlay">
           <h1>Chi tiết sản phẩm</h1>
-          <p>Home > Sản phẩm > {product.ten || "Không xác định"}</p>
+          <p>Home ?& Sản phẩm ?& {product.ten || "Không xác định"}</p>
         </div>
       </div>
 

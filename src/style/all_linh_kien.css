@@ -195,74 +195,68 @@
 /* Styles for the filter bar */
 .filter-bar {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 20px 0;
-  padding: 10px;
-  background-color: #f8f9fa;
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  min-height: 200px;
 }
 
-.filter-bar select {
-  padding: 8px;
-  margin: 5px;
-  font-size: 14px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  width: 150px;
-  background-color: #fff;
-  transition: border-color 0.3s;
+.filter-left {
+  width: 200px;
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
 }
 
-.filter-bar select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.filter-bar .tag-select {
-  flex: 1;
-  max-width: 200px;
-}
-
-.filter-bar label {
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-.filter-bar select option {
-  padding: 10px;
-  background-color: #fff;
-  color: #333;
-}
-
-.filter-bar select option:hover {
-  background-color: #007bff;
-  color: #fff;
-}
-
-/* Hover effect for the dropdown items */
-.filter-bar select:hover {
+.filter-item {
+  padding: 15px 20px;
   cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
 }
 
-/* Styles for active filters */
-.filter-bar .active {
-  background-color: #007bff;
-  color: white;
+.filter-item.active, .filter-item:hover {
+  background: #fff;
+  font-weight: bold;
+  color: #d70018; /* CellphoneS đỏ */
 }
 
-/* Media Query for responsiveness */
-@media (max-width: 768px) {
-  .filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .filter-bar select {
-    margin-bottom: 10px;
-    width: 100%;
-  }
+.filter-right {
+  flex-grow: 1;
+  padding: 10px 10px 10px 10px;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
+.filter-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter-option {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 15%;
+}
+
+.filter-option:hover {
+  background: #d70018;
+  color: #fff;
+  border-color: #d70018;
+}
+
+
+
 .search-bar {
   margin: 20px 0;
   text-align: center;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
-import LinhKien from "./Linh_kien"; // Import dữ liệu từ Linh_kien.js
+import LinhKien from "../../page/funtion/Linh_kien";
 import "../../style/all_linh_kien.css"; // Cập nhật CSS tương ứng
 
 const AllLinhKien = () => {
@@ -43,6 +43,7 @@ const AllLinhKien = () => {
     "5-10 triệu",
     "Trên 10 triệu",
   ];
+  const [hovered, setHovered] = useState("hang")
 
   // Lấy tất cả sản phẩm từ các danh mục
   const allProducts = Object.values(LinhKien).flat();
@@ -54,9 +55,10 @@ const AllLinhKien = () => {
       product.ten.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "Tất cả" ||
-      Object.keys(LinhKien)
-        .find((key) => LinhKien[key].includes(product))
-        ?.toLowerCase() === selectedCategory.toLowerCase();
+      Object.keys(products).find((key) =>
+        products[key].some((item) => item.id === product.id)
+      )?.toLowerCase() === selectedCategory.toLowerCase();
+
     const matchesBrand =
       selectedBrand === "Tất cả" || product.hang === selectedBrand;
     const matchesPrice =
@@ -112,51 +114,79 @@ const AllLinhKien = () => {
 
       {/* Bộ lọc */}
       <div className="filter-bar">
-        <select
-          value={selectedCategory}
-          onChange={(e) => {
-            setSelectedCategory(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="filter-select"
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <div className="filter-left">
+          <div
+            className={`filter-item ${hovered === "Hãng" ? "active" : ""}`}
+            onMouseEnter={() => setHovered("Hãng")}
+          >
+            Hãng
+          </div>
+          <div
+            className={`filter-item ${hovered === "Giá" ? "active" : ""}`}
+            onMouseEnter={() => setHovered("Giá")}
+          >
+            Giá
+          </div>
+          <div
+            className={`filter-item ${hovered === "Loại" ? "active" : ""}`}
+            onMouseEnter={() => setHovered("Loại")}
+          >
+            Loại linh kiện
+          </div>
+        </div>
 
-        <select
-          value={selectedBrand}
-          onChange={(e) => {
-            setSelectedBrand(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="filter-select"
-        >
-          {brands.map((brand) => (
-            <option key={brand} value={brand}>
-              {brand}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={selectedPrice}
-          onChange={(e) => {
-            setSelectedPrice(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="filter-select"
-        >
-          {priceRanges.map((price) => (
-            <option key={price} value={price}>
-              {price}
-            </option>
-          ))}
-        </select>
+        <div className="filter-right">
+          {hovered === "Hãng" && (
+            <div className="filter-content">
+              {brands.map((brand) => (
+                <div
+                  key={brand}
+                  className="filter-option"
+                  onClick={() => {
+                    setSelectedBrand(brand);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {brand}
+                </div>
+              ))}
+            </div>
+          )}
+          {hovered === "Giá" && (
+            <div className="filter-content">
+              {priceRanges.map((price) => (
+                <div
+                  key={price}
+                  className="filter-option"
+                  onClick={() => {
+                    setSelectedPrice(price);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {price}
+                </div>
+              ))}
+            </div>
+          )}
+          {hovered === "Loại" && (
+            <div className="filter-content">
+              {categories.map((category) => (
+                <div
+                  key={category}
+                  className="filter-option"
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {category}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+
 
       {/* Danh sách sản phẩm */}
       <div className="products-grid">
@@ -208,9 +238,8 @@ const AllLinhKien = () => {
           <button
             key={index + 1}
             onClick={() => handlePageChange(index + 1)}
-            className={`pagination-button ${
-              currentPage === index + 1 ? "active" : ""
-            }`}
+            className={`pagination-button ${currentPage === index + 1 ? "active" : ""
+              }`}
           >
             {index + 1}
           </button>

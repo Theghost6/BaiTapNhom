@@ -12,6 +12,8 @@ import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
 import ComboSearch from "../page/funtion/ComboSearch";
+import { motion } from "framer-motion";
+// import { useDimensions } from "../hooks/useDimensions";
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -104,21 +106,30 @@ const Home = () => {
   return (
     <div className="home-container">
       {/* Toggle button */}
-      <button className="menu-toggle-button" onClick={() => setMenuVisible(!menuVisible)}>
-        ☰
-      </button>
+      {/* <div style={{ position: "relative" }}>
+        <motion.nav
+          initial={false}
+          animate={menuVisible ? "open" : "closed"}
+          custom={400} // Chiều cao giả định hoặc dùng useDimensions
+          variants={sidebarVariants}
+          style={{
+            width: 300,
+            height: "100vh", // ✅ Quan trọng
+            backgroundColor: "#f5f5f5", 
+            position: "fixed", // ✅ Để nó nằm luôn trên màn hình
+            top: 0,
+            left: 0,
+            bottom: 900,
+            overflow: "hidden",
+            zIndex: 100,
+          }}
+          ref={menuRef}
+        >
+          <Variants />
+        </motion.nav>
 
-      {/* Left Box Menu */}
-      {menuVisible && (
-        <div className="left-box-menu" ref={menuRef}>
-          <ul>
-            <li><button onClick={() => document.getElementById('hero-slider').scrollIntoView({ behavior: 'smooth' })}>🏠 Trang chủ</button></li>
-            <li><button onClick={() => document.getElementById('diem-den').scrollIntoView({ behavior: 'smooth' })}>📍 Điểm đến</button></li>
-            <li><button onClick={() => document.getElementById('discount').scrollIntoView({ behavior: 'smooth' })}>🛎️ Ưu đãi nổi bật</button></li>
-            <li><button onClick={() => document.getElementById('dang-ki').scrollIntoView({ behavior: 'smooth' })}>📞 Đăng kí ưu đãi</button></li>
-          </ul>
-        </div>
-      )}
+        <MenuToggle toggle={() => setMenuVisible(!menuVisible)} />
+      </div> */}
 
       {/* Hero Slider */}
       <div className="hero-slider" id="hero-slider">

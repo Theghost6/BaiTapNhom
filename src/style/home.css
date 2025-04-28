@@ -4,13 +4,14 @@
 .home-container {
   min-height: 100vh;
   background: #fff;
-  margin-top: -160px;
+  margin-top: -15px;
   width: 100%;
   overflow-x: hidden;
+
 }
 
 /* Menu */
-.menu-toggle-button {
+/* .menu-toggle-button {
   position: fixed;
   top: 80px;
   left: 10px;
@@ -60,7 +61,7 @@
 
 .left-box-menu a:hover {
   color: #007bff;
-}
+} */
 
 
 
