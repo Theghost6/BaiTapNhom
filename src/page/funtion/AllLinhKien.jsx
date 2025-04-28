@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";import { Star } from "lucide-react";
 import LinhKien from "../../page/funtion/Linh_kien";
 import "../../style/all_linh_kien.css"; // Cập nhật CSS tương ứng
 

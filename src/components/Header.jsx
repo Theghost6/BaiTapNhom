@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { UserCircle, ShoppingBag, LogOut, User, MapPin, Code, Gift } from "lucide-react";
+import { UserCircle, ShoppingBag, LogOut, User, MapPin, Code, Gift} from "lucide-react";
+import {FiPackage} from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Menu } from "lucide-react";
@@ -183,6 +184,9 @@ const Header = () => {
                   </Link>
                   <Link to="/cart" className="dropdown-item">
                     <ShoppingBag size={16} /> Đơn hàng của tôi
+                  </Link>
+                  <Link to="/tracuu" className="dropdown-item">
+                    <FiPackage size={16} /> Tra cứu đơn hàng
                   </Link>
                   {user?.role === "admin" && (
                     <Link to="/admin" className="dropdown-item">

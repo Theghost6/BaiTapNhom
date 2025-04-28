@@ -25,6 +25,7 @@ const Admin = lazy(() => import("./page/funtion/Admin"));
 const ThankYou = lazy(() => import("./page/funtion/ThankYou"));
 const Hotels = lazy(() => import("./page/funtion/Hotels"));
 const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
+const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 
 const App = () => {
   return (
@@ -78,6 +79,7 @@ const AnimatedRoutes = () => {
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/hotel/:id" element={<ChiTietHotel />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/tracuu" element={<TraCuuDonHang />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
