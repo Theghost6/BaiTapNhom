@@ -6,7 +6,6 @@ import Footer from "./components/Footer";
 import { AuthProvider } from "./page/funtion/AuthContext";
 import { CartProvider } from "./page/funtion/useCart";
 import { ToastContainer } from "react-toastify";
-import { motion } from "motion/react";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";

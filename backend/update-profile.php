@@ -70,7 +70,7 @@ try {
     // Kiểm tra xem identifier hiện tại có tồn tại không
     $identifierColumn = $currentType === "phone" ? "phone" : "email";
 
-    $stmtCheck = $conn->prepare("SELECT * FROM register WHERE $identifierColumn = ?");
+    $stmtCheck = $conn->prepare("SELECT * FROM dang_ky WHERE $identifierColumn = ?");
     $stmtCheck->bind_param("s", $currentIdentifier);
     $stmtCheck->execute();
     $resultCheck = $stmtCheck->get_result();
@@ -84,7 +84,7 @@ try {
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - Existing data in DB: " . print_r($existingData, true) . PHP_EOL, FILE_APPEND);
 
     // Cập nhật thông tin trong cơ sở dữ liệu
-    $stmt = $conn->prepare("UPDATE register SET user = ?, phone = ?, email = ? WHERE " . ($currentType === "phone" ? "phone" : "email") . " = ?");
+    $stmt = $conn->prepare("UPDATE dang_ky SET user = ?, phone = ?, email = ? WHERE " . ($currentType === "phone" ? "phone" : "email") . " = ?");
     $stmt->bind_param("ssss", $username, $phone, $email, $currentIdentifier);
 
     if ($stmt->execute()) {

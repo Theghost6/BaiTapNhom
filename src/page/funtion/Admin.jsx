@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DiaDiem from "../funtion/Dia_Diem";
 
 function Admin() {
   // States for different data types
-  const [view, setView] = useState("bookings");
-  const [bookings, setBookings] = useState([]);
+  const [view, setView] = useState("orders");
+  const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [payments, setPayments] = useState([]);
-  const [hotels, setHotels] = useState([]);
-  const [total_payment, setTotalPayment] = useState([]);
+  const [promotions, setPromotions] = useState([]);
+  const [totalPayment, setTotalPayment] = useState([]);
 
   // States for selected items and related data
-  const [selectedBooking, setSelectedBooking] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  // reply review
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderItems, setOrderItems] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
-  const [reply, setReply] = useState([]);
+  const [replies, setReplies] = useState([]);
+
   // Fetch data based on current view
   useEffect(() => {
     switch (view) {
-      case "bookings":
+      case "orders":
         axios
-          .get("http://localhost/backend/api.php?action=get_bookings")
-          .then((res) => setBookings(res.data))
-          .catch((err) => console.error("Error fetching bookings:", err));
+          .get("http://localhost/backend/api.php?action=get_orders")
+          .then((res) => setOrders(res.data))
+          .catch((err) => console.error("Error fetching orders:", err));
         break;
       case "users":
         axios
@@ -42,17 +41,14 @@ function Admin() {
       case "payments":
         axios
           .get("http://localhost/backend/api.php?action=get_payments")
-          .then((res) => {
-            setPayments(res.data);
-            console.log(res.data);
-          })
+          .then((res) => setPayments(res.data))
           .catch((err) => console.error("Error fetching payments:", err));
         break;
-      case "hotels":
+      case "promotions":
         axios
-          .get("http://localhost/backend/api.php?action=get_hotels")
-          .then((res) => setHotels(res.data))
-          .catch((err) => console.error("Error fetching hotels:", err));
+          .get("http://localhost/backend/api.php?action=get_promotions")
+          .then((res) => setPromotions(res.data))
+          .catch((err) => console.error("Error fetching promotions:", err));
         break;
       case "total_payment":
         axios
@@ -65,40 +61,43 @@ function Admin() {
     }
   }, [view]);
 
-  // View booking details
+  // View order details
   const viewDetails = (id) => {
     axios
+      .get(`http://localhost/backend/api.php?action=get_order_detail&id=${id}`)
+      .then((res) => {
+        setOrderItems(res.data);
+        setSelectedOrder(id);
+      })
+      .catch((err) => console.error("Error fetching order details:", err));
+  };
+
+  // View review replies
+  const viewReply = (id) => {
+    axios
       .get(
-        `http://localhost/backend/api.php?action=get_booking_detail&id=${id}`,
+        `http://localhost/backend/api.php?action=get_review_replies&id=${id}`
       )
       .then((res) => {
-        setCartItems(res.data);
-        console.log(res.data);
-        setSelectedBooking(id);
+        setReplies(res.data);
+        setSelectedReview(id);
       })
-      .catch((err) => console.error("Error fetching booking details:", err));
+      .catch((err) => console.error("Error fetching replies:", err));
   };
-  //view reply
-  const viewReply = (id) => {
-    axios.get("http://localhost/backend/reply_review.php?id_danh_gia=${id}").then((res) => {
-      setReply(res.data);
-      console.log(res.data);
-    setSelectedReview(id)
-    });
-  };
-  // Delete booking
-  const deleteBooking = (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa booking này?")) {
+
+  // Delete order
+  const deleteOrder = (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) {
       axios
-        .get(`http://localhost/backend/api.php?action=delete_booking&id=${id}`)
+        .get(`http://localhost/backend/api.php?action=delete_order&id=${id}`)
         .then(() => {
-          setBookings(bookings.filter((b) => b.id !== id));
-          if (selectedBooking === id) {
-            setSelectedBooking(null);
-            setCartItems([]);
+          setOrders(orders.filter((o) => o.id !== id));
+          if (selectedOrder === id) {
+            setSelectedOrder(null);
+            setOrderItems([]);
           }
         })
-        .catch((err) => console.error("Error deleting booking:", err));
+        .catch((err) => console.error("Error deleting order:", err));
     }
   };
 
@@ -107,7 +106,7 @@ function Admin() {
     if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
       axios
         .get(
-          `http://localhost/backend/api.php?action=delete_user&phone=${phone}`,
+          `http://localhost/backend/api.php?action=delete_user&phone=${phone}`
         )
         .then(() => {
           setUsers(users.filter((u) => u.phone !== phone));
@@ -140,25 +139,27 @@ function Admin() {
     }
   };
 
-  // Delete hotel
-  const deleteHotel = (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa khách sạn này?")) {
+  // Delete promotion
+  const deletePromotion = (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?")) {
       axios
-        .get(`http://localhost/backend/api.php?action=delete_hotel&id=${id}`)
+        .get(
+          `http://localhost/backend/api.php?action=delete_promotion&id=${id}`
+        )
         .then(() => {
-          setHotels(hotels.filter((h) => h.id !== id));
+          setPromotions(promotions.filter((p) => p.id !== id));
         })
-        .catch((err) => console.error("Error deleting hotel:", err));
+        .catch((err) => console.error("Error deleting promotion:", err));
     }
   };
 
   // Render different views based on the selected menu item
   const renderContent = () => {
     switch (view) {
-      case "bookings":
+      case "orders":
         return (
           <div>
-            <h2>Danh sách Booking</h2>
+            <h2>Danh sách Đơn hàng</h2>
             <table
               border="1"
               cellPadding="8"
@@ -167,38 +168,38 @@ function Admin() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tên</th>
-                  <th>Email</th>
-                  <th>SĐT</th>
-                  <th>Ngày</th>
-                  <th>Số người</th>
-                  <th>Thông Tin Địa Điểm</th>
+                  <th>Mã người dùng</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày đặt</th>
+                  <th>Ghi chú</th>
+                  <th>Hành động</th>
                 </tr>
               </thead>
               <tbody>
-                {bookings.length === 0 ? (
+                {orders.length === 0 ? (
                   <tr>
                     <td colSpan="7" style={{ textAlign: "center" }}>
-                      Không có booking nào
+                      Không có đơn hàng nào
                     </td>
                   </tr>
                 ) : (
-                  bookings.map((b) => (
-                    <tr key={b.id}>
-                      <td>{b.id}</td>
-                      <td>{b.ten}</td>
-                      <td>{b.email}</td>
-                      <td>{b.sdt}</td>
+                  orders.map((order) => (
+                    <tr key={order.id}>
+                      <td>{order.id}</td>
+                      <td>{order.ma_nguoi_dung}</td>
                       <td>
-                        {b.ngay_vao} → {b.ngay_ra}
+                        {Number(order.tong_tien).toLocaleString("vi-VN")} đ
                       </td>
-                      <td>{b.so_nguoi}</td>
+                      <td>{order.trang_thai}</td>
+                      <td>{order.ngay_dat}</td>
+                      <td>{order.ghi_chu || "Không có"}</td>
                       <td>
-                        <button onClick={() => viewDetails(b.id)}>
+                        <button onClick={() => viewDetails(order.id)}>
                           Chi tiết
                         </button>
                         <button
-                          onClick={() => deleteBooking(b.id)}
+                          onClick={() => deleteOrder(order.id)}
                           style={{ color: "red", marginLeft: 10 }}
                         >
                           Xóa
@@ -210,11 +211,11 @@ function Admin() {
               </tbody>
             </table>
 
-            {selectedBooking && (
+            {selectedOrder && (
               <div style={{ marginTop: 40 }}>
-                <h2>Chi tiết Tour cho Booking ID: {selectedBooking}</h2>
-                {cartItems.length === 0 ? (
-                  <p>Không có tour nào.</p>
+                <h2>Chi tiết Đơn hàng ID: {selectedOrder}</h2>
+                {orderItems.length === 0 ? (
+                  <p>Không có sản phẩm nào.</p>
                 ) : (
                   <table
                     border="1"
@@ -223,22 +224,25 @@ function Admin() {
                   >
                     <thead>
                       <tr>
-                        <th>Tên Tour</th>
-                        <th>Tên khách sạn</th>
-                        <th>Loại phòng</th>
-                        <th>Trạng thái thanh toán</th>
-                        <th>Tổng giá</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Tổng tiền</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {cartItems.map((item, index) => (
+                      {orderItems.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.ten_tour}</td>
-                          <td>{item.ten_ks}</td>
-                          <td>{item.loai_phong}</td>
-                          <td>{item.thanh_toan}</td>
+                          <td>{item.ten_san_pham}</td>
+                          <td>{item.danh_muc}</td>
+                          <td>{item.so_luong}</td>
+                          <td>{Number(item.gia).toLocaleString("vi-VN")} đ</td>
                           <td>
-                            {Number(item.tong_tien).toLocaleString("vi-VN")} đ
+                            {Number(item.gia * item.so_luong).toLocaleString(
+                              "vi-VN"
+                            )}{" "}
+                            đ
                           </td>
                         </tr>
                       ))}
@@ -249,7 +253,6 @@ function Admin() {
             )}
           </div>
         );
-
       case "users":
         return (
           <div>
@@ -302,9 +305,9 @@ function Admin() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tour ID</th>
+                  <th>Mã sản phẩm</th>
                   <th>Người đánh giá</th>
-                  <th>Đánh giá</th>
+                  <th>Số sao</th>
                   <th>Bình luận</th>
                   <th>Ngày</th>
                   <th>Hành động</th>
@@ -318,39 +321,36 @@ function Admin() {
                     </td>
                   </tr>
                 ) : (
-                  reviews.map((review) => {
-                    const diaDiem = DiaDiem.find(
-                      (item) => item.id === Number(review.id_tour),
-                    );
-                    return (
-                      <tr key={review.id}>
-                        <td>{review.id}</td>
-                        <td>{diaDiem ? diaDiem.name : "Không rõ"}</td>
-                        <td>{review.ten_nguoi_dung}</td>
-                        <td>{review.danh_gia} ★</td>
-                        <td>{review.binh_luan}</td>
-                        <td>{review.ngay}</td>
-                        <td>
-                            <button onClick={() => viewReply(review.id)}>Reply</button>
-                          <button
-                            onClick={() => deleteReview(review.id)}
-                            style={{ color: "red" }}
-                          >
-                            Xóa
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}{" "}
+                  reviews.map((review) => (
+                    <tr key={review.id}>
+                      <td>{review.id}</td>
+                      <td>{review.id_product}</td>
+                      <td>{review.ten_nguoi_dung}</td>
+                      <td>{review.so_sao} ★</td>
+                      <td>{review.binh_luan}</td>
+                      <td>{review.ngay}</td>
+                      <td>
+                        <button onClick={() => viewReply(review.id)}>
+                          Xem phản hồi
+                        </button>
+                        <button
+                          onClick={() => deleteReview(review.id)}
+                          style={{ color: "red", marginLeft: 10 }}
+                        >
+                          Xóa
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
 
             {selectedReview && (
               <div style={{ marginTop: 40 }}>
-                <h2>Phản hồi Review: {selectedReview}</h2>
-                {reply.length === 0 ? (
-                  <p>Không có reply nào.</p>
+                <h2>Phản hồi Đánh giá ID: {selectedReview}</h2>
+                {replies.length === 0 ? (
+                  <p>Không có phản hồi nào.</p>
                 ) : (
                   <table
                     border="1"
@@ -359,14 +359,17 @@ function Admin() {
                   >
                     <thead>
                       <tr>
-                        <th>Tên người phản hồi</th>
-                        <th>Nội dung phản hồi</th>
+                        <th>Người phản hồi</th>
+                        <th>Nội dung</th>
+                        <th>Ngày</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {reply.map((item, index) => (
+                      {replies.map((reply, index) => (
                         <tr key={index}>
-                          <td>{item.ten_tour}</td>
+                          <td>{reply.ten_nguoi_tra_loi}</td>
+                          <td>{reply.noi_dung_phan_hoi}</td>
+                          <td>{reply.ngay}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -389,20 +392,19 @@ function Admin() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Mã giao dịch</th>
-                  <th>Mã đặt phòng</th>
+                  <th>Mã đơn hàng</th>
                   <th>Phương thức thanh toán</th>
                   <th>Tổng tiền</th>
-                  <th>Số lượng</th>
-                  <th>Trạng thái thanh toán</th>
+                  <th>Trạng thái</th>
                   <th>Thời gian thanh toán</th>
+                  <th>Mã giao dịch</th>
                   <th>Hành động</th>
                 </tr>
               </thead>
               <tbody>
                 {payments.length === 0 ? (
                   <tr>
-                    <td colSpan="6" style={{ textAlign: "center" }}>
+                    <td colSpan="8" style={{ textAlign: "center" }}>
                       Không có thanh toán nào
                     </td>
                   </tr>
@@ -410,15 +412,16 @@ function Admin() {
                   payments.map((payment) => (
                     <tr key={payment.id}>
                       <td>{payment.id}</td>
-                      <td>{payment.ma_giao_dich}</td>
-                      <td>{payment.dat_phong_id}</td>
+                      <td>{payment.ma_don_hang}</td>
                       <td>{payment.phuong_thuc_thanh_toan}</td>
                       <td>
                         {Number(payment.tong_so_tien).toLocaleString("vi-VN")} đ
                       </td>
-                      <td>{payment.tong_so_luong}</td>
                       <td>{payment.trang_thai_thanh_toan}</td>
-                      <td>{payment.thoi_gian_thanh_toan}</td>
+                      <td>
+                        {payment.thoi_gian_thanh_toan || "Chưa thanh toán"}
+                      </td>
+                      <td>{payment.ma_giao_dich || "N/A"}</td>
                       <td>
                         <button
                           onClick={() => deletePayment(payment.id)}
@@ -435,10 +438,10 @@ function Admin() {
           </div>
         );
 
-      case "hotels":
+      case "promotions":
         return (
           <div>
-            <h2>Quản lý Khách sạn</h2>
+            <h2>Quản lý Khuyến mãi</h2>
             <button
               style={{
                 marginBottom: "20px",
@@ -450,10 +453,10 @@ function Admin() {
                 cursor: "pointer",
               }}
               onClick={() =>
-                alert("Chức năng thêm khách sạn sẽ được phát triển sau")
+                alert("Chức năng thêm khuyến mãi sẽ được phát triển sau")
               }
             >
-              Thêm khách sạn mới
+              Thêm khuyến mãi mới
             </button>
             <table
               border="1"
@@ -463,30 +466,34 @@ function Admin() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tên khách sạn</th>
-                  <th>Địa chỉ</th>
-                  <th>Số sao</th>
+                  <th>Tên khuyến mãi</th>
+                  <th>Mô tả</th>
+                  <th>Ngày bắt đầu</th>
+                  <th>Ngày kết thúc</th>
+                  <th>Mã sản phẩm</th>
                   <th>Hành động</th>
                 </tr>
               </thead>
               <tbody>
-                {hotels.length === 0 ? (
+                {promotions.length === 0 ? (
                   <tr>
-                    <td colSpan="5" style={{ textAlign: "center" }}>
-                      Không có khách sạn nào
+                    <td colSpan="7" style={{ textAlign: "center" }}>
+                      Không có khuyến mãi nào
                     </td>
                   </tr>
                 ) : (
-                  hotels.map((hotel) => (
-                    <tr key={hotel.id}>
-                      <td>{hotel.id}</td>
-                      <td>{hotel.ten}</td>
-                      <td>{hotel.dia_chi}</td>
-                      <td>{hotel.so_sao} ★</td>
+                  promotions.map((promo) => (
+                    <tr key={promo.id}>
+                      <td>{promo.id}</td>
+                      <td>{promo.ten_khuyen_mai}</td>
+                      <td>{promo.mo_ta}</td>
+                      <td>{promo.ngay_bat_dau}</td>
+                      <td>{promo.ngay_ket_thuc}</td>
+                      <td>{promo.id_product || "N/A"}</td>
                       <td>
                         <button style={{ marginRight: "10px" }}>Sửa</button>
                         <button
-                          onClick={() => deleteHotel(hotel.id)}
+                          onClick={() => deletePromotion(promo.id)}
                           style={{ color: "red" }}
                         >
                           Xóa
@@ -499,6 +506,7 @@ function Admin() {
             </table>
           </div>
         );
+
       case "total_payment":
         return (
           <div>
@@ -514,12 +522,13 @@ function Admin() {
               }}
             >
               Tổng tiền:{" "}
-              {total_payment && total_payment.tong
-                ? Number(total_payment.tong).toLocaleString("vi-VN") + " đ"
+              {totalPayment && totalPayment.tong
+                ? Number(totalPayment.tong).toLocaleString("vi-VN") + " đ"
                 : "Chưa có dữ liệu"}
             </div>
           </div>
         );
+
       default:
         return <div>Chọn một mục từ menu để quản lý</div>;
     }
@@ -527,7 +536,7 @@ function Admin() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>Quản trị Hệ thống Du lịch</h1>
+      <h1>Quản trị Hệ thống Bán Linh kiện</h1>
 
       {/* Navigation Menu */}
       <div
@@ -541,17 +550,17 @@ function Admin() {
         }}
       >
         <button
-          onClick={() => setView("bookings")}
+          onClick={() => setView("orders")}
           style={{
             padding: "10px 15px",
-            backgroundColor: view === "bookings" ? "#007bff" : "#e9e9e9",
-            color: view === "bookings" ? "white" : "black",
+            backgroundColor: view === "orders" ? "#007bff" : "#e9e9e9",
+            color: view === "orders" ? "white" : "black",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
           }}
         >
-          Bookings
+          Đơn hàng
         </button>
         <button
           onClick={() => setView("users")}
@@ -577,7 +586,7 @@ function Admin() {
             cursor: "pointer",
           }}
         >
-          Reviews
+          Đánh giá
         </button>
         <button
           onClick={() => setView("payments")}
@@ -593,17 +602,17 @@ function Admin() {
           Thanh toán
         </button>
         <button
-          onClick={() => setView("hotels")}
+          onClick={() => setView("promotions")}
           style={{
             padding: "10px 15px",
-            backgroundColor: view === "hotels" ? "#007bff" : "#e9e9e9",
-            color: view === "hotels" ? "white" : "black",
+            backgroundColor: view === "promotions" ? "#007bff" : "#e9e9e9",
+            color: view === "promotions" ? "white" : "black",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
           }}
         >
-          Khách sạn
+          Khuyến mãi
         </button>
         <button
           onClick={() => setView("total_payment")}
@@ -616,7 +625,7 @@ function Admin() {
             cursor: "pointer",
           }}
         >
-          Thống Kê
+          Thống kê
         </button>
       </div>
 

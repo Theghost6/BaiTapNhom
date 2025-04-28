@@ -19,7 +19,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-    logMessage("OPTIONS request received");
+    logMessage("Yêu cầu OPTIONS được nhận");
     exit();
 }
 
@@ -27,12 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ"; // Your VNPay secret
     
-    // Enhanced debugging
-    logMessage("--------- VNPay Callback Debug ---------");
-    logMessage("All GET parameters: " . json_encode($_GET));
+    logMessage("--------- Gỡ lỗi Callback VNPay ---------");
+    logMessage("Tất cả tham số GET: " . json_encode($_GET));
     
     $vnp_SecureHash = $_GET['vnp_SecureHash'];
-    logMessage("vnp_SecureHash received: " . $vnp_SecureHash);
+    logMessage("vnp_SecureHash nhận được: " . $vnp_SecureHash);
     
     $inputData = array();
     foreach ($_GET as $key => $value) {
@@ -43,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     
     unset($inputData['vnp_SecureHash']);
     ksort($inputData);
-    logMessage("InputData after sorting: " . json_encode($inputData));
+    logMessage("inputData sau khi sắp xếp: " . json_encode($inputData));
     
     $i = 0;
     $hashData = "";
@@ -56,46 +55,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
         }
     }
     
-    logMessage("HashData string: " . $hashData);
+    logMessage("Chuỗi hashData: " . $hashData);
     $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
-    logMessage("Generated secureHash: " . $secureHash);
-    logMessage("Hash match: " . ($secureHash === $vnp_SecureHash ? "Yes" : "No"));
+    logMessage("secureHash được tạo: " . $secureHash);
+    logMessage("Khớp hash: " . ($secureHash === $vnp_SecureHash ? "Có" : "Không"));
 
     if ($secureHash !== $vnp_SecureHash) {
-        logMessage("Invalid VNPay callback signature");
+        logMessage("Chữ ký VNPay không hợp lệ");
         http_response_code(400);
-        echo json_encode(['status' => 'error', 'message' => 'Invalid signature']);
+        echo json_encode(['status' => 'error', 'message' => 'Chữ ký không hợp lệ']);
         exit;
     }
 
     $conn = new mysqli("localhost", "root", "", "form");
     if ($conn->connect_error) {
-        logMessage("Database connection failed: " . $conn->connect_error);
+        logMessage("Kết nối cơ sở dữ liệu thất bại: " . $conn->connect_error);
         http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => 'Database error']);
+        echo json_encode(['status' => 'error', 'message' => 'Lỗi cơ sở dữ liệu']);
         exit;
     }
 
     $orderId = $conn->real_escape_string($_GET['vnp_TxnRef']);
     $status = $_GET['vnp_ResponseCode'] == '00' ? 'Đã thanh toán' : 'Thất bại';
     $transId = $conn->real_escape_string($_GET['vnp_TransactionNo']);
-    $sql = "UPDATE thanh_toan SET trang_thai_thanh_toan = '$status', ma_giao_dich = '$transId' WHERE dat_phong_id = '$orderId'";
-    if ($conn->query($sql)) {
-        logMessage("Payment status updated for order $orderId: $status");
-        
-        // Redirect user based on payment result
-        if ($_GET['vnp_ResponseCode'] == '00') {
-            // Payment success - redirect to success page
-            header("Location: http://localhost/success.html?orderId=$orderId");
-        } else {
-            // Payment failed - redirect to failure page
-            header("Location: http://localhost/failure.html?orderId=$orderId");
-        }
-        exit;
+    
+    $sqlPayment = "UPDATE thanh_toan SET 
+                   trang_thai_thanh_toan = '$status', 
+                   ma_giao_dich = '$transId',
+                   thoi_gian_thanh_toan = NOW(),
+                   thoi_gian_cap_nhat = NOW()
+                   WHERE ma_don_hang = '$orderId'";
+                   
+    $conn->query($sqlPayment);
+    
+    logMessage("Trạng thái thanh toán được cập nhật cho đơn hàng $orderId: $status");
+    
+    if ($_GET['vnp_ResponseCode'] == '00') {
+        header("Location: http://localhost:5173/thankyou");
     } else {
-        logMessage("Error updating payment status: " . $conn->error);
-        http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => 'Database error']);
+        header("Location: http://localhost:3000/payment-failed?orderId=$orderId");
     }
     $conn->close();
     exit;
@@ -105,53 +103,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
 $conn = new mysqli("localhost", "root", "", "form");
 if ($conn->connect_error) {
     http_response_code(500);
-    $errorMsg = "Database connection failed: " . $conn->connect_error;
+    $errorMsg = "Kết nối cơ sở dữ liệu thất bại: " . $conn->connect_error;
     logMessage($errorMsg);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
     exit;
 }
 
 $conn->set_charset("utf8mb4");
-logMessage("Database connected successfully");
+logMessage("Kết nối cơ sở dữ liệu thành công");
 
 // Parse JSON input
 $rawInput = file_get_contents("php://input");
-logMessage("Raw input: $rawInput");
+logMessage("Dữ liệu thô: $rawInput");
 $data = json_decode($rawInput, true);
 
 if (json_last_error() !== JSON_ERROR_NONE) {
     http_response_code(400);
-    $errorMsg = "Invalid JSON: " . json_last_error_msg();
+    $errorMsg = "JSON không hợp lệ: " . json_last_error_msg();
     logMessage($errorMsg);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
     exit;
 }
 
-// Handle booking logic
-if (!$data || !isset($data['bookingInfo']) || !isset($data['cartItems']) || !isset($data['paymentMethod'])) {
+// Handle order logic
+if (!$data || !isset($data['customerInfo']) || !isset($data['cartItems']) || !isset($data['paymentMethod']) || !isset($data['shippingMethod'])) {
     http_response_code(400);
-    $errorMsg = "Missing required fields: bookingInfo, cartItems, or paymentMethod";
+    $errorMsg = "Thiếu các trường bắt buộc: customerInfo, cartItems, paymentMethod, hoặc shippingMethod";
     logMessage($errorMsg);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
     exit;
 }
 
-$booking = $data['bookingInfo'];
-$cartItems = $data['cartItems'];
-$paymentMethod = $data['paymentMethod'];
-$totalAmount = $data['totalAmount'] ?? 0;
-$totalQuantity = $data['totalQuantity'] ?? 0;
-$sourceInfo = $data['sourceInfo'] ?? [];
-$hotelInfo = $data['hotelInfo'] ?? null;
-$roomInfo = $data['roomInfo'] ?? null;
-$destinationInfo = $data['destinationInfo'] ?? null;
+$thong_tin_khach_hang = $data['customerInfo'];
+$muc_gio_hang = $data['cartItems'];
+$phuong_thuc_thanh_toan = $data['paymentMethod'];
+$phuong_thuc_van_chuyen = $data['shippingMethod'];
+$tong_so_tien = $data['totalAmount'] ?? 0;
+$ngay_dat_hang = $data['orderDate'] ?? date('Y-m-d H:i:s');
+$userId = isset($data['userId']) && is_numeric($data['userId']) ? $conn->real_escape_string($data['userId']) : null;
+
+// Convert ISO date to MySQL DATETIME format
+try {
+    $date = new DateTime($ngay_dat_hang);
+    $ngay_dat_hang_dinh_dang = $date->format('Y-m-d H:i:s');
+    logMessage("Chuyển đổi ngay_dat_hang: $ngay_dat_hang thành $ngay_dat_hang_dinh_dang");
+} catch (Exception $e) {
+    http_response_code(400);
+    $errorMsg = "Định dạng ngày đặt hàng không hợp lệ: " . $e->getMessage();
+    logMessage($errorMsg);
+    echo json_encode(["status" => "error", "message" => $errorMsg]);
+    exit;
+}
 
 // Input validation
-$requiredBookingFields = ['checkInDate', 'checkOutDate', 'email', 'fullName', 'numberOfPeople', 'phone'];
-foreach ($requiredBookingFields as $field) {
-    if (!isset($booking[$field]) || empty(trim($booking[$field]))) {
+$requiredCustomerFields = ['fullName', 'email', 'phone'];
+if ($phuong_thuc_van_chuyen === 'ship') {
+    $requiredCustomerFields = array_merge($requiredCustomerFields, ['address', 'city', 'district']);
+}
+foreach ($requiredCustomerFields as $field) {
+    if (!isset($thong_tin_khach_hang[$field]) || empty(trim($thong_tin_khach_hang[$field]))) {
         http_response_code(400);
-        $errorMsg = "Missing or empty booking field: $field";
+        $errorMsg = "Thiếu hoặc trường khách hàng rỗng: $field";
         logMessage($errorMsg);
         echo json_encode(["status" => "error", "message" => $errorMsg]);
         exit;
@@ -159,234 +171,168 @@ foreach ($requiredBookingFields as $field) {
 }
 
 // Validate email
-if (!filter_var($booking['email'], FILTER_VALIDATE_EMAIL)) {
+if (!filter_var($thong_tin_khach_hang['email'], FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
-    $errorMsg = "Invalid email format: " . $booking['email'];
+    $errorMsg = "Định dạng email không hợp lệ: " . $thong_tin_khach_hang['email'];
     logMessage($errorMsg);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
     exit;
 }
 
 // Validate phone
-if (!preg_match('/^[0-9]{10,15}$/', $booking['phone'])) {
+if (!preg_match('/^[0-9]{10,11}$/', preg_replace('/[^0-9]/', '', $thong_tin_khach_hang['phone']))) {
     http_response_code(400);
-    $errorMsg = "Invalid phone number format: " . $booking['phone'];
-    logMessage($errorMsg);
-    echo json_encode(["status" => "error", "message" => $errorMsg]);
-    exit;
-}
-
-// Validate dates
-$checkInDate = DateTime::createFromFormat('Y-m-d', $booking['checkInDate']);
-$checkOutDate = DateTime::createFromFormat('Y-m-d', $booking['checkOutDate']);
-if (!$checkInDate || !$checkOutDate || $checkInDate >= $checkOutDate) {
-    http_response_code(400);
-    $errorMsg = "Invalid dates: check-in must be before check-out";
+    $errorMsg = "Định dạng số điện thoại không hợp lệ: " . $thong_tin_khach_hang['phone'];
     logMessage($errorMsg);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
     exit;
 }
 
 // Validate cart items
-foreach ($cartItems as $index => $item) {
-    if (!isset($item['name']) || !isset($item['price']) || !is_numeric($item['price']) || $item['price'] <= 0) {
+if (empty($muc_gio_hang)) {
+    http_response_code(400);
+    $errorMsg = "Giỏ hàng rỗng";
+    logMessage($errorMsg);
+    echo json_encode(["status" => "error", "message" => $errorMsg]);
+    exit;
+}
+foreach ($muc_gio_hang as $index => $item) {
+    if (!isset($item['id_product']) || !isset($item['ten']) || !isset($item['gia']) || 
+        !isset($item['so_luong']) || !isset($item['danh_muc']) || !is_numeric($item['gia']) || $item['gia'] <= 0) {
         http_response_code(400);
-        $errorMsg = "Invalid cart item at index $index: missing name or invalid price";
+        $errorMsg = "Mục giỏ hàng không hợp lệ tại chỉ số $index: thiếu trường bắt buộc hoặc giá không hợp lệ";
         logMessage($errorMsg);
         echo json_encode(["status" => "error", "message" => $errorMsg]);
         exit;
     }
 }
 
-// Validate total amount and quantity
-if (!is_numeric($totalAmount) || $totalAmount <= 0 || !is_numeric($totalQuantity) || $totalQuantity <= 0) {
+// Validate shipping method
+if (!in_array($phuong_thuc_van_chuyen, ['ship', 'pickup'])) {
     http_response_code(400);
-    $errorMsg = "Invalid total amount ($totalAmount) or quantity ($totalQuantity)";
+    $errorMsg = "Phương thức vận chuyển không hợp lệ: $phuong_thuc_van_chuyen";
     logMessage($errorMsg);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
     exit;
 }
 
-logMessage("Input validation passed");
+// Validate total amount
+if (!is_numeric($tong_so_tien) || $tong_so_tien <= 0) {
+    http_response_code(400);
+    $errorMsg = "Tổng số tiền không hợp lệ: $tong_so_tien";
+    logMessage($errorMsg);
+    echo json_encode(["status" => "error", "message" => $errorMsg]);
+    exit;
+}
+
+// Validate userId
+if (is_null($userId)) {
+    http_response_code(400);
+    $errorMsg = "Thiếu mã người dùng. Vui lòng đăng nhập lại.";
+    logMessage($errorMsg);
+    echo json_encode(["status" => "error", "message" => $errorMsg]);
+    exit;
+}
+
+// Verify userId exists in dang_ky table
+$userQuery = "SELECT id FROM dang_ky WHERE id = '$userId' LIMIT 1";
+$userResult = $conn->query($userQuery);
+if (!$userResult || $userResult->num_rows == 0) {
+    http_response_code(400);
+    $errorMsg = "Mã người dùng không hợp lệ: $userId";
+    logMessage($errorMsg);
+    echo json_encode(["status" => "error", "message" => $errorMsg]);
+    exit;
+}
+
+logMessage("Xác thực đầu vào thành công");
 
 // Start transaction
 $conn->begin_transaction();
 try {
-    // Handle hotel info
-    $khach_san_id = null;
-    if ($hotelInfo && isset($hotelInfo['id'])) {
-        $khach_san_id = intval($hotelInfo['id']);
-        $resultHotel = $conn->query("SELECT id FROM khach_san WHERE id = $khach_san_id");
-        if ($resultHotel->num_rows == 0) {
-            $hotelName = $conn->real_escape_string($hotelInfo['name']);
-            $hotelAddress = $conn->real_escape_string($hotelInfo['address'] ?? '');
-            $sqlInsertHotel = "INSERT INTO khach_san (id, ten, dia_chi) VALUES ($khach_san_id, '$hotelName', '$hotelAddress')";
-            if (!$conn->query($sqlInsertHotel)) {
-                throw new Exception("Error inserting hotel: " . $conn->error);
-            }
-        }
-    } else if (isset($sourceInfo['hotelId'])) {
-        $khach_san_id = intval($sourceInfo['hotelId']);
-        $result = $conn->query("SELECT id FROM khach_san WHERE id = $khach_san_id");
-        if ($result->num_rows === 0) {
-            logMessage("Invalid khach_san_id: $khach_san_id, setting to NULL");
-            $khach_san_id = null;
-        }
-    }
-
-    // Handle room info
-    $phong_id = null;
-    if ($roomInfo && $khach_san_id) {
-        $roomName = $conn->real_escape_string($roomInfo['name']);
-        $roomPrice = floatval($roomInfo['price']);
-        $roomCapacity = intval($roomInfo['capacity'] ?? 2);
-        $sqlCheckRoom = "SELECT id FROM phong WHERE khach_san_id = $khach_san_id AND ten = '$roomName'";
-        $resultRoom = $conn->query($sqlCheckRoom);
-        if ($resultRoom->num_rows > 0) {
-            $rowRoom = $resultRoom->fetch_assoc();
-            $phong_id = $rowRoom['id'];
+    // Check if we need to add shipping address (only for 'ship' method)
+    $addressId = null;
+    if ($phuong_thuc_van_chuyen === 'ship') {
+        $fullName = $conn->real_escape_string($thong_tin_khach_hang['fullName']);
+        $address = $conn->real_escape_string($thong_tin_khach_hang['address']);
+        $city = $conn->real_escape_string($thong_tin_khach_hang['city']);
+        $district = $conn->real_escape_string($thong_tin_khach_hang['district']);
+        $ward = $conn->real_escape_string($thong_tin_khach_hang['ward'] ?? '');
+        $phone = $conn->real_escape_string($thong_tin_khach_hang['phone']);
+        
+        $addressQuery = "INSERT INTO dia_chi_giao_hang (ma_tk, nguoi_nhan, sdt_nhan, dia_chi, tinh_thanh, quan_huyen, phuong_xa) 
+                         VALUES ('$userId', '$fullName', '$phone', '$address', '$city', '$district', '$ward')";
+        
+        if ($conn->query($addressQuery)) {
+            $addressId = $conn->insert_id;
+            logMessage("Tạo địa chỉ giao hàng mới với ID: $addressId");
         } else {
-            $sqlInsertRoom = "INSERT INTO phong (khach_san_id, ten, gia, tong_so_phong, so_nguoi_toi_da, so_nguoi_hien_tai) 
-                             VALUES ($khach_san_id, '$roomName', $roomPrice, 1, $roomCapacity, " . intval($booking['numberOfPeople']) . ")";
-            if (!$conn->query($sqlInsertRoom)) {
-                throw new Exception("Error inserting into phong: " . $conn->error);
-            }
-            $phong_id = $conn->insert_id;
+            throw new Exception("Lỗi khi chèn vào dia_chi_giao_hang: " . $conn->error);
         }
     }
+    
+    // Calculate order total
+    $note = $conn->real_escape_string($thong_tin_khach_hang['note'] ?? '');
+    $phuong_thuc_thanh_toan = $conn->real_escape_string($phuong_thuc_thanh_toan);
+    $status = 'Chờ xử lý';
+    $tong_so_tien = floatval($tong_so_tien);
+    $shippingCost = ($tong_so_tien > 1000000 && $phuong_thuc_van_chuyen === 'ship') ? 0 : 30000;
+    $orderTotal = $tong_so_tien + $shippingCost;
 
-    // Handle destination info
-    $tour_id = null;
-    if ($destinationInfo && isset($destinationInfo['name'])) {
-        $destName = $conn->real_escape_string($destinationInfo['name']);
-        $sqlCheckDest = "SELECT id FROM dia_diem WHERE ten = '$destName'";
-        $resultDest = $conn->query($sqlCheckDest);
-        if ($resultDest->num_rows > 0) {
-            $rowDest = $resultDest->fetch_assoc();
-            $tour_id = $rowDest['id'];
-            logMessage("Using existing destination ID: $tour_id for name: $destName");
-        } else {
-            $destDesc = $conn->real_escape_string($destinationInfo['description'] ?? '');
-            $destPrice = floatval($destinationInfo['price'] ?? 0);
-            $destAddress = $conn->real_escape_string($destinationInfo['address'] ?? '');
-            $sqlInsertDest = "INSERT INTO dia_diem (ten, mo_ta, gia, dia_chi) 
-                             VALUES ('$destName', '$destDesc', $destPrice, '$destAddress')";
-            if (!$conn->query($sqlInsertDest)) {
-                throw new Exception("Error inserting into dia_diem: " . $conn->error);
-            }
-            $tour_id = $conn->insert_id;
-            logMessage("Inserted new destination with ID: $tour_id for name: $destName");
+    // Insert order into don_hang table
+    $orderSql = "INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, trang_thai, ngay_dat, ghi_chu)
+                 VALUES ('$userId', " . ($addressId ? "'$addressId'" : "NULL") . ", '$orderTotal', '$status', '$ngay_dat_hang_dinh_dang', '$note')";
+    
+    logMessage("Thực thi truy vấn chèn đơn hàng: $orderSql");
+    if (!$conn->query($orderSql)) {
+        throw new Exception("Lỗi khi chèn vào don_hang: " . $conn->error);
+    }
+    
+    $orderId = $conn->insert_id;
+    logMessage("Chèn đơn hàng với ID: $orderId");
+
+    // Insert order items into chi_tiet_don_hang
+    foreach ($muc_gio_hang as $item) {
+        $productId = $conn->real_escape_string($item['id_product']);
+        $productName = $conn->real_escape_string($item['ten']);
+        $category = $conn->real_escape_string($item['danh_muc'] ?? 'Không xác định');
+        $quantity = intval($item['so_luong']);
+        $price = floatval($item['gia']);
+    
+        $itemSql = "INSERT INTO chi_tiet_don_hang (ma_don_hang, id_product, ten_san_pham, danh_muc, so_luong, gia, phuong_thuc_van_chuyen)
+                    VALUES ('$orderId', '$productId', '$productName', '$category', '$quantity', '$price', '$phuong_thuc_van_chuyen')";
+        
+        logMessage("Thực thi truy vấn chèn chi tiết đơn hàng: $itemSql");
+        if (!$conn->query($itemSql)) {
+            throw new Exception("Lỗi khi chèn vào chi_tiet_don_hang: " . $conn->error);
         }
     }
-
-    // Insert into dat_phong
-    $ngay_vao = $conn->real_escape_string($booking['checkInDate']);
-    $ngay_ra = $conn->real_escape_string($booking['checkOutDate']);
-    $email = $conn->real_escape_string($booking['email']);
-    $ten = $conn->real_escape_string($booking['fullName']);
-    $so_nguoi = intval($booking['numberOfPeople']);
-    $sdt = $conn->real_escape_string($booking['phone']);
-    $yeu_cau_dac_biet = $conn->real_escape_string($booking['specialRequests'] ?? '');
-
-    $sql = "INSERT INTO dat_phong (phong_id, khach_san_id, ngay_vao, ngay_ra, email, ten, so_nguoi, sdt, yeu_cau_dac_biet, trang_thai, tour_id)
-            VALUES (" . ($phong_id ? $phong_id : 'NULL') . ", " . 
-                      ($khach_san_id ? $khach_san_id : 'NULL') . ", 
-                      '$ngay_vao', '$ngay_ra', '$email', '$ten', $so_nguoi, '$sdt', 
-                      '$yeu_cau_dac_biet', 'Chờ xác nhận', " . 
-                      ($tour_id ? $tour_id : 'NULL') . ")";
-    logMessage("Executing dat_phong query: $sql");
-    if (!$conn->query($sql)) {
-        throw new Exception("Error inserting into dat_phong: " . $conn->error);
-    }
-    $bookingId = $conn->insert_id;
-    logMessage("Inserted dat_phong with ID: $bookingId");
-
-    // Insert into gio_hang_items
-    foreach ($cartItems as $index => $item) {
-        $ten = $conn->real_escape_string($item['name']);
-        $dia_diem = $conn->real_escape_string($item['description'] ?? '');
-        $gia = floatval($item['price']);
-        $loai = $conn->real_escape_string($item['type'] ?? 'Dịch vụ');
-        $so_luong = intval($item['quantity'] ?? 1);
-        $ngay_nhan_phong = isset($item['checkIn']) ? $conn->real_escape_string($item['checkIn']) : $ngay_vao;
-        $ngay_tra_phong = isset($item['checkOut']) ? $conn->real_escape_string($item['checkOut']) : $ngay_ra;
-        $so_ngay = intval($item['days'] ?? calculateDays($ngay_nhan_phong, $ngay_tra_phong));
-
-        $dia_diem_id = null;
-        if ($loai === 'Đặt tour trực tiếp' && $tour_id) {
-            $dia_diem_id = $tour_id;
-            logMessage("Using tour_id $tour_id as dia_diem_id for direct destination item: $ten");
-        } elseif (isset($item['id']) && $item['id']) {
-            $checkId = intval($item['id']);
-            $sqlCheckDiaDiem = "SELECT id FROM dia_diem WHERE id = $checkId";
-            $resultDiaDiem = $conn->query($sqlCheckDiaDiem);
-            if ($resultDiaDiem->num_rows > 0) {
-                $dia_diem_id = $checkId;
-                logMessage("Using verified dia_diem_id $dia_diem_id for item: $ten");
-            } else {
-                logMessage("Invalid dia_diem_id $checkId for item: $ten, setting to NULL");
-            }
-        }
-
-        $sqlDetail = "INSERT INTO gio_hang_items (dat_phong_id, dia_diem_id, ten, dia_diem, gia, loai, ngay_nhan_phong, ngay_tra_phong, so_ngay, so_luong)
-                      VALUES ($bookingId, " . ($dia_diem_id ? $dia_diem_id : 'NULL') . ", 
-                              '$ten', '$dia_diem', $gia, '$loai', 
-                              '$ngay_nhan_phong', '$ngay_tra_phong', $so_ngay, $so_luong)";
-        logMessage("Executing gio_hang_items query: $sqlDetail");
-        if (!$conn->query($sqlDetail)) {
-            throw new Exception("Error inserting into gio_hang_items: " . $conn->error);
-        }
-    }
-
-    // Insert into thanh_toan
-    $phuong_thuc_thanh_toan = $conn->real_escape_string($paymentMethod);
-    $tong_so_tien = floatval($totalAmount);
-    $tong_so_luong = intval($totalQuantity);
-    $ma_giao_dich = generateTransactionId();
-
-    $sqlPayment = "INSERT INTO thanh_toan (dat_phong_id, phuong_thuc_thanh_toan, tong_so_tien, tong_so_luong, trang_thai_thanh_toan, thoi_gian_thanh_toan, ma_giao_dich)
-                   VALUES ($bookingId, '$phuong_thuc_thanh_toan', $tong_so_tien, $tong_so_luong, 'Chưa thanh toán', NOW(), '$ma_giao_dich')";
-    logMessage("Executing thanh_toan query: $sqlPayment");
-    if (!$conn->query($sqlPayment)) {
-        throw new Exception("Error inserting into thanh_toan: " . $conn->error);
+    
+    // Create payment record
+    $paymentStatus = 'Chưa thanh toán';
+    $paymentSql = "INSERT INTO thanh_toan (ma_don_hang, phuong_thuc_thanh_toan, tong_so_tien, trang_thai_thanh_toan)
+                   VALUES ('$orderId', '$phuong_thuc_thanh_toan', '$orderTotal', '$paymentStatus')";
+                  
+    logMessage("Thực thi truy vấn chèn thanh toán: $paymentSql");
+    if (!$conn->query($paymentSql)) {
+        throw new Exception("Lỗi khi chèn vào thanh_toan: " . $conn->error);
     }
 
     // Handle VNPay payment initiation
-    if ($paymentMethod === 'vnpay') {
+    if ($phuong_thuc_thanh_toan === 'vnpay') {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:5173/thankyou"; // Same file handles callback
-        $vnp_TmnCode = "LYE5QSH7"; // Your VNPay TmnCode
-        $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ"; // Your VNPay secret
+        $vnp_Returnurl = "http://localhost/backend/payments.php";
+        $vnp_TmnCode = "LYE5QSH7";
+        $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ";
 
-        $vnp_TxnRef = $bookingId;
-        $vnp_OrderInfo = "Thanh toan don hang $bookingId";
-        $vnp_OrderType = "tourism";
-        $vnp_Amount = $tong_so_tien * 100; // VNPay requires amount in VND * 100
+        $vnp_TxnRef = $orderId;
+        $vnp_OrderInfo = "Thanh toan don hang " . $orderId;
+        $vnp_OrderType = "billpayment";
+        $vnp_Amount = $orderTotal * 100;
         $vnp_Locale = "vn";
-        $vnp_BankCode = ""; // Let user choose bank on VNPay page
+        $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_ExpireDate = date('YmdHis', strtotime('+1 hour')); // Expire in 1 hour
-        $vnp_Bill_Mobile = $sdt;
-        $vnp_Bill_Email = $email;
-        $fullName = trim($ten);
-        $vnp_Bill_FirstName = $fullName;
-        $vnp_Bill_LastName = "";
-        if (isset($fullName) && trim($fullName) != '') {
-            $name = explode(' ', $fullName);
-            $vnp_Bill_FirstName = array_shift($name);
-            $vnp_Bill_LastName = array_pop($name);
-        }
-        $vnp_Bill_Address = $destinationInfo['address'] ?? '';
-        $vnp_Bill_City = "";
-        $vnp_Bill_Country = "VN";
-        $vnp_Bill_State = "";
-        $vnp_Inv_Phone = $sdt;
-        $vnp_Inv_Email = $email;
-        $vnp_Inv_Customer = $ten;
-        $vnp_Inv_Address = $vnp_Bill_Address;
-        $vnp_Inv_Company = "";
-        $vnp_Inv_Taxcode = "";
-        $vnp_Inv_Type = "";
+        $vnp_ExpireDate = date('YmdHis', strtotime('+30 minutes'));
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -404,37 +350,6 @@ try {
             "vnp_ExpireDate" => $vnp_ExpireDate
         );
 
-        // Only include fields that are required by VNPay
-        // Comment out or remove any fields that VNPay doesn't expect
-        /*
-        $inputData = array_merge($inputData, [
-            "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
-            "vnp_Bill_Email" => $vnp_Bill_Email,
-            "vnp_Bill_FirstName" => $vnp_Bill_FirstName,
-            "vnp_Bill_LastName" => $vnp_Bill_LastName,
-            "vnp_Bill_Address" => $vnp_Bill_Address,
-            "vnp_Bill_City" => $vnp_Bill_City,
-            "vnp_Bill_Country" => $vnp_Bill_Country,
-            "vnp_Inv_Phone" => $vnp_Inv_Phone,
-            "vnp_Inv_Email" => $vnp_Inv_Email,
-            "vnp_Inv_Customer" => $vnp_Inv_Customer,
-            "vnp_Inv_Address" => $vnp_Inv_Address,
-            "vnp_Inv_Company" => $vnp_Inv_Company,
-            "vnp_Inv_Taxcode" => $vnp_Inv_Taxcode,
-            "vnp_Inv_Type" => $vnp_Inv_Type
-        ]);
-        */
-
-        if ($vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
-        }
-        if ($vnp_Bill_State != "") {
-            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
-        }
-
-        // Log the input data to verify
-        logMessage("VNPay input data: " . json_encode($inputData));
-
         ksort($inputData);
         $query = "";
         $i = 0;
@@ -449,22 +364,22 @@ try {
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
         }
 
-        logMessage("VNPay query string: " . $query);
-        logMessage("VNPay hash data: " . $hashdata);
+        logMessage("Chuỗi truy vấn VNPay: " . $query);
+        logMessage("Dữ liệu băm VNPay: " . $hashdata);
 
         $vnp_Url = $vnp_Url . "?" . $query;
         $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-        logMessage("VNPay generated hash: " . $vnpSecureHash);
+        logMessage("Hash VNPay được tạo: " . $vnpSecureHash);
         
         $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
 
         $conn->commit();
-        logMessage("VNPay payment initiated for booking $bookingId: $vnp_Url");
+        logMessage("Khởi tạo thanh toán VNPay cho đơn hàng $orderId: $vnp_Url");
         http_response_code(200);
         echo json_encode([
             "status" => "success",
-            "message" => "VNPay payment initiated",
-            "bookingId" => $bookingId,
+            "message" => "Khởi tạo thanh toán VNPay thành công",
+            "orderId" => $orderId,
             "payUrl" => $vnp_Url
         ]);
         exit;
@@ -472,34 +387,25 @@ try {
 
     // For COD, commit transaction and return success
     $conn->commit();
-    logMessage("Transaction committed successfully for COD");
+    logMessage("Giao dịch COD được xác nhận thành công");
     http_response_code(200);
     echo json_encode([
         "status" => "success",
-        "message" => "Booking processed successfully",
-        "bookingId" => $bookingId,
-        "transactionId" => $ma_giao_dich
+        "message" => "Xử lý đơn hàng thành công",
+        "orderId" => $orderId
     ]);
 } catch (Exception $e) {
     $conn->rollback();
-    $errorMsg = "Error processing booking: " . $e->getMessage();
+    $errorMsg = "Lỗi khi xử lý đơn hàng: " . $e->getMessage();
     logMessage($errorMsg);
     http_response_code(500);
     echo json_encode(["status" => "error", "message" => $errorMsg]);
 } finally {
     $conn->close();
-    logMessage("Database connection closed");
+    logMessage("Đóng kết nối cơ sở dữ liệu");
 }
 
-// Helper functions
-function calculateDays($startDate, $endDate) {
-    $start = new DateTime($startDate);
-    $end = new DateTime($endDate);
-    $interval = $start->diff($end);
-    $days = $interval->days;
-    return $days > 0 ? $days : 1;
-}
-
+// Helper function to generate transaction ID
 function generateTransactionId() {
     return 'TXN' . time() . rand(1000, 9999);
 }

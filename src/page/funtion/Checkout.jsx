@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "./useCart";
+import { AuthContext } from "./AuthContext"; 
 import "../../style/checkout.css";
 import { motion } from "framer-motion";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const Checkout = () => {
   const { cartItems, totalAmount, clearCart } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useContext(AuthContext) || {}; // Lấy user từ AuthContext
 
   // Get product data from location state if coming from direct product purchase
   const directProduct = location.state?.product;
@@ -22,9 +25,9 @@ const Checkout = () => {
 
   // Customer information form
   const [customerInfo, setCustomerInfo] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
+    fullName: user?.username || "", // Tự động điền tên người dùng nếu có
+    email: user?.email || "", // Tự động điền email nếu có
+    phone: user?.phone || "", // Tự động điền số điện thoại nếu có
     address: "",
     city: "",
     district: "",
@@ -36,6 +39,14 @@ const Checkout = () => {
   const [formErrors, setFormErrors] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [shippingMethod, setShippingMethod] = useState("ship");
+
+  // Kiểm tra đăng nhập
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setError("Vui lòng đăng nhập để thanh toán");
+      navigate("/register");
+    }
+  }, [isAuthenticated, navigate]);
 
   // Format price with VND
   const formatCurrency = (amount) => {
@@ -81,12 +92,12 @@ const Checkout = () => {
     // Use cart context data
     else if (cartItems && cartItems.length > 0) {
       calculatedCartItems = cartItems.map((item) => ({
-        id_product: item.id_product || "unknown",
+        id_product: item.id_product,
         ten: item.ten || "Sản phẩm không xác định",
         gia: Number(item.gia) || 0,
         so_luong: item.so_luong || 1,
         danh_muc: item.danh_muc || "Linh kiện",
-        images: item.images || "/placeholder.jpg",
+        images: item.images,
       }));
       calculatedTotal = totalAmount;
     }
@@ -172,6 +183,7 @@ const Checkout = () => {
     setError("");
     try {
       const orderData = {
+        userId: user?.id || null, // Thêm userId từ AuthContext
         cartItems: finalCartItems.map((item) => ({
           id_product: item.id_product,
           ten: item.ten,
@@ -195,7 +207,7 @@ const Checkout = () => {
       });
 
       const result = await response.json();
-    
+
       if (response.ok && result.status === "success") {
         if (paymentMethod === "vnpay" && result.payUrl) {
           window.location.href = result.payUrl; // Redirect to VNPay payment page
@@ -215,7 +227,7 @@ const Checkout = () => {
 
   // Calculate shipping cost (simplified)
   const shippingCost =
-    shippingMethod === "ship" && finalTotalAmount > 1000000 ? 0 : 30000;
+    shippingMethod === "ship" && finalTotalAmount > 10000000 ? 0 : 30000;
 
   // Calculate total with shipping
   const orderTotal = finalTotalAmount + shippingCost;
@@ -273,7 +285,7 @@ const Checkout = () => {
                             </td>
                             <td className="item-quantity">{item.so_luong}</td>
                             <td className="item-total">
-                              {formatCurrency(item.gia * item.so_luong)}
+                              {formatCurrency(item.gia * item.so_luong) }
                             </td>
                           </motion.tr>
                         ))}
@@ -296,7 +308,7 @@ const Checkout = () => {
                       {shippingCost === 0 && shippingMethod === "ship" && (
                         <div className="shipping-note">
                           <small>
-                            Miễn phí vận chuyển cho đơn hàng trên 1.000.000₫
+                            Miễn phí vận chuyển cho đơn hàng trên 10.000.000₫
                           </small>
                         </div>
                       )}

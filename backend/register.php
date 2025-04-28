@@ -13,7 +13,7 @@ header("Content-Type: application/json; charset=UTF-8");
 // Log request để debug
 $logFile = __DIR__ . '/debug.log';
 $rawData = file_get_contents("php://input");
-file_put_contents($logFile, date('Y-m-d H:i:s') . " - Request: " . $rawData . PHP_EOL, FILE_APPEND);
+file_put_contents($logFile, date('Y-m-d H:i:s') . " - Raw Request: " . $rawData . PHP_EOL, FILE_APPEND);
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -30,7 +30,18 @@ try {
     }
 
     // Parse JSON input
+    if (empty($rawData)) {
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Empty request body" . PHP_EOL, FILE_APPEND);
+        echo json_encode(['success' => false, 'message' => 'Không nhận được dữ liệu']);
+        exit();
+    }
+
     $data = json_decode($rawData, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - JSON Parse Error: " . json_last_error_msg() . PHP_EOL, FILE_APPEND);
+        echo json_encode(['success' => false, 'message' => 'Lỗi định dạng JSON: ' . json_last_error_msg()]);
+        exit();
+    }
 
     // Log parsed data
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - Parsed data: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
@@ -40,10 +51,15 @@ try {
 
     if ($isRegistration) {
         // ĐĂNG KÝ
-        $username = $data['username'];
-        $password = $data['password'];
-        $email = $data['email'];
-        $phone = $data['phone'];
+        $username = $data['username'] ?? '';
+        $password = $data['password'] ?? '';
+        $email = $data['email'] ?? '';
+        $phone = $data['phone'] ?? '';
+
+        if (empty($username) || empty($password) || empty($email) || empty($phone)) {
+            echo json_encode(['success' => false, 'message' => 'Thiếu thông tin đăng ký']);
+            exit();
+        }
 
         // Kiểm tra email đã tồn tại chưa
         $stmt = $conn->prepare("SELECT email FROM dang_ky WHERE email = ?");
@@ -78,8 +94,9 @@ try {
         }
     } else {
         // ĐĂNG NHẬP
-        if (!isset($data['password'])) {
-            echo json_encode(['success' => false, 'message' => 'Thiếu mật khẩu']);
+        if (!isset($data['password']) || empty($data['password'])) {
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Missing or empty password" . PHP_EOL, FILE_APPEND);
+            echo json_encode(['success' => false, 'message' => 'Thiếu hoặc không hợp lệ mật khẩu']);
             exit();
         }
 
@@ -96,11 +113,11 @@ try {
         // Tạo câu truy vấn dựa trên thông tin đăng nhập được cung cấp
         if ($email !== null) {
             // Đăng nhập bằng email
-            $stmt = $conn->prepare("SELECT user, pass,role FROM dang_ky WHERE email = ?");
+            $stmt = $conn->prepare("SELECT id, user, pass, role FROM dang_ky WHERE email = ?");
             $stmt->bind_param("s", $email);
         } else {
             // Đăng nhập bằng số điện thoại
-            $stmt = $conn->prepare("SELECT user, pass,role FROM dang_ky WHERE phone = ?");
+            $stmt = $conn->prepare("SELECT id, user, pass, role FROM dang_ky WHERE phone = ?");
             $stmt->bind_param("s", $phone);
         }
 
@@ -118,12 +135,12 @@ try {
                     'success' => true,
                     'message' => 'Đăng nhập thành công',
                     'user' => [
+                        'id' => $user['id'],
                         'username' => $user['user'],
-                        'identifier' => $email ?? $phone, // Email hoặc phone dùng để đăng nhập
-                        'type' => $email ? 'email' : 'phone', // Loại identifier
-                        'role' => $user['role'] ?? 'user' // Đảm bảo role được trả về
-
-                        ]
+                        'identifier' => $email ?? $phone,
+                        'type' => $email ? 'email' : 'phone',
+                        'role' => $user['role'] ?? 'user'
+                    ]
                 ]);
             } else {
                 // Mật khẩu không đúng
