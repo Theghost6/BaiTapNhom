@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -78,16 +78,39 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [slides.length]);
+
+  // Menu
+  const menuRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuVisible(false);
+      }
+    };
+
+    if (menuVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuVisible]);
+
+
   return (
     <div className="home-container">
       {/* Toggle button */}
       <button className="menu-toggle-button" onClick={() => setMenuVisible(!menuVisible)}>
-        ☰ 
+        ☰
       </button>
 
       {/* Left Box Menu */}
       {menuVisible && (
-        <div className="left-box-menu">
+        <div className="left-box-menu" ref={menuRef}>
           <ul>
             <li><button onClick={() => document.getElementById('hero-slider').scrollIntoView({ behavior: 'smooth' })}>🏠 Trang chủ</button></li>
             <li><button onClick={() => document.getElementById('diem-den').scrollIntoView({ behavior: 'smooth' })}>📍 Điểm đến</button></li>
@@ -175,7 +198,7 @@ const Home = () => {
             <span>Combo</span>
           </div>
 
-          <div
+          {/* <div
             className={`tab-item nav-item dropdown ${activeTab === "services" ? "active" : ""
               }`}
             onClick={() => setActiveTab("services")}
@@ -200,7 +223,7 @@ const Home = () => {
                 <Link to="/services/Party">Tổ chức tiệc</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
         {activeTab === "maybay" && <FlySearch />}
@@ -217,12 +240,19 @@ const Home = () => {
         </div> */}
       </div>
       <div className="section destinations-section">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <div className="section-header">
           <div>
             <h2 className="section-title" id="diem-den">Điểm đến nổi bật</h2>
             <p className="section-subtitle">
               Những địa điểm được yêu thích nhất năm 2025
+              <div class="title-icon-line">
+                <span class="line"></span>
+                <i class="fas fa-plane icon"></i>
+                <span class="line"></span>
+              </div>
             </p>
+
           </div>
           <button
             className="view-all-button"
@@ -322,7 +352,14 @@ const Home = () => {
       </div>
       {/* Services */}
       <div className="section services-section">
-        <h2 className="section-title center">Dịch vụ của chúng tôi</h2>
+        <section class="recommended-section">
+          <div class="background-text">SERVICES</div>
+          <div class="content">
+            <h2>Dịch vụ của chúng tôi</h2>
+            <a href="#" class="view-all">View All Recommended →</a>
+          </div>
+        </section>
+
         <div className="services-grid">
           {[
             {

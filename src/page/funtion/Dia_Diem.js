@@ -680,7 +680,7 @@ const destinations = [
   },
   {
     id: 21,
-    name: "Thành phố Hồ Chí Minh",
+    name: "Hồ Chí Minh",
     image:
       "https://th.bing.com/th/id/R.4406947c331766e13e13e67f143e19f1?rik=bK1DCfWAKPeihA&pid=ImgRaw&r=0",
     images:[

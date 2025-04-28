@@ -162,12 +162,12 @@
   color: #1890ff;
 }
 
-.section-title {
+/* .section-title {
   font-size: 16px;
   font-weight: 500;
   margin: 0;
   color: #333;
-}
+} */
 
 .flight-form-grid, .hotel-form-grid {
   display: grid;

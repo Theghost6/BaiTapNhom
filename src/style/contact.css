@@ -60,7 +60,7 @@ html {
   border-radius: 4px;
   font-size: 1rem;
   transition: border 0.3s, box-shadow 0.3s;
-  width: calc(100% - 1.6rem); /* Trừ đi padding */
+  width: calc(50% - 1rem); /* Trừ đi padding */
 }
 
 .contact-form input:focus,
@@ -78,21 +78,22 @@ html {
 /* Nút gửi nhỏ hơn */
 .contact-form button {
   background-color: #3498db;
-  color: white;
+  color: #333;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
   transition: background-color 0.3s;
-  align-self: flex-end; /* Đặt nút ở bên phải */
-  width: auto; /* Chiều rộng tự động theo nội dung */
-  max-width: 150px; /* Giới hạn chiều rộng tối đa */
+  align-self: flex-end;
+  width: auto;
+  max-width: 150px; 
 }
 
 .contact-form button:hover {
-  background-color: #2980b9;
+  border: 1px solid black;
+  border-radius: 12px;  
 }
 
 .contact-form button:disabled {
@@ -162,7 +163,9 @@ footer {
 main {
   min-height: calc(
     100vh - 150px
-  ); /* Điều chỉnh theo chiều cao thực tế của header và footer */
+  );
+  min-width: calc(300vh - 600px);
   padding: 1rem 0;
-  margin-top: 100px;
+  margin-top: 0px;
+  background-color: #fff;
 }

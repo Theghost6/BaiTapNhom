@@ -31,21 +31,28 @@ const App = () => {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <Header />
-          <AnimatedRoutes />
-          <Footer />
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
+          <div className="page-container">
+            <Header />
+            <main className="main-content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/AllDiaDiem" element={<AllDiaDiem />} />
+                <Route path="/Profile" element={<Profile />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/thankyou" element={<ThankYou />} />
+                <Route path="/dia-diem/:id" element={<ChiTietDiaDiem />} />
+                <Route path="/hotels" element={<Hotels />} />
+                <Route path="/hotel/:id" element={<ChiTietHotel />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/developer" element={<Developer />} />
+                {/* <Route path="/discount" element={<Discount />} /> */}
+              </Routes>
+            </main>
+            <Footer />
+          </div>
         </Router>
       </CartProvider>
     </AuthProvider>

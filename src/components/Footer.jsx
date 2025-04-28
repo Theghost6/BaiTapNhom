@@ -13,63 +13,66 @@ const Footer = () => {
         <div className="footer-container">
           <div className="footer-column about-column">
             <div className="footer-logo">
-              <h2 className="footer-logo-text">Nhom12 Travel</h2>
+              <h2 className="footer-logo-text">12 COMPONENTS</h2>
             </div>
             <p className="footer-description">
               -4th floor, Royal City, 666 Nguyen Trai District, Ho Chi Minh
             </p>
-            <div className ="footer-phone-number" >
+            {/* <div className ="footer-phone-number" >
               <a href="tel:+ (+84) 394 02 1004">(+84) 394 02 1004</a>
-            </div>
+            </div> */}
           </div>
 
           <div className="footer-column links-column">
-            <h3 className="column-title">Liên kết nhanh</h3>
+            <h3 className="column-title">Thông tin và chính sách</h3>
             <ul className="footer-links">
               <li>
-                <Link to="/about">Về chúng tôi</Link>
+                <Link to="/online">Mua hàng và thanh toán online</Link>
               </li>
               <li>
-                <Link to="/tours">Tour du lịch</Link>
+                <Link to="/installment">Mua hàng trả góp online</Link>
               </li>
               <li>
-                <Link to="/destinations">Điểm đến</Link>
+                <Link to="/policy">Chính sách đổi trả</Link>
               </li>
               <li>
-                <Link to="/promotions">Khuyến mãi</Link>
+                <Link to="/member">Xem ưu đãi hội viên</Link>
               </li>
               <li>
-                <Link to="/blog">Blog du lịch</Link>
+                <Link to="/center">Trung tâm bảo hành chĩnh hãng</Link>
               </li>
               <li>
-                <Link to="/faq">Câu hỏi thường gặp</Link>
+                <Link to="/search">Tra cứu hóa đơn điện tử</Link>
+              </li>
+              <li>
+                <Link to="/offline">Mua hàng trực tiếp</Link>
               </li>
             </ul>
           </div>
 
           <div className="footer-column tours-column">
-            <h3 className="column-title">Tour phổ biến</h3>
+            <h3 className="column-title">Dịch vụ và thông tin khác</h3>
             <ul className="footer-links">
               <li>
-                <Link to="/tours/ha-long">Vịnh Hạ Long</Link>
+                <Link to="/customers">Khách hàng doanh nghiệp</Link>
               </li>
               <li>
-                <Link to="/tours/da-nang">Đà Nẵng - Hội An</Link>
+                <Link to="/discount bill">Ưu đãi thanh toán</Link>
               </li>
               <li>
-                <Link to="/tours/phu-quoc">Phú Quốc</Link>
+                <Link to="/active">Quy chế hoạt động</Link>
               </li>
               <li>
-                <Link to="/tours/da-lat">Đà Lạt</Link>
+                <Link to="/indentification">Chính sách bảo mật thông tin cá nhân</Link>
               </li>
               <li>
-                <Link to="/tours/sapa">Sa Pa</Link>
+                <Link to="/#">Chính sách bảo hành</Link>
               </li>
               <li>
-                <Link to="/tours/nha-trang">Nha Trang</Link>
+                <Link to="/#">Liên hệ hợp tác kinh doanh</Link>
               </li>
               <li>
-                <Link to="/tours/trang-an">Tràng An</Link>
+                <Link to="/#">Tuyển dụng</Link>
               </li>
             </ul>
           </div>
