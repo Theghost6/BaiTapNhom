@@ -14,6 +14,7 @@ export function CartProvider({ children }) {
   const { isAuthenticated, user } = context || {};
 
   const [cartItems, setCartItems] = useState([]);
+  const [animationTrigger, setAnimationTrigger] = useState(null); // For triggering animations
 
   useEffect(() => {
     console.log("AuthContext in CartProvider:", { isAuthenticated, user });
@@ -70,7 +71,7 @@ export function CartProvider({ children }) {
     return { totalQuantity, totalAmount };
   }, [cartItems]);
 
-  const addToCart = async (product) => {
+  const addToCart = async (product, onAnimationStart) => {
     console.log("addToCart called with product:", product);
     console.log("Auth state in addToCart:", { isAuthenticated, user });
     if (!isAuthenticated) {
@@ -86,11 +87,18 @@ export function CartProvider({ children }) {
 
     const product_id = product.id;
     const user_id = user.id;
+    const productName = product.ten || "Sản phẩm không xác định"; // Fallback
     console.log("Adding to cart:", {
       user_id,
       product_id,
       quantity: 1,
     });
+
+    // Trigger animation before API call
+    if (onAnimationStart) {
+      setAnimationTrigger({ productId: product_id, image: product.images?.[0] });
+      onAnimationStart();
+    }
 
     try {
       const response = await axios.post(
@@ -114,7 +122,10 @@ export function CartProvider({ children }) {
           setCartItems(
             updatedResponse.data.data.filter((item) => item.id_product)
           );
-          toast.success(`${product.ten} đã được thêm vào giỏ hàng`);
+          toast.success(`${productName} đã được thêm vào giỏ hàng`, {
+            position: "top-right",
+            autoClose: 3000,
+          });
         } else {
           toast.error(updatedResponse.data.message || "Lỗi khi tải giỏ hàng");
         }
@@ -126,6 +137,9 @@ export function CartProvider({ children }) {
       toast.error(
         error.response?.data?.message || "Không thể thêm vào giỏ hàng"
       );
+    } finally {
+      // Reset animation trigger
+      setAnimationTrigger(null);
     }
   };
 
@@ -169,7 +183,7 @@ export function CartProvider({ children }) {
           setCartItems(
             updatedResponse.data.data.filter((item) => item.id_product)
           );
-          toast.success("Sản phẩm đã được xóa khỏi giỏ hàng");
+          // toast.success("Sản phẩm đã được xóa khỏi giỏ hàng");
         } else {
           toast.error(updatedResponse.data.message || "Lỗi khi tải giỏ hàng");
         }
@@ -294,6 +308,7 @@ export function CartProvider({ children }) {
     removeFromCart,
     updateQuantity,
     clearCart,
+    animationTrigger,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

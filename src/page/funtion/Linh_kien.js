@@ -25,7 +25,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-10-20",
       thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
-      tinh_nang: ["Kiến trúc lai", "Turbo Boost Max 3.0", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5"]
+      tinh_nang: ["Kiến trúc lai", "Turbo Boost Max 3.0", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5"],
+      danh_muc: "CPU"
     },
     {
       id: "cpu002",
@@ -43,7 +44,7 @@ const products = {
       so_luong: 50,
       mo_ta: "Intel Core i9-13900K là bộ vi xử lý cao cấp dành cho máy trạm và PC chơi game đỉnh cao. Với 24 nhân (8 nhân hiệu năng, 16 nhân tiết kiệm) và 32 luồng, sản phẩm xử lý mượt mà các tác vụ nặng như chỉnh sửa video 4K, mô phỏng 3D và đa nhiệm. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz đảm bảo hiệu năng vượt trội cho các game như Cyberpunk 2077 và phần mềm như AutoCAD. Tương thích socket LGA 1700, hỗ trợ DDR5 và PCIe 5.0, CPU này phù hợp với các bo mạch chủ hiện đại. Kiến trúc lai cân bằng sức mạnh và hiệu quả, hỗ trợ ép xung cho người dùng chuyên sâu. Công nghệ Intel Quick Sync Video và Deep Learning Boost tối ưu mã hóa video và tác vụ AI. Đây là lựa chọn lý tưởng cho người dùng cần CPU mạnh mẽ, bền bỉ và sẵn sàng cho tương lai.",
       trang_thai: "Còn hàng",
-      updatedAt: "2025-04-26 F",
+      updatedAt: "2025-04-26",
       tags: ["máy trạm", "intel", "cao cấp"],
       rating: 4.7,
       reviewCount: 280,
@@ -52,7 +53,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-10-20",
       thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
-      tinh_nang: ["Kiến trúc lai", "Quick Sync Video", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5"]
+      tinh_nang: ["Kiến trúc lai", "Quick Sync Video", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5"],
+      danh_muc: "CPU"
     },
     {
       id: "cpu003",
@@ -79,7 +81,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2023-02-28",
       thiet_bi_tuong_thich: ["Bo mạch chủ AM5"],
-      tinh_nang: ["3D V-Cache", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5", "Đồ họa tích hợp"]
+      tinh_nang: ["3D V-Cache", "Hỗ trợ PCIe 5.0", "Hỗ trợ DDR5", "Đồ họa tích hợp"],
+      danh_muc: "CPU"
     }
   ],
   mainboard: [
@@ -108,7 +111,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-10-17",
       thiet_bi_tuong_thich: ["CPU Intel thế hệ 12/13", "RAM DDR5", "GPU PCIe 5.0"],
-      tinh_nang: ["Wi-Fi 6E", "Âm thanh SupremeFX", "Đèn RGB Aura Sync", "Hỗ trợ PCIe 5.0"]
+      tinh_nang: ["Wi-Fi 6E", "Âm thanh SupremeFX", "Đèn RGB Aura Sync", "Hỗ trợ PCIe 5.0"],
+      danh_muc: "Mainboard"
     },
     {
       id: "mb002",
@@ -135,7 +139,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-09-30",
       thiet_bi_tuong_thich: ["CPU AMD Ryzen 7000-series", "RAM DDR5"],
-      tinh_nang: ["Wi-Fi 6", "Đèn Mystic Light RGB", "Tản nhiệt mở rộng", "Hỗ trợ PCIe 4.0"]
+      tinh_nang: ["Wi-Fi 6", "Đèn Mystic Light RGB", "Tản nhiệt mở rộng", "Hỗ trợ PCIe 4.0"],
+      danh_muc: "Mainboard"
     }
   ],
   ram: [
@@ -162,7 +167,8 @@ const products = {
       bao_hanh: "Bảo hành trọn đời có giới hạn",
       ngay_phat_hanh: "2022-11-01",
       thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series, AMD AM5"],
-      tinh_nang: ["XMP 3.0", "Đèn RGB", "Tản nhiệt nhôm", "DDR5"]
+      tinh_nang: ["XMP 3.0", "Đèn RGB", "Tản nhiệt nhôm", "DDR5"],
+      danh_muc: "RAM"
     },
     {
       id: "ram002",
@@ -187,7 +193,8 @@ const products = {
       bao_hanh: "Bảo hành trọn đời có giới hạn",
       ngay_phat_hanh: "2022-12-15",
       thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series, AMD AM5"],
-      tinh_nang: ["XMP 3.0", "Tản nhiệt thấp", "DDR5"]
+      tinh_nang: ["XMP 3.0", "Tản nhiệt thấp", "DDR5"],
+      danh_muc: "RAM"
     }
   ],
   storage: [
@@ -215,7 +222,8 @@ const products = {
       bao_hanh: "5 năm",
       ngay_phat_hanh: "2022-10-25",
       thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "PS5 (kèm tản nhiệt)"],
-      tinh_nang: ["Công nghệ V-NAND", "Phần mềm Samsung Magician", "PCIe 4.0", "Độ bền cao"]
+      tinh_nang: ["Công nghệ V-NAND", "Phần mềm Samsung Magician", "PCIe 4.0", "Độ bền cao"],
+      danh_muc: "Storage"
     },
     {
       id: "ssd002",
@@ -241,7 +249,8 @@ const products = {
       bao_hanh: "5 năm",
       ngay_phat_hanh: "2022-08-10",
       thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "PS5"],
-      tinh_nang: ["Chế độ Game Mode 2.0", "Phần mềm WD Dashboard", "PCIe 4.0", "Độ bền cao"]
+      tinh_nang: ["Chế độ Game Mode 2.0", "Phần mềm WD Dashboard", "PCIe 4.0", "Độ bền cao"],
+      danh_muc: "Storage"
     }
   ],
   gpu: [
@@ -268,7 +277,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-10-12",
       thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "Nguồn 850W trở lên"],
-      tinh_nang: ["DLSS 3", "Ray Tracing", "Mã hóa AV1", "Kiến trúc Ada Lovelace"]
+      tinh_nang: ["DLSS 3", "Ray Tracing", "Mã hóa AV1", "Kiến trúc Ada Lovelace"],
+      danh_muc: "GPU"
     },
     {
       id: "gpu002",
@@ -293,7 +303,8 @@ const products = {
       bao_hanh: "3 năm",
       ngay_phat_hanh: "2022-12-13",
       thiet_bi_tuong_thich: ["Bo mạch chủ PCIe 4.0", "Nguồn 750W trở lên"],
-      tinh_nang: ["FSR 3", "Kiến trúc RDNA 3", "DisplayPort 2.1", "Ray Tracing"]
+      tinh_nang: ["FSR 3", "Kiến trúc RDNA 3", "DisplayPort 2.1", "Ray Tracing"],
+      danh_muc: "GPU"
     }
   ],
   psu: [
@@ -320,7 +331,8 @@ const products = {
       bao_hanh: "10 năm",
       ngay_phat_hanh: "2021-08-10",
       thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "GPU cao cấp"],
-      tinh_nang: ["80+ Gold", "Hoàn toàn mô-đun", "Quạt từ tính", "Hỗ trợ ATX 3.0"]
+      tinh_nang: ["80+ Gold", "Hoàn toàn mô-đun", "Quạt từ tính", "Hỗ trợ ATX 3.0"],
+      danh_muc: "PSU"
     },
     {
       id: "psu002",
@@ -345,7 +357,8 @@ const products = {
       bao_hanh: "12 năm",
       ngay_phat_hanh: "2022-06-15",
       thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "GPU thế hệ mới"],
-      tinh_nang: ["80+ Titanium", "Hoàn toàn mô-đun", "Quạt ổ bi động lực", "Hỗ trợ ATX 3.0"]
+      tinh_nang: ["80+ Titanium", "Hoàn toàn mô-đun", "Quạt ổ bi động lực", "Hỗ trợ ATX 3.0"],
+      danh_muc: "PSU"
     }
   ],
   cooling: [
@@ -372,7 +385,8 @@ const products = {
       bao_hanh: "6 năm",
       ngay_phat_hanh: "2014-04-08",
       thiet_bi_tuong_thich: ["CPU AM4, AM5, LGA 1700"],
-      tinh_nang: ["Thiết kế tháp đôi", "Quạt NF-A15 PWM", "Hệ thống SecuFirm2", "Keo tản nhiệt NT-H1"]
+      tinh_nang: ["Thiết kế tháp đôi", "Quạt NF-A15 PWM", "Hệ thống SecuFirm2", "Keo tản nhiệt NT-H1"],
+      danh_muc: "Cooling"
     },
     {
       id: "cool002",
@@ -397,7 +411,8 @@ const products = {
       bao_hanh: "6 năm",
       ngay_phat_hanh: "2020-02-11",
       thiet_bi_tuong_thich: ["CPU AM4, AM5, LGA 1700"],
-      tinh_nang: ["Màn hình LCD tùy chỉnh", "Quạt Aer RGB 2", "Phần mềm NZXT CAM", "Két tản nhiệt 360mm"]
+      tinh_nang: ["Màn hình LCD tùy chỉnh", "Quạt Aer RGB 2", "Phần mềm NZXT CAM", "Két tản nhiệt 360mm"],
+      danh_muc: "Cooling"
     }
   ],
   case: [
@@ -424,7 +439,8 @@ const products = {
       bao_hanh: "2 năm",
       ngay_phat_hanh: "2018-05-15",
       thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "Két tản nhiệt 360mm"],
-      tinh_nang: ["Mặt kính cường lực đôi", "Thiết kế hai khoang", "Hỗ trợ tản nhiệt nước", "Quản lý cáp"]
+      tinh_nang: ["Mặt kính cường lực đôi", "Thiết kế hai khoang", "Hỗ trợ tản nhiệt nước", "Quản lý cáp"],
+      danh_muc: "Case"
     },
     {
       id: "case002",
@@ -449,7 +465,8 @@ const products = {
       bao_hanh: "2 năm",
       ngay_phat_hanh: "2020-08-18",
       thiet_bi_tuong_thich: ["Bo mạch chủ ATX", "Két tản nhiệt 360mm"],
-      tinh_nang: ["Lưới luồng khí cao", "Mặt kính cường lực", "Thiết kế mô-đun", "Quản lý cáp"]
+      tinh_nang: ["Lưới luồng khí cao", "Mặt kính cường lực", "Thiết kế mô-đun", "Quản lý cáp"],
+      danh_muc: "Case"
     }
   ],
   peripherals: [
@@ -477,7 +494,8 @@ const products = {
       bao_hanh: "2 năm",
       ngay_phat_hanh: "2020-12-08",
       thiet_bi_tuong_thich: ["Windows, macOS"],
-      tinh_nang: ["Cảm biến HERO 25K", "Không dây Lightspeed", "Siêu nhẹ", "Chân đế PTFE"]
+      tinh_nang: ["Cảm biến HERO 25K", "Không dây Lightspeed", "Siêu nhẹ", "Chân đế PTFE"],
+      danh_muc: "Peripherals"
     },
     {
       id: "kb001",
@@ -503,7 +521,8 @@ const products = {
       bao_hanh: "1 năm",
       ngay_phat_hanh: "2022-07-20",
       thiet_bi_tuong_thich: ["Windows, macOS, Linux"],
-      tinh_nang: ["Switch thay nóng", "Bluetooth 5.1", "Đèn RGB", "Hỗ trợ QMK/VIA"]
+      tinh_nang: ["Switch thay nóng", "Bluetooth 5.1", "Đèn RGB", "Hỗ trợ QMK/VIA"],
+      danh_muc: "Peripherals"
     },
     {
       id: "mouse002",
@@ -529,7 +548,8 @@ const products = {
       bao_hanh: "2 năm",
       ngay_phat_hanh: "2022-08-11",
       thiet_bi_tuong_thich: ["Windows, macOS"],
-      tinh_nang: ["Cảm biến Focus Pro 30K", "Không dây HyperSpeed", "Switch quang học", "Thiết kế công thái học"]
+      tinh_nang: ["Cảm biến Focus Pro 30K", "Không dây HyperSpeed", "Switch quang học", "Thiết kế công thái học"],
+      danh_muc: "Peripherals"
     }
   ]
 };
