@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "./useCart";
-import { AuthContext } from "./AuthContext"; 
+import { AuthContext } from "./AuthContext";
 import "../../style/checkout.css";
 import { motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
@@ -101,7 +101,13 @@ const Checkout = () => {
       }));
       calculatedTotal = totalAmount;
     }
-
+const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL(10,2)
+    if (calculatedTotal > maxTotalAllowed) {
+        setError("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
+        setFinalCartItems(calculatedCartItems); // Vẫn giữ giỏ hàng để hiển thị
+        setFinalTotalAmount(calculatedTotal); // Vẫn giữ tổng tiền để hiển thị
+        return;
+    }
     setFinalCartItems(calculatedCartItems);
     setFinalTotalAmount(calculatedTotal);
   }, [directProduct, cartItems, cartItemsFromRoute, totalAmount]);
@@ -208,16 +214,16 @@ const Checkout = () => {
 
       const result = await response.json();
 
-      if (response.ok && result.status === "success") {
+      if (result.status === "success") {
         if (paymentMethod === "vnpay" && result.payUrl) {
-          window.location.href = result.payUrl; // Redirect to VNPay payment page
+          window.location.href = result.payUrl;
+          clearCart();
         } else {
           clearCart();
           navigate("/thankyou", { state: { orderId: result.orderId } });
         }
       } else {
         setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
-        setIsProcessing(false);
       }
     } catch (err) {
       setError("Có lỗi xảy ra: " + err.message);
@@ -285,7 +291,7 @@ const Checkout = () => {
                             </td>
                             <td className="item-quantity">{item.so_luong}</td>
                             <td className="item-total">
-                              {formatCurrency(item.gia * item.so_luong) }
+                              {formatCurrency(item.gia * item.so_luong)}
                             </td>
                           </motion.tr>
                         ))}
@@ -561,13 +567,13 @@ const Checkout = () => {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="checkout-button"
-              disabled={isProcessing || finalCartItems.length === 0}
-            >
-              {isProcessing ? "Đang xử lý..." : "Đặt hàng"}
-            </button>
+          <button
+    type="submit"
+    className="checkout-button"
+    disabled={isProcessing || finalCartItems.length === 0 || !!error}
+>
+    {isProcessing ? "Đang xử lý..." : "Đặt hàng"}
+</button>
           </form>
         </div>
       </div>

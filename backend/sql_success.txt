@@ -1,1 +1,4 @@
 Reply inserted: id_danh_gia=2, time=2025-04-27 15:23:37
+Review inserted: id_product=cpu003, time=2025-04-28 12:57:41
+Reply inserted: id_danh_gia=4, time=2025-04-28 12:57:54
+Reply inserted: id_danh_gia=4, time=2025-04-28 12:58:15

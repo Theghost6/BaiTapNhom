@@ -1,6 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../style/Admin.css";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+import { Line } from "react-chartjs-2";
+
+// Đăng ký các component vào ChartJS
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function DeleteModal({ isOpen, onCancel, onConfirm, itemId, itemType }) {
   if (!isOpen) return null;
@@ -37,12 +60,12 @@ function Admin() {
   const [payments, setPayments] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [totalPayment, setTotalPayment] = useState([]);
-
-  // States for selected items and related data
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
   const [replies, setReplies] = useState([]);
+  const [orderAddress, setOrderAddress] = useState(null);
+  const [showAddress, setShowAddress] = useState(false);
 
   // State for delete confirmation modal
   const [deleteModal, setDeleteModal] = useState({
@@ -51,7 +74,10 @@ function Admin() {
     itemType: "",
     onConfirm: () => {},
   });
-
+  // State mới cho thống kê
+  const [statistics, setStatistics] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Tháng hiện tại
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Năm hiện tại
   // Fetch data based on current view
   useEffect(() => {
     switch (view) {
@@ -90,19 +116,28 @@ function Admin() {
           .get("http://localhost/backend/api.php?action=get_total_payment")
           .then((res) => setTotalPayment(res.data))
           .catch((err) => console.error("Error fetching total:", err));
+        // Fetch thống kê nâng cao
+        axios
+          .get(
+            `http://localhost/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
+          )
+          .then((res) =>{ console.log("data static",res.data);setStatistics(res.data)})
+          .catch((err) => console.error("Error fetching statistics:", err));
         break;
       default:
         break;
     }
-  }, [view]);
+  }, [view, selectedMonth, selectedYear]);
 
   // View order details
   const viewDetails = (id) => {
     axios
       .get(`http://localhost/backend/api.php?action=get_order_detail&id=${id}`)
       .then((res) => {
-        setOrderItems(res.data);
+        setOrderItems(res.data.items);
+        setOrderAddress(res.data.address);
         setSelectedOrder(id);
+        setShowAddress(false); // Ẩn địa chỉ mặc định khi xem chi tiết đơn hàng mới
       })
       .catch((err) => console.error("Error fetching order details:", err));
   };
@@ -110,7 +145,9 @@ function Admin() {
   // View review replies
   const viewReply = (id) => {
     axios
-      .get(`http://localhost/backend/api.php?action=get_review_replies&id=${id}`)
+      .get(
+        `http://localhost/backend/api.php?action=get_review_replies&id=${id}`
+      )
       .then((res) => {
         setReplies(res.data);
         setSelectedReview(id);
@@ -129,7 +166,12 @@ function Admin() {
   };
 
   const cancelDelete = () => {
-    setDeleteModal({ isOpen: false, itemId: null, itemType: "", onConfirm: () => {} });
+    setDeleteModal({
+      isOpen: false,
+      itemId: null,
+      itemType: "",
+      onConfirm: () => {},
+    });
   };
 
   // Delete order
@@ -194,7 +236,54 @@ function Admin() {
       })
       .catch((err) => console.error("Error deleting promotion:", err));
   };
+  // Dữ liệu cho biểu đồ
+const chartData = {
+  labels:
+    (statistics?.doanh_thu_theo_ngay || []).map(
+      (item) => `Ngày ${item.ngay}`
+    ),
+  datasets: [
+    {
+      label: "Doanh thu (VNĐ)",
+      data:
+        (statistics?.doanh_thu_theo_ngay || []).map(
+          (item) => item.doanh_thu
+        ),
+      borderColor: "rgba(75, 192, 192, 1)",
+      backgroundColor: "rgba(75, 192, 192, 0.2)",
+      fill: true,
+    },
+  ],
+};
 
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: `Doanh thu theo ngày - Tháng ${selectedMonth}/${selectedYear}`,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Doanh thu (VNĐ)",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Ngày",
+        },
+      },
+    },
+  };
   // Render different views based on the selected menu item
   const renderContent = () => {
     switch (view) {
@@ -257,6 +346,58 @@ function Admin() {
             {selectedOrder && (
               <div style={{ marginTop: 40 }}>
                 <h2>Chi tiết Đơn hàng ID: {selectedOrder}</h2>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 15,
+                  }}
+                >
+                  <div>
+                    <button
+                      onClick={() => setShowAddress(!showAddress)}
+                      style={{
+                        backgroundColor: "#4CAF50",
+                        color: "white",
+                        padding: "8px 15px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {showAddress ? "Ẩn địa chỉ" : "Xem địa chỉ"}
+                    </button>
+                  </div>
+                </div>
+
+                {showAddress && orderAddress && (
+                  <div
+                    style={{
+                      backgroundColor: "#f9f9f9",
+                      padding: "15px",
+                      borderRadius: "5px",
+                      marginBottom: "20px",
+                      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                    }}
+                  >
+                    <h3 style={{ marginTop: 0 }}>Địa chỉ giao hàng</h3>
+                    <p>
+                      <strong>Người nhận:</strong> {orderAddress.nguoi_nhan}
+                    </p>
+                    <p>
+                      <strong>Điện thoại:</strong> {orderAddress.sdt_nhan}
+                    </p>
+                    <p>
+                      <strong>Địa chỉ:</strong> {orderAddress.dia_chi}
+                    </p>
+                    <p>
+                      <strong>Ghi chú:</strong>{" "}
+                      {orderAddress.ghi_chu || "Không có"}
+                    </p>
+                  </div>
+                )}
+
                 {orderItems.length === 0 ? (
                   <p>Không có sản phẩm nào.</p>
                 ) : (
@@ -276,9 +417,7 @@ function Admin() {
                           <td>{item.ten_san_pham}</td>
                           <td>{item.danh_muc}</td>
                           <td>{item.so_luong}</td>
-                          <td>
-                            {Number(item.gia).toLocaleString("vi-VN")} đ
-                          </td>
+                          <td>{Number(item.gia).toLocaleString("vi-VN")} đ</td>
                           <td>
                             {Number(item.gia * item.so_luong).toLocaleString(
                               "vi-VN"
@@ -453,7 +592,9 @@ function Admin() {
                         {Number(payment.tong_so_tien).toLocaleString("vi-VN")} đ
                       </td>
                       <td>{payment.trang_thai_thanh_toan}</td>
-                      <td>{payment.thoi_gian_thanh_toan || "Chưa thanh toán"}</td>
+                      <td>
+                        {payment.thoi_gian_thanh_toan || "Chưa thanh toán"}
+                      </td>
                       <td>{payment.ma_giao_dich || "N/A"}</td>
                       <td>
                         <button
@@ -535,26 +676,122 @@ function Admin() {
             </table>
           </div>
         );
-
       case "total_payment":
         return (
           <div>
-            <h2>Tổng số tiền đã thanh toán</h2>
-            <div
-              style={{
-                fontSize: "24px",
-                fontWeight: "bold",
-                marginTop: "20px",
-                padding: "20px",
-                background: "#f8f9fa",
-                borderRadius: "8px",
-              }}
-            >
-              Tổng tiền:{" "}
-              {totalPayment && totalPayment.tong
-                ? Number(totalPayment.tong).toLocaleString("vi-VN") + " đ"
-                : "Chưa có dữ liệu"}
+            <h2>Thống kê Doanh thu</h2>
+
+            {/* Bộ chọn tháng và năm */}
+            <div style={{ marginBottom: "20px", display: "flex", gap: "15px" }}>
+              <div>
+                <label>Chọn tháng: </label>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                  style={{ padding: "5px", marginLeft: "5px" }}
+                >
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                    <option key={month} value={month}>
+                      Tháng {month}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label>Chọn năm: </label>
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(Number(e.target.value))}
+                  style={{ padding: "5px", marginLeft: "5px" }}
+                >
+                  {Array.from(
+                    { length: 5 },
+                    (_, i) => new Date().getFullYear() - i
+                  ).map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
+
+            {/* Hiển thị thống kê */}
+            {statistics ? (
+              <div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "20px",
+                    marginBottom: "30px",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "20px",
+                      background: "#f8f9fa",
+                      borderRadius: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <h3>Tổng doanh thu</h3>
+                    <p style={{ fontSize: "24px", fontWeight: "bold" }}>
+                      {Number(statistics.tong_doanh_thu || 0).toLocaleString(
+                        "vi-VN"
+                      )}{" "}
+                      đ
+                      {console.log("Tong danh thu",statistics.tong_doanh_thu)}
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      padding: "20px",
+                      background: "#f8f9fa",
+                      borderRadius: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <h3>Tổng đơn hàng</h3>
+                    <p style={{ fontSize: "24px", fontWeight: "bold" }}>
+                      {statistics.tong_don_hang || 0}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Sản phẩm bán chạy */}
+                <h3>Sản phẩm bán chạy nhất</h3>
+                {(statistics?.san_pham_ban_chay || []).length > 0 ? (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng bán</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {statistics.san_pham_ban_chay.map((product, index) => (
+                        <tr key={index}>
+                          <td>{product.ten_san_pham}</td>
+                          <td>{product.tong_so_luong}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>Không có dữ liệu sản phẩm bán chạy.</p>
+                )}
+
+                {/* Biểu đồ doanh thu theo ngày */}
+                <h3>Doanh thu theo ngày</h3>
+                <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+                  {/* <Line data={chartData} options={chartOptions} /> */}
+                  <Line key={`${selectedMonth}-${selectedYear}`} data={chartData} options={chartOptions} />
+                </div>
+              </div>
+            ) : (
+              <p>Đang tải dữ liệu thống kê...</p>
+            )}
           </div>
         );
 
@@ -567,7 +804,7 @@ function Admin() {
     <div className="admin-container">
       <h1>Quản trị Hệ thống Bán Linh kiện</h1>
 
-      {/* Navigation Menu */}
+      {/* Navigation Menu (giữ nguyên) */}
       <div className="nav-menu">
         <button
           onClick={() => setView("orders")}
@@ -610,7 +847,7 @@ function Admin() {
       {/* Content Area */}
       <div className="content-box">{renderContent()}</div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Confirmation Modal (giữ nguyên) */}
       <DeleteModal
         isOpen={deleteModal.isOpen}
         onCancel={cancelDelete}

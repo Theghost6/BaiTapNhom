@@ -90,11 +90,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     
     logMessage("Trạng thái thanh toán được cập nhật cho đơn hàng $orderId: $status");
     
-    if ($_GET['vnp_ResponseCode'] == '00') {
-        header("Location: http://localhost:5173/thankyou");
-    } else {
-        header("Location: http://localhost:3000/payment-failed?orderId=$orderId");
-    }
+    // Near line ~85 in payments.php, add after updating payment status:
+if ($_GET['vnp_ResponseCode'] == '00') {
+    // Update order status to indicate payment completed
+    $sqlUpdateOrder = "UPDATE don_hang SET trang_thai = 'Đã thanh toán' WHERE id = '$orderId'";
+    $conn->query($sqlUpdateOrder);
+    logMessage("Cập nhật trạng thái đơn hàng $orderId thành 'Đã thanh toán'");
+    
+    header("Location: http://localhost:5173/thankyou?orderId=$orderId&success=true");
+} else {
+    header("Location: http://localhost:3000/payment-failed?orderId=$orderId");
+}
     $conn->close();
     exit;
 }
@@ -268,6 +274,24 @@ try {
             logMessage("Tạo địa chỉ giao hàng mới với ID: $addressId");
         } else {
             throw new Exception("Lỗi khi chèn vào dia_chi_giao_hang: " . $conn->error);
+        }
+    }
+    if ($phuong_thuc_van_chuyen === 'pickup') {
+        $fullName = $conn->real_escape_string($thong_tin_khach_hang['fullName']);
+        $phone = $conn->real_escape_string($thong_tin_khach_hang['phone']);
+        $defaultAddress = $conn->real_escape_string('Lấy tại cửa hàng');
+        $defaultCity = $conn->real_escape_string(''); // Giá trị rỗng hoặc mặc định
+        $defaultDistrict = $conn->real_escape_string('');
+        $defaultWard = $conn->real_escape_string('');
+        
+        $addressQuery = "INSERT INTO dia_chi_giao_hang (ma_tk, nguoi_nhan, sdt_nhan, dia_chi, tinh_thanh, quan_huyen, phuong_xa)
+                         VALUES ('$userId', '$fullName', '$phone', '$defaultAddress', '$defaultCity', '$defaultDistrict', '$defaultWard')";
+        
+        if ($conn->query($addressQuery)) {
+            $addressId = $conn->insert_id;
+            logMessage("Tạo địa chỉ giao hàng mới với ID: $addressId cho pickup");
+        } else {
+            throw new Exception("Lỗi khi chèn vào dia_chi_giao_hang cho pickup: " . $conn->error);
         }
     }
     
