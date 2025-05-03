@@ -1,12 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import { UserCircle, ShoppingBag, LogOut, User, MapPin, Code, Gift,History} from "lucide-react";
-import {FiPackage} from "react-icons/fi";
+import {
+  UserCircle,
+  ShoppingBag,
+  LogOut,
+  User,
+  MapPin,
+  Code,
+  Gift,
+  History,
+} from "lucide-react";
+import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Menu } from "lucide-react";
 import "../style/header.css";
+import products from "../page/funtion/Linh_kien";
 
-const cities = ["Hồ Chí Minh", "Hà Nội", "An Giang", "Bắc Giang", "Bắc Ninh", "Bến Tre", "Bình Dương", "Bình Phước", "Cà Mau"];
+const allProducts = Object.values(products).flat();
+
+const cities = ["Hồ Chí Minh", "Hà Nội", "Ninh bình", "Bắc Ninh", "Nam Định", "Thái Bình" ,"Hà Nam"];
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,13 +34,49 @@ const Header = () => {
   const location = useLocation();
 
   const categories = {
-    "Hãng máy tính": ["Macbook", "Lenovo", "Asus", "Acer", "Razer", "Dell", "Microsoft", "HP", "Nokia"],
-    "Bàn phím": ["Dưới 2 triệu", "Từ 2 - 4 triệu", "Từ 4 - 7 triệu", "Từ 7 - 13 triệu", "Từ 13 - 20 triệu", "Trên 20 triệu"],
-    "CPU HOT ⚡": ["Apple M4 MAX", "Apple M4 Pro (14 core)", "Apple M4 Pro (12 core)", "Intel Core Ultra 9 285HX", "Ryzen AI Max+ 395", "Ryzen 9 7945HX3D", "Intel Core i9 14900HX", " Intel Core i7 14700HX", "Ryzen AI 9 365"],
-    "Chuột": ["Không dây", "Có dây", "Bluetooth", "Đồng", "Cống", "Ratatoulie"],
-    "RAM HOT ⚡": ["HP", "Corsair", "GigaByte", "Geil", "Crucial", "Kingston", "G.Skill", "Adata", "Apacer"]
+    "Hãng máy tính": [
+      "Macbook",
+      "Lenovo",
+      "Asus",
+      "Acer",
+      "Razer",
+      "Dell",
+      "Microsoft",
+      "HP",
+      "Nokia",
+    ],
+    "Bàn phím": [
+      "Dưới 2 triệu",
+      "Từ 2 - 4 triệu",
+      "Từ 4 - 7 triệu",
+      "Từ 7 - 13 triệu",
+      "Từ 13 - 20 triệu",
+      "Trên 20 triệu",
+    ],
+    "CPU HOT ⚡": [
+      "Apple M4 MAX",
+      "Apple M4 Pro (14 core)",
+      "Apple M4 Pro (12 core)",
+      "Intel Core Ultra 9 285HX",
+      "Ryzen AI Max+ 395",
+      "Ryzen 9 7945HX3D",
+      "Intel Core i9 14900HX",
+      " Intel Core i7 14700HX",
+      "Ryzen AI 9 365",
+    ],
+    Chuột: ["Không dây", "Có dây", "Bluetooth", "Đồng", "Cống", "Ratatoulie"],
+    "RAM HOT ⚡": [
+      "HP",
+      "Corsair",
+      "GigaByte",
+      "Geil",
+      "Crucial",
+      "Kingston",
+      "G.Skill",
+      "Adata",
+      "Apacer",
+    ],
   };
-
 
   const USER_KEY = "user";
 
@@ -64,7 +112,10 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (userDropdownRef.current && !userDropdownRef.current.contains(e.target)) {
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(e.target)
+      ) {
         setShowUserDropdown(false);
       }
     };
@@ -80,6 +131,9 @@ const Header = () => {
     setShowUserDropdown(false);
     navigate("/");
   };
+  const filteredProducts = allProducts.filter((item) =>
+    item.ten.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
     <header className="main-header" ref={headerRef}>
@@ -99,7 +153,9 @@ const Header = () => {
                 <h4 className="mega-menu-title">{title}</h4>
                 <ul className="mega-menu-list">
                   {items.map((item, i) => (
-                    <li key={i} className="mega-menu-item">{item}</li>
+                    <li key={i} className="mega-menu-item">
+                      {item}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -115,10 +171,40 @@ const Header = () => {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
+
+          {searchInput && (
+            <div className="search-suggestions">
+              {filteredProducts.slice(0, 5).map((item) => (
+                <div
+                  key={item.id}
+                  className="search-suggestion-item"
+                  onClick={() => {
+                    navigate(`/linh-kien/${item.id}`);
+                    setSearchInput("");
+                  }}
+                >
+                  {item.ten}
+                </div>
+              ))}
+              {filteredProducts.length === 0 && (
+                <div className="search-suggestion-item">
+                  Không tìm thấy kết quả
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <Link to="/contact" className="contact-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="black" strokeWidth="2" viewBox="0 0 24 24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="black"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .56 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.6-.6a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.56A2 2 0 0 1 22 16.92z"></path>
           </svg>
           <span>Liên hệ</span>
@@ -134,7 +220,6 @@ const Header = () => {
           <span>Ưu đãi</span>
         </Link>
 
-
         <div className="location-selector">
           <button onClick={() => setShowLocationPopup(!showLocationPopup)}>
             <MapPin size={24} /> {selectedCity}
@@ -143,7 +228,12 @@ const Header = () => {
             <div className="location-popup">
               <div className="popup-header">
                 <span>Chọn tỉnh/thành phố</span>
-                <span className="close-btn" onClick={() => setShowLocationPopup(false)}>×</span>
+                <span
+                  className="close-btn"
+                  onClick={() => setShowLocationPopup(false)}
+                >
+                  ×
+                </span>
               </div>
               <input
                 type="text"
@@ -152,11 +242,15 @@ const Header = () => {
               />
               <div className="location-list">
                 {cities
-                  .filter((city) => city.toLowerCase().includes(searchInput.toLowerCase()))
+                  .filter((city) =>
+                    city.toLowerCase().includes(searchInput.toLowerCase())
+                  )
                   .map((city, index) => (
                     <div
                       key={index}
-                      className={`location-item ${selectedCity === city ? "selected" : ""}`}
+                      className={`location-item ${
+                        selectedCity === city ? "selected" : ""
+                      }`}
                       onClick={() => {
                         setSelectedCity(city);
                         setShowLocationPopup(false);
@@ -187,16 +281,19 @@ const Header = () => {
                   </Link>
                   <Link to="/tracuu" className="dropdown-item">
                     <FiPackage size={16} /> Tra cứu đơn hàng
-                  </Link> 
+                  </Link>
                   <Link to="/lich_su_don_hang" className="dropdown-item">
-                    <History  size={16} /> Lịch sử đơn hàng
+                    <History size={16} /> Lịch sử đơn hàng
                   </Link>
                   {user?.role === "admin" && (
                     <Link to="/admin" className="dropdown-item">
                       <User size={16} /> Quản trị viên
                     </Link>
                   )}
-                  <button onClick={handleLogout} className="dropdown-item logout-button">
+                  <button
+                    onClick={handleLogout}
+                    className="dropdown-item logout-button"
+                  >
                     <LogOut size={16} /> Đăng xuất
                   </button>
                 </div>
