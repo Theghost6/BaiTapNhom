@@ -7,11 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
+
 const Cart = () => {
+  
   const navigate = useNavigate();
   const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart, updateQuantity } = useCart();
   const { isAuthenticated } = useContext(AuthContext) || {};
-
   // Create a lookup for product details
   const Products = Object.values(LinhKien).flat();
   const getProductDetails = cartItems
@@ -37,6 +38,7 @@ const Cart = () => {
     }
   };
 
+  
   const handleCheckout = () => {
     navigate('/checkout', { state: { products: getProductDetails } });
   };
