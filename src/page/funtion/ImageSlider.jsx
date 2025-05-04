@@ -33,23 +33,41 @@ const ImageSlider = ({ images = [], address }) => {
   };
 
   return (
-    <div className="custom-image-slider">
-      <h3>🖼️ Hình ảnh nổi bật</h3>
+    <div className="image-slider">
       <div className="slider-frame">
+        <img
+          src="photos/a.jpg"
+          alt="Background"
+          className="product-hero-image"
+        />
         <img
           src={images[currentIndex]}
           alt={`Ảnh ${currentIndex + 1}`}
           className={`slider-img ${fade ? "fade-in" : "fade-out"}`}
         />
-        <button className="slider-btn left" onClick={handlePrev}>
+        {/* <button className="slider-btn left" onClick={handlePrev}>
           &#10094;
         </button>
         <button className="slider-btn right" onClick={handleNext}>
           &#10095;
-        </button>
+        </button> */}
       </div>
+
+      <div className="thumbnail-container">
+        {images.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`Thumbnail ${index + 1}`}
+            className={`thumbnail ${index === currentIndex ? "active" : ""}`}
+            onClick={() => setCurrentIndex(index)}
+          />
+        ))}
+      </div>
+
       <p className="slider-address">{address}</p>
     </div>
+
   );
 };
 

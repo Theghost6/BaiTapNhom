@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "../../style/chitietlinhkien.css";
 
+
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -55,30 +56,30 @@ const ProductDetail = () => {
   if (!product) {
     return <div>Không tìm thấy sản phẩm này.</div>;
   }
-// const handleAddToCart = async () => {
-//   if (!isAuthenticated) {
-//     toast.error("Vui lòng đăng nhập để thêm vào giỏ hàng!");
-//     navigate("/register");
-//     return;
-//   }
-//   try {
-//     const response = await axios.get(`http://localhost/backend/san_pham.php?id_product=${product.id}`);
-//     if (response.data.success && response.data.data.so_luong < 1) {
-//       toast.error("Sản phẩm hiện đã hết hàng!");
-//       return;
-//     }
-//     addToCart(product);
-//     setIsInCart(true);
-//     toast.success(`${product.ten} đã được thêm vào giỏ hàng!`);
-//   } catch (error) {
-//     toast.error("Lỗi khi kiểm tra tồn kho!");
-//   }
-// };
-const handleAddToCart = () => {
-  console.log("Adding product:", product);
-  addToCart(product);
-  setIsInCart(true);
-};
+  // const handleAddToCart = async () => {
+  //   if (!isAuthenticated) {
+  //     toast.error("Vui lòng đăng nhập để thêm vào giỏ hàng!");
+  //     navigate("/register");
+  //     return;
+  //   }
+  //   try {
+  //     const response = await axios.get(`http://localhost/backend/san_pham.php?id_product=${product.id}`);
+  //     if (response.data.success && response.data.data.so_luong < 1) {
+  //       toast.error("Sản phẩm hiện đã hết hàng!");
+  //       return;
+  //     }
+  //     addToCart(product);
+  //     setIsInCart(true);
+  //     toast.success(`${product.ten} đã được thêm vào giỏ hàng!`);
+  //   } catch (error) {
+  //     toast.error("Lỗi khi kiểm tra tồn kho!");
+  //   }
+  // };
+  const handleAddToCart = () => {
+    console.log("Adding product:", product);
+    addToCart(product);
+    setIsInCart(true);
+  };
   const handleBuyNow = () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để mua ngay!");
@@ -143,7 +144,7 @@ const handleAddToCart = () => {
       console.error("Error submitting review:", error);
       toast.error(
         "Có lỗi xảy ra khi gửi đánh giá: " +
-          (error.response?.data?.message || error.message)
+        (error.response?.data?.message || error.message)
       );
     } finally {
       setIsSubmitting(false);
@@ -211,7 +212,7 @@ const handleAddToCart = () => {
       console.error("Error submitting reply:", error.response?.data || error);
       toast.error(
         "Có lỗi xảy ra khi gửi phản hồi: " +
-          (error.response?.data?.message || error.message)
+        (error.response?.data?.message || error.message)
       );
     } finally {
       setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: false }));
@@ -220,13 +221,17 @@ const handleAddToCart = () => {
 
   return (
     <div className="product-detail-wrapper">
-      <div
-        className="product-hero"
-        style={{ backgroundImage: `url(${product.images[0]})` }}
-      >
-        <div className="product-hero-overlay">
-          <h1>Chi tiết sản phẩm</h1>
-          <p>Home ?& Sản phẩm ?& {product.ten || "Không xác định"}</p>
+      <div className="product-hero">
+        <img
+          src="/photos/c.jpg"
+          alt="Background"
+          className="product-hero-image"
+        />
+        <div className="hero-text">
+          <h1 className="hero-title">Chi tiết sản phẩm</h1>
+          <p className="hero-subtitle">
+            Home ?& Sản phẩm ?& {product.ten || "Không xác định"}
+          </p>
         </div>
       </div>
 

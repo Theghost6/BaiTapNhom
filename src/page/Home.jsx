@@ -12,8 +12,12 @@ import "../style/home.css"; // Import CSS từ file riêng
 import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
 import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
 import ComboSearch from "../page/funtion/ComboSearch";
+import "../style/all_linh_kien.css";
 import { motion } from "framer-motion";
-// import { useDimensions } from "../hooks/useDimensions";
+import { FaGift } from "react-icons/fa";
+import { Variants } from "./funtion/Menu";
+// import * as motion from "motion/react-client"
+
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -23,54 +27,56 @@ const Home = () => {
   const slides = [
     {
       id: 8,
-      image:
-        "https://mia.vn/media/uploads/blog-du-lich/an-tuong-ve-dep-hung-vi-noi-quan-the-danh-thang-trang-an-1-1640247493.jpg",
-      title: "Tràng An",
-      description: "Khu du lịch sinh thái Tràng An",
+      image: ["/photos/k.jpg"],      
+      title: "GPU NVIDIA GeForce RTX 4090",
+      description: "Sức mạnh đồ họa vượt trội cho game thủ",
     },
     {
       id: 7,
       image:
-        "https://cdn.pixabay.com/photo/2016/10/16/17/03/vietnam-1745819_1280.jpg",
-      title: "Vịnh Hạ Long",
-      description: "Kỳ quan thiên nhiên thế giới tại Việt Nam",
+        "/photos/l.jpg",
+      title: "Bàn phím cơ Corsair K100",
+      description: "Trải nghiệm gõ phím tuyệt vời với đèn RGB",
     },
     {
       id: 25,
-      image: "https://cdn.xanhsm.com/2025/02/f69feca7-canh-dep-phu-quoc-7.jpg",
-      title: "Phú Quốc",
-      description: "Thiên đường biển đảo của miền Nam",
+      image: "/photos/j.jpg",
+      title: "Chuột Logitech G502",
+      description: "Chuột chơi game với cảm biến HERO 25K",
     },
   ];
-  const Dia_Diem = [
+  const LinhKien = [
     {
-      id: 11,
-      name: "Đà Nẵng",
-      image:
-        "https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20%C4%91%C3%A0%20n%E1%BA%B5ng/anh-dep-da-nang-2.jpg",
-      description: "Thành phố đáng sống với bãi biển tuyệt đẹp và cầu Rồng.",
-      rating: 4.8,
-      price: "3,500,000đ",
+      id: "cpu001",
+      ten: "Intel Core i9-13900K",
+      hang: "Intel",
+      gia: 14000000,
+      bao_hanh: "3 năm",
+      images: ["/photos/i.jpg"],
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
+      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
     },
     {
-      id: 12,
-      name: "Hội An",
-      image:
-        "https://hoianpark.com/userfiles/image/du-lich/net-dep-ha/ky-uc-hoi-an-ve-dem/ky-uc-hoi-an-ve-dem-1.jpg",
-      description: "Phố cổ lãng mạn với những chiếc đèn lồng đầy màu sắc.",
-      rating: 4.9,
-      price: "2,800,000đ",
+      id: "cpu001",
+      ten: "Intel Core i9-13900K",
+      hang: "Intel",
+      gia: 14000000,
+      bao_hanh: "3 năm",
+      images: ["/photos/f.jpg"],
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
+      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
     },
     {
-      id: 13,
-      name: "Nha Trang",
-      image:
-        "https://media.istockphoto.com/id/827359312/vi/anh/to%C3%A0n-c%E1%BA%A3nh-th%C3%A0nh-ph%E1%BB%91-nha-trang-%E1%BB%9F-vi%E1%BB%87t-nam-t%E1%BB%AB-quan-%C4%91i%E1%BB%83m-m%C3%A1y-bay-kh%C3%B4ng-ng%C6%B0%E1%BB%9Di-l%C3%A1i.jpg?s=612x612&w=0&k=20&c=coljvNU4PTpoKVPfTfuNsHh6u9Xs36BI-o6Pmnhq55I=",
-      description:
-        "Thiên đường biển với các resort sang trọng và ẩm thực hải sản.",
-      rating: 4.7,
-      price: "4,200,000đ",
+      id: "cpu001",
+      ten: "Intel Core i9-13900K",
+      hang: "Intel",
+      gia: 14000000,
+      bao_hanh: "3 năm",
+      images: ["/photos/d.jpg"],
+      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
+      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
     },
+
   ];
 
   // Auto slide effect
@@ -105,31 +111,11 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Toggle button */}
-      {/* <div style={{ position: "relative" }}>
-        <motion.nav
-          initial={false}
-          animate={menuVisible ? "open" : "closed"}
-          custom={400} // Chiều cao giả định hoặc dùng useDimensions
-          variants={sidebarVariants}
-          style={{
-            width: 300,
-            height: "100vh", // ✅ Quan trọng
-            backgroundColor: "#f5f5f5", 
-            position: "fixed", // ✅ Để nó nằm luôn trên màn hình
-            top: 0,
-            left: 0,
-            bottom: 900,
-            overflow: "hidden",
-            zIndex: 100,
-          }}
-          ref={menuRef}
-        >
-          <Variants />
-        </motion.nav>
 
-        <MenuToggle toggle={() => setMenuVisible(!menuVisible)} />
-      </div> */}
+      {/* Toggle button */}
+      <div>
+        <Variants />
+      </div>
 
       {/* Hero Slider */}
       <div className="hero-slider" id="hero-slider">
@@ -177,8 +163,7 @@ const Home = () => {
 
 
       {/* Travel Navigation Bar - added here as requested */}
-      <div className="travel-container">
-        {/* Navigation Tabs */}
+      {/* <div className="travel-container">
         <div className="travel-tabs">
           <div
             className={`tab-item ${activeTab === "khachsan" ? "active" : ""}`}
@@ -209,57 +194,23 @@ const Home = () => {
             <span>Combo</span>
           </div>
 
-          {/* <div
-            className={`tab-item nav-item dropdown ${activeTab === "services" ? "active" : ""
-              }`}
-            onClick={() => setActiveTab("services")}
-          >
-            <div className="tab-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24">
-                <path d="M4,8h4V4H4V8z M10,20h4v-4h-4V20z M4,20h4v-4H4V20z M4,14h4v-4H4V14z M10,14h4v-4h-4V14z M16,4v4h4V4H16z M10,8h4V4h-4V8z M16,14h4v-4h-4V14z M16,20h4v-4h-4V20z" />
-              </svg>
-            </div>
-            <span>Dịch vụ</span>
-            <Link to="/services" className="nav-link-arrow">
-              <ChevronDown size={16} className="dropdown-icon" />
-            </Link>
-            <ul className="dropdown-menu">
-              <li>
-                <Link to="/services/Xe dua don">Xe đưa đón</Link>
-              </li>
-              <li>
-                <Link to="/services/Du thuyền">Thuê du thuyền</Link>
-              </li>
-              <li>
-                <Link to="/services/Party">Tổ chức tiệc</Link>
-              </li>
-            </ul>
-          </div> */}
         </div>
         {activeTab === "khachsan" && <HotelSearch />}
         {activeTab === "maybay" && <FlySearch />}
         {activeTab === "combo" && <ComboSearch />}
-        {/* Search Panel */}
-        {/* <div className="search-panel">
-          <div className="search-row">
-            <button className="search-button">
-              <svg viewBox="0 0 24 24" width="24" height="24">
-                <path d="M15.5,14h-0.79l-0.28-0.27C15.41,12.59,16,11.11,16,9.5C16,5.91,13.09,3,9.5,3S3,5.91,3,9.5S5.91,16,9.5,16 c1.61,0,3.09-0.59,4.23-1.57L14,14.71v0.79l5,4.99L20.49,19L15.5,14z M9.5,14C7.01,14,5,11.99,5,9.5S7.01,5,9.5,5S14,7.01,14,9.5 S11.99,14,9.5,14z" />
-              </svg>
-            </button>
-          </div>
-        </div> */}
-      </div>
+
+      </div> */}
+
       <div className="section destinations-section">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <div className="section-header">
           <div>
-            <h2 className="section-title" id="diem-den">Điểm đến nổi bật</h2>
+            <h2 className="section-title" id="diem-den">HOT COMPONENTS</h2>
             <p className="section-subtitle">
-              Những địa điểm được yêu thích nhất năm 2025
+              Những mặt hàng được đánh giá cao trong năm 2025
               <div class="title-icon-line">
                 <span class="line"></span>
-                <i class="fas fa-plane icon"></i>
+                <i class="fas fa-computer icon"></i>
                 <span class="line"></span>
               </div>
             </p>
@@ -273,48 +224,59 @@ const Home = () => {
           </button>{" "}
         </div>
 
-        <div className="destinations-grid">
-          {Dia_Diem.map((dest, idx) => (
-            <div key={idx} className="destination-card">
-              <div className="destination-image-container">
+        <div className="destination-grid">
+          {LinhKien.map((lk, idx) => (
+            <div key={idx} className="products-card">
+              <div className="products-image-container">
                 <img
-                  src={dest.image}
-                  alt={dest.name}
-                  className="destination-image"
+                  src={lk.images[0] || "https://example.com/placeholder.jpg"}
+                  alt={lk.ten}
+                  className="products-image"
                 />
-                <div className="destination-rating">
-                  <Star className="star-icon" />
-                  <span className="rating-value">{dest.rating}</span>
-                </div>
               </div>
-              <div className="destination-details">
-                <div className="destination-header">
-                  <MapPin className="location-icon" />
-                  <h3 className="destination-name">{dest.name}</h3>
-                </div>
-                <p className="destination-description">{dest.description}</p>
-                <div className="destination-footer">
-                  <span className="destination-price">Từ {dest.price}</span>
+              <div className="products-details">
+                <h3 className="products-name">{lk.ten}</h3>
+                <p className="products-brand">Thương hiệu: {lk.hang}</p>
+                <p className="products-price">
+                  {lk.gia.toLocaleString("vi-VN")} VNĐ
+                </p>
+                <p className="products-warranty">
+                  Bảo hành: {lk.bao_hanh}
+                </p>
+                <p className="products-compatible">
+                  Tương thích: {lk.thiet_bi_tuong_thich.join(", ")}
+                </p>
+                {lk.khuyen_mai && (
+                  <p className="products-sale">
+                    <FaGift style={{ marginRight: "6px" }} />
+                    {lk.khuyen_mai}
+                  </p>
+                )}
+                {/* <div className="product-footer">
+                  <span className="product-price">Từ {lk.gia}</span>
                   <button
                     className="details-button"
-                    onClick={() => navigate(`/dia-diem/${dest.id}`)}
+                    onClick={() => navigate(`/dia-diem/${lk.id}`)}
                   >
                     Xem chi tiết
-                  </button>{" "}
-                </div>
+                  </button>
+                </div> */}
               </div>
             </div>
           ))}
         </div>
+
       </div>
+
+
       {/* Promotion */}
       <div className="promotion-section">
         <div className="promotion-container">
           <div className="promotion-content">
             <div className="promotion-text">
-              <h2 className="promotion-title" id="discount">Ưu đãi mùa hè 2025</h2>
+              <h2 className="promotion-title" id="discount">Ưu đãi linh kiện 2025</h2>
               <p className="promotion-description">
-                Giảm đến 30% cho các tour du lịch biển đảo. Đặt ngay hôm nay để
+                Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để
                 nhận thêm quà tặng đặc biệt!
               </p>
               <div className="promotion-buttons">
@@ -328,18 +290,18 @@ const Home = () => {
               <div className="deals-card">
                 <div className="deals-header">
                   <Calendar className="deals-icon" />
-                  <h3 className="deals-title">Tour hot trong tháng</h3>
+                  <h3 className="deals-title">Linh kiện hot trong tháng</h3>
                 </div>
                 <ul className="deals-list">
                   {[
                     {
-                      name: "Phú Quốc 3N2Đ",
+                      name: "CPU Intel Core i9-13900K",
                       price: "2,999,000đ",
                       trend: "+15%",
                     },
-                    { name: "Đà Lạt 4N3Đ", price: "3,499,000đ", trend: "+23%" },
+                    { name: "AMD Ryzen 9 7950X3D", price: "3,499,000đ", trend: "+23%" },
                     {
-                      name: "Hà Giang 5N4Đ",
+                      name: "ASUS ROG Strix Z790-E Gaming",
                       price: "4,199,000đ",
                       trend: "+18%",
                     },
@@ -362,7 +324,7 @@ const Home = () => {
         </div>
       </div>
       {/* Services */}
-      <div className="section services-section">
+      <div className="section services-section" id="dich-vu">
         <section class="recommended-section">
           <div class="background-text">SERVICES</div>
           <div class="content">
@@ -374,19 +336,19 @@ const Home = () => {
         <div className="services-grid">
           {[
             {
-              icon: "🏨",
-              title: "Khách sạn cao cấp",
-              desc: "Đa dạng lựa chọn từ bình dân đến 5 sao với giá tốt nhất thị trường.",
+              icon: "🛠️",
+              title: "Sửa chữa và bảo trì",
+              desc: "Chúng tôi cung cấp dịch vụ sửa chữa và bảo trì cho tất cả các thiết bị điện tử.",
             },
             {
-              icon: "🚗",
-              title: "Đưa đón tận nơi",
-              desc: "Dịch vụ xe riêng đưa đón sân bay và di chuyển trong suốt hành trình.",
+              icon: "🚚",
+              title: "Vận chuyển hàng hóa tận nơi",
+              desc: "Dịch vụ vận chuyển hàng hóa tận nơi với giá cả hợp lý.",
             },
             {
-              icon: "🍽️",
-              title: "Ẩm thực đặc sắc",
-              desc: "Trải nghiệm ẩm thực địa phương với những món ăn đặc sản nổi tiếng.",
+              icon: "🛡️",
+              title: "Bảo hành và hỗ trợ",
+              desc: "Chúng tôi cung cấp dịch vụ bảo hành và hỗ trợ kỹ thuật 24/7.",
             },
           ].map((service, idx) => (
             <div key={idx} className="service-card">
@@ -398,21 +360,27 @@ const Home = () => {
         </div>
       </div>
       {/* Newsletter */}
-      <div className="newsletter-section" id="dang-ki">
-        <div className="newsletter-container">
-          <h2 className="newsletter-title">Đăng ký nhận thông tin ưu đãi</h2>
-          <p className="newsletter-description">
-            Hãy đăng ký để nhận thông tin về các ưu đãi và điểm đến mới nhất từ
-            chúng tôi. Chúng tôi hứa sẽ không gửi spam!
-          </p>
-          <div className="newsletter-form">
-            <input
-              type="email"
-              placeholder="Email của bạn"
-              className="newsletter-input"
-            />
-            <button className="newsletter-button">Đăng ký ngay</button>
+      <div class="newsletter-section" id="dang-ki">
+        <div class="newsletter-wrapper">
+          {/* left */}
+          <div class="newsletter-content">
+            <h2 class="newsletter-title">Stay home & get your daily needs from our shop</h2>
+            <p class="newsletter-description">
+              Start Your Daily Shopping with <span class="highlight">Nest Mart</span>
+            </p>
+            <div class="newsletter-form">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="newsletter-input"
+              />
+              <button class="newsletter-button">Subscribe</button>
+            </div>
           </div>
+          {/* right */}
+          {/* <div class="newsletter-image">
+            <img src="/photos/g.jpg" alt="Delivery" />
+          </div> */}
         </div>
       </div>
     </div>

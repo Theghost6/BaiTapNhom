@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Star } from "lucide-react";
+import { FaGift } from "react-icons/fa";
+
 import LinhKien from "../../page/funtion/Linh_kien";
 import "../../style/all_linh_kien.css"; // Cập nhật CSS tương ứng
 
@@ -8,15 +11,21 @@ const AllLinhKien = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Bộ lọc
-  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
-  const [selectedBrand, setSelectedBrand] = useState("Tất cả");
-  const [selectedPrice, setSelectedPrice] = useState("Tất cả");
+
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const toggleOption = (option) => {
+    if (selectedOptions.includes(option)) {
+      setSelectedOptions(selectedOptions.filter(item => item !== option));
+    } else {
+      setSelectedOptions([...selectedOptions, option]);
+    }
+  };
 
   // Lấy danh sách danh mục và thương hiệu từ Linh_kien.js
   const categories = [
-    "Tất cả",
+    "Tất cả loại hàng",
     "CPU",
     "Mainboard",
     "RAM",
@@ -28,7 +37,7 @@ const AllLinhKien = () => {
     "Peripherals",
   ];
   const brands = [
-    "Tất cả",
+    "Tất cả hãng",
     ...new Set(
       Object.values(LinhKien).flatMap((category) =>
         category.map((item) => item.hang) // Sử dụng 'hang' thay vì 'brand'
@@ -36,12 +45,30 @@ const AllLinhKien = () => {
     ),
   ];
   const priceRanges = [
-    "Tất cả",
+    "Tất cả giá",
     "Dưới 2 triệu",
     "2-5 triệu",
     "5-10 triệu",
     "Trên 10 triệu",
   ];
+  const [hovered, setHovered] = useState("hang")
+
+  // Cập nhật các bộ lọc từ selectedOptions
+  const activeCategory =
+    categories.find(
+      (cat) => cat !== "Tất cả loại hàng" && selectedOptions.includes(cat)
+    ) || "Tất cả loại hàng";
+
+  const activeBrand =
+    brands.find(
+      (br) => br !== "Tất cả hãng" && selectedOptions.includes(br)
+    ) || "Tất cả hãng";
+
+  const activePrice =
+    priceRanges.find(
+      (price) => price !== "Tất cả giá" && selectedOptions.includes(price)
+    ) || "Tất cả giá";
+
   const [hovered, setHovered] = useState("hang")
 
   // Lấy tất cả sản phẩm từ các danh mục
@@ -52,27 +79,29 @@ const AllLinhKien = () => {
     const matchesSearchTerm =
       !searchTerm ||
       product.ten.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesCategory =
-      selectedCategory === "Tất cả" ||
-      Object.keys(products).find((key) =>
-        products[key].some((item) => item.id === product.id)
-      )?.toLowerCase() === selectedCategory.toLowerCase();
+      activeCategory === "Tất cả loại hàng" ||
+      product.danh_muc?.toLowerCase() === activeCategory.toLowerCase();
 
     const matchesBrand =
-      selectedBrand === "Tất cả" || product.hang === selectedBrand;
+      activeBrand === "Tất cả hãng" || product.hang === activeBrand;
+
     const matchesPrice =
-      selectedPrice === "Tất cả" ||
-      (selectedPrice === "Dưới 2 triệu" && product.gia < 2000000) ||
-      (selectedPrice === "2-5 triệu" &&
+      activePrice === "Tất cả giá" ||
+      (activePrice === "Dưới 2 triệu" && product.gia < 2000000) ||
+      (activePrice === "2-5 triệu" &&
         product.gia >= 2000000 &&
         product.gia <= 5000000) ||
-      (selectedPrice === "5-10 triệu" &&
+      (activePrice === "5-10 triệu" &&
         product.gia >= 5000000 &&
         product.gia <= 10000000) ||
-      (selectedPrice === "Trên 10 triệu" && product.gia > 10000000);
+      (activePrice === "Trên 10 triệu" && product.gia > 10000000);
 
     return matchesSearchTerm && matchesCategory && matchesBrand && matchesPrice;
   });
+
+
 
   // Phân trang
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -88,7 +117,7 @@ const AllLinhKien = () => {
     <div className="all-products-container">
       <div className="hero-banner">
         <img
-          src="https://example.com/computer-components.jpg"
+          src="/photos/a.jpg"
           alt="Background"
           className="hero-image"
         />
@@ -140,11 +169,8 @@ const AllLinhKien = () => {
               {brands.map((brand) => (
                 <div
                   key={brand}
-                  className="filter-option"
-                  onClick={() => {
-                    setSelectedBrand(brand);
-                    setCurrentPage(1);
-                  }}
+                  className={`filter-option ${selectedOptions.includes(brand) ? "selected" : ""}`}
+                  onClick={() => toggleOption(brand)}
                 >
                   {brand}
                 </div>
@@ -156,11 +182,8 @@ const AllLinhKien = () => {
               {priceRanges.map((price) => (
                 <div
                   key={price}
-                  className="filter-option"
-                  onClick={() => {
-                    setSelectedPrice(price);
-                    setCurrentPage(1);
-                  }}
+                  className={`filter-option ${selectedOptions.includes(price) ? "selected" : ""}`}
+                  onClick={() => toggleOption(price)}
                 >
                   {price}
                 </div>
@@ -172,11 +195,8 @@ const AllLinhKien = () => {
               {categories.map((category) => (
                 <div
                   key={category}
-                  className="filter-option"
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setCurrentPage(1);
-                  }}
+                  className={`filter-option ${selectedOptions.includes(category) ? "selected" : ""}`}
+                  onClick={() => toggleOption(category)}
                 >
                   {category}
                 </div>
@@ -184,6 +204,16 @@ const AllLinhKien = () => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Selected Options Display */}
+      <div className="selected-options">
+        {selectedOptions.map((option) => (
+          <div key={option} className="selected-item">
+            {option}
+            <button onClick={() => toggleOption(option)}>✕</button>
+          </div>
+        ))}
       </div>
 
 
@@ -211,7 +241,10 @@ const AllLinhKien = () => {
                 Tương thích: {product.thiet_bi_tuong_thich.join(", ")}
               </p>
               {product.khuyen_mai && (
-                <p className="product-sale">{product.khuyen_mai}</p>
+                <p className="product-sale">
+                  <FaGift style={{ marginRight: "6px" }} />
+                  {product.khuyen_mai}
+                </p>
               )}
               <button
                 className="details-button"

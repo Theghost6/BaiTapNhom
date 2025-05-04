@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./page/funtion/AuthContext";
 import { CartProvider } from "./page/funtion/useCart";
-import { ToastContainer } from "react-toastify";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";
@@ -33,21 +32,29 @@ const App = () => {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <Header />
-          <AnimatedRoutes />
-          <Footer />
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
+            <div className="page-container">
+              <Header />
+              <main className="main-content">
+                <Routes location={location}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/AllLinhKien" element={<AllLinhKien />} />
+                  <Route path="/Profile" element={<Profile />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/thankyou" element={<ThankYou />} />
+                  <Route path="/linh-kien/:id" element={<ChiTietLinhKien />} />
+                  <Route path="/hotels" element={<Hotels />} />
+                  <Route path="/hotel/:id" element={<ChiTietHotel />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/developer" element={<Developer />} />
+
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
         </Router>
       </CartProvider>
     </AuthProvider>
