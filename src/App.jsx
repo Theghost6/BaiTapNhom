@@ -26,7 +26,7 @@ const Hotels = lazy(() => import("./page/funtion/Hotels"));
 const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
-
+const Developer = lazy(() => import("./page/funtion/Developer"));
 const App = () => {
   return (
     <AuthProvider>

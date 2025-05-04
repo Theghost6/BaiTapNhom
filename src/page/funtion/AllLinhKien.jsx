@@ -51,7 +51,6 @@ const AllLinhKien = () => {
     "5-10 triệu",
     "Trên 10 triệu",
   ];
-  const [hovered, setHovered] = useState("hang")
 
   // Cập nhật các bộ lọc từ selectedOptions
   const activeCategory =
