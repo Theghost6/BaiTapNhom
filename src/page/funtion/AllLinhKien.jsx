@@ -8,7 +8,7 @@ import "../../style/all_linh_kien.css"; // Cập nhật CSS tương ứng
 const AllLinhKien = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 12;
 
 
   const [searchTerm, setSearchTerm] = useState("");

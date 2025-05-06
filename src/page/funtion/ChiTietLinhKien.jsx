@@ -165,7 +165,7 @@ const ProductDetail = () => {
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để thêm vào giỏ hàng!");
-      navigate("/register", { state: { returnUrl: `/product/${id}` } });
+      navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
 
@@ -237,7 +237,7 @@ const ProductDetail = () => {
     e.preventDefault();
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để đánh giá!");
-      navigate("/register", { state: { returnUrl: `/product/${id}` } });
+      navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
     if (!newReview.binh_luan.trim()) {
@@ -307,7 +307,7 @@ const ProductDetail = () => {
     e.preventDefault();
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để gửi phản hồi!");
-      navigate("/register", { state: { returnUrl: `/product/${id}` } });
+      navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
     if (!replyForms[reviewId]?.noi_dung.trim()) {
@@ -736,7 +736,6 @@ const ProductDetail = () => {
         </div>
       )}
       
-      {/* Recently viewed products - would be implemented based on user's browsing history */}
       
     </motion.div>
   );

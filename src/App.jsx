@@ -1,11 +1,6 @@
 import React, { Suspense, lazy } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion"; // Added motion import
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./page/funtion/AuthContext";
@@ -34,92 +29,281 @@ const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
 const Uudai = lazy(() => import("./page/funtion/Uudai.jsx"));
 
+// NotFound component (can be moved to a separate file)
+const NotFound = () => (
+  <motion.div
+    className="not-found"
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 0.9 }}
+    transition={{ duration: 0.5 }}
+  >
+    <h2>404 - Trang không tìm thấy</h2>
+    <p>Xin lỗi, trang bạn đang tìm không tồn tại.</p>
+    <button onClick={() => (window.location.href = "/")}>
+      Quay về trang chủ
+    </button>
+  </motion.div>
+);
+
 const App = () => {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
-            <div className="page-container">
-              <Header />
-              <main className="main-content">
-                <Routes location={location}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/AllLinhKien" element={<AllLinhKien />} />
-                  <Route path="/Profile" element={<Profile />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/thankyou" element={<ThankYou />} />
-                  <Route path="/linh-kien/:id" element={<ChiTietLinhKien />} />
-                  <Route path="/hotels" element={<Hotels />} />
-                  <Route path="/hotel/:id" element={<ChiTietHotel />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/developer" element={<Developer />} />
-                  <Route path="/uudai" element={<Uudai />} />
-                  <Route path="*" element={<NotFound />} />
+          <div className="page-container">
+            <Header />
+            <Suspense fallback={<div className="loading">Đang tải...</div>}>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <motion.div
+                        key="home"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Home />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/register"
+                    element={
+                      <motion.div
+                        key="register"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Register />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/AllLinhKien"
+                    element={
+                      <motion.div
+                        key="all-linh-kien"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <AllLinhKien />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/Profile"
+                    element={
+                      <motion.div
+                        key="profile"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Profile />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/checkout"
+                    element={
+                      <motion.div
+                        key="checkout"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Checkout />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/cart"
+                    element={
+                      <motion.div
+                        key="cart"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Cart />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/admin"
+                    element={
+                      <motion.div
+                        key="admin"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Admin />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/thankyou"
+                    element={
+                      <motion.div
+                        key="thankyou"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <ThankYou />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/linh-kien/:id"
+                    element={
+                      <motion.div
+                        key="chi-tiet-linh-kien"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <ChiTietLinhKien />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/hotels"
+                    element={
+                      <motion.div
+                        key="hotels"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Hotels />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/hotel/:id"
+                    element={
+                      <motion.div
+                        key="chi-tiet-hotel"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <ChiTietHotel />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/contact"
+                    element={
+                      <motion.div
+                        key="contact"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Contact />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/developer"
+                    element={
+                      <motion.div
+                        key="developer"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Developer />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/uudai"
+                    element={
+                      <motion.div
+                        key="uudai"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Uudai />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/tracuu"
+                    element={
+                      <motion.div
+                        key="tracuu"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <TraCuuDonHang />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/lich_su_don_hang"
+                    element={
+                      <motion.div
+                        key="lich-su-don-hang"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <LichSuDonHang />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="*"
+                    element={
+                      <motion.div
+                        key="not-found"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <NotFound />
+                      </motion.div>
+                    }
+                  />
                 </Routes>
-              </main>
-              <Footer />
-            </div>
+              </AnimatePresence>
+            </Suspense>
+            <Footer />
+          </div>
         </Router>
       </CartProvider>
     </AuthProvider>
   );
 };
 
-const AnimatedRoutes = () => {
-  const location = useLocation();
-  return (
-    <AnimatePresence mode="wait">
-      <motion.main
-        className="main-content"
-        key={location.pathname}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <Suspense fallback={<div className="loading">Đang tải...</div>}>
-          <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/AllLinhKien" element={<AllLinhKien />} />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/thankyou" element={<ThankYou />} />
-            <Route path="/linh-kien/:id" element={<ChiTietLinhKien />} />
-            <Route path="/hotels" element={<Hotels />} />
-            <Route path="/hotel/:id" element={<ChiTietHotel />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/tracuu" element={<TraCuuDonHang />} />
-            <Route path="/lich_su_don_hang" element={<LichSuDonHang />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </motion.main>
-    </AnimatePresence>
-  );
-};
-
-const NotFound = () => {
-  return (
-    <motion.div
-      className="not-found"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.5 }}
-    >
-      <h2>404 - Trang không tìm thấy</h2>
-      <p>Xin lỗi, trang bạn đang tìm không tồn tại.</p>
-      <button onClick={() => (window.location.href = "/")}>
-        Quay về trang chủ
-      </button>
-    </motion.div>
-  );
-};
-
 export default App;
+
