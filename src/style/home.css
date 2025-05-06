@@ -7,25 +7,26 @@
   margin-top: -15px;
   width: 100%;
   overflow-x: hidden;
-
+  box-sizing: border-box;
 }
 
 /* Hero Slider */
 .hero-slider {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 90vh; /* Thay vì 100vh cố định */
   margin: 0 auto;
-  max-width: 1400px;
+  max-width: 100%; /* Thay vì 1400px cố định */
   box-sizing: border-box;
 }
+
 
 .slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 1s;
-  max-width: 1380px;
+  width: 100%; /* Thay vì max-width: 1380px */
   box-sizing: border-box;
 }
 
@@ -38,8 +39,7 @@
   inset: 0;
   background-size: cover;
   background-position: center;
-  margin: -20px -15px 0 -20px;
-
+  margin: 0; /* Thay vì margin: -20px -15px 0 -20px */
   box-sizing: border-box;
 }
 
@@ -47,7 +47,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent);
-  max-width: 1400px;
+  width: 100%; /* Thay vì max-width: 1400px */
   box-sizing: border-box;
 }
 
@@ -57,8 +57,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 2rem;
-  max-width: 1400px;
+  padding: 0 5%; /* Dùng % thay vì rem */
+  width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
 }
@@ -197,9 +197,11 @@
 /* Promo-slide */
 .promo-grid-container {
   position: relative;
-  top: -55px; /* đẩy nó lên trên hero-slider */
+  top: -55px;
   z-index: 10;
-  padding: 0 20px;
+  padding: 0 5%; /* Dùng % thay vì px */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .promo-grid {
@@ -255,8 +257,8 @@
 
 /* Sections */
 .section {
-  padding: 4rem 1.5rem;
-  max-width: 1400px;
+  padding: 4rem 5%; /* Dùng % thay vì px */
+  max-width: 100%; /* Thay vì 1400px cố định */
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -735,20 +737,10 @@
 /* Travel Navigation Bar Styles */
 .travel-container {
   width: 100%;
-  max-width: 1400px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-  top: -20px;
-  /* margin-left: auto; */
-  /* margin-right: auto; */
+  max-width: 100%; /* Thay vì 1400px cố định */
+  padding: 0 20px; /* Thêm padding thay vì width cố định */
+  margin: 0 auto;
+  margin-top: -20px;
   box-sizing: border-box;
 }
 
@@ -806,20 +798,11 @@
 } */
 
 .nav-link-arrow {
-  /* display: block; */
-  padding: 10px 0px;
-  color: #333;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
-  transition: color 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 3px;
   position: absolute;
-  right: 0;
-  top: 0;
-  transform: translate(100%, 50%);
+  right: 20px; /* Dùng px thay vì transform và % */
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
 }
 
 /* .nav-link-arrow:hover {
@@ -878,16 +861,7 @@
 }
 
 .background-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 120px;
-  font-weight: 800;
-  color: rgba(0, 0, 0, 0.05);
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
+  font-size: clamp(60px, 10vw, 120px); /* Sử dụng clamp để giới hạn kích thước */
 }
 
 .content {
@@ -913,4 +887,29 @@
 
 .view-all:hover {
   text-decoration: underline;
+}
+/* Thêm media queries cho màn hình laptop nhỏ (13-14 inch) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+   .slide-title {
+    font-size: clamp(3rem, 5vw, 5rem); /* Sử dụng clamp để giới hạn kích thước */
+  }
+  
+  .slide-description {
+    font-size: 1.25rem; /* Giảm font-size từ 1.5rem */
+  }
+  
+  .promo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Giảm minmax từ 280px */
+  }
+  
+  .destination-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Giảm minmax từ 300px */
+  }
+}
+
+/* Thêm media queries cho màn hình rất nhỏ */
+@media (max-width: 1024px) {
+  .promo-card:nth-child(1) {
+    grid-column: span 1; /* Không còn span 2 nữa */
+  }
 }

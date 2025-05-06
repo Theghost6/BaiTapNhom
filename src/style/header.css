@@ -6,18 +6,20 @@
   top: 0;
   z-index: 999;
   width: 100%;
-  padding: 0px 10px;
+  padding: 0px 2%; /* Sử dụng % thay vì px */
   box-sizing: border-box;
-
 }
 
 .main-header-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* Thay justify-content: center */
   flex-wrap: wrap;
-  gap: 20px;
-  border-radius: auto 10px 0 auto;
+  gap: 10px; /* Giảm gap */
+  max-width: 1400px; /* Giới hạn chiều rộng tối đa */
+  margin: 0 auto; /* Căn giữa container */
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 /* contact */
@@ -48,11 +50,13 @@
 }
 
 .search-bar input {
-  width: 250px;
+  width: 100%; /* Thay thế width: 250px */  
+  min-width: 180px; /* Đặt min-width thay vì width cố định */
+  max-width: 250px; /* Giới hạn chiều rộng tối đa */
   padding: 8px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  stroke-width: 2px;
+  box-sizing: border-box;
 }
 
 .location-selector button {
@@ -74,14 +78,25 @@
 .location-popup {
   position: absolute;
   top: 60px;
-  right: 100px;
-  width: 400px;
+  right: 5%; /* Thay thế right: 100px */
+  width: 90%; /* Thay thế width: 400px */
+  max-width: 400px; /* Giới hạn chiều rộng tối đa */
   background: #fff;
   color: #000;
   border-radius: 10px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
   padding: 16px;
   z-index: 9999;
+  box-sizing: border-box;
+}
+
+.location-popup input {
+  width: 100%; /* Thay thế width: 95% */
+  padding: 8px 12px;
+  border: 0px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 .popup-header {
@@ -95,13 +110,7 @@
   cursor: pointer;
 }
 
-.location-popup input {
-  width: 95%;
-  padding: 8px 12px;
-  border: 0px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
+
 
 .location-list {
   display: flex;
@@ -183,6 +192,8 @@
   position: relative;
   display: flex;
   align-items: center;
+  flex: 1; /* Cho phép mở rộng để lấp đầy không gian */
+  max-width: 250px; /* Giới hạn chiều rộng tối đa */
 }
 
 .search-bar input {
@@ -207,11 +218,12 @@
   position: absolute;
   top: 100%;
   left: 0;
-  width: 1050px;
+  width: 90vw; /* Thay thế width: 1050px bằng đơn vị tương đối */
+  max-width: 1050px; /* Giới hạn kích thước tối đa */
   background: #fff;
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Thay thế grid cố định */
   padding: 20px;
   gap: 20px;
   z-index: 10;
@@ -221,7 +233,7 @@
   transform: translateY(20px);
   transition: all 0.3s ease;
 
-  max-height: 500px; 
+  max-height: 80vh; /* Thay thế max-height: 500px */
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
@@ -229,7 +241,6 @@
 
   border-radius: 10px;
 }
-
 .category-menu:hover .mega-menu {
   opacity: 1;
   visibility: visible;
@@ -350,4 +361,77 @@
 .search-suggestion-item:hover {
   background: #f0f0f0;
 }
+/* Media queries cho màn hình laptop nhỏ (13-14 inch) */
+@media (max-width: 1366px) {
+  .mega-menu {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    width: 95vw;
+  }
+  
+  .search-bar input {
+    max-width: 200px;
+  }
+  
+  .main-header-container {
+    gap: 10px;
+  }
+  
+  .category-button, .developer-button, .discount-button, .contact-button {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+}
 
+/* Media queries cho màn hình tablet */
+@media (max-width: 1024px) {
+  .main-header-container {
+    justify-content: space-between;
+  }
+  
+  .search-bar {
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .search-bar input {
+    max-width: 100%;
+  }
+  
+  .mega-menu {
+    width: 95vw;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+  }
+  
+  .category-menu:hover .mega-menu {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Media queries cho màn hình điện thoại */
+@media (max-width: 768px) {
+  .main-header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .logo {
+    margin-bottom: 10px;
+  }
+  
+.user-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 180px; /* Thêm min-width */
+  max-width: 250px; /* Thêm max-width */
+}
+}
