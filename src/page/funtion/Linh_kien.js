@@ -1,6 +1,5 @@
 const products = {
   cpu: [
-    
     {
       id: "cpu001",
       ten: "Intel Core i9-13900K",

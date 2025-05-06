@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
 import { FaGift } from "react-icons/fa";
 
-import LinhKien from "../../page/funtion/Linh_kien";
+import LinhKien from "../../page/funtion/Linh_kien.js";
 import "../../style/all_linh_kien.css"; // Cập nhật CSS tương ứng
 
 const AllLinhKien = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
 
   const [searchTerm, setSearchTerm] = useState("");
