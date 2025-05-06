@@ -67,6 +67,28 @@ function Admin() {
   const [orderAddress, setOrderAddress] = useState(null);
   const [showAddress, setShowAddress] = useState(false);
 
+  //trạng thái đơn hàng
+const updateOrderStatus = (id, status) => {
+  console.log(`Updating order ${id} to status ${status}`);
+  axios
+    .get(`http://localhost/backend/api.php?action=update_order_status&id=${id}&status=${status}`)
+    .then(() => {
+      console.log("Update successful");
+      setOrders(orders.map((o) => (o.id === id ? { ...o, trang_thai: status } : o)));
+      if (view === "total_payment") {
+        axios
+          .get(
+            `http://localhost/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
+          )
+          .then((res) => {
+            console.log("Statistics updated:", res.data);
+            setStatistics(res.data);
+          })
+          .catch((err) => console.error("Error fetching statistics:", err));
+      }
+    })
+    .catch((err) => console.error("Error updating order status:", err));
+};
   // State for delete confirmation modal
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -121,7 +143,10 @@ function Admin() {
           .get(
             `http://localhost/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
           )
-          .then((res) =>{ console.log("data static",res.data);setStatistics(res.data)})
+          .then((res) => {
+            console.log("data static", res.data);
+            setStatistics(res.data);
+          })
           .catch((err) => console.error("Error fetching statistics:", err));
         break;
       default:
@@ -237,25 +262,22 @@ function Admin() {
       .catch((err) => console.error("Error deleting promotion:", err));
   };
   // Dữ liệu cho biểu đồ
-const chartData = {
-  labels:
-    (statistics?.doanh_thu_theo_ngay || []).map(
+  const chartData = {
+    labels: (statistics?.doanh_thu_theo_ngay || []).map(
       (item) => `Ngày ${item.ngay}`
     ),
-  datasets: [
-    {
-      label: "Doanh thu (VNĐ)",
-      data:
-        (statistics?.doanh_thu_theo_ngay || []).map(
+    datasets: [
+      {
+        label: "Doanh thu (VNĐ)",
+        data: (statistics?.doanh_thu_theo_ngay || []).map(
           (item) => item.doanh_thu
         ),
-      borderColor: "rgba(75, 192, 192, 1)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: true,
-    },
-  ],
-};
-
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+      },
+    ],
+  };
 
   const chartOptions = {
     responsive: true,
@@ -318,7 +340,21 @@ const chartData = {
                       <td>
                         {Number(order.tong_tien).toLocaleString("vi-VN")} đ
                       </td>
-                      <td>{order.trang_thai}</td>
+                      <td>
+                        <select
+                          value={order.trang_thai}
+                          onChange={(e) => {
+                            console.log("Selected status:", e.target.value);
+                            updateOrderStatus(Number(order.id), e.target.value);
+                          }}
+                        >
+                          <option value="Chưa thanh toán">Chưa thanh toán</option>
+                          <option value="Đã thanh toán">Đã thanh toán</option>
+                          <option value="Đang giao">Đang giao</option>
+                          <option value="Hoàn thành">Hoàn thành</option>
+                          <option value="Đã hủy">Đã hủy</option>
+                        </select>
+                      </td>
                       <td>{order.ngay_dat}</td>
                       <td>{order.ghi_chu || "Không có"}</td>
                       <td>
@@ -740,8 +776,7 @@ const chartData = {
                       {Number(statistics.tong_doanh_thu || 0).toLocaleString(
                         "vi-VN"
                       )}{" "}
-                      đ
-                      {console.log("Tong danh thu",statistics.tong_doanh_thu)}
+                      đ{console.log("Tong danh thu", statistics.tong_doanh_thu)}
                     </p>
                   </div>
                   <div
@@ -786,7 +821,11 @@ const chartData = {
                 <h3>Doanh thu theo ngày</h3>
                 <div style={{ maxWidth: "800px", margin: "0 auto" }}>
                   {/* <Line data={chartData} options={chartOptions} /> */}
-                  <Line key={`${selectedMonth}-${selectedYear}`} data={chartData} options={chartOptions} />
+                  <Line
+                    key={`${selectedMonth}-${selectedYear}`}
+                    data={chartData}
+                    options={chartOptions}
+                  />
                 </div>
               </div>
             ) : (
