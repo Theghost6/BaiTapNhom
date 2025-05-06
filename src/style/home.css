@@ -10,63 +10,6 @@
 
 }
 
-/* Menu */
-/* .menu-toggle-button {
-  position: fixed;
-  top: 80px;
-  left: 10px;
-  background-color:transparent;
-  color: #fff;
-  border: 1px solid #fff;
-  padding: 5px 5px;
-  border-radius: 2px;
-  cursor: pointer;
-  z-index: 1001;
-  font-size: 16px;
-}
-
-.menu-toggle-button:hover {
-  background-color: #333;
-} */
-
-/*
-.left-box-menu {
-  position: fixed;
-  top: 115px;
-  left: 8px;
-  width: 210px;
-  background-color: #fff;
-  border: 1px solid #333;
-  border-radius: 0 4px 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  padding: 10px;
-  z-index: 1000;
-}
-
-.left-box-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.left-box-menu li {
-  margin: 5px;
-}
-
-.left-box-menu a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.left-box-menu a:hover {
-  color: #007bff;
-} */
-
-
-
-
 /* Hero Slider */
 .hero-slider {
   position: relative;
@@ -96,7 +39,7 @@
   background-size: cover;
   background-position: center;
   margin: -20px -15px 0 -20px;
-  /* margin: 0; */
+
   box-sizing: border-box;
 }
 
@@ -176,11 +119,11 @@
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background-color: #eab308;
+  background-color: #3bb77e;
   border-radius: 9999px;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #000;
+  color: #fff;
   transition: all 0.3s;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -188,7 +131,8 @@
 }
 
 .primary-button:hover {
-  background-color: #ca8a04;
+  color: #3bb77e;
+  background-color: #fff;
   transform: scale(1.05);
 }
 
@@ -250,6 +194,65 @@
   width: 3rem;
 }
 
+/* Promo-slide */
+.promo-grid-container {
+  position: relative;
+  top: -55px; /* đẩy nó lên trên hero-slider */
+  z-index: 10;
+  padding: 0 20px;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.promo-card {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.promo-card:nth-child(1){
+  grid: span 2;
+  grid-column: span 2;
+}
+
+
+.promo-card:hover {
+  transform:scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.promo-image {
+  background-size: cover;
+  background-position: center;
+  height: 120px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.promo-title {
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  min-width: 50px;
+  /* line-height: 1.4; */
+}
+
+
 /* Sections */
 .section {
   padding: 4rem 1.5rem;
@@ -283,7 +286,7 @@
   font-size: 15px;
   letter-spacing: 1px;
   font-weight: bold;
-  color: #333;
+  color: #3bb77e;
   text-transform: uppercase;
   margin-bottom: 10px;
   font-family: "Jost", sans-serif;
@@ -346,12 +349,13 @@
   transition: all 0.3s ease;
   right: 100%;
   cursor: pointer;
-  background: linear-gradient(to right, #000 90%, #000);
+  background: #000;
 }
 
 .view-all-button:hover {
   background: linear-gradient(to right, #fff, #fff);
   color: #000;
+  border-radius: 8px;
   transform: scale(1.05);
 }
 
@@ -365,8 +369,10 @@
 .destination-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  gap: 20px;
   padding: 20px;
+  margin-top: -40px;
+  margin-bottom: -10px;
 }
 
 .products-card {
@@ -467,8 +473,9 @@
 
 .promotion-primary-button {
   padding: 0.75rem 1.5rem;
-  background-color: white;
-  color: #000;
+  background-color: #000;
+  color: #fff;
+  border: 2px solid white;
   border-radius: 9999px;
   font-weight: 600;
   transition: all 0.3s;
@@ -479,14 +486,13 @@
 
 .promotion-primary-button:hover {
   background-color: #f3f4f6;
-  color: #3bb77e;
+  color: #000;
   transform: scale(1.05);
 }
 
 .promotion-secondary-button {
   padding: 0.75rem 1.5rem;
-  background-color: transparent;
-  border: 2px solid white;
+  background-color: #3bb77e;
   color: white;
   border-radius: 9999px;
   font-weight: 600;
@@ -637,7 +643,7 @@
 /* Newsletter */
 .newsletter-section {
   background-color: #e7f8f3;
-  background-image: url("./photos/h.jpg");
+  background-image: url("/photos/v.jpeg");
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: cover;
@@ -900,7 +906,7 @@
   display: inline-block;
   margin-top: 5px;
   font-size: 16px;
-  color: #333;
+  color: #3bb77e;
   text-decoration: none;
   font-weight: 500;
 }

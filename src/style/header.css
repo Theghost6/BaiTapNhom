@@ -35,7 +35,7 @@
 }
 
 .contact-button:hover {
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 12px;
 }
 
@@ -66,15 +66,16 @@
   font-weight: bold;
 }
 
-.location-selector :hover{
+/* .location-selector :hover{
   border: 1px solid #333
-}
+} */
+
 
 .location-popup {
   position: absolute;
   top: 60px;
   right: 100px;
-  width: 320px;
+  width: 400px;
   background: #fff;
   color: #000;
   border-radius: 10px;
@@ -87,6 +88,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  border: none;
 }
 
 .close-btn {
@@ -94,7 +96,7 @@
 }
 
 .location-popup input {
-  width: 100%;
+  width: 95%;
   padding: 8px 12px;
   border: 0px solid #ccc;
   border-radius: 6px;
@@ -104,25 +106,27 @@
 .location-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 2px;
   max-height: 200px;
   overflow-y: auto;
 }
 
 .location-item {
   width: 45%;
-  padding: 6px 8px;
+  padding: 6px;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.2s;
 }
 
 .location-item:hover {
-  background-color: #f5f5f5;
+  background-color: #333;
+  color: #fff;
 }
 
 .location-item.selected {
-  background-color: #e6f7ff;
+  background-color: #333;
+  color: #fff;
   font-weight: bold;
 }
 
@@ -199,19 +203,11 @@
   position: relative;
 }
 
-.category-button {
-  background: none;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 10px;
-}
-
 .mega-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 1000px;
+  width: 1050px;
   background: #fff;
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   display: grid;
@@ -224,13 +220,24 @@
   visibility: hidden;
   transform: translateY(20px);
   transition: all 0.3s ease;
-}
 
+  max-height: 500px; 
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+
+  border-radius: 10px;
+}
 
 .category-menu:hover .mega-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+.mega-menu::-webkit-scrollbar {
+  width: 6px;
 }
 
 
@@ -257,7 +264,7 @@
 }
 
 .mega-menu-item:hover {
-  color: #e60023; 
+  color: #3bb773; 
   transform: translateX(5px);
 }
 
@@ -270,12 +277,14 @@
   font-size: 14px;
   font-weight: bold;
   color: #333;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .category-button:hover {
   color: #333;
+  border-radius: 8px;
 }
 
 .menu-icon {

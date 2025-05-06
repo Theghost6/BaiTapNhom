@@ -56,7 +56,7 @@ const AllLinhKien = () => {
     categories.find(
       (cat) => cat !== "Tất cả loại hàng" && selectedOptions.includes(cat)
     ) || "Tất cả loại hàng";
-
+    
   const activeBrand =
     brands.find(
       (br) => br !== "Tất cả hãng" && selectedOptions.includes(br)
@@ -243,11 +243,11 @@ const AllLinhKien = () => {
                   <FaGift style={{ marginRight: "6px" }} />
                   {product.khuyen_mai}
                 </p>
-              )}
+              )} 
               <button
                 className="details-button"
                 onClick={() => navigate(`/linh-kien/${product.id}`)}
-              >
+              > 
                 Xem chi tiết
               </button>
             </div>

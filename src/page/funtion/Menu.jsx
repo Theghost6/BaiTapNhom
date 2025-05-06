@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
 import { FaHome, FaInfoCircle, FaBoxOpen, FaServicestack, FaPhone } from "react-icons/fa";
 import * as motion from "motion/react-client"
+import { AnimatePresence } from "framer-motion";
+import { color, transform } from "framer-motion";
+
 
 export const Variants = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -9,19 +12,42 @@ export const Variants = () => {
 
     return (
         <div>
-            <div style={container}>
-                <motion.nav
-                    initial={false}
-                    animate={isOpen ? "open" : "closed"}
-                    custom={height}
-                    ref={containerRef}
-                    style={nav}
+            <div style={{ position: "relative" }}>
+                {/* Nút toggle: luôn hiển thị */}
+                <div style={{ position: "fixed", top: 20, left: 20, zIndex: 1000, backgroundColor: "white" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f3f3f3")}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "white")}
                 >
-                    <motion.div style={background} variants={sidebarVariants} />
-                    <Navigation />
                     <MenuToggle toggle={() => setIsOpen(!isOpen)} />
-                </motion.nav>
+                </div>
+
+                {/* Menu chỉ hiện khi mở */}
+                <AnimatePresence>
+
+                {isOpen && (
+                    <motion.nav
+                        initial={false}
+                        animate="open"
+                        custom={height}
+                        ref={containerRef}
+                        style={{
+                            ...nav,
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "250px",
+                            height: "100vh",
+                            backgroundColor: "white",
+                            zIndex: 999, // thấp hơn MenuToggle
+                        }}
+                    >
+                        <motion.div style={background} variants={sidebarVariants} />
+                        <Navigation />
+                    </motion.nav>
+                )}
+                </AnimatePresence>
             </div>
+
         </div>
     )
 }
@@ -93,23 +119,24 @@ const MenuItem = ({ color, label, icon, targetId }) => {
 
 
 const sidebarVariants = {
-    open: (height = 1000) => ({
-        clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+    open: {
+        x: 0,
+        opacity: 1,
         transition: {
-            type: "spring",
-            stiffness: 20,
-            restDelta: 2,
-        },
-    }),
-    closed: {
-        clipPath: "circle(30px at 40px 40px)",
+          type: "spring",
+          stiffness: 300,
+          damping: 30
+        }
+      },
+      closed: {
+        x: "-100%",
+        opacity: 0,
         transition: {
-            delay: 0.2,
-            type: "spring",
-            stiffness: 400,
-            damping: 40,
-        },
-    },
+          type: "spring",
+          stiffness: 300,
+          damping: 40
+        }
+      }
 }
 
 const Path = (props) => (
@@ -153,20 +180,21 @@ const MenuToggle = ({ toggle }) => (
  * ==============   Styles   ================
  */
 
-const container = {
-    position: "fixed",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-    flex: 1,
-    width: 210,
-    maxWidth: "100%",
-    height: 420,
-    backgroundColor: "var(--accent)",
-    borderRadius: 0,
-    overflow: "hidden",
-    zIndex: 1000,
-}
+// const container = {
+//     position: "fixed",
+//     display: "flex",
+//     justifyContent: "flex-start",
+//     alignItems: "stretch",
+//     flex: 1,
+//     width: 210,
+//     maxWidth: "100%",
+//     height: 420,
+//     backgroundColor: "var(--accent)",
+//     borderRadius: 0,
+//     overflow: "hidden",
+//     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+//     zIndex: 1000,
+// }
 
 const nav = {
     width: 300,
@@ -192,7 +220,7 @@ const toggleContainer = {
     left: 10,
     width: 50,
     height: 50,
-    borderRadius: "0%",
+    borderRadius: "50%",
     background: "transparent",
 }
 

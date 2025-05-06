@@ -32,35 +32,36 @@ const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
+const Uudai = lazy(() => import("./page/funtion/Uudai.jsx"));
+
 const App = () => {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="page-container">
-            <Header />
-            <main className="main-content">
-              <Routes location={location}>
-                <Route path="/" element={<Home />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/AllLinhKien" element={<AllLinhKien />} />
-                <Route path="/Profile" element={<Profile />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/thankyou" element={<ThankYou />} />
-                <Route path="/linh-kien/:id" element={<ChiTietLinhKien />} />
-                <Route path="/hotels" element={<Hotels />} />
-                <Route path="/hotel/:id" element={<ChiTietHotel />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/developer" element={<Developer />} />
-                <Route path="/tracuu" element={<TraCuuDonHang />} />
-                <Route path="/lich_su_don_hang" element={<LichSuDonHang />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+            <div className="page-container">
+              <Header />
+              <main className="main-content">
+                <Routes location={location}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/AllLinhKien" element={<AllLinhKien />} />
+                  <Route path="/Profile" element={<Profile />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/thankyou" element={<ThankYou />} />
+                  <Route path="/linh-kien/:id" element={<ChiTietLinhKien />} />
+                  <Route path="/hotels" element={<Hotels />} />
+                  <Route path="/hotel/:id" element={<ChiTietHotel />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/developer" element={<Developer />} />
+                  <Route path="/uudai" element={<Uudai />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
         </Router>
       </CartProvider>
     </AuthProvider>

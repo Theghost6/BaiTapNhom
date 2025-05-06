@@ -1,31 +1,32 @@
 import React, { useState } from "react";
 import "../../style/developer.css";
+import { FaUsers } from "react-icons/fa";
 
 const developers = [
   {
     name: "Đỗ Hoàng Tùng",
-    role: "General Manager",
+    role: "Developer",
     description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
-    image: "photos/IMG_9369.JPG",
+    image: "/photos/tung.jpg",
     borderColor: "black"
   },
   {
     name: "Nguyễn Trường Sinh",
-    role: "Project Lead",
+    role: "Project Manager",
     description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
     image: "photos/IMG_9371.JPG",
     borderColor: "black"
   },
   {
     name: "Nguyễn Thị Ngát",
-    role: "Senior Developer",
+    role: "Data Analyst",
     description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
     image: "photos/IMG_9373.JPG",
     borderColor: "black"
   },
   {
     name: "Lương Tuyết Nhi",
-    role: "UI/UX Designer",
+    role: "Designer",
     description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
     image: "photos/IMG_9374.JPG",
     borderColor: "black"
@@ -35,8 +36,10 @@ const developers = [
 const Developer = () => {
   return (
     <div className="developer-page">
-      <h2 className="developer-title">Our Great Team</h2>
-      <p className="developer-subtitle">Our Great Team</p>
+      <h2 className="developer-title">Thành viên nhóm 12</h2>
+      <p className="developer-subtitle">
+        <FaUsers className="subtitle-icon" />
+        Our Great Team</p>
       <div className="developer-list">
         {developers.map((dev, index) => (
           <div className="developer-card" key={index} style={{ borderColor: dev.borderColor }}>

@@ -171,8 +171,9 @@
 }
 
 .details-button:hover {
-  box-shadow: inset 400px 0 0 0 #d70018;
+  box-shadow: inset 400px 0 0 0 #3bb77e;
   color: #fff;
+  border-radius: 6px;
   border: 1px solid #fff;
 }
 .pagination {
@@ -187,6 +188,13 @@
   border: 1px solid #ddd;
   background-color: #fff;
   cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination-button:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
   border-radius: 4px;
 }
 
@@ -229,7 +237,7 @@
 .filter-item.active, .filter-item:hover {
   background: #fff;
   font-weight: bold;
-  color: #d70018; /* CellphoneS đỏ */
+  color: #3bb77e; /* CellphoneS đỏ */
 }
 
 .filter-right {
@@ -259,15 +267,15 @@
 }
 
 .filter-option:hover {
-  background: #d70018;
+  background: #3bb77e;
   color: #fff;
-  border-color: #d70018;
+  border-color: #3bb77e;
 }
 
 .filter-option.selected {
-  background: #d70018;
+  background: #3bb77e;
   color: #fff;
-  border-color: #d70018;
+  border-color: #3bb77e;
 }
 
 .selected-options {

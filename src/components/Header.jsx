@@ -18,7 +18,7 @@ import products from "../page/funtion/Linh_kien";
 
 const allProducts = Object.values(products).flat();
 
-const cities = ["Hồ Chí Minh", "Hà Nội", "Ninh bình", "Bắc Ninh", "Nam Định", "Thái Bình" ,"Hà Nam"];
+const cities = ["Hồ Chí Minh", "Hà Nội", "Ninh bình", "Bắc Ninh", "Nam Định", "Thái Bình", "Hà Nam"];
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,46 +35,83 @@ const Header = () => {
 
   const categories = {
     "Hãng máy tính": [
-      "Macbook",
+      "Samsung",
+      "Dell",
+      "HP",
       "Lenovo",
       "Asus",
       "Acer",
-      "Razer",
-      "Dell",
-      "Microsoft",
-      "HP",
-      "Nokia",
+      "MSI",
     ],
-    "Bàn phím": [
-      "Dưới 2 triệu",
-      "Từ 2 - 4 triệu",
-      "Từ 4 - 7 triệu",
-      "Từ 7 - 13 triệu",
-      "Từ 13 - 20 triệu",
-      "Trên 20 triệu",
+    "CPU": [
+      "Intel Core i9 14900K",
+      "Intel Core i7 13700K",
+      "AMD Ryzen 9 7950X",
+      "AMD Ryzen 7 7700X",
+      "Apple M2 Pro",
+      "Apple M2 Max",
+      "Apple M1 Pro",
+      "Apple M1 Max",
     ],
-    "CPU HOT ⚡": [
-      "Apple M4 MAX",
-      "Apple M4 Pro (14 core)",
-      "Apple M4 Pro (12 core)",
-      "Intel Core Ultra 9 285HX",
-      "Ryzen AI Max+ 395",
-      "Ryzen 9 7945HX3D",
-      "Intel Core i9 14900HX",
-      " Intel Core i7 14700HX",
-      "Ryzen AI 9 365",
+    "Mainboard": [
+      "ASUS ROG Strix Z790-E Gaming WiFi",
+      "MSI MPG B650 Carbon WiFi",
+      "Gigabyte AORUS X670E Master",
     ],
-    Chuột: ["Không dây", "Có dây", "Bluetooth", "Đồng", "Cống", "Ratatoulie"],
-    "RAM HOT ⚡": [
-      "HP",
-      "Corsair",
-      "GigaByte",
-      "Geil",
-      "Crucial",
-      "Kingston",
-      "G.Skill",
-      "Adata",
-      "Apacer",
+    "GPU": [
+      "NVIDIA GeForce RTX 4090",
+      "NVIDIA GeForce RTX 4080",
+      "NVIDIA GeForce RTX 4070",
+      "NVIDIA GeForce RTX 4060",
+      "AMD Radeon RX 7900 XTX",
+      "AMD Radeon RX 7900 XT",
+      "AMD Radeon RX 7800 XT",
+      "AMD Radeon RX 7700 XT",
+    ],
+    "PSU": [
+      "Cooler Master V850 SFX Gold",
+      "Corsair SF750 Platinum",
+      "Seasonic Focus SGX-650",
+      "EVGA SuperNOVA 650 GM",
+      "FSP Dagger Pro 850W",
+      "Thermaltake Toughpower SFX 600W",
+      "be quiet! SFX L Power 500W",
+      "SilverStone SX700-G",
+    ],
+    "Cooling": [
+      "Cooler Master Hyper 212 Black Edition",
+      "Noctua NH-D15",
+      "be quiet! Dark Rock Pro 4",
+      "Corsair H100i RGB Platinum",
+      "NZXT Kraken X63",],
+    
+    "Case": [
+      "Cooler Master MasterBox Q300L",
+      "NZXT H510",
+      "Fractal Design Meshify C",
+      "Corsair 4000D Airflow",
+      "be quiet! Pure Base 500DX",
+    ],
+    "Storage": [
+      "Samsung 970 EVO Plus 1TB",
+      "Western Digital Blue SN550 1TB",
+      "Crucial P3 1TB",
+      "Kingston A2000 1TB",
+      "ADATA XPG SX8200 Pro 1TB",
+    ],
+    "Peripherals": [
+      "Logitech G Pro X Superlight",
+      "Razer DeathAdder V2",
+      "Corsair K70 RGB MK.2",
+      "SteelSeries Apex Pro TKL",
+      "HyperX Cloud II",
+    ],
+    "RAM": [
+      "Corsair Vengeance LPX 16GB (2x8GB) DDR4-3200",
+      "G.Skill Ripjaws V 16GB (2x8GB) DDR4-3600",
+      "Kingston HyperX Fury 16GB (2x8GB) DDR4-3200",
+      "Crucial Ballistix 16GB (2x8GB) DDR4-3600",
+      "Patriot Viper Steel 16GB (2x8GB) DDR4-3200",
     ],
   };
 
@@ -248,9 +285,8 @@ const Header = () => {
                   .map((city, index) => (
                     <div
                       key={index}
-                      className={`location-item ${
-                        selectedCity === city ? "selected" : ""
-                      }`}
+                      className={`location-item ${selectedCity === city ? "selected" : ""
+                        }`}
                       onClick={() => {
                         setSelectedCity(city);
                         setShowLocationPopup(false);

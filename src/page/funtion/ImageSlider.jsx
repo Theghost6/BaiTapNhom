@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../style/ImageSlider.css"; // Adjust the path as necessary
+import "../../style/ImageSlider.css";
 
 const ImageSlider = ({ images = [], address }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -52,7 +52,7 @@ const ImageSlider = ({ images = [], address }) => {
           &#10095;
         </button> */}
       </div>
-
+ 
       <div className="thumbnail-container">
         {images.map((img, index) => (
           <img

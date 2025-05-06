@@ -9,15 +9,11 @@ import {
   ChevronDown,
 } from "lucide-react";
 import "../style/home.css"; // Import CSS từ file riêng
-import FlySearch from "../page/funtion/FlySearch"; // Import file chức năng đặt vé máy bay
-import HotelSearch from "../page/funtion/HotelSearch"; // Import file chức năng đặt vé máy bay
-import ComboSearch from "../page/funtion/ComboSearch";
 import "../style/all_linh_kien.css";
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
 import { Variants } from "./funtion/Menu";
 // import * as motion from "motion/react-client"
-
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -27,7 +23,7 @@ const Home = () => {
   const slides = [
     {
       id: 8,
-      image: ["/photos/k.jpg"],      
+      image: ["/photos/k.jpg"],
       title: "GPU NVIDIA GeForce RTX 4090",
       description: "Sức mạnh đồ họa vượt trội cho game thủ",
     },
@@ -78,6 +74,44 @@ const Home = () => {
     },
 
   ];
+  const promoSlides = [
+    {
+      id: 1,
+      image: "/photos/nv.jpg",
+      title: "NVDIA - Global leader in AI computing and graphics processing, known for its cutting-edge GPUs and innovative solutions in gaming, AI, and data science.",
+    },
+    {
+      id: 2,
+      image: "/photos/cs.jpg",
+      title: "CORSAIR - Gaming peripherals and components.",
+    },
+    {
+      id: 3,
+      image: "/photos/rz.jpg",
+      title: "RAZER - A global leader in gaming hardware, software, and systems.",
+    },
+    {
+      id: 4,
+      image: "/photos/msi.jpg",
+      title: "MSI - Innovating gaming laptops and components for enthusiasts.",
+    },
+    {
+      id: 5,
+      image: "/photos/ss.jpg",
+      title: "SAMSUNG - Pioneering innovation in memory, and consumer electronics.",
+    },
+    {
+      id: 6,
+      image: "/photos/asus.jpg",
+      title: "ASUS - Leading the way in computer hardware and electronics.",
+    },
+    {
+      id: 7,
+      image: "/photos/amd.jpg",
+      title: "AMD - Pioneering high-performance computing and graphics solutions.",
+    },
+  ];
+
 
   // Auto slide effect
   useEffect(() => {
@@ -133,7 +167,7 @@ const Home = () => {
                   className="primary-button"
                   onClick={() => navigate(`/dia-diem/${slides[activeSlide].id}`)}
                 >
-                  Đặt tour ngay <ArrowRight className="button-icon" />
+                  Đặt hàng ngay <ArrowRight className="button-icon" />
                 </button>
                 <button
                   className="secondary-button"
@@ -161,6 +195,19 @@ const Home = () => {
         </div>
       </div>
 
+      <div className="promo-grid-container">
+        <div className="promo-grid">
+          {promoSlides.map((item) => (
+            <div key={item.id} className="promo-card">
+              <div
+                className="promo-image"
+                style={{ backgroundImage: `url('${item.image}')` }}
+              ></div>
+              <div className="promo-title">{item.title}</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Travel Navigation Bar - added here as requested */}
       {/* <div className="travel-container">
@@ -322,7 +369,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
       {/* Services */}
       <div className="section services-section" id="dich-vu">
         <section class="recommended-section">

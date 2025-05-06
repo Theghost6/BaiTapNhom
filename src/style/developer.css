@@ -11,8 +11,16 @@
   .developer-subtitle {
     margin-top: 8px;
     font-size: 18px;
-    color: gray;
+    color: #3bb773;
   }
+
+  .subtitle-icon {
+    margin-right: 8px;
+    color: #3bb773;
+    vertical-align: middle;
+    font-size: 1.2rem;
+  }
+  
   
   .developer-list {
     display: flex;
@@ -50,13 +58,13 @@
   }
   
   .developer-role {
-    color: red;
+    color: #3bb773;
     font-weight: bold;
     margin-bottom: 8px;
   }
   
   .developer-description {
     font-size: 14px;
-    color: gray;
+    color: #555;
   }
   

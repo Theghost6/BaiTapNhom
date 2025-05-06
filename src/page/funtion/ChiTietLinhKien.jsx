@@ -8,7 +8,10 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../style/chitietlinhkien.css";
-import { motion } from "framer-motion";
+import { AiOutlineTag, AiOutlineCalendar, AiOutlineAppstore } from "react-icons/ai";
+import { FaIndustry, FaWarehouse } from "react-icons/fa";
+import { BiCheckCircle } from "react-icons/bi";
+import { MdDevicesOther, MdStars } from "react-icons/md";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -561,6 +564,43 @@ const ProductDetail = () => {
                           );
                         })}
                       </div>
+                    ) : (
+                      <p className="no-replies">
+                        Chưa có phản hồi cho đánh giá này.
+                      </p>
+                    )}
+                    <div className="reply-action">
+                      <button
+                        className="reply-button"
+                        onClick={() => toggleReplyForm(review.id)}
+                      >
+                        {replyForms[review.id]?.isOpen ? "Hủy" : "Phản hồi"}
+                      </button>
+                      {replyForms[review.id]?.isOpen && (
+                        <form
+                          className="reply-form"
+                          onSubmit={(e) => handleSubmitReply(e, review.id)}
+                        >
+                          <textarea
+                            value={replyForms[review.id]?.noi_dung || ""}
+                            onChange={(e) =>
+                              handleReplyChange(review.id, e.target.value)
+                            }
+                            placeholder="Nhập phản hồi của bạn..."
+                            rows="3"
+                            required
+                          />
+                          <button
+                            type="submit"
+                            className="submit-reply-btn"
+                            disabled={isSubmittingReply[review.id]}
+                          >
+                            {isSubmittingReply[review.id]
+                              ? "Đang gửi..."
+                              : "Gửi phản hồi"}
+                          </button>
+                        </form>
+                      )}
                     </div>
                   </div>
 

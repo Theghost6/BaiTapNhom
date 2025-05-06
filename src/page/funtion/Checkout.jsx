@@ -101,12 +101,12 @@ const Checkout = () => {
       }));
       calculatedTotal = totalAmount;
     }
-const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL(10,2)
+    const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL(10,2)
     if (calculatedTotal > maxTotalAllowed) {
-        setError("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
-        setFinalCartItems(calculatedCartItems); // Vẫn giữ giỏ hàng để hiển thị
-        setFinalTotalAmount(calculatedTotal); // Vẫn giữ tổng tiền để hiển thị
-        return;
+      setError("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
+      setFinalCartItems(calculatedCartItems); // Vẫn giữ giỏ hàng để hiển thị
+      setFinalTotalAmount(calculatedTotal); // Vẫn giữ tổng tiền để hiển thị
+      return;
     }
     setFinalCartItems(calculatedCartItems);
     setFinalTotalAmount(calculatedTotal);
@@ -149,27 +149,23 @@ const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL
     // Validate cart items
     finalCartItems.forEach((item, index) => {
       if (!item.id_product || item.id_product === "unknown") {
-        errors[`id_product_${index}`] = `Sản phẩm tại vị trí ${
-          index + 1
-        } thiếu ID`;
+        errors[`id_product_${index}`] = `Sản phẩm tại vị trí ${index + 1
+          } thiếu ID`;
       }
       if (!item.ten || item.ten === "Sản phẩm không xác định") {
         errors[`ten_${index}`] = `Sản phẩm tại vị trí ${index + 1} thiếu tên`;
       }
       if (!item.danh_muc) {
-        errors[`danh_muc_${index}`] = `Sản phẩm tại vị trí ${
-          index + 1
-        } thiếu danh mục`;
+        errors[`danh_muc_${index}`] = `Sản phẩm tại vị trí ${index + 1
+          } thiếu danh mục`;
       }
       if (!Number.isFinite(item.gia) || item.gia <= 0) {
-        errors[`gia_${index}`] = `Sản phẩm tại vị trí ${
-          index + 1
-        } có giá không hợp lệ`;
+        errors[`gia_${index}`] = `Sản phẩm tại vị trí ${index + 1
+          } có giá không hợp lệ`;
       }
       if (!item.so_luong || item.so_luong < 1) {
-        errors[`so_luong_${index}`] = `Sản phẩm tại vị trí ${
-          index + 1
-        } có số lượng không hợp lệ`;
+        errors[`so_luong_${index}`] = `Sản phẩm tại vị trí ${index + 1
+          } có số lượng không hợp lệ`;
       }
     });
 
@@ -439,9 +435,8 @@ const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL
                   </div>
 
                   <div
-                    className={`form-group ${
-                      formErrors.district ? "error" : ""
-                    }`}
+                    className={`form-group ${formErrors.district ? "error" : ""
+                      }`}
                   >
                     <label htmlFor="district">Quận/Huyện</label>
                     <select
@@ -567,13 +562,13 @@ const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL
               </div>
             </div>
 
-          <button
-    type="submit"
-    className="checkout-button"
-    disabled={isProcessing || finalCartItems.length === 0 || !!error}
->
-    {isProcessing ? "Đang xử lý..." : "Đặt hàng"}
-</button>
+            <button
+              type="submit"
+              className="checkout-button"
+              disabled={isProcessing || finalCartItems.length === 0 || !!error}
+            >
+              {isProcessing ? "Đang xử lý..." : "Đặt hàng"}
+            </button>
           </form>
         </div>
       </div>
