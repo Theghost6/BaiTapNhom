@@ -17,7 +17,6 @@ import { Variants } from "./funtion/Menu";
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [activeTab, setActiveTab] = useState("khachsan");
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
   const slides = [
