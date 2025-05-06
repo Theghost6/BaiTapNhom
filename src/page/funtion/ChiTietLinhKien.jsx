@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import LinhKien from "./Linh_kien";
+import LinhKien from "./Linh_kien.json";
 import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
 import ImageSlider from "../funtion/ImageSlider";
