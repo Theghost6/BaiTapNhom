@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import LinhKien from "./Linh_kien";
+import LinhKien from "./Linh_kien.json"; // Using local data instead of API calls
 import { useCart } from "./useCart";
 import { AuthContext } from "../funtion/AuthContext";
 import ImageSlider from "../funtion/ImageSlider";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../style/chitietlinhkien.css";
@@ -32,93 +31,50 @@ const ProductDetail = () => {
   const [isSubmittingReply, setIsSubmittingReply] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
 
-  // Fetch product data from API or use local data
+  // Fetch product data and initialize
   useEffect(() => {
-    const fetchProductData = async () => {
-      setLoading(true);
+    const fetchProductData = () => {
       try {
-        // Try to get from API first
-        const response = await axios.get(
-          `http://localhost/backend/san_pham.php?id_product=${id}`
-        );
+        // Find product in local LinhKien data
+        const allProducts = Object.values(LinhKien).flat();
+        const foundProduct = allProducts.find(item => item.id === parseInt(id) || item.id === id);
         
-        if (response.data.success && response.data.data) {
-          setProduct(response.data.data);
-        } else {
-          // Fallback to local data
-          const localProduct = Object.values(LinhKien)
-            .flat()
-            .find((item) => item.id === id);
+        if (foundProduct) {
+          setProduct(foundProduct);
+          // Get related products from the same category
+          const similarProducts = allProducts
+            .filter(item => 
+              item.danh_muc === foundProduct.danh_muc && 
+              item.id !== foundProduct.id
+            )
+            .slice(0, 4); // Limit to 4 products
           
-          if (localProduct) {
-            setProduct(localProduct);
-          } else {
-            toast.error("Không tìm thấy thông tin sản phẩm");
+          setRelatedProducts(similarProducts);
+          
+          // Load reviews from localStorage (simulating backend)
+          const storedReviews = localStorage.getItem(`product_reviews_${id}`);
+          if (storedReviews) {
+            setReviews(JSON.parse(storedReviews));
           }
         }
       } catch (error) {
-        console.error("Error fetching product:", error);
-        // Fallback to local data
-        const localProduct = Object.values(LinhKien)
-          .flat()
-          .find((item) => item.id === id);
-        
-        if (localProduct) {
-          setProduct(localProduct);
-        } else {
-          toast.error("Không tìm thấy thông tin sản phẩm");
-        }
+        console.error("Error fetching product data:", error);
+        toast.error("Không thể tải thông tin sản phẩm");
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchProductData();
-      fetchReviews();
-    }
+    fetchProductData();
   }, [id]);
 
   // Check if product is already in cart
   useEffect(() => {
     if (product && cartItems) {
-      const existingItem = cartItems.find(item => item.id_product === product.id);
+      const existingItem = cartItems.find(item => item.id_product === product.id || item.id === product.id);
       setIsInCart(!!existingItem);
     }
   }, [product, cartItems]);
-
-  // Fetch related products
-  useEffect(() => {
-    if (product) {
-      // Get products from the same category
-      const category = product.danh_muc;
-      const similarProducts = Object.values(LinhKien)
-        .flat()
-        .filter(item => 
-          item.danh_muc === category && 
-          item.id !== product.id
-        )
-        .slice(0, 4); // Limit to 4 products
-      
-      setRelatedProducts(similarProducts);
-    }
-  }, [product]);
-
-  const fetchReviews = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost/backend/reviews.php?id_product=${id}`
-      );
-      if (response.data.success && Array.isArray(response.data.data)) {
-        setReviews(response.data.data);
-      } else {
-        setReviews([]);
-      }
-    } catch (error) {
-      console.error("Error fetching reviews:", error.response?.data || error);
-      setReviews([]);
-    }
-  };
 
   if (loading) {
     return (
@@ -162,52 +118,37 @@ const ProductDetail = () => {
     }
   };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để thêm vào giỏ hàng!");
       navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
 
-    try {
-      // Check if product is in stock
-      const stockResponse = await axios.get(
-        `http://localhost/backend/san_pham.php?id_product=${product.id}`
-      );
-      
-      const stockData = stockResponse.data.data;
-      if (stockResponse.data.success && stockData && stockData.so_luong < quantity) {
-        toast.error(`Chỉ còn ${stockData.so_luong} sản phẩm trong kho!`);
-        return;
-      }
-
-      // Create product object with quantity
-      const productToAdd = {
-        ...product,
-        so_luong: quantity
-      };
-      
-      addToCart(productToAdd);
-      setIsInCart(true);
-      toast.success(`Đã thêm ${quantity} ${product.ten} vào giỏ hàng!`);
-    } catch (error) {
-      console.error("Error checking stock:", error);
-      // Fallback to adding without stock check
-      const productToAdd = {
-        ...product,
-        so_luong: quantity
-      };
-      
-      addToCart(productToAdd);
-      setIsInCart(true);
-      toast.success(`Đã thêm ${quantity} ${product.ten} vào giỏ hàng!`);
+    // Check product stock from local data
+    if (product.so_luong < quantity) {
+      toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+      return;
     }
+
+    // Create product object with quantity
+    const productToAdd = {
+      ...product,
+      quantity: quantity // Make sure quantity is passed correctly
+    };
+    
+    addToCart(productToAdd);
+    setIsInCart(true);
+    toast.success(`Đã thêm ${quantity} ${product.ten} vào giỏ hàng!`);
+
+    // Update product quantity in LinhKien (simulating backend)
+    updateProductQuantity(product.id, product.so_luong - quantity);
   };
 
   const handleBuyNow = () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để mua ngay!");
-      navigate("/register", { state: { returnUrl: `/product/${id}` } });
+      navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
 
@@ -219,10 +160,30 @@ const ProductDetail = () => {
     // Create product object with quantity
     const productToCheckout = {
       ...product,
-      so_luong: quantity
+      quantity: quantity
     };
     
+    // Update product quantity in LinhKien (simulating backend)
+    updateProductQuantity(product.id, product.so_luong - quantity);
+    
     navigate("/checkout", { state: { product: productToCheckout } });
+  };
+
+  // Function to update product quantity in LinhKien.json (simulating)
+  const updateProductQuantity = (productId, newQuantity) => {
+    // This function simulates updating the quantity in the local data
+    // In a real app, this would be an API call to update the backend
+    
+    // Update local state
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      so_luong: newQuantity
+    }));
+    
+    // For a real implementation, you would need to update the Linh_kien.json file
+    // through a backend API, but here we're just updating the local state
+    
+    console.log(`Product ${productId} quantity updated to ${newQuantity}`);
   };
 
   const handleReviewChange = (e) => {
@@ -246,38 +207,28 @@ const ProductDetail = () => {
     }
     setIsSubmitting(true);
 
-    const formData = {
+    // Create new review object
+    const newReviewObj = {
+      id: Date.now(), // Generate a unique ID
       id_product: id,
       ten_nguoi_dung: user?.username || "Khách",
       so_sao: newReview.so_sao,
       binh_luan: newReview.binh_luan,
       ngay: new Date().toISOString().split("T")[0],
+      replies: []
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost/backend/reviews.php",
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }
-      );
-      if (response.data.success) {
-        await fetchReviews();
-        setNewReview({ so_sao: 5, binh_luan: "" });
-        toast.success("Cảm ơn bạn đã đánh giá!");
-      } else {
-        toast.error(response.data.message || "Có lỗi xảy ra khi gửi đánh giá");
-      }
+      // Simulate saving to backend by using localStorage
+      const updatedReviews = [...reviews, newReviewObj];
+      setReviews(updatedReviews);
+      localStorage.setItem(`product_reviews_${id}`, JSON.stringify(updatedReviews));
+      
+      setNewReview({ so_sao: 5, binh_luan: "" });
+      toast.success("Cảm ơn bạn đã đánh giá!");
     } catch (error) {
       console.error("Error submitting review:", error);
-      toast.error(
-        "Có lỗi xảy ra khi gửi đánh giá: " +
-        (error.response?.data?.message || error.message)
-      );
+      toast.error("Có lỗi xảy ra khi gửi đánh giá");
     } finally {
       setIsSubmitting(false);
     }
@@ -317,7 +268,9 @@ const ProductDetail = () => {
 
     setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: true }));
 
-    const formData = {
+    // Create new reply object
+    const newReply = {
+      id: Date.now(), // Generate a unique ID
       id_danh_gia: reviewId,
       ten_nguoi_tra_loi: user?.username || "Khách",
       noi_dung: replyForms[reviewId].noi_dung,
@@ -325,27 +278,30 @@ const ProductDetail = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost/backend/reply_review.php",
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
-      if (response.data.success) {
-        await fetchReviews();
-        setReplyForms((prev) => ({
-          ...prev,
-          [reviewId]: { noi_dung: "", isOpen: false },
-        }));
-        toast.success("Phản hồi đã được gửi!");
-      } else {
-        toast.error(response.data.message || "Có lỗi xảy ra khi gửi phản hồi");
-      }
+      // Find the review and add reply to it
+      const updatedReviews = reviews.map(review => {
+        if (review.id === reviewId) {
+          return {
+            ...review,
+            replies: [...(review.replies || []), newReply]
+          };
+        }
+        return review;
+      });
+      
+      // Update state and localStorage
+      setReviews(updatedReviews);
+      localStorage.setItem(`product_reviews_${id}`, JSON.stringify(updatedReviews));
+      
+      setReplyForms((prev) => ({
+        ...prev,
+        [reviewId]: { noi_dung: "", isOpen: false },
+      }));
+      
+      toast.success("Phản hồi đã được gửi!");
     } catch (error) {
-      console.error("Error submitting reply:", error.response?.data || error);
-      toast.error(
-        "Có lỗi xảy ra khi gửi phản hồi: " +
-        (error.response?.data?.message || error.message)
-      );
+      console.error("Error submitting reply:", error);
+      toast.error("Có lỗi xảy ra khi gửi phản hồi");
     } finally {
       setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: false }));
     }
@@ -541,20 +497,15 @@ const ProductDetail = () => {
                       </div>
                       
                       <div className="rating-bars">
-                        {[5, 4, 3, 2, 1].map(stars => {
-                          const count = reviews.filter(r => r.so_sao === stars).length;
-                          const percentage = reviews.length > 0 
-                            ? Math.round((count / reviews.length) * 100) 
-                            : 0;
-                          
+                        {[5, 4, 3, 2, 1].map((stars) => {
+                          const count = reviews?.filter((r) => r.so_sao === stars).length || 0;
+                          const percentage = reviews?.length > 0 ? Math.round((count / reviews.length) * 100) : 0;
+
                           return (
                             <div className="rating-bar-row" key={stars}>
-                              <span className="star-label">{stars} sao</span>
-                              <div className="bar-container">
-                                <div 
-                                  className="bar-fill"
-                                  style={{ width: `${percentage}%` }}
-                                ></div>
+                              <span className="star-label" aria-label={`${stars} stars`}>{stars} sao</span>
+                              <div className="bar-container" role="progressbar" aria-valuenow={percentage} aria-valuemin="0" aria-valuemax="100">
+                                <div className="bar-fill" style={{ width: `${percentage}%` }}></div>
                               </div>
                               <span className="bar-percent">{percentage}%</span>
                             </div>
@@ -714,7 +665,7 @@ const ProductDetail = () => {
                 whileHover={{ scale: 1.03 }}
                 transition={{ duration: 0.2 }}
               >
-                <a href={`/product/${relatedProduct.id}`} className="product-link">
+                <a href={`/linh-kien/${relatedProduct.id}`} className="product-link">
                   <div className="product-image">
                     <img 
                       src={relatedProduct.images?.[0] || "/placeholder.jpg"} 
@@ -735,8 +686,6 @@ const ProductDetail = () => {
           </div>
         </div>
       )}
-      
-      
     </motion.div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGift } from "react-icons/fa";
 
-import LinhKien from "../../page/funtion/Linh_kien.js";
+import LinhKien from "../../page/funtion/Linh_kien.json";
 import "../../style/all_linh_kien.css"; // Cập nhật CSS tương ứng
 
 const AllLinhKien = () => {
