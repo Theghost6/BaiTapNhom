@@ -1,56 +1,57 @@
 import React, { useEffect, useRef, useState } from "react"
 import { FaHome, FaInfoCircle, FaBoxOpen, FaServicestack, FaPhone } from "react-icons/fa";
-import * as motion from "motion/react-client"
-import { AnimatePresence } from "framer-motion";
-import { color, transform } from "framer-motion";
-
+import { motion, AnimatePresence } from "framer-motion";
+import "../../style/menu.css"; // <-- Import CSS
 
 export const Variants = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const containerRef = useRef(null)
-    const { height } = useDimensions(containerRef)
+    const [isOpen, setIsOpen] = useState(false);
+    const containerRef = useRef(null);
+    const { height } = useDimensions(containerRef);
 
     return (
         <div>
-            <div style={{ position: "relative" }}>
-                {/* Nút toggle: luôn hiển thị */}
-                <div style={{ position: "fixed", top: 20, left: 20, zIndex: 1000, backgroundColor: "white" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f3f3f3")}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "white")}
-                >
-                    <MenuToggle toggle={() => setIsOpen(!isOpen)} />
-                </div>
+            <button className="menu-toggle-button" onClick={() => setIsOpen(!isOpen)}>
+                <svg width="23" height="23" viewBox="0 0 23 23">
+                    <Path
+                        variants={{
+                            closed: { d: "M 2 2.5 L 20 2.5" },
+                            open: { d: "M 3 16.5 L 17 2.5" },
+                        }}
+                    />
+                    <Path
+                        d="M 2 9.423 L 20 9.423"
+                        variants={{
+                            closed: { opacity: 1 },
+                            open: { opacity: 0 },
+                        }}
+                        transition={{ duration: 0.1 }}
+                    />
+                    <Path
+                        variants={{
+                            closed: { d: "M 2 16.346 L 20 16.346" },
+                            open: { d: "M 3 2.5 L 17 16.346" },
+                        }}
+                    />
+                </svg>
+            </button>
 
-                {/* Menu chỉ hiện khi mở */}
-                <AnimatePresence>
-
+            <AnimatePresence>
                 {isOpen && (
                     <motion.nav
                         initial={false}
                         animate="open"
                         custom={height}
                         ref={containerRef}
-                        style={{
-                            ...nav,
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "250px",
-                            height: "100vh",
-                            backgroundColor: "white",
-                            zIndex: 999, // thấp hơn MenuToggle
-                        }}
+                        className="menu-nav"
                     >
-                        <motion.div style={background} variants={sidebarVariants} />
+                        <motion.div variants={sidebarVariants} />
                         <Navigation />
                     </motion.nav>
                 )}
-                </AnimatePresence>
-            </div>
-
+            </AnimatePresence>
         </div>
-    )
-}
+    );
+};
 
 const navVariants = {
     open: {
@@ -62,12 +63,12 @@ const navVariants = {
 }
 
 const Navigation = () => (
-    <motion.ul style={list} variants={navVariants}>
+    <motion.ul className="menu-list" variants={navVariants}>
         {menuItems.map((item, i) => (
-            <MenuItem key={i} color={item.iconColor} label={item.label} icon={item.icon} />
+            <MenuItem key={i} color={item.iconColor} label={item.label} icon={item.icon} targetId={item.targetId} />
         ))}
     </motion.ul>
-)
+);
 
 const itemVariants = {
     open: {
@@ -96,26 +97,26 @@ const menuItems = [
     { icon: <FaPhone />, iconColor: "#000", label: "Liên hệ", targetId: "dang-ki" }
 ]
 
-const MenuItem = ({ color, label, icon, targetId }) => {
-    const border = `2px solid ${color}`;
+const MenuItem = ({ iconColor, label, icon, targetId }) => {
     return (
         <motion.li
-            style={listItem}
+            className="menu-item"
             variants={itemVariants}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
         >
             <a href={`#${targetId}`} style={{ display: "flex", textDecoration: "none", color: "inherit" }}>
-                <div style={{ ...iconPlaceholder, border, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div className="menu-logo" >
                     {icon}
                 </div>
-                <div style={{ ...textPlaceholder, border }}>
+                <div className="menu-text" >
                     <span style={{ color: "#000" }}>{label}</span>
                 </div>
             </a>
         </motion.li>
     );
 }
+
 
 
 const sidebarVariants = {
@@ -147,118 +148,35 @@ const Path = (props) => (
         strokeLinecap="round"
         {...props}
     />
-)
+);
 
-const MenuToggle = ({ toggle }) => (
-    <button style={toggleContainer} onClick={toggle}>
-        <svg width="23" height="23" viewBox="0 0 23 23">
-            <Path
-                variants={{
-                    closed: { d: "M 2 2.5 L 20 2.5" },
-                    open: { d: "M 3 16.5 L 17 2.5" },
-                }}
-            />
-            <Path
-                d="M 2 9.423 L 20 9.423"
-                variants={{
-                    closed: { opacity: 1 },
-                    open: { opacity: 0 },
-                }}
-                transition={{ duration: 0.1 }}
-            />
-            <Path
-                variants={{
-                    closed: { d: "M 2 16.346 L 20 16.346" },
-                    open: { d: "M 3 2.5 L 17 16.346" },
-                }}
-            />
-        </svg>
-    </button>
-)
+// const MenuToggle = ({ toggle }) => (
+//     <button style={toggleContainer} onClick={toggle}>
+//         <svg width="23" height="23" viewBox="0 0 23 23">
+//             <Path
+//                 variants={{
+//                     closed: { d: "M 2 2.5 L 20 2.5" },
+//                     open: { d: "M 3 16.5 L 17 2.5" },
+//                 }}
+//             />
+//             <Path
+//                 d="M 2 9.423 L 20 9.423"
+//                 variants={{
+//                     closed: { opacity: 1 },
+//                     open: { opacity: 0 },
+//                 }}
+//                 transition={{ duration: 0.1 }}
+//             />
+//             <Path
+//                 variants={{
+//                     closed: { d: "M 2 16.346 L 20 16.346" },
+//                     open: { d: "M 3 2.5 L 17 16.346" },
+//                 }}
+//             />
+//         </svg>
+//     </button>
+// )
 
-/**
- * ==============   Styles   ================
- */
-
-// const container = {
-//     position: "fixed",
-//     display: "flex",
-//     justifyContent: "flex-start",
-//     alignItems: "stretch",
-//     flex: 1,
-//     width: 210,
-//     maxWidth: "100%",
-//     height: 420,
-//     backgroundColor: "var(--accent)",
-//     borderRadius: 0,
-//     overflow: "hidden",
-//     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-//     zIndex: 1000,
-// }
-
-const nav = {
-    width: 300,
-}
-
-const background = {
-    backgroundColor: "#f5f5f5",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    width: 300,
-}
-
-const toggleContainer = {
-    outline: "none",
-    border: "none",
-    WebkitUserSelect: "none",
-    MozUserSelect: "none",
-    cursor: "pointer",
-    position: "absolute",
-    top: 19,
-    left: 10,
-    width: 50,
-    height: 50,
-    borderRadius: "50%",
-    background: "transparent",
-}
-
-const list = {
-    listStyle: "none",
-    padding: 15,
-    margin: 0,
-    position: "absolute",
-    top: 60,
-    width: 170,
-}
-
-const listItem = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 0,
-    margin: 0,
-    listStyle: "none",
-    marginBottom: 20,
-    cursor: "pointer",
-}
-
-const iconPlaceholder = {
-    width: 40,
-    height: 40,
-    borderRadius: "50%",
-    flex: "40px 0",
-    marginRight: 20,
-}
-
-const textPlaceholder = {
-    borderRadius: 5,
-    width: 80,
-    height: 25,
-    flex: 1,
-    padding: 10,
-}
 
 /**
  * ==============   Utils   ================

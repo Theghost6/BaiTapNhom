@@ -8,7 +8,7 @@ import {
   TrendingUp,
   ChevronDown,
 } from "lucide-react";
-import "../style/home.css"; // Import CSS từ file riêng
+import "../style/home.css";
 import "../style/all_linh_kien.css";
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
@@ -17,7 +17,6 @@ import { Variants } from "./funtion/Menu";
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [activeTab, setActiveTab] = useState("khachsan");
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
   const slides = [
@@ -122,25 +121,25 @@ const Home = () => {
   }, [slides.length]);
 
   // Menu
-  const menuRef = useRef();
+  // const menuRef = useRef();
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuVisible(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+  //       setMenuVisible(false);
+  //     }
+  //   };
 
-    if (menuVisible) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+  //   if (menuVisible) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuVisible]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [menuVisible]);
 
 
   return (
@@ -203,7 +202,7 @@ const Home = () => {
                 className="promo-image"
                 style={{ backgroundImage: `url('${item.image}')` }}
               ></div>
-              <div className="promo-title">{item.title}</div>
+              {/* <div className="promo-title">{item.title}</div> */}
             </div>
           ))}
         </div>

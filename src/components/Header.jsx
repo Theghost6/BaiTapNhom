@@ -12,7 +12,7 @@ import {
 import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
-import { Menu } from "lucide-react";
+import { FaBars } from "react-icons/fa";
 import "../style/header.css";
 import products from "../page/funtion/Linh_kien";
 
@@ -181,7 +181,7 @@ const Header = () => {
 
         <div className="category-menu">
           <button className="category-button">
-            <Menu size={24} className="menu-icon" />
+            <FaBars size={21} className="menu-icon" />
             Danh mục
           </button>
           <div className="mega-menu">
