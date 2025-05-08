@@ -6,6 +6,7 @@ import "../../style/checkout.css";
 import { motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { cartItems, totalAmount, clearCart } = useCart();
@@ -67,12 +68,12 @@ const Checkout = () => {
         id_product: directProduct.id || "unknown",
         ten: directProduct.ten || "Sản phẩm không xác định",
         gia: Number(directProduct.gia) || 0,
-        so_luong: 1,
+        so_luong: location.state?.quantity || 1,
         danh_muc: directProduct.danh_muc || "Linh kiện",
         images: directProduct.images?.[0] || "/placeholder.jpg",
       };
       calculatedCartItems.push(item);
-      calculatedTotal = item.gia;
+      calculatedTotal = item.gia* item.so_luong;
     }
     // If coming from cart page with products in route state
     else if (cartItemsFromRoute && cartItemsFromRoute.length > 0) {
@@ -103,7 +104,7 @@ const Checkout = () => {
     }
     const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL(10,2)
     if (calculatedTotal > maxTotalAllowed) {
-      setError("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
+      toast.error("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
       setFinalCartItems(calculatedCartItems); // Vẫn giữ giỏ hàng để hiển thị
       setFinalTotalAmount(calculatedTotal); // Vẫn giữ tổng tiền để hiển thị
       return;

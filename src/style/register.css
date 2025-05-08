@@ -11,12 +11,12 @@
   list-style: none;
 }
 
-body {
+.register-body{
+  max-width: 1400px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to bottom,  #e8f7fd 20%, skyblue 80%);
 }
 
 .container {
@@ -29,7 +29,7 @@ body {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   margin: auto;
-  margin-top: 10px;
+  margin-top: 50px;
   margin-bottom: 50px;
 }
 

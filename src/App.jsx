@@ -27,7 +27,7 @@ const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
-const Uudai = lazy(() => import("./page/funtion/Uudai.jsx"));
+const Uudai = lazy(() => import("./page/funtion/Uudai"));
 
 // NotFound component (can be moved to a separate file)
 const NotFound = () => (
@@ -46,7 +46,7 @@ const NotFound = () => (
   </motion.div>
 );
 
-const App = () => {
+const App = ({children}) => {
   return (
     <AuthProvider>
       <CartProvider>

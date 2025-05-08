@@ -107,7 +107,7 @@ const Footer = () => {
             <Link to="/payment">Phương thức thanh toán</Link>
           </div>
         </div>
-      </div>
+      </div> 
 
       <div className="fixed-social-icons">
         <a href="#" aria-label="Facebook"><Facebook size={20} /></a>

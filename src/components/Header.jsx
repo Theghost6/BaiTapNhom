@@ -178,7 +178,7 @@ const Header = () => {
         <Link to="/" className="logo-link">
           <h1 className="logo">12 COMPONENTS</h1>
         </Link>
-
+ 
         <div className="category-menu">
           <button className="category-button">
             <FaBars size={21} className="menu-icon" />
@@ -252,7 +252,7 @@ const Header = () => {
           <span>Nhà phát triển</span>
         </Link>
 
-        <Link to="/discount" className="discount-button">
+        <Link to="/uudai" className="discount-button">
           <Gift size={24} />
           <span>Ưu đãi</span>
         </Link>

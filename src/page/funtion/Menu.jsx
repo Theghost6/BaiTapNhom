@@ -1,54 +1,70 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react";
 import { FaHome, FaInfoCircle, FaBoxOpen, FaServicestack, FaPhone } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import "../../style/menu.css"; // <-- Import CSS
 
 export const Variants = () => {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
     const { height } = useDimensions(containerRef);
 
+    // Hàm để xử lý việc điều hướng và đóng menu sau khi click
+    const handleNavigate = (targetId) => {
+        const element = document.getElementById(targetId);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => setIsOpen(false), 500);
+        }
+    };
+
     return (
         <div>
-            <button className="menu-toggle-button" onClick={() => setIsOpen(!isOpen)}>
-                <svg width="23" height="23" viewBox="0 0 23 23">
-                    <Path
-                        variants={{
-                            closed: { d: "M 2 2.5 L 20 2.5" },
-                            open: { d: "M 3 16.5 L 17 2.5" },
-                        }}
-                    />
-                    <Path
-                        d="M 2 9.423 L 20 9.423"
-                        variants={{
-                            closed: { opacity: 1 },
-                            open: { opacity: 0 },
-                        }}
-                        transition={{ duration: 0.1 }}
-                    />
-                    <Path
-                        variants={{
-                            closed: { d: "M 2 16.346 L 20 16.346" },
-                            open: { d: "M 3 2.5 L 17 16.346" },
-                        }}
-                    />
-                </svg>
-            </button>
+            <div style={{ position: "relative" }}>
+                {/* Nút toggle: luôn hiển thị ở góc phải dưới header */}
+                <div 
+                    className="menu-toggle-button"
+                    style={{ 
+                        position: "fixed", 
+                        top: 80, 
+                        left: 20, 
+                        zIndex: 9999,
+                        width: 60, 
+                        height: 60, 
+                        backgroundColor: "white", 
+                        borderRadius: "50%", 
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.3)" 
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f3f3f3")}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "white")}
+                >
+                    <MenuToggle toggle={() => setIsOpen(!isOpen)} />
+                </div>
 
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.nav
-                        initial={false}
-                        animate="open"
-                        custom={height}
-                        ref={containerRef}
-                        className="menu-nav"
-                    >
-                        <motion.div variants={sidebarVariants} />
-                        <Navigation />
-                    </motion.nav>
-                )}
-            </AnimatePresence>
+                {/* Menu chỉ hiện khi mở */}
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.nav
+                            initial="closed"
+                            animate="open"
+                            exit="closed"
+                            custom={height}
+                            ref={containerRef}
+                            style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100px",
+                                height: "100vh",
+                                backgroundColor: "white",
+                                zIndex: 9999,
+                                boxShadow: "-2px 0 10px rgba(0,0,0,0.1)"
+                            }}
+                        >
+                            <motion.div style={background} variants={sidebarVariants} />
+                            <Navigation handleNavigate={handleNavigate} />
+                        </motion.nav>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     );
 };
@@ -60,12 +76,19 @@ const navVariants = {
     closed: {
         transition: { staggerChildren: 0.05, staggerDirection: -1 },
     },
-}
+};
 
-const Navigation = () => (
-    <motion.ul className="menu-list" variants={navVariants}>
+const Navigation = ({ handleNavigate }) => (
+    <motion.ul style={list} variants={navVariants}>
         {menuItems.map((item, i) => (
-            <MenuItem key={i} color={item.iconColor} label={item.label} icon={item.icon} targetId={item.targetId} />
+            <MenuItem 
+                key={i} 
+                color={item.iconColor} 
+                label={item.label} 
+                icon={item.icon} 
+                targetId={item.targetId}
+                onClick={() => handleNavigate(item.targetId)}
+            />
         ))}
     </motion.ul>
 );
@@ -85,111 +108,154 @@ const itemVariants = {
             y: { stiffness: 1000 },
         },
     },
-}
-
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"]
+};
 
 const menuItems = [
-    { icon: <FaHome />, iconColor: "#000", label: "Trang chủ", targetId: "hero-slider" },
-    { icon: <FaInfoCircle />, iconColor: "#000", label: "Giới thiệu", targetId: "diem-den" },
-    { icon: <FaBoxOpen />, iconColor: "#000", label: "Sản phẩm", targetId: "discount" },
-    { icon: <FaServicestack />, iconColor: "#000", label: "Dịch vụ", targetId: "dich-vu" },
-    { icon: <FaPhone />, iconColor: "#000", label: "Liên hệ", targetId: "dang-ki" }
-]
+    { icon: <FaHome />, iconColor: "#FF008C", label: "Trang chủ", targetId: "hero-slider" },
+    { icon: <FaInfoCircle />, iconColor: "#D309E1", label: "Giới thiệu", targetId: "diem-den" },
+    { icon: <FaBoxOpen />, iconColor: "#9C1AFF", label: "Sản phẩm", targetId: "discount" },
+    { icon: <FaServicestack />, iconColor: "#7700FF", label: "Dịch vụ", targetId: "dich-vu" },
+    { icon: <FaPhone />, iconColor: "#4400FF", label: "Liên hệ", targetId: "dang-ki" }
+];
 
-const MenuItem = ({ iconColor, label, icon, targetId }) => {
+const MenuItem = ({ color, label, icon, targetId, onClick }) => {
+    const border = `2px solid ${color}`;
     return (
         <motion.li
             className="menu-item"
             variants={itemVariants}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
+            onClick={onClick}
         >
-            <a href={`#${targetId}`} style={{ display: "flex", textDecoration: "none", color: "inherit" }}>
-                <div className="menu-logo" >
+            <div style={{ display: "flex", textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                <div style={{ ...iconPlaceholder, border, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {icon}
                 </div>
                 <div className="menu-text" >
                     <span style={{ color: "#000" }}>{label}</span>
                 </div>
-            </a>
+            </div>
         </motion.li>
     );
-}
-
-
+};
 
 const sidebarVariants = {
     open: {
         x: 0,
         opacity: 1,
         transition: {
-          type: "spring",
-          stiffness: 300,
-          damping: 30
+            type: "spring",
+            stiffness: 300,
+            damping: 30
         }
-      },
-      closed: {
-        x: "-100%",
+    },
+    closed: {
+        x: "100%",
         opacity: 0,
         transition: {
-          type: "spring",
-          stiffness: 300,
-          damping: 40
+            type: "spring",
+            stiffness: 300,
+            damping: 40
         }
-      }
-}
+    }
+};
 
 const Path = (props) => (
     <motion.path
         fill="transparent"
-        strokeWidth="3"
-        stroke="hsl(0, 0%, 18%)"
+        strokeWidth="5" // Tăng độ dày gạch
+        stroke="#000000"
         strokeLinecap="round"
         {...props}
     />
 );
 
-// const MenuToggle = ({ toggle }) => (
-//     <button style={toggleContainer} onClick={toggle}>
-//         <svg width="23" height="23" viewBox="0 0 23 23">
-//             <Path
-//                 variants={{
-//                     closed: { d: "M 2 2.5 L 20 2.5" },
-//                     open: { d: "M 3 16.5 L 17 2.5" },
-//                 }}
-//             />
-//             <Path
-//                 d="M 2 9.423 L 20 9.423"
-//                 variants={{
-//                     closed: { opacity: 1 },
-//                     open: { opacity: 0 },
-//                 }}
-//                 transition={{ duration: 0.1 }}
-//             />
-//             <Path
-//                 variants={{
-//                     closed: { d: "M 2 16.346 L 20 16.346" },
-//                     open: { d: "M 3 2.5 L 17 16.346" },
-//                 }}
-//             />
-//         </svg>
-//     </button>
-// )
+const MenuToggle = ({ toggle }) => (
+    <button style={toggleContainer} onClick={toggle}>
+        <svg width="40" height="40" viewBox="0 0 40 40" style={{ display: "block" }}>
+            <path d="M 8 12 L 32 12" fill="transparent" strokeWidth="5" stroke="#000000" strokeLinecap="round" />
+            <path d="M 8 20 L 32 20" fill="transparent" strokeWidth="5" stroke="#000000" strokeLinecap="round" />
+            <path d="M 8 28 L 32 28" fill="transparent" strokeWidth="5" stroke="#000000" strokeLinecap="round" />
+        </svg>
+    </button>
+);
+/**
+ * ==============   Styles   ================
+ */
 
+const background = {
+    backgroundColor: "#f5f5f5",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    width: 200,
+};
+
+const toggleContainer = {
+    outline: "none",
+    border: "none",
+    WebkitUserSelect: "none",
+    MozUserSelect: "none",
+    cursor: "pointer",
+    width: "100%",
+    height: "100%",
+    borderRadius: "50%",
+    background: "transparent",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+};
+
+const list = {
+    listStyle: "none",
+    padding: 10,
+    margin: 0,
+    position: "absolute",
+    top: 60,
+    width: 201,
+};
+
+const listItem = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: 0,
+    margin: 0,
+    listStyle: "none",
+    marginBottom: 20,
+    cursor: "pointer",
+};
+
+const iconPlaceholder = {
+    width: 40,
+    height: 40,
+    borderRadius: "50%",
+    flex: "40px 0",
+    marginRight: 20,
+};
+
+const textPlaceholder = {
+    borderRadius: 5,
+    width: 80,
+    height: 25,
+    flex: 1,
+    padding: 10,
+};
 
 /**
  * ==============   Utils   ================
  */
 const useDimensions = (ref) => {
-    const dimensions = useRef({ width: 0, height: 0 })
+    const dimensions = useRef({ width: 0, height: 0 });
 
     useEffect(() => {
         if (ref.current) {
-            dimensions.current.width = ref.current.offsetWidth
-            dimensions.current.height = ref.current.offsetHeight
+            dimensions.current.width = ref.current.offsetWidth;
+            dimensions.current.height = ref.current.offsetHeight;
         }
-    }, [ref])
+    }, [ref]);
 
-    return dimensions.current
-}
+    return dimensions.current;
+};

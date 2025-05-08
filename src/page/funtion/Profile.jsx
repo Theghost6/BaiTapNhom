@@ -1,87 +1,99 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Edit, Save } from "lucide-react";
+import { Edit, Save, Upload, User } from "lucide-react";
 import "../../style/profile.css";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
   const [formData, setFormData] = useState({
-    username: "", // Tương ứng với "user" trong DB
-    phone: "", // Tương ứng với "phone" trong DB
-    email: "", // Tương ứng với "email" trong DB
+    username: "",
+    phone: "",
+    email: "",
   });
   const navigate = useNavigate();
 
   const USER_KEY = "user";
 
-  // Lấy thông tin người dùng từ localStorage khi component mount
   useEffect(() => {
     const userData = localStorage.getItem(USER_KEY);
     if (userData) {
       const parsedUser = JSON.parse(userData);
       setUser(parsedUser);
 
-      // Ánh xạ dữ liệu từ API sang formData
+      // Set avatar preview if exists in user data
+      if (parsedUser.avatar) {
+        setAvatarPreview(parsedUser.avatar);
+      }
+
       setFormData({
-        username: parsedUser.username || "", // Từ API là "username", trong DB là "user"
-        phone: parsedUser.identifier === "phone" ? parsedUser.identifier : "", // Nếu type là "phone"
-        email: parsedUser.type === "email" ? parsedUser.identifier : "", // Nếu type là "email"
+        username: parsedUser.username || "",
+        phone: parsedUser.identifier === "phone" ? parsedUser.identifier : "",
+        email: parsedUser.type === "email" ? parsedUser.identifier : "",
       });
     } else {
-      navigate("/"); // Nếu không có thông tin, quay lại trang chủ
+      navigate("/");
     }
   }, [navigate]);
 
-  // Xử lý thay đổi trong form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Lưu thông tin đã chỉnh sửa
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatar(file);
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = async () => {
     try {
-      const updatedUser = {
-        user: formData.username,
-        phone: formData.phone,
-        email: formData.email,
-        currentIdentifier: user.identifier,
-        currentType: user.type,
-      };
-
-      console.log("Dữ liệu gửi đi:", updatedUser);
+      const formDataToSend = new FormData();
+      formDataToSend.append("username", formData.username);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("currentIdentifier", user.identifier);
+      formDataToSend.append("currentType", user.type);
+      
+      if (avatar) {
+        formDataToSend.append("avatar", avatar);
+      }
 
       const response = await fetch(
         "http://localhost/backend/update-profile.php",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedUser),
+          body: formDataToSend,
           credentials: "include",
         },
       );
 
       if (!response.ok) {
-        const text = await response.text(); // Lấy toàn bộ response text để debug
-        throw new Error(
-          `HTTP error! status: ${response.status}, body: ${text}`,
-        );
+        const text = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
       }
 
       const result = await response.json();
 
-      console.log("Dữ liệu nhận về từ backend:", result);
-
       if (result.success) {
         const newUserData = {
-          username: updatedUser.user,
-          identifier:
-            updatedUser.currentType === "phone"
-              ? updatedUser.phone
-              : updatedUser.email,
-          type: updatedUser.currentType,
+          ...user,
+          username: formData.username,
+          identifier: user.type === "phone" ? formData.phone : formData.email,
+          avatar: result.avatarUrl || avatarPreview || user.avatar,
         };
+        
         localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
         setUser(newUserData);
         setIsEditing(false);
@@ -97,6 +109,7 @@ const Profile = () => {
       );
     }
   };
+
   if (!user) return <div>Đang tải...</div>;
 
   return (
@@ -104,6 +117,34 @@ const Profile = () => {
       <h1>Thông Tin Cá Nhân</h1>
 
       <div className="profile-info">
+        <div className="profile-avatar-section">
+          <div className="avatar-container">
+            {avatarPreview ? (
+              <img src={avatarPreview} alt="Avatar" />
+            ) : user.avatar ? (
+              <img src={user.avatar} alt="Avatar" />
+            ) : (
+              <div className="default-avatar">
+                <User size={141} color="#7f8c8d" />
+              </div>
+            )}
+          </div>
+          
+          {isEditing && (
+            <div className="avatar-upload">
+              <label htmlFor="avatar-upload">
+                <Upload size={16} /> Chọn ảnh đại diện
+              </label>
+              <input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+              />
+            </div>
+          )}
+        </div>
+
         {isEditing ? (
           <form className="profile-form">
             <div className="form-group">
@@ -139,16 +180,18 @@ const Profile = () => {
               />
             </div>
 
-            <button type="button" onClick={handleSave} className="save-button">
-              <Save size={16} /> Lưu thay đổi
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="cancel-button"
-            >
-              Hủy
-            </button>
+            <div className="button-group">
+              <button type="button" onClick={handleSave} className="save-button">
+                <Save size={16} /> Lưu thay đổi
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="cancel-button"
+              >
+                Hủy
+              </button>
+            </div>
           </form>
         ) : (
           <div className="profile-details">

@@ -5,12 +5,11 @@ const ImageSlider = ({ images = [], address }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
-  // Chuyển ảnh tự động sau 4 giây
+  // Auto-advance images every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
     }, 4000);
-
     return () => clearInterval(interval);
   }, [currentIndex]);
 
@@ -35,24 +34,21 @@ const ImageSlider = ({ images = [], address }) => {
   return (
     <div className="image-slider">
       <div className="slider-frame">
-        <img
-          src="photos/a.jpg"
-          alt="Background"
-          className="product-hero-image"
-        />
-        <img
-          src={images[currentIndex]}
-          alt={`Ảnh ${currentIndex + 1}`}
-          className={`slider-img ${fade ? "fade-in" : "fade-out"}`}
-        />
-        {/* <button className="slider-btn left" onClick={handlePrev}>
-          &#10094;
-        </button>
-        <button className="slider-btn right" onClick={handleNext}>
-          &#10095;
-        </button> */}
+        <div className="main-image-container">
+          <img
+            src={images[currentIndex]}
+            alt={`Image ${currentIndex + 1}`}
+            className={`main-image ${fade ? "fade-in" : "fade-out"}`}
+          />
+          <button className="slider-btn left" onClick={handlePrev}>
+            &#10094;
+          </button>
+          <button className="slider-btn right" onClick={handleNext}>
+            &#10095;
+          </button>
+        </div>
       </div>
- 
+
       <div className="thumbnail-container">
         {images.map((img, index) => (
           <img
@@ -64,10 +60,9 @@ const ImageSlider = ({ images = [], address }) => {
           />
         ))}
       </div>
-
-      <p className="slider-address">{address}</p>
+      
+      {address && <p className="slider-address">{address}</p>}
     </div>
-
   );
 };
 

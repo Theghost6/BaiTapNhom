@@ -123,7 +123,7 @@ export function CartProvider({ children }) {
             updatedResponse.data.data.filter((item) => item.id_product)
           );
           toast.success(`${productName} đã được thêm vào giỏ hàng`, {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 3000,
           });
         } else {
@@ -288,7 +288,7 @@ export function CartProvider({ children }) {
       console.log("CLEAR cart response:", response.data);
       if (response.data.success) {
         setCartItems([]);
-        toast.success("Giỏ hàng đã được xóa");
+        // toast.success("Giỏ hàng đã được xóa");
       } else {
         toast.error(response.data.message || "Lỗi khi xóa giỏ hàng");
       }
