@@ -407,11 +407,23 @@
 }
 
 .products-details {
-  position: relative;
-  z-index: 1;
-  padding: 14px 18px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 14px 16px;
   color: white;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 80%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+/* Khi hover vào card, hiện nội dung */
+.products-card:hover .products-details {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .products-name {

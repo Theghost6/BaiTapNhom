@@ -19,6 +19,7 @@ const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
+  const [openedIndex, setOpenedIndex] = useState(null);
   const slides = [
     {
       id: "gpu001",
@@ -273,7 +274,15 @@ const Home = () => {
         <div className="destination-grid">
           {LinhKien.map((lk, idx) => (
             <div key={idx} className="products-card">
-              {/* Nội dung bên trái */}
+              <div className="products-image-container">
+                <img
+                  src={lk.images[0] || "https://example.com/placeholder.jpg"}
+                  alt={lk.ten}
+                  className="products-image"
+                />
+              </div>
+
+              {/* Nội dung hiển thị khi hover */}
               <div className="products-details">
                 <h3 className="products-name">{lk.ten}</h3>
                 <p className="products-brand">Thương hiệu: {lk.hang}</p>
@@ -286,22 +295,13 @@ const Home = () => {
                     {lk.khuyen_mai}
                   </p>
                 )}
-                <button className="shop-now-btn">Shop Now →</button>
-              </div>
-
-              {/* Hình ảnh bên phải */}
-              <div className="products-image-container">
-                <img
-                  src={lk.images[0] || "https://example.com/placeholder.jpg"}
-                  alt={lk.ten}
-                  className="products-image"
-                />
+                <button className="shop-now-btn"
+                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
+                >Shop Now →</button>
               </div>
             </div>
           ))}
         </div>
-
-
       </div>
 
 
