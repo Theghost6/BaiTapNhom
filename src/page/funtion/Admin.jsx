@@ -60,6 +60,7 @@ function Admin() {
   const [payments, setPayments] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [totalPayment, setTotalPayment] = useState([]);
+  const [inventory, setInventory] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
@@ -149,10 +150,27 @@ const updateOrderStatus = (id, status) => {
           })
           .catch((err) => console.error("Error fetching statistics:", err));
         break;
+      case "inventory":
+        axios
+          .get("http://localhost/backend/api.php?action=get_inventory")
+          .then((res) => {
+            // Kiểm tra và đảm bảo dữ liệu là mảng
+            if (Array.isArray(res.data)) {
+              setInventory(res.data);
+            } else {
+              console.error("Dữ liệu tồn kho không hợp lệ:", res.data);
+              setInventory([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching inventory:", err);
+            setInventory([]);
+          });
+        break;
       default:
         break;
     }
-  }, [view, selectedMonth, selectedYear]);
+  }, [view]);
 
   // View order details
   const viewDetails = (id) => {
@@ -306,6 +324,31 @@ const updateOrderStatus = (id, status) => {
       },
     },
   };
+
+  // Thêm hàm cập nhật số lượng tồn kho
+  const updateInventoryQuantity = (id_san_pham, quantity) => {
+    console.log("Updating inventory:", { id_san_pham, quantity }); // Log dữ liệu gửi đi
+    const url = `http://localhost/backend/api.php?action=update_inventory&id=${id_san_pham}&quantity=${quantity}`;
+    console.log("Request URL:", url); // Log URL request
+
+    axios
+      .get(url)
+      .then((res) => {
+        console.log("Response:", res.data); // Log response
+        if (res.data.success) {
+          setInventory(inventory.map((item) => 
+            item.id_san_pham === id_san_pham ? { ...item, solg_trong_kho: quantity } : item
+          ));
+        } else {
+          alert("Không thể cập nhật số lượng: " + (res.data.error || "Lỗi không xác định"));
+        }
+      })
+      .catch((err) => {
+        console.error("Error updating inventory:", err);
+        alert("Có lỗi xảy ra khi cập nhật số lượng: " + err.message);
+      });
+  };
+
   // Render different views based on the selected menu item
   const renderContent = () => {
     switch (view) {
@@ -712,6 +755,66 @@ const updateOrderStatus = (id, status) => {
             </table>
           </div>
         );
+      case "inventory":
+        return (
+          <div>
+            <h2>Quản lý Tồn kho</h2>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>ID Sản phẩm</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Số lượng trong kho</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {!Array.isArray(inventory) || inventory.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: "center" }}>
+                      Không có dữ liệu tồn kho
+                    </td>
+                  </tr>
+                ) : (
+                  inventory.map((item) => (
+                    <tr key={item.id_san_pham}>
+                      <td>{item.id_san_pham}</td>
+                      <td>{item.ten_san_pham}</td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={item.solg_trong_kho || 0}
+                          onChange={(e) => {
+                            const newQuantity = parseInt(e.target.value);
+                            if (!isNaN(newQuantity) && newQuantity >= 0) {
+                              updateInventoryQuantity(item.id_san_pham, newQuantity);
+                            }
+                          }}
+                          style={{ width: "80px" }}
+                        />
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            const newQuantity = parseInt(prompt("Nhập số lượng mới:", item.solg_trong_kho || 0));
+                            if (!isNaN(newQuantity) && newQuantity >= 0) {
+                              updateInventoryQuantity(item.id_san_pham, newQuantity);
+                            } else {
+                              alert("Vui lòng nhập số lượng hợp lệ");
+                            }
+                          }}
+                        >
+                          Cập nhật
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        );
       case "total_payment":
         return (
           <div>
@@ -874,6 +977,12 @@ const updateOrderStatus = (id, status) => {
           className={`nav-button ${view === "promotions" ? "active" : ""}`}
         >
           Khuyến mãi
+        </button>
+        <button
+          onClick={() => setView("inventory")}
+          className={`nav-button ${view === "inventory" ? "active" : ""}`}
+        >
+          Tồn kho
         </button>
         <button
           onClick={() => setView("total_payment")}

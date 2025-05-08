@@ -33,16 +33,53 @@ const ProductDetail = () => {
 
   // Fetch product data and initialize
   useEffect(() => {
-    const fetchProductData = () => {
+    const fetchProductData = async () => {
       try {
-        // Find product in local LinhKien data
+        // Find product in local LinhKien data first
         const allProducts = Object.values(LinhKien).flat();
         const foundProduct = allProducts.find(
           (item) => item.id === parseInt(id) || item.id === id
         );
 
         if (foundProduct) {
-          setProduct(foundProduct);
+          // Kiểm tra số lượng tồn kho từ database
+          try {
+            // Gọi API kiểm tra tồn kho
+            const response = await fetch(`http://localhost/backend/check_stock.php?id=${foundProduct.id}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              mode: 'cors'
+            });
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.status === 'success' && data.product) {
+              // Cập nhật số lượng từ database
+              const dbProduct = {
+                ...foundProduct,
+                so_luong: data.product.solg_trong_kho
+              };
+              setProduct(dbProduct);
+              setQuantity(1); // Reset số lượng về 1 khi cập nhật sản phẩm
+              
+              console.log(`Đã cập nhật số lượng tồn kho: ${data.product.solg_trong_kho}`);
+            } else {
+              // Nếu không lấy được từ API, dùng dữ liệu local
+              setProduct(foundProduct);
+              console.warn('Không thể lấy thông tin tồn kho từ database, sử dụng dữ liệu local');
+            }
+          } catch (apiError) {
+            // Xử lý lỗi khi gọi API tồn kho
+            console.error("Lỗi khi gọi API tồn kho:", apiError);
+            setProduct(foundProduct); // Vẫn dùng dữ liệu local nếu có lỗi
+          }
+          
           // Get related products from the same category
           const similarProducts = allProducts
             .filter(
@@ -59,6 +96,8 @@ const ProductDetail = () => {
           if (storedReviews) {
             setReviews(JSON.parse(storedReviews));
           }
+        } else {
+          toast.error("Không tìm thấy sản phẩm");
         }
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -70,6 +109,40 @@ const ProductDetail = () => {
 
     fetchProductData();
   }, [id]);
+
+  // Thêm useEffect để tự động cập nhật số lượng tồn kho mỗi 30 giây
+  useEffect(() => {
+    if (!product) return;
+
+    const updateStock = async () => {
+      try {
+        const response = await fetch(`http://localhost/backend/check_stock.php?id=${product.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          mode: 'cors'
+        });
+        
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        
+        if (data.status === 'success' && data.product) {
+          setProduct(prev => ({
+            ...prev,
+            so_luong: data.product.solg_trong_kho
+          }));
+        }
+      } catch (error) {
+        console.error("Lỗi khi cập nhật tồn kho:", error);
+      }
+    };
+
+    const interval = setInterval(updateStock, 30000); // Cập nhật mỗi 30 giây
+    return () => clearInterval(interval);
+  }, [product]);
 
   // Check if product is already in cart
   useEffect(() => {
@@ -104,16 +177,19 @@ const ProductDetail = () => {
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
-    if (value > 0 && value <= (product.so_luong || 10)) {
+    if (value > 0 && value <= (product.so_luong || 0)) {
       setQuantity(value);
+    } else if (value > (product.so_luong || 0)) {
+      toast.warning(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+      setQuantity(product.so_luong || 0);
     }
   };
 
   const increaseQuantity = () => {
-    if (quantity < (product.so_luong || 10)) {
+    if (quantity < (product.so_luong || 0)) {
       setQuantity(quantity + 1);
     } else {
-      toast.warning("Đã đạt số lượng tối đa có thể mua");
+      toast.warning(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
     }
   };
 
@@ -123,74 +199,173 @@ const ProductDetail = () => {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để thêm vào giỏ hàng!");
       navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
 
-    // Check product stock from local data
-    if (product.so_luong < quantity) {
-      toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
-      return;
+    // Kiểm tra lại tồn kho trước khi thêm vào giỏ hàng
+    try {
+      const response = await fetch('http://localhost/stock_api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'check',
+          items: [{ id_san_pham: product.id }]
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.status === 'success' && data.updated_items && data.updated_items.length > 0) {
+        const realStock = data.updated_items[0].so_luong_cu;
+        
+        // Cập nhật lại số lượng trong product state
+        setProduct(prev => ({
+          ...prev,
+          so_luong: realStock
+        }));
+        
+        // Kiểm tra có đủ hàng không
+        if (realStock < quantity) {
+          toast.error(`Chỉ còn ${realStock} sản phẩm trong kho!`);
+          return;
+        }
+        
+        // Nếu đủ hàng, thêm vào giỏ hàng
+        const productToAdd = {
+          ...product,
+          quantity: quantity,
+          so_luong: realStock // Đảm bảo số lượng tồn kho được cập nhật
+        };
+
+        addToCart(productToAdd);
+        setIsInCart(true);
+        toast.success("Đã thêm vào giỏ hàng!");
+      } else {
+        // Nếu không thể kiểm tra tồn kho, dùng số lượng hiện tại
+        if (product.so_luong < quantity) {
+          toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+          return;
+        }
+
+        const productToAdd = {
+          ...product,
+          quantity: quantity
+        };
+
+        addToCart(productToAdd);
+        setIsInCart(true);
+        toast.success("Đã thêm vào giỏ hàng!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra tồn kho:", error);
+      
+      // Nếu gặp lỗi, vẫn cho phép thêm vào giỏ hàng với dữ liệu hiện tại
+      if (product.so_luong < quantity) {
+        toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+        return;
+      }
+
+      const productToAdd = {
+        ...product,
+        quantity: quantity
+      };
+
+      addToCart(productToAdd);
+      setIsInCart(true);
+      toast.success("Đã thêm vào giỏ hàng!");
     }
-
-    // Create product object with quantity
-    const productToAdd = {
-      ...product,
-      quantity: quantity, // Make sure quantity is passed correctly
-    };
-
-    addToCart(productToAdd);
-    setIsInCart(true);
-
-    // Update product quantity in LinhKien (simulating backend)
-    updateProductQuantity(product.id, product.so_luong - quantity);
   };
 
-  const handleBuyNow = () => {
+  const handleBuyNow = async () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để mua ngay!");
       navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
       return;
     }
 
-    if (product.so_luong < quantity) {
-      toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
-      return;
+    // Kiểm tra lại tồn kho trước khi mua ngay
+    try {
+      const response = await fetch('http://localhost/stock_api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'check',
+          items: [{ id_san_pham: product.id }]
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.status === 'success' && data.updated_items && data.updated_items.length > 0) {
+        const realStock = data.updated_items[0].so_luong_cu;
+        
+        // Cập nhật lại số lượng trong product state
+        setProduct(prev => ({
+          ...prev,
+          so_luong: realStock
+        }));
+        
+        // Kiểm tra có đủ hàng không
+        if (realStock < quantity) {
+          toast.error(`Chỉ còn ${realStock} sản phẩm trong kho!`);
+          return;
+        }
+        
+        // Nếu đủ hàng, tiến hành checkout
+        const productToCheckout = {
+          ...product,
+          quantity: quantity,
+          so_luong_mua: quantity,
+          so_luong: realStock // Đảm bảo số lượng tồn kho được cập nhật
+        };
+
+        navigate("/checkout", {
+          state: { product: productToCheckout, quantity: quantity },
+        });
+      } else {
+        // Nếu không thể kiểm tra tồn kho, dùng số lượng hiện tại
+        if (product.so_luong < quantity) {
+          toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+          return;
+        }
+
+        const productToCheckout = {
+          ...product,
+          quantity: quantity,
+          so_luong_mua: quantity
+        };
+
+        navigate("/checkout", {
+          state: { product: productToCheckout, quantity: quantity },
+        });
+      }
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra tồn kho:", error);
+      
+      // Nếu gặp lỗi, vẫn cho phép mua với dữ liệu hiện tại
+      if (product.so_luong < quantity) {
+        toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
+        return;
+      }
+
+      const productToCheckout = {
+        ...product,
+        quantity: quantity,
+        so_luong_mua: quantity
+      };
+
+      navigate("/checkout", {
+        state: { product: productToCheckout, quantity: quantity },
+      });
     }
-
-    // Create product object with quantity
-    const productToCheckout = {
-      ...product,
-      quantity: quantity,
-      so_luong_mua: quantity,
-    };
-
-    // Update product quantity in LinhKien (simulating backend)
-    updateProductQuantity(product.id, product.so_luong - quantity);
-
-    navigate("/checkout", {
-      state: { product: productToCheckout, quantity: quantity },
-    });
-  };
-
-  // Function to update product quantity in LinhKien.json (simulating)
-  const updateProductQuantity = (productId, newQuantity) => {
-    // This function simulates updating the quantity in the local data
-    // In a real app, this would be an API call to update the backend
-
-    // Update local state
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      so_luong: newQuantity,
-    }));
-
-    // For a real implementation, you would need to update the Linh_kien.json file
-    // through a backend API, but here we're just updating the local state
-
-    console.log(`Product ${productId} quantity updated to ${newQuantity}`);
   };
 
   const handleReviewChange = (e) => {
@@ -373,15 +548,17 @@ const ProductDetail = () => {
                 <input
                   type="number"
                   min="1"
-                  max={product.so_luong || 10}
+                  max={product.so_luong || 0}
                   value={quantity}
                   onChange={handleQuantityChange}
                 />
                 <button onClick={increaseQuantity}>+</button>
               </div>
-              <span className="stock-info">
-                {product.so_luong > 0
-                  ? `Còn ${product.so_luong} sản phẩm`
+              <span className={`stock-info ${product.so_luong <= 5 ? 'low-stock' : ''}`}>
+                {product.so_luong > 0 
+                  ? product.so_luong <= 5 
+                    ? `Chỉ còn ${product.so_luong} sản phẩm!` 
+                    : `Còn ${product.so_luong} sản phẩm`
                   : "Hết hàng"}
               </span>
             </div>
@@ -392,14 +569,18 @@ const ProductDetail = () => {
                 className="buy-now-button"
                 disabled={product.so_luong < 1}
               >
-                Mua ngay
+                {product.so_luong < 1 ? "Hết hàng" : "Mua ngay"}
               </button>
               <button
                 onClick={handleAddToCart}
                 className={`add-to-cart-button ${isInCart ? "in-cart" : ""}`}
                 disabled={product.so_luong < 1}
               >
-                {isInCart ? "✅ Đã thêm vào giỏ hàng" : "🛒 Thêm vào giỏ hàng"}
+                {product.so_luong < 1 
+                  ? "Hết hàng" 
+                  : isInCart 
+                    ? "✅ Đã thêm vào giỏ hàng" 
+                    : "🛒 Thêm vào giỏ hàng"}
               </button>
             </div>
           </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 29, 2025 at 10:09 AM
+-- Generation Time: Apr 28, 2025 at 02:27 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -43,14 +43,9 @@ CREATE TABLE `chi_tiet_don_hang` (
 --
 
 INSERT INTO `chi_tiet_don_hang` (`id`, `ma_don_hang`, `id_product`, `ten_san_pham`, `danh_muc`, `so_luong`, `gia`, `phuong_thuc_van_chuyen`) VALUES
-(21, 18, 'mouse001', 'Logitech G Pro X Superlight', 'Peripherals', 1, 3750000, 'pickup'),
-(22, 18, 'cpu001', 'Intel Core i9-13900K', 'CPU', 1, 14000000, 'pickup'),
-(23, 19, 'mouse002', 'Razer DeathAdder V3 Pro', 'Peripherals', 1, 4000000, 'pickup'),
-(25, 21, 'ram002', 'Corsair Vengeance DDR5 32GB', 'RAM', 1, 3400000, 'pickup'),
-(26, 22, 'mb001', 'ASUS ROG Strix Z790-E Gaming', 'Mainboard', 6, 10000000, 'pickup'),
-(29, 24, 'mb002', 'MSI MPG B650 Tomahawk WiFi', 'Mainboard', 1, 6500000, 'ship'),
-(30, 25, 'mb002', 'MSI MPG B650 Tomahawk WiFi', 'Mainboard', 4, 6500000, 'ship'),
-(31, 26, 'gpu001', 'NVIDIA GeForce RTX 4090', 'GPU', 2, 40000000, 'ship');
+(13, 12, 'cpu003', 'AMD Ryzen 9 7950X3D', 'CPU', 1, 16500000, 'ship'),
+(14, 12, 'mb001', 'ASUS ROG Strix Z790-E Gaming', 'Mainboard', 1, 10000000, 'ship'),
+(15, 13, 'gpu001', 'NVIDIA GeForce RTX 4090', 'GPU', 1, 40000000, 'ship');
 
 -- --------------------------------------------------------
 
@@ -131,14 +126,7 @@ INSERT INTO `dia_chi_giao_hang` (`ma_dia_chi`, `ma_tk`, `nguoi_nhan`, `sdt_nhan`
 (7, 1, 'Nguyễn Trường Sinh', '0987654334', 'hn', 'TP HCM', 'Quận 2', 'Phường 4', 0),
 (8, 1, 'zzzzxz', '0987654321', 'hn', 'TP HCM', 'Quận 3', 'Phường 3', 0),
 (9, 3, 'vip', '0987654321', 'hn', 'TP HCM', 'Quận 5', 'Phường 1', 0),
-(10, 3, 'vip', '0987654321', 'hn', 'TP HCM', 'Quận 4', 'Phường 2', 0),
-(11, 2, 'admin', '0987654321', 'hn', 'TP HCM', 'Quận 3', 'Phường 2', 0),
-(12, 2, 'admin', '0987654321', 'hn', 'TP HCM', 'Quận 3', 'Phường 2', 0),
-(15, 2, 'admin', '0987654334', 'Lấy tại cửa hàng', '', '', '', 0),
-(16, 2, 'baó', '0987654321', 'Lấy tại cửa hàng', '', '', '', 0),
-(17, 2, 'admin', '0987654321', 'hn', 'TP HCM', 'Quận 2', 'Phường 3', 0),
-(18, 2, 'admin', '0987654321', 'TP HCM', 'TP HCM', 'Quận 2', 'Phường 2', 0),
-(19, 2, 'admin', '0987654321', 'TP HCM', 'TP HCM', 'Quận 2', 'Phường 2', 0);
+(10, 3, 'vip', '0987654321', 'hn', 'TP HCM', 'Quận 4', 'Phường 2', 0);
 
 -- --------------------------------------------------------
 
@@ -161,13 +149,8 @@ CREATE TABLE `don_hang` (
 --
 
 INSERT INTO `don_hang` (`id`, `ma_nguoi_dung`, `ma_dia_chi`, `tong_tien`, `trang_thai`, `ngay_dat`, `ghi_chu`) VALUES
-(18, 2, NULL, 17780000, 'Chờ xử lý', '2025-04-29 06:52:29', ''),
-(19, 2, NULL, 4030000, 'Chờ xử lý', '2025-04-29 06:54:06', ''),
-(21, 2, NULL, 3430000, 'Đã thanh toán', '2025-04-29 07:23:46', ''),
-(22, 2, 15, 60030000, 'Đã thanh toán', '2025-04-29 07:40:19', 'test'),
-(24, 2, 17, 6500000, 'Chờ xử lý', '2025-04-29 08:46:42', 'test2'),
-(25, 2, 18, 26000000, 'Chờ xử lý', '2025-04-29 09:54:08', 'ok'),
-(26, 2, 19, 80000000, 'Đã thanh toán', '2025-04-29 09:55:05', '');
+(12, 1, 8, 26500000, 'Chờ xử lý', '2025-04-28 10:22:03', 'giao vào buổi chiều'),
+(13, 3, 9, 40000000, 'Chờ xử lý', '2025-04-28 10:27:00', 'tận cửa');
 
 -- --------------------------------------------------------
 
@@ -190,6 +173,7 @@ CREATE TABLE `gio_hang` (
 INSERT INTO `gio_hang` (`id`, `ma_nguoi_dung`, `id_product`, `so_luong`, `ngay_them`) VALUES
 (3, 4, 'ram001', 1, '2025-04-27 14:31:54'),
 (4, 4, 'cpu003', 1, '2025-04-27 15:18:18'),
+(5, 2, 'cpu001', 1, '2025-04-27 16:06:15'),
 (6, 4, 'cpu001', 1, '2025-04-27 16:07:37');
 
 -- --------------------------------------------------------
@@ -263,13 +247,8 @@ CREATE TABLE `thanh_toan` (
 --
 
 INSERT INTO `thanh_toan` (`id`, `ma_don_hang`, `phuong_thuc_thanh_toan`, `tong_so_tien`, `trang_thai_thanh_toan`, `thoi_gian_thanh_toan`, `thoi_gian_cap_nhat`, `ma_giao_dich`) VALUES
-(18, 18, 'cod', 17780000, 'Chưa thanh toán', NULL, NULL, NULL),
-(19, 19, 'cod', 4030000, 'Chưa thanh toán', NULL, NULL, NULL),
-(21, 21, 'vnpay', 3430000, 'Đã thanh toán', '2025-04-15 14:25:10', '2025-04-15 14:25:10', '14932189'),
-(22, 22, 'vnpay', 60030000, 'Đã thanh toán', '2025-04-29 14:40:47', '2025-04-29 14:40:47', '14932220'),
-(24, 24, 'cod', 6500000, 'Chưa thanh toán', NULL, NULL, NULL),
-(25, 25, 'cod', 26000000, 'Chưa thanh toán', NULL, NULL, NULL),
-(26, 26, 'vnpay', 80000000, 'Đã thanh toán', '2025-04-30 16:55:44', '2025-04-30 16:55:44', '14932519');
+(12, 12, 'cod', 26500000, 'Chưa thanh toán', NULL, NULL, NULL),
+(13, 13, 'cod', 40000000, 'Chưa thanh toán', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -346,7 +325,7 @@ ALTER TABLE `thanh_toan`
 -- AUTO_INCREMENT for table `chi_tiet_don_hang`
 --
 ALTER TABLE `chi_tiet_don_hang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `dang_ky`
@@ -364,19 +343,19 @@ ALTER TABLE `danh_gia`
 -- AUTO_INCREMENT for table `dia_chi_giao_hang`
 --
 ALTER TABLE `dia_chi_giao_hang`
-  MODIFY `ma_dia_chi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ma_dia_chi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `don_hang`
 --
 ALTER TABLE `don_hang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `gio_hang`
 --
 ALTER TABLE `gio_hang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `khuyen_mai`
@@ -394,7 +373,7 @@ ALTER TABLE `phan_hoi_review`
 -- AUTO_INCREMENT for table `thanh_toan`
 --
 ALTER TABLE `thanh_toan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

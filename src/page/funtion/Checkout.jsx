@@ -175,59 +175,93 @@ const Checkout = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+// Trong hàm handleSubmit của file Checkout.jsx, thêm đoạn code để gọi API kiểm tra tồn kho trước khi xử lý thanh toán
 
-    if (!validateForm()) {
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) {
+    return;
+  }
+
+  setIsProcessing(true);
+  setError("");
+  try {
+    // Kiểm tra tồn kho trước khi thanh toán
+    const stockCheckData = {
+      items: finalCartItems.map((item) => ({
+        id_san_pham: item.id_product,
+        so_luong: item.so_luong
+      }))
+    };
+
+    // Gọi API kiểm tra tồn kho
+    const stockResponse = await fetch("http://localhost/backend/check_stock.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(stockCheckData),
+    });
+
+    const stockResult = await stockResponse.json();
+
+    if (stockResult.status === "error") {
+      // Nếu có lỗi từ API kiểm tra tồn kho
+      setError(stockResult.message || "Lỗi kiểm tra tồn kho");
+      if (stockResult.errors && stockResult.errors.length > 0) {
+        // Hiển thị lỗi chi tiết nếu có
+        toast.error(stockResult.errors.join(", "));
+      }
+      setIsProcessing(false);
       return;
     }
 
-    setIsProcessing(true);
-    setError("");
-    try {
-      const orderData = {
-        userId: user?.id || null, // Thêm userId từ AuthContext
-        cartItems: finalCartItems.map((item) => ({
-          id_product: item.id_product,
-          ten: item.ten,
-          gia: item.gia,
-          so_luong: item.so_luong,
-          danh_muc: item.danh_muc,
-        })),
-        customerInfo,
-        paymentMethod,
-        shippingMethod,
-        totalAmount: finalTotalAmount,
-        orderDate: new Date().toISOString(),
-      };
+    // Nếu kiểm tra tồn kho thành công, tiếp tục xử lý đơn hàng
+    const orderData = {
+      userId: user?.id || null,
+      cartItems: finalCartItems.map((item) => ({
+        id_product: item.id_product,
+        ten: item.ten,
+        gia: item.gia,
+        so_luong: item.so_luong,
+        danh_muc: item.danh_muc,
+      })),
+      customerInfo,
+      paymentMethod,
+      shippingMethod,
+      totalAmount: finalTotalAmount,
+      orderDate: new Date().toISOString(),
+      // Truyền thêm order ID từ kết quả kiểm tra tồn kho
+      orderId: stockResult.orderId || undefined
+    };
 
-      console.log("Order data being sent:", orderData);
+    console.log("Order data being sent:", orderData);
 
-      const response = await fetch("http://localhost/backend/payments.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
+    const response = await fetch("http://localhost/backend/payments.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData),
+    });
 
-      const result = await response.json();
+    const result = await response.json();
 
-      if (result.status === "success") {
-        if (paymentMethod === "vnpay" && result.payUrl) {
-          window.location.href = result.payUrl;
-          clearCart();
-        } else {
-          clearCart();
-          navigate("/thankyou", { state: { orderId: result.orderId } });
-        }
+    if (result.status === "success") {
+      if (paymentMethod === "vnpay" && result.payUrl) {
+        window.location.href = result.payUrl;
+        clearCart();
       } else {
-        setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
+        clearCart();
+        navigate("/thankyou", { state: { orderId: result.orderId || stockResult.orderId } });
       }
-    } catch (err) {
-      setError("Có lỗi xảy ra: " + err.message);
-      setIsProcessing(false);
+    } else {
+      setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
+      // Nếu thanh toán không thành công, cần khôi phục lại số lượng tồn kho
+      // Có thể thực hiện một cuộc gọi API khác để hoàn tác thay đổi tồn kho
     }
-  };
-
+  } catch (err) {
+    setError("Có lỗi xảy ra: " + err.message);
+    setIsProcessing(false);
+  }
+};
   // Calculate shipping cost (simplified)
   const shippingCost =
     shippingMethod === "ship" && finalTotalAmount > 10000000 ? 0 : 30000;

@@ -1,2 +1,8 @@
 {"id_product":"cpu003","ten_nguoi_dung":"admin","so_sao":5,"binh_luan":"hello there\n","ngay":"2025-04-28"}
 Content-Type: application/json
+{"id_product":"cpu003","ten_nguoi_dung":"admin","so_sao":5,"binh_luan":"ok guy","ngay":"2025-05-06"}
+Content-Type: application/json
+{"id_product":"cpu007","ten_nguoi_dung":"admin","so_sao":5,"binh_luan":"ok","ngay":"2025-05-06"}
+Content-Type: application/json
+{"id_product":"cpu001","ten_nguoi_dung":"admin","so_sao":5,"binh_luan":"ok","ngay":"2025-05-06"}
+Content-Type: application/json

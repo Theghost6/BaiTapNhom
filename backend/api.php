@@ -32,41 +32,41 @@ switch ($action) {
         echo json_encode($orders);
         break;
 
-        case 'get_order_detail':
-            $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-    
-            // Get order items
-            $sql = "SELECT ctdh.*
-                    FROM chi_tiet_don_hang ctdh
-                    WHERE ctdh.ma_don_hang = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-    
-            $items = [];
-            while ($row = $result->fetch_assoc()) {
-                $items[] = $row;
-            }
-            
-            // Get delivery address information
-            $sql = "SELECT dcgh.* 
-                    FROM dia_chi_giao_hang dcgh
-                    JOIN don_hang dh ON dcgh.ma_dia_chi = dh.ma_dia_chi
-                    WHERE dh.id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
-            $address = $result->fetch_assoc();
-            
-            // Return both items and address
-            echo json_encode([
-                'items' => $items,
-                'address' => $address
-            ]);
-            break;
+    case 'get_order_detail':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+        // Get order items
+        $sql = "SELECT ctdh.*
+                FROM chi_tiet_don_hang ctdh
+                WHERE ctdh.ma_don_hang = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $items = [];
+        while ($row = $result->fetch_assoc()) {
+            $items[] = $row;
+        }
+        
+        // Get delivery address information
+        $sql = "SELECT dcgh.* 
+                FROM dia_chi_giao_hang dcgh
+                JOIN don_hang dh ON dcgh.ma_dia_chi = dh.ma_dia_chi
+                WHERE dh.id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $address = $result->fetch_assoc();
+        
+        // Return both items and address
+        echo json_encode([
+            'items' => $items,
+            'address' => $address
+        ]);
+        break;
 
     case 'delete_order':
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -79,6 +79,33 @@ switch ($action) {
         echo json_encode(["success" => $success]);
         break;
 
+        case 'update_order_status':
+            $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+            $status = isset($_GET['status']) ? $_GET['status'] : '';
+            error_log("Updating order ID: $id, Status: $status");
+            if ($id === 0 || empty($status)) {
+                echo json_encode(["success" => false, "error" => "Invalid ID or status"]);
+                break;
+            }
+        
+            $sql = "UPDATE don_hang SET trang_thai = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                error_log("Prepare failed: " . $conn->error);
+                echo json_encode(["success" => false, "error" => "SQL prepare failed"]);
+                break;
+            }
+            $stmt->bind_param("si", $status, $id);
+            $stmt->execute();
+            $affected_rows = $stmt->affected_rows;
+            if ($affected_rows > 0) {
+                echo json_encode(["success" => true, "affected_rows" => $affected_rows]);
+            } else {
+                error_log("No rows affected for ID: $id");
+                echo json_encode(["success" => false, "error" => "No rows updated"]);
+            }
+            $stmt->close();
+            break;
     // Users management
     case 'get_users':
         $sql = "SELECT * FROM dang_ky ORDER BY user";
@@ -195,7 +222,7 @@ switch ($action) {
 
     // Total payment
     case 'get_total_payment':
-        $sql = "SELECT SUM(tong_so_tien) AS tong FROM thanh_toan WHERE trang_thai_thanh_toan = 'Đã thanh toán'";
+        $sql = "SELECT SUM(tong_tien) AS tong FROM don_hang WHERE trang_thai = 'Đã thanh toán'";
         $result = $conn->query($sql);
 
         if ($result) {
@@ -206,88 +233,134 @@ switch ($action) {
         }
         break;
 
-    default:
-        echo json_encode(["error" => "Hành động không hợp lệ"]);
-        break;
-    // Thêm API mới cho phần thống kê nâng cao
-case 'get_statistics':
-    // Lấy tháng hiện tại hoặc tháng được chỉ định
-    $month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
-    $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
-    
-    // Tổng doanh thu trong tháng
-    $sql_revenue = "SELECT SUM(tong_so_tien) AS tong_doanh_thu 
-                   FROM thanh_toan 
-                   WHERE trang_thai_thanh_toan = 'Đã thanh toán' 
-                   AND MONTH(thoi_gian_thanh_toan) = ? 
-                   AND YEAR(thoi_gian_thanh_toan) = ?";
-    $stmt = $conn->prepare($sql_revenue);
-    $stmt->bind_param("ii", $month, $year);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $revenue = $result->fetch_assoc();
-    
-    // Số lượng đơn hàng trong tháng
-    $sql_orders = "SELECT COUNT(*) AS tong_don_hang 
-                  FROM don_hang 
-                  WHERE MONTH(ngay_dat) = ? 
-                  AND YEAR(ngay_dat) = ?";
-    $stmt = $conn->prepare($sql_orders);
-    $stmt->bind_param("ii", $month, $year);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $orders_count = $result->fetch_assoc();
-    
-    // Sản phẩm bán nhiều nhất trong tháng
-    $sql_top_products = "SELECT ctdh.ten_san_pham, SUM(ctdh.so_luong) AS tong_so_luong
-    FROM chi_tiet_don_hang ctdh
-    JOIN don_hang dh ON ctdh.ma_don_hang = dh.id
-    WHERE MONTH(dh.ngay_dat) = ? 
-    AND YEAR(dh.ngay_dat) = ?
-    GROUP BY ctdh.ten_san_pham
-    ORDER BY tong_so_luong DESC
-    LIMIT 5";
-
-$stmt = $conn->prepare($sql_top_products);
-$stmt->bind_param("ii", $month, $year);
-$stmt->execute();
-$result = $stmt->get_result();
-$top_products = [];
-while ($row = $result->fetch_assoc()) {
-$top_products[] = $row;
-}
-
-    
-    // Doanh thu theo ngày trong tháng
-    $sql_daily_revenue = "SELECT DAY(thoi_gian_thanh_toan) AS ngay, SUM(tong_so_tien) AS doanh_thu
-                         FROM thanh_toan
-                         WHERE trang_thai_thanh_toan = 'Đã thanh toán'
-                         AND MONTH(thoi_gian_thanh_toan) = ?
-                         AND YEAR(thoi_gian_thanh_toan) = ?
-                         GROUP BY DAY(thoi_gian_thanh_toan)
-                         ORDER BY ngay";
-    $stmt = $conn->prepare($sql_daily_revenue);
-    $stmt->bind_param("ii", $month, $year);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $daily_revenue = [];
-    while ($row = $result->fetch_assoc()) {
-        $daily_revenue[] = $row;
-    }
-    
-    // Tổng hợp và trả về kết quả
-    $statistics = [
-        'tong_doanh_thu' => $revenue['tong_doanh_thu'] ?? 0,
-        'tong_don_hang' => $orders_count['tong_don_hang'] ?? 0,
-        'san_pham_ban_chay' => $top_products,
-        'doanh_thu_theo_ngay' => $daily_revenue,
-        'thang' => $month,
-        'nam' => $year
-    ];
-    
-    echo json_encode($statistics);
-    break;
-}
+    // Statistics
+    case 'get_statistics':
+        // Lấy tháng hiện tại hoặc tháng được chỉ định
+        $month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
+        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+        
+        // Tổng doanh thu trong tháng
+        $sql_revenue = "SELECT SUM(tong_tien) AS tong_doanh_thu 
+                       FROM don_hang 
+                       WHERE trang_thai = 'Đã thanh toán' 
+                       AND MONTH(ngay_dat) = ? 
+                       AND YEAR(ngay_dat) = ?";
+        $stmt = $conn->prepare($sql_revenue);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $revenue = $result->fetch_assoc();
+        
+        // Số lượng đơn hàng trong tháng
+        $sql_orders = "SELECT COUNT(*) AS tong_don_hang 
+                      FROM don_hang 
+                      WHERE MONTH(ngay_dat) = ? 
+                      AND YEAR(ngay_dat) = ?";
+        $stmt = $conn->prepare($sql_orders);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $orders_count = $result->fetch_assoc();
+        
+        // Sản phẩm bán nhiều nhất trong tháng
+        $sql_top_products = "SELECT ctdh.ten_san_pham, SUM(ctdh.so_luong) AS tong_so_luong
+                            FROM chi_tiet_don_hang ctdh
+                            JOIN don_hang dh ON ctdh.ma_don_hang = dh.id
+                            WHERE MONTH(dh.ngay_dat) = ? 
+                            AND YEAR(dh.ngay_dat) = ?
+                            AND dh.trang_thai = 'Đã thanh toán'
+                            GROUP BY ctdh.ten_san_pham
+                            ORDER BY tong_so_luong DESC
+                            LIMIT 5";
+        $stmt = $conn->prepare($sql_top_products);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $top_products = [];
+        while ($row = $result->fetch_assoc()) {
+            $top_products[] = $row;
+        }
+        
+        // Doanh thu theo ngày trong tháng
+        $sql_daily_revenue = "SELECT DAY(ngay_dat) AS ngay, SUM(tong_tien) AS doanh_thu
+                             FROM don_hang
+                             WHERE trang_thai = 'Đã thanh toán'
+                             AND MONTH(ngay_dat) = ?
+                             AND YEAR(ngay_dat) = ?
+                             GROUP BY DAY(ngay_dat)
+                             ORDER BY ngay";
+        $stmt = $conn->prepare($sql_daily_revenue);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $daily_revenue = [];
+        while ($row = $result->fetch_assoc()) {
+            $daily_revenue[] = $row;
+        }
+        
+        // Tổng hợp và trả về kết quả
+        $statistics = [
+            'tong_doanh_thu' => $revenue['tong_doanh_thu'] ?? 0,
+            'tong_don_hang' => $orders_count['tong_don_hang'] ?? 0,
+            'san_pham_ban_chay' => $top_products,
+            'doanh_thu_theo_ngay' => $daily_revenue,
+            'thang' => $month,
+            'nam' => $year
+        ];
+            
+            echo json_encode($statistics);
+            break;
+        //Inventory management
+        case 'get_inventory':
+            $sql = "SELECT * FROM ton_kho ORDER BY id_san_pham";
+            $result = $conn->query($sql);
+        
+            $inventory = [];
+            while ($row = $result->fetch_assoc()) {
+                $inventory[] = $row;
+            }
+        
+            echo json_encode($inventory);
+            break;
+        
+            case 'update_inventory':
+                $id = isset($_GET['id']) ? $_GET['id'] : '';
+                $quantity = isset($_GET['quantity']) ? intval($_GET['quantity']) : 0;
+            
+                error_log("Updating inventory - ID: $id, Quantity: $quantity");
+            
+                if (empty($id) || $quantity < 0) {
+                    error_log("Invalid parameters - ID: $id, Quantity: $quantity");
+                    echo json_encode(["success" => false, "error" => "Invalid ID or quantity"]);
+                    break;
+                }
+            
+                $sql = "UPDATE ton_kho SET solg_trong_kho = ? WHERE id_san_pham = ?";
+                $stmt = $conn->prepare($sql);
+                if (!$stmt) {
+                    error_log("Prepare failed: " . $conn->error);
+                    echo json_encode(["success" => false, "error" => "Database error"]);
+                    break;
+                }
+                
+                $stmt->bind_param("is", $quantity, $id);
+                $success = $stmt->execute();
+                
+                if ($success) {
+                    error_log("Update successful for ID: $id");
+                    echo json_encode(["success" => true, "message" => "Cập nhật số lượng thành công"]);
+                } else {
+                    error_log("Update failed: " . $stmt->error);
+                    echo json_encode(["success" => false, "error" => "Không thể cập nhật số lượng"]);
+                }
+                $stmt->close();
+                break;
+        
+        default:
+            echo json_encode(["error" => "Hành động không hợp lệ"]);
+            break;
+        
+  }
 
 $conn->close();
 ?>
