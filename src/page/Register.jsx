@@ -171,7 +171,7 @@ export default function Register() {
   }, []);
 
   return (
-    <div>
+    <div className="register-body">
       <div className="container">
         <div className="form-box login">
           <form onSubmit={handleSubmit}>

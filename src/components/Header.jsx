@@ -12,7 +12,7 @@ import {
 import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
-import { Menu } from "lucide-react";
+import { FaBars } from "react-icons/fa";
 import "../style/header.css";
 import products from "../page/funtion/Linh_kien";
 
@@ -178,10 +178,10 @@ const Header = () => {
         <Link to="/" className="logo-link">
           <h1 className="logo">12 COMPONENTS</h1>
         </Link>
-
+ 
         <div className="category-menu">
           <button className="category-button">
-            <Menu size={24} className="menu-icon" />
+            <FaBars size={21} className="menu-icon" />
             Danh mục
           </button>
           <div className="mega-menu">
@@ -252,7 +252,7 @@ const Header = () => {
           <span>Nhà phát triển</span>
         </Link>
 
-        <Link to="/discount" className="discount-button">
+        <Link to="/uudai" className="discount-button">
           <Gift size={24} />
           <span>Ưu đãi</span>
         </Link>

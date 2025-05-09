@@ -444,7 +444,7 @@ const ProductDetail = () => {
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để gửi phản hồi!");
       navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
-      return;
+      return; 
     }
     if (!replyForms[reviewId]?.noi_dung.trim()) {
       toast.error("Vui lòng nhập nội dung phản hồi");
@@ -609,7 +609,7 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <div className="product-details">
+          <div className="product-details-spec">
             <div className="custom-tab-menu">
               {tabs.map((tab) => (
                 <button

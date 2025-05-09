@@ -1,0 +1,33 @@
+.uudai-container {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px;
+  justify-content: center;
+}
+
+.uudai-box {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  width: 250px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.uudai-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.uudai-box h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.uudai-box p {
+  font-size: 14px;
+  color: #555;
+}

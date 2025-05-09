@@ -25,8 +25,8 @@ export const Variants = () => {
                     style={{ 
                         position: "fixed", 
                         top: 80, 
-                        right: 20, 
-                        zIndex: 10000,
+                        left: 20, 
+                        zIndex: 9999,
                         width: 60, 
                         height: 60, 
                         backgroundColor: "white", 
@@ -51,8 +51,8 @@ export const Variants = () => {
                             style={{
                                 position: "fixed",
                                 top: 0,
-                                right: 0,
-                                width: "250px",
+                                left: 0,
+                                width: "100px",
                                 height: "100vh",
                                 backgroundColor: "white",
                                 zIndex: 9999,
@@ -122,7 +122,7 @@ const MenuItem = ({ color, label, icon, targetId, onClick }) => {
     const border = `2px solid ${color}`;
     return (
         <motion.li
-            style={listItem}
+            className="menu-item"
             variants={itemVariants}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -132,7 +132,7 @@ const MenuItem = ({ color, label, icon, targetId, onClick }) => {
                 <div style={{ ...iconPlaceholder, border, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {icon}
                 </div>
-                <div style={{ ...textPlaceholder, border }}>
+                <div className="menu-text" >
                     <span style={{ color: "#000" }}>{label}</span>
                 </div>
             </div>
@@ -190,7 +190,7 @@ const background = {
     top: 0,
     left: 0,
     bottom: 0,
-    width: 300,
+    width: 200,
 };
 
 const toggleContainer = {
@@ -210,11 +210,11 @@ const toggleContainer = {
 
 const list = {
     listStyle: "none",
-    padding: 15,
+    padding: 10,
     margin: 0,
     position: "absolute",
     top: 60,
-    width: 170,
+    width: 201,
 };
 
 const listItem = {

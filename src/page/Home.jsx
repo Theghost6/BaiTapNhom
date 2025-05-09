@@ -8,7 +8,7 @@ import {
   TrendingUp,
   ChevronDown,
 } from "lucide-react";
-import "../style/home.css"; // Import CSS từ file riêng
+import "../style/home.css";
 import "../style/all_linh_kien.css";
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
@@ -19,24 +19,25 @@ const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
+  const [openedIndex, setOpenedIndex] = useState(null);
   const slides = [
     {
-      id: 8,
+      id: "gpu001",
       image: ["/photos/k.jpg"],
       title: "GPU NVIDIA GeForce RTX 4090",
       description: "Sức mạnh đồ họa vượt trội cho game thủ",
     },
     {
-      id: 7,
+      id: "peripheral009",
       image:
         "/photos/l.jpg",
-      title: "Bàn phím cơ Corsair K100",
+      title: "Keychron K6",
       description: "Trải nghiệm gõ phím tuyệt vời với đèn RGB",
     },
     {
-      id: 25,
+      id: "peripheral004",
       image: "/photos/j.jpg",
-      title: "Chuột Logitech G502",
+      title: "Logitech MX Master 3S",
       description: "Chuột chơi game với cảm biến HERO 25K",
     },
   ];
@@ -121,25 +122,25 @@ const Home = () => {
   }, [slides.length]);
 
   // Menu
-  const menuRef = useRef();
+  // const menuRef = useRef();
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuVisible(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+  //       setMenuVisible(false);
+  //     }
+  //   };
 
-    if (menuVisible) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+  //   if (menuVisible) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuVisible]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [menuVisible]);
 
 
   return (
@@ -164,13 +165,13 @@ const Home = () => {
               <div className="slide-buttons">
                 <button
                   className="primary-button"
-                  onClick={() => navigate(`/dia-diem/${slides[activeSlide].id}`)}
+                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
                 >
                   Đặt hàng ngay <ArrowRight className="button-icon" />
                 </button>
                 <button
                   className="secondary-button"
-                  onClick={() => navigate(`/dia-diem/${slides[activeSlide].id}`)}
+                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
                 >
                   Tìm hiểu thêm
                 </button>
@@ -202,7 +203,7 @@ const Home = () => {
                 className="promo-image"
                 style={{ backgroundImage: `url('${item.image}')` }}
               ></div>
-              <div className="promo-title">{item.title}</div>
+              {/* <div className="promo-title">{item.title}</div> */}
             </div>
           ))}
         </div>
@@ -280,17 +281,13 @@ const Home = () => {
                   className="products-image"
                 />
               </div>
+
+              {/* Nội dung hiển thị khi hover */}
               <div className="products-details">
                 <h3 className="products-name">{lk.ten}</h3>
                 <p className="products-brand">Thương hiệu: {lk.hang}</p>
                 <p className="products-price">
                   {lk.gia.toLocaleString("vi-VN")} VNĐ
-                </p>
-                <p className="products-warranty">
-                  Bảo hành: {lk.bao_hanh}
-                </p>
-                <p className="products-compatible">
-                  Tương thích: {lk.thiet_bi_tuong_thich.join(", ")}
                 </p>
                 {lk.khuyen_mai && (
                   <p className="products-sale">
@@ -298,20 +295,13 @@ const Home = () => {
                     {lk.khuyen_mai}
                   </p>
                 )}
-                {/* <div className="product-footer">
-                  <span className="product-price">Từ {lk.gia}</span>
-                  <button
-                    className="details-button"
-                    onClick={() => navigate(`/dia-diem/${lk.id}`)}
-                  >
-                    Xem chi tiết
-                  </button>
-                </div> */}
+                <button className="shop-now-btn"
+                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
+                >Shop Now →</button>
               </div>
             </div>
           ))}
         </div>
-
       </div>
 
 
@@ -368,7 +358,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       {/* Services */}
       <div className="section services-section" id="dich-vu">
         <section class="recommended-section">
