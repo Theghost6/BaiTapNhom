@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Save, Upload, User } from "lucide-react";
 import "../../style/profile.css";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -12,6 +16,8 @@ const Profile = () => {
     username: "",
     phone: "",
     email: "",
+    password: "",
+    confirmPassword: "",
   });
   const navigate = useNavigate();
 
@@ -32,6 +38,8 @@ const Profile = () => {
         username: parsedUser.username || "",
         phone: parsedUser.identifier === "phone" ? parsedUser.identifier : "",
         email: parsedUser.type === "email" ? parsedUser.identifier : "",
+        password: "", // Thêm trường này
+        confirmPassword: "", // Thêm trường này
       });
     } else {
       navigate("/");
@@ -47,7 +55,7 @@ const Profile = () => {
     const file = e.target.files[0];
     if (file) {
       setAvatar(file);
-      
+
       // Create preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -56,32 +64,50 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
+  const validatePassword = () => {
+    if (
+      formData?.password &&
+      formData?.confirmPassword &&
+      formData.password !== formData.confirmPassword
+    ) {
+      toast.warning("Mật khẩu xác nhận không khớp!");
+      return false;
+    }
 
+    return true;
+  };
   const handleSave = async () => {
     try {
+      if (formData.password && !validatePassword()) {
+        return;
+      }
+
       const formDataToSend = new FormData();
       formDataToSend.append("username", formData.username);
       formDataToSend.append("phone", formData.phone);
       formDataToSend.append("email", formData.email);
+      formDataToSend.append("password", formData.password);
+      formDataToSend.append("confirmPassword", formData.confirmPassword);
       formDataToSend.append("currentIdentifier", user.identifier);
       formDataToSend.append("currentType", user.type);
-      
+
       if (avatar) {
         formDataToSend.append("avatar", avatar);
       }
-
       const response = await fetch(
         "http://localhost/backend/update-profile.php",
         {
           method: "POST",
           body: formDataToSend,
           credentials: "include",
-        },
+        }
       );
 
       if (!response.ok) {
         const text = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+        throw new Error(
+          `HTTP error! status: ${response.status}, body: ${text}`
+        );
       }
 
       const result = await response.json();
@@ -91,21 +117,22 @@ const Profile = () => {
           ...user,
           username: formData.username,
           identifier: user.type === "phone" ? formData.phone : formData.email,
+          password: formData.password,
           avatar: result.avatarUrl || avatarPreview || user.avatar,
         };
-        
+
         localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
         setUser(newUserData);
         setIsEditing(false);
-        alert("Cập nhật thông tin thành công!");
+        toast.success("Cập nhật thông tin thành công!");
       } else {
         throw new Error(result.message || "Cập nhật thất bại");
       }
     } catch (error) {
       console.error("Lỗi khi cập nhật profile:", error);
-      alert(
+              toast.error(
         "Cập nhật thông tin thất bại. Vui lòng thử lại! Chi tiết: " +
-          error.message,
+          error.message
       );
     }
   };
@@ -129,7 +156,7 @@ const Profile = () => {
               </div>
             )}
           </div>
-          
+
           {isEditing && (
             <div className="avatar-upload">
               <label htmlFor="avatar-upload">
@@ -141,6 +168,16 @@ const Profile = () => {
                 accept="image/*"
                 onChange={handleAvatarChange}
               />
+              <button
+                type="button"
+                className="remove-avatar-button"
+                onClick={() => {
+                  setAvatar(null);
+                  setAvatarPreview("");
+                }}
+              >
+                Xóa ảnh đại diện
+              </button>
             </div>
           )}
         </div>
@@ -179,14 +216,43 @@ const Profile = () => {
                 placeholder="Nhập email"
               />
             </div>
+            <div className="form-group">
+              <label>Mật khẩu mới:</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Nhập mật khẩu mới"
+              />
+            </div>
+            <div className="form-group">
+              <label> Xác nhận mật khẩu:</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Nhập mật khẩu xác nhận"
+              />
+              {console.log("test", formData)}
+            </div>
 
             <div className="button-group">
-              <button type="button" onClick={handleSave} className="save-button">
+              <button
+                type="button"
+                onClick={handleSave}
+                className="save-button"
+              >
                 <Save size={16} /> Lưu thay đổi
               </button>
               <button
                 type="button"
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  if (window.confirm("Bạn có chắc chắn muốn hủy chỉnh sửa?")) {
+                    setIsEditing(false);
+                  }
+                }}
                 className="cancel-button"
               >
                 Hủy
@@ -211,6 +277,7 @@ const Profile = () => {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

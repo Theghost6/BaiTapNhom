@@ -18,7 +18,15 @@ import products from "../page/funtion/Linh_kien";
 
 const allProducts = Object.values(products).flat();
 
-const cities = ["Hồ Chí Minh", "Hà Nội", "Ninh bình", "Bắc Ninh", "Nam Định", "Thái Bình", "Hà Nam"];
+const cities = [
+  "Hồ Chí Minh",
+  "Hà Nội",
+  "Ninh bình",
+  "Bắc Ninh",
+  "Nam Định",
+  "Thái Bình",
+  "Hà Nam",
+];
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,16 +42,8 @@ const Header = () => {
   const location = useLocation();
 
   const categories = {
-    "Hãng máy tính": [
-      "Samsung",
-      "Dell",
-      "HP",
-      "Lenovo",
-      "Asus",
-      "Acer",
-      "MSI",
-    ],
-    "CPU": [
+    "Hãng máy tính": ["Samsung", "Dell", "HP", "Lenovo", "Asus", "Acer", "MSI"],
+    CPU: [
       "Intel Core i9 14900K",
       "Intel Core i7 13700K",
       "AMD Ryzen 9 7950X",
@@ -53,12 +53,12 @@ const Header = () => {
       "Apple M1 Pro",
       "Apple M1 Max",
     ],
-    "Mainboard": [
+    Mainboard: [
       "ASUS ROG Strix Z790-E Gaming WiFi",
       "MSI MPG B650 Carbon WiFi",
       "Gigabyte AORUS X670E Master",
     ],
-    "GPU": [
+    GPU: [
       "NVIDIA GeForce RTX 4090",
       "NVIDIA GeForce RTX 4080",
       "NVIDIA GeForce RTX 4070",
@@ -68,7 +68,7 @@ const Header = () => {
       "AMD Radeon RX 7800 XT",
       "AMD Radeon RX 7700 XT",
     ],
-    "PSU": [
+    PSU: [
       "Cooler Master V850 SFX Gold",
       "Corsair SF750 Platinum",
       "Seasonic Focus SGX-650",
@@ -78,35 +78,36 @@ const Header = () => {
       "be quiet! SFX L Power 500W",
       "SilverStone SX700-G",
     ],
-    "Cooling": [
+    Cooling: [
       "Cooler Master Hyper 212 Black Edition",
       "Noctua NH-D15",
       "be quiet! Dark Rock Pro 4",
       "Corsair H100i RGB Platinum",
-      "NZXT Kraken X63",],
-    
-    "Case": [
+      "NZXT Kraken X63",
+    ],
+
+    Case: [
       "Cooler Master MasterBox Q300L",
       "NZXT H510",
       "Fractal Design Meshify C",
       "Corsair 4000D Airflow",
       "be quiet! Pure Base 500DX",
     ],
-    "Storage": [
+    Storage: [
       "Samsung 970 EVO Plus 1TB",
       "Western Digital Blue SN550 1TB",
       "Crucial P3 1TB",
       "Kingston A2000 1TB",
       "ADATA XPG SX8200 Pro 1TB",
     ],
-    "Peripherals": [
+    Peripherals: [
       "Logitech G Pro X Superlight",
       "Razer DeathAdder V2",
       "Corsair K70 RGB MK.2",
       "SteelSeries Apex Pro TKL",
       "HyperX Cloud II",
     ],
-    "RAM": [
+    RAM: [
       "Corsair Vengeance LPX 16GB (2x8GB) DDR4-3200",
       "G.Skill Ripjaws V 16GB (2x8GB) DDR4-3600",
       "Kingston HyperX Fury 16GB (2x8GB) DDR4-3200",
@@ -178,7 +179,7 @@ const Header = () => {
         <Link to="/" className="logo-link">
           <h1 className="logo">12 COMPONENTS</h1>
         </Link>
- 
+
         <div className="category-menu">
           <button className="category-button">
             <FaBars size={21} className="menu-icon" />
@@ -285,8 +286,9 @@ const Header = () => {
                   .map((city, index) => (
                     <div
                       key={index}
-                      className={`location-item ${selectedCity === city ? "selected" : ""
-                        }`}
+                      className={`location-item ${
+                        selectedCity === city ? "selected" : ""
+                      }`}
                       onClick={() => {
                         setSelectedCity(city);
                         setShowLocationPopup(false);
@@ -315,16 +317,18 @@ const Header = () => {
                   <Link to="/cart" className="dropdown-item">
                     <ShoppingBag size={16} /> Đơn hàng của tôi
                   </Link>
-                  <Link to="/tracuu" className="dropdown-item">
-                    <FiPackage size={16} /> Tra cứu đơn hàng
-                  </Link>
                   <Link to="/lich_su_don_hang" className="dropdown-item">
                     <History size={16} /> Lịch sử đơn hàng
                   </Link>
                   {user?.role === "admin" && (
-                    <Link to="/admin" className="dropdown-item">
-                      <User size={16} /> Quản trị viên
-                    </Link>
+                    <>
+                      <Link to="/admin" className="dropdown-item">
+                        <User size={16} /> Quản trị viên
+                      </Link>
+                      <Link to="/tracuu" className="dropdown-item">
+                        <FiPackage size={16} /> Tra cứu đơn hàng
+                      </Link>
+                    </>
                   )}
                   <button
                     onClick={handleLogout}
