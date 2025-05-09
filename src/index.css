@@ -50,7 +50,6 @@ button {
 }
 button:hover {
   border: 1px solid black;
-  border-radius: 8px;  
 }
 button:focus,
 button:focus-visible {

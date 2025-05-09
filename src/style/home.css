@@ -254,6 +254,10 @@
 
 
 /* Sections */
+.section-title-part{
+  margin: 0 0 0 24px;
+}
+
 .section {
   padding: 4rem 1.5rem;
   max-width: 1400px;
@@ -442,16 +446,17 @@
 .shop-now-btn {
   margin-top: 8px;
   padding: 6px 12px;
-  background-color: #ff4d4f;
-  border: none;
+  background-color: #fff;
   border-radius: 6px;
-  color: white;
+  color: #3bb77e;
   font-weight: 500;
   transition: background-color 0.3s ease;
 }
 
 .shop-now-btn:hover {
-  background-color: #d9363e;
+  border: 0;
+  background-color: #3bb77e;
+  color: white;
 }
 
 

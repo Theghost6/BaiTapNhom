@@ -1,0 +1,100 @@
+.news-guides {
+    max-width: 1300px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 2 columns with equal width */
+    gap: 20px; /* Space between columns and rows */
+    align-items: stretch; /* Ensure all items stretch to the same height */
+  }
+  
+  .blog-post {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure the post takes full height of the grid cell */
+  }
+  
+  .blog-image {
+    width: 100%;
+    height: 200px; /* Fixed height for consistency, adjust as needed */
+    object-fit: cover;
+  }
+  
+  .blog-content {
+    padding: 15px;
+    flex-grow: 1; /* Allow content to grow and fill space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .blog-title {
+    color: #000;
+    font-size: 20px;
+    margin: 0 0 10px;
+    font-weight: bold;
+  }
+  
+  .blog-description {
+    color: #545454;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    flex-grow: 1; /* Allow description to take available space */
+  }
+  
+  .blog-meta {
+    font-size: 12px;
+    color: #757575;
+    margin-bottom: 10px;
+  }
+  
+  .blog-date,
+  .blog-category,
+  .blog-comment {
+    margin-right: 10px;
+  }
+  
+  .blog-comment {
+    color: #3bb77e;
+    text-decoration: none;
+  }
+  
+  .blog-comment:hover {
+    text-decoration: underline;
+  }
+  
+  .read-more {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #fff;
+    color: #3bb77e;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: auto;
+    font-weight: bold;
+  }
+  
+  .read-more:hover {
+    background-color: #3bb77e;
+    color: #fff;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .blog-grid {
+      grid-template-columns: 1fr; /* Switch to 1 column on small screens */
+    }
+  
+    .blog-image {
+      height: 150px; /* Adjust image height for mobile */
+    }
+  }

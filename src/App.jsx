@@ -27,7 +27,7 @@ const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
-const Uudai = lazy(() => import("./page/funtion/Uudai"));
+const Blog = lazy(() => import("./page/funtion/Blog"));
 
 // NotFound component (can be moved to a separate file)
 const NotFound = () => (
@@ -239,16 +239,16 @@ const App = ({children}) => {
                     }
                   />
                   <Route
-                    path="/uudai"
+                    path="/blog"
                     element={
                       <motion.div
-                        key="uudai"
+                        key="blog"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.5, ease: "easeInOut" }}
                       >
-                        <Uudai />
+                        <Blog />
                       </motion.div>
                     }
                   />
