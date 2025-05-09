@@ -37,17 +37,32 @@ body {
 }
 
 /* Logo */
-.logo {
-  font-family: 'Arial', sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  color: #000;
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: transform 0.2s ease;
 }
 
-.logo a {
-  text-decoration: none;
-  color: inherit;
+.logo-container:hover {
+  transform: scale(1.03);
 }
+
+.logo-image {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 
 /* Search Bar */
 .search-bar {
@@ -184,9 +199,8 @@ body {
 }
 
 .location-selector button:hover {
-  border: 1px solid black;
   border-radius: 8px;
-  padding: 4px 8px;
+  padding: 8px 16px;
 }
 
 .location-popup {
@@ -245,6 +259,12 @@ body {
 }
 
 /* User Profile */
+
+.header-actions :hover {
+  padding: 4px;
+}
+
+
 .user-profile button {
   display: flex;
   align-items: center;
@@ -258,7 +278,7 @@ body {
 .user-profile button:hover {
   border: 1px solid black;
   border-radius: 8px;
-  padding: 4px 8px;
+  padding: 8px 17px;
 }
 
 .user-dropdown {

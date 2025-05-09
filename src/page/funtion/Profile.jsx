@@ -105,9 +105,7 @@ const Profile = () => {
 
       if (!response.ok) {
         const text = await response.text();
-        throw new Error(
-          `HTTP error! status: ${response.status}, body: ${text}`
-        );
+        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
       }
 
       const result = await response.json();

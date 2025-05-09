@@ -41,36 +41,27 @@ const Home = () => {
       description: "Chuột chơi game với cảm biến HERO 25K",
     },
   ];
-  const LinhKien = [
+  const Hanghoa = [
     {
-      id: "cpu001",
-      ten: "Intel Core i9-13900K",
-      hang: "Intel",
-      gia: 14000000,
-      bao_hanh: "3 năm",
+      id: "kb001",
+      ten: "Keychron K8 Pro",
+      hang: "Keychron",
+      gia: 2500000,
       images: ["/photos/i.jpg"],
-      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
-      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
     },
     {
-      id: "cpu001",
-      ten: "Intel Core i9-13900K",
-      hang: "Intel",
-      gia: 14000000,
-      bao_hanh: "3 năm",
-      images: ["/photos/f.jpg"],
-      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
-      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
+      id: "case009",
+      ten: "NZXT H9 Elite",
+      hang: "NZXT",
+      gia: 3690000,
+      images: ["/photos/case008.jpg"],
     },
     {
-      id: "cpu001",
-      ten: "Intel Core i9-13900K",
-      hang: "Intel",
-      gia: 14000000,
-      bao_hanh: "3 năm",
-      images: ["/photos/d.jpg"],
-      thiet_bi_tuong_thich: ["Bo mạch chủ Intel 600/700-series"],
-      khuyen_mai: "Tặng keo tản nhiệt Noctua NT-H1",
+      id: "cpu003",
+      ten: "CPU Intel Core Ultra 9 285K",
+      hang: "INTEL",
+      gia: 17290000,
+      images: ["/photos/intel ultra.jpg"],
     },
 
   ];
@@ -251,7 +242,7 @@ const Home = () => {
       <div className="section destinations-section">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <div className="section-header">
-          <div>
+          <div className="section-title-part">
             <h2 className="section-title" id="diem-den">HOT COMPONENTS</h2>
             <p className="section-subtitle">
               Những mặt hàng được đánh giá cao trong năm 2025
@@ -272,7 +263,7 @@ const Home = () => {
         </div>
 
         <div className="destination-grid">
-          {LinhKien.map((lk, idx) => (
+          {Hanghoa.map((lk, idx) => (
             <div key={idx} className="products-card">
               <div className="products-image-container">
                 <img
@@ -288,6 +279,7 @@ const Home = () => {
                 <p className="products-brand">Thương hiệu: {lk.hang}</p>
                 <p className="products-price">
                   {lk.gia.toLocaleString("vi-VN")} VNĐ
+                  {console.log("wrfwedewdwed",lk)}
                 </p>
                 {lk.khuyen_mai && (
                   <p className="products-sale">
@@ -296,7 +288,7 @@ const Home = () => {
                   </p>
                 )}
                 <button className="shop-now-btn"
-                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
+                  onClick={() => navigate(`/linh-kien/${lk.id}`)}
                 >Shop Now →</button>
               </div>
             </div>

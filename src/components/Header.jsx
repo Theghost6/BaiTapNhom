@@ -12,7 +12,7 @@ import {
 import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaBlogger } from "react-icons/fa";
 import "../style/header.css";
 import products from "../page/funtion/Linh_kien";
 
@@ -83,10 +83,9 @@ const Header = () => {
       "Noctua NH-D15",
       "be quiet! Dark Rock Pro 4",
       "Corsair H100i RGB Platinum",
-      "NZXT Kraken X63",
-    ],
+      "NZXT Kraken X63",],
 
-    Case: [
+    "Case": [
       "Cooler Master MasterBox Q300L",
       "NZXT H510",
       "Fractal Design Meshify C",
@@ -172,12 +171,15 @@ const Header = () => {
   const filteredProducts = allProducts.filter((item) =>
     item.ten.toLowerCase().includes(searchInput.toLowerCase())
   );
-
+ 
   return (
     <header className="main-header" ref={headerRef}>
       <div className="main-header-container">
         <Link to="/" className="logo-link">
-          <h1 className="logo">12 COMPONENTS</h1>
+          <div className="logo-container" >
+            <img src="/photos/logo.jpg" alt="Logo" className="logo-image" />
+            <span className="logo-text">Component</span>
+          </div>
         </Link>
 
         <div className="category-menu">
@@ -253,9 +255,9 @@ const Header = () => {
           <span>Nhà phát triển</span>
         </Link>
 
-        <Link to="/uudai" className="discount-button">
-          <Gift size={24} />
-          <span>Ưu đãi</span>
+        <Link to="/blog" className="discount-button">
+          <FaBlogger size={24} />
+          <span>Blog</span>
         </Link>
 
         <div className="location-selector">

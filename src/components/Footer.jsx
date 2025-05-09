@@ -13,7 +13,10 @@ const Footer = () => {
         <div className="footer-container">
           <div className="footer-column about-column">
             <div className="footer-logo">
-              <h2 className="footer-logo-text">12 COMPONENTS</h2>
+              <div className="footer-logo-container">
+                <img src="/photos/logo.jpg" alt="Logo" className="footer-logo-image" />
+                <span className="footer-logo-text">Component</span>
+              </div>
             </div>
             <p className="footer-description">
               -4th floor, Royal City, 666 Nguyen Trai District, Ho Chi Minh
