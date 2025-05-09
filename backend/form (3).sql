@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 08, 2025 at 09:23 AM
+-- Generation Time: Apr 28, 2025 at 02:27 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -43,22 +43,9 @@ CREATE TABLE `chi_tiet_don_hang` (
 --
 
 INSERT INTO `chi_tiet_don_hang` (`id`, `ma_don_hang`, `id_product`, `ten_san_pham`, `danh_muc`, `so_luong`, `gia`, `phuong_thuc_van_chuyen`) VALUES
-(21, 18, 'mouse001', 'Logitech G Pro X Superlight', 'Peripherals', 1, 3750000, 'pickup'),
-(22, 18, 'cpu001', 'Intel Core i9-13900K', 'CPU', 1, 14000000, 'pickup'),
-(23, 19, 'mouse002', 'Razer DeathAdder V3 Pro', 'Peripherals', 1, 4000000, 'pickup'),
-(25, 21, 'ram002', 'Corsair Vengeance DDR5 32GB', 'RAM', 1, 3400000, 'pickup'),
-(26, 22, 'mb001', 'ASUS ROG Strix Z790-E Gaming', 'Mainboard', 6, 10000000, 'pickup'),
-(29, 24, 'mb002', 'MSI MPG B650 Tomahawk WiFi', 'Mainboard', 1, 6500000, 'ship'),
-(30, 25, 'mb002', 'MSI MPG B650 Tomahawk WiFi', 'Mainboard', 4, 6500000, 'ship'),
-(31, 26, 'gpu001', 'NVIDIA GeForce RTX 4090', 'GPU', 2, 40000000, 'ship'),
-(32, 27, 'cpu006', 'AMD Ryzen 9 7950X3D', 'CPU', 1, 16500000, 'pickup'),
-(33, 28, 'storage002', 'WD Black SN850X 2TB', 'Storage', 1, 4500000, 'pickup'),
-(34, 29, 'cpu005', 'CPU Intel Core i5 14500', 'CPU', 1, 66900000, 'pickup'),
-(35, 30, 'cpu006', 'AMD Ryzen 9 7950X3D', 'CPU', 10, 16500000, 'pickup'),
-(36, 31, 'peripheral010', 'Razer Basilisk V3 Pro 35K', 'Peripherals', 2, 3500000, 'pickup'),
-(37, 32, 'cpu001', 'Intel Core i9-13900K', 'CPU', 3, 14000000, 'pickup'),
-(38, 33, 'cpu001', 'Intel Core i9-13900K', 'CPU', 3, 14000000, 'pickup'),
-(39, 34, 'cpu001', 'Intel Core i9-13900K', 'CPU', 3, 14000000, 'ship');
+(13, 12, 'cpu003', 'AMD Ryzen 9 7950X3D', 'CPU', 1, 16500000, 'ship'),
+(14, 12, 'mb001', 'ASUS ROG Strix Z790-E Gaming', 'Mainboard', 1, 10000000, 'ship'),
+(15, 13, 'gpu001', 'NVIDIA GeForce RTX 4090', 'GPU', 1, 40000000, 'ship');
 
 -- --------------------------------------------------------
 
@@ -109,10 +96,7 @@ INSERT INTO `danh_gia` (`id`, `id_product`, `ten_nguoi_dung`, `so_sao`, `binh_lu
 (1, 'cpu002', 'admin', 5, 'd', '2025-04-26 00:00:00'),
 (2, 'cpu002', 'admin', 5, 'g', '2025-04-26 00:00:00'),
 (3, 'cpu002', 'admin', 5, 'hello', '2025-04-26 00:00:00'),
-(4, 'cpu003', 'admin', 5, 'hello there\\n', '2025-04-28 00:00:00'),
-(5, 'cpu003', 'admin', 5, 'ok guy', '2025-05-06 00:00:00'),
-(6, 'cpu007', 'admin', 5, 'ok', '2025-05-06 00:00:00'),
-(7, 'cpu001', 'admin', 5, 'ok', '2025-05-06 00:00:00');
+(4, 'cpu003', 'admin', 5, 'hello there\\n', '2025-04-28 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -142,22 +126,7 @@ INSERT INTO `dia_chi_giao_hang` (`ma_dia_chi`, `ma_tk`, `nguoi_nhan`, `sdt_nhan`
 (7, 1, 'Nguyễn Trường Sinh', '0987654334', 'hn', 'TP HCM', 'Quận 2', 'Phường 4', 0),
 (8, 1, 'zzzzxz', '0987654321', 'hn', 'TP HCM', 'Quận 3', 'Phường 3', 0),
 (9, 3, 'vip', '0987654321', 'hn', 'TP HCM', 'Quận 5', 'Phường 1', 0),
-(10, 3, 'vip', '0987654321', 'hn', 'TP HCM', 'Quận 4', 'Phường 2', 0),
-(11, 2, 'admin', '0987654321', 'hn', 'TP HCM', 'Quận 3', 'Phường 2', 0),
-(12, 2, 'admin', '0987654321', 'hn', 'TP HCM', 'Quận 3', 'Phường 2', 0),
-(15, 2, 'admin', '0987654334', 'Lấy tại cửa hàng', '', '', '', 0),
-(16, 2, 'baó', '0987654321', 'Lấy tại cửa hàng', '', '', '', 0),
-(17, 2, 'admin', '0987654321', 'hn', 'TP HCM', 'Quận 2', 'Phường 3', 0),
-(18, 2, 'admin', '0987654321', 'TP HCM', 'TP HCM', 'Quận 2', 'Phường 2', 0),
-(19, 2, 'admin', '0987654321', 'TP HCM', 'TP HCM', 'Quận 2', 'Phường 2', 0),
-(20, 2, 'admin', '00987878987', 'Lấy tại cửa hàng', '', '', '', 0),
-(21, 2, 'admin', '00987878987', 'Lấy tại cửa hàng', '', '', '', 0),
-(22, 2, 'admin', '00987878987', 'Lấy tại cửa hàng', '', '', '', 0),
-(23, 2, 'admin', '00987878987', 'Lấy tại cửa hàng', '', '', '', 0),
-(24, 2, 'admin', '00987878987', 'Lấy tại cửa hàng', '', '', '', 0),
-(25, 2, 'admin', '00987878987', 'Lấy tại cửa hàng', '', '', '', 0),
-(26, 2, 'admin32', '7878987909', 'Lấy tại cửa hàng', '', '', '', 0),
-(27, 2, 'admin32', '7878987909', 'HCM', 'TP HCM', 'Quận 1', 'Phường 1', 0);
+(10, 3, 'vip', '0987654321', 'hn', 'TP HCM', 'Quận 4', 'Phường 2', 0);
 
 -- --------------------------------------------------------
 
@@ -180,21 +149,8 @@ CREATE TABLE `don_hang` (
 --
 
 INSERT INTO `don_hang` (`id`, `ma_nguoi_dung`, `ma_dia_chi`, `tong_tien`, `trang_thai`, `ngay_dat`, `ghi_chu`) VALUES
-(18, 2, NULL, 17780000, 'Đã thanh toán', '2025-04-29 06:52:29', ''),
-(19, 2, NULL, 4030000, 'Đã thanh toán', '2025-04-29 06:54:06', ''),
-(21, 2, NULL, 3430000, 'Đã thanh toán', '2025-04-29 07:23:46', ''),
-(22, 2, 15, 60030000, 'Đã thanh toán', '2025-04-29 07:40:19', 'test'),
-(24, 2, 17, 6500000, 'Chờ xử lý', '2025-04-29 08:46:42', 'test2'),
-(25, 2, 18, 26000000, 'Chờ xử lý', '2025-04-29 09:54:08', 'ok'),
-(26, 2, 19, 80000000, 'Đã thanh toán', '2025-04-17 09:55:05', ''),
-(27, 2, 20, 16530000, 'Chờ xử lý', '2025-05-06 11:57:33', ''),
-(28, 2, 21, 4530000, 'Đã thanh toán', '2025-05-04 12:01:26', ''),
-(29, 2, 22, 66930000, 'Đã thanh toán', '2025-05-06 12:43:00', ''),
-(30, 2, 23, 165030000, 'Đã thanh toán', '2025-05-05 14:01:57', ''),
-(31, 2, 24, 7030000, 'Chưa thanh toán', '2025-05-06 15:10:47', ''),
-(32, 2, 25, 42030000, 'Chờ xử lý', '2025-05-06 15:52:17', ''),
-(33, 2, 26, 42030000, 'Chờ xử lý', '2025-05-08 08:02:56', ''),
-(34, 2, 27, 42000000, 'Chờ xử lý', '2025-05-08 08:10:18', '');
+(12, 1, 8, 26500000, 'Chờ xử lý', '2025-04-28 10:22:03', 'giao vào buổi chiều'),
+(13, 3, 9, 40000000, 'Chờ xử lý', '2025-04-28 10:27:00', 'tận cửa');
 
 -- --------------------------------------------------------
 
@@ -217,8 +173,8 @@ CREATE TABLE `gio_hang` (
 INSERT INTO `gio_hang` (`id`, `ma_nguoi_dung`, `id_product`, `so_luong`, `ngay_them`) VALUES
 (3, 4, 'ram001', 1, '2025-04-27 14:31:54'),
 (4, 4, 'cpu003', 1, '2025-04-27 15:18:18'),
-(6, 4, 'cpu001', 1, '2025-04-27 16:07:37'),
-(38, 2, 'cpu001', 1, '2025-05-08 15:44:40');
+(5, 2, 'cpu001', 1, '2025-04-27 16:06:15'),
+(6, 4, 'cpu001', 1, '2025-04-27 16:07:37');
 
 -- --------------------------------------------------------
 
@@ -267,8 +223,7 @@ INSERT INTO `phan_hoi_review` (`id`, `id_danh_gia`, `noi_dung_phan_hoi`, `ngay`,
 (10, 3, 'hi there', '2025-04-26', 'admin'),
 (11, 2, 'dô', '2025-04-27', 'test12345'),
 (12, 4, 'hi there', '2025-04-28', 'admin'),
-(13, 4, 'ok hi', '2025-04-28', 'admin'),
-(14, 5, 'seo', '2025-05-06', 'admin');
+(13, 4, 'ok hi', '2025-04-28', 'admin');
 
 -- --------------------------------------------------------
 
@@ -292,130 +247,8 @@ CREATE TABLE `thanh_toan` (
 --
 
 INSERT INTO `thanh_toan` (`id`, `ma_don_hang`, `phuong_thuc_thanh_toan`, `tong_so_tien`, `trang_thai_thanh_toan`, `thoi_gian_thanh_toan`, `thoi_gian_cap_nhat`, `ma_giao_dich`) VALUES
-(18, 18, 'cod', 17780000, 'Chưa thanh toán', NULL, NULL, NULL),
-(19, 19, 'cod', 4030000, 'Chưa thanh toán', NULL, NULL, NULL),
-(21, 21, 'vnpay', 3430000, 'Đã thanh toán', '2025-04-15 14:25:10', '2025-04-15 14:25:10', '14932189'),
-(22, 22, 'vnpay', 60030000, 'Đã thanh toán', '2025-04-29 14:40:47', '2025-04-29 14:40:47', '14932220'),
-(24, 24, 'cod', 6500000, 'Chưa thanh toán', NULL, NULL, NULL),
-(25, 25, 'cod', 26000000, 'Chưa thanh toán', NULL, NULL, NULL),
-(26, 26, 'vnpay', 80000000, 'Đã thanh toán', '2025-04-30 16:55:44', '2025-04-30 16:55:44', '14932519'),
-(27, 27, 'vnpay', 16530000, 'Chưa thanh toán', NULL, NULL, NULL),
-(28, 28, 'cod', 4530000, 'Chưa thanh toán', NULL, NULL, NULL),
-(29, 29, 'cod', 66930000, 'Chưa thanh toán', NULL, NULL, NULL),
-(30, 30, 'vnpay', 165030000, 'Đã thanh toán', '2025-05-06 21:03:15', '2025-05-06 21:03:15', '14942214'),
-(31, 31, 'cod', 7030000, 'Chưa thanh toán', NULL, NULL, NULL),
-(32, 32, 'cod', 42030000, 'Chưa thanh toán', NULL, NULL, NULL),
-(33, 33, 'cod', 42030000, 'Chưa thanh toán', NULL, NULL, NULL),
-(34, 34, 'cod', 42000000, 'Chưa thanh toán', NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ton_kho`
---
-
-CREATE TABLE `ton_kho` (
-  `id_san_pham` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ten_san_pham` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `solg_trong_kho` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `ton_kho`
---
-
-INSERT INTO `ton_kho` (`id_san_pham`, `ten_san_pham`, `solg_trong_kho`) VALUES
-('cpu001', 'Intel Core i9-13900K', 1),
-('cpu002', 'Intel Core i9-14900K', 50),
-('cpu003', 'Core Ultra 9 285K', 30),
-('cpu004', 'Intel Core i7 14700K', 40),
-('cpu005', 'Intel Core i5 14500', 20),
-('cpu006', 'AMD Ryzen 9 7950X3D', 30),
-('cpu007', 'AMD Ryzen 9 9950X', 25),
-('cpu008', 'AMD Ryzen 7 5700X', 40),
-('cpu009', 'AMD Ryzen 5 5600GT', 50),
-('cpu010', 'AMD Ryzen 7 9800X3D', 30),
-('mb001', 'ASUS ROG Strix Z790-E', 20),
-('mb002', 'MSI MPG B650 Tomahawk', 25),
-('mb003', 'ASUS TUF Gaming Z790', 20),
-('mb004', 'ASUS TUF Gaming B760M', 30),
-('mb005', 'MSI PRO Z790-S WIFI', 22),
-('mb006', 'Gigabyte Z790M Aorus', 18),
-('mb007', 'Asrock B760M Pro RS', 20),
-('mb008', 'Gigabyte B760M Gaming', 25),
-('mb009', 'ASRock B660M Pro RS', 30),
-('mb010', 'MSI H610M-E DDR4', 40),
-('ram001', 'G.Skill Trident Z5', 25),
-('ram002', 'Corsair Vengeance DDR5', 30),
-('ram003', 'Kingston Fury Beast', 20),
-('ram004', 'TeamGroup T-Force', 25),
-('ram005', 'G.Skill Ripjaws DDR4', 40),
-('ram006', 'Corsair Dominator DDR5', 15),
-('ram007', 'Crucial DDR5 16GB', 35),
-('ram008', 'Corsair Vengeance DDR4', 30),
-('ram009', 'Kingston Fury Renegade', 25),
-('ram010', 'Crucial Ballistix DDR4', 40),
-('gpu001', 'NVIDIA GeForce RTX 4090', 10),
-('gpu002', 'AMD Radeon RX 7900 XTX', 15),
-('gpu003', 'NVIDIA GeForce RTX 4080', 12),
-('gpu004', 'AMD Radeon RX 7800 XT', 20),
-('gpu005', 'NVIDIA GeForce RTX 4070', 25),
-('gpu006', 'NVIDIA GeForce RTX 4060', 30),
-('gpu007', 'AMD Radeon RX 7700 XT', 18),
-('gpu008', 'NVIDIA GeForce RTX 3060', 35),
-('gpu009', 'AMD Radeon RX 7600', 40),
-('gpu010', 'NVIDIA GeForce GTX 1660', 50),
-('storage001', 'Samsung 990 Pro 1TB', 50),
-('storage002', 'WD Black SN850X 2TB', 40),
-('storage003', 'Crucial MX500 1TB', 60),
-('storage004', 'Samsung 870 EVO 2TB', 45),
-('storage005', 'Seagate Barracuda 4TB', 30),
-('storage006', 'Kingston NV2 1TB', 55),
-('storage007', 'WD Blue 2TB', 50),
-('storage008', 'Crucial P3 Plus 2TB', 35),
-('storage009', 'Samsung 980 500GB', 60),
-('storage010', 'Seagate IronWolf 8TB', 20),
-('psu001', 'Corsair RM850x', 50),
-('psu002', 'Seasonic Focus GX-1000', 40),
-('psu003', 'EVGA SuperNOVA 750', 45),
-('psu004', 'ASUS ROG Thor 1200W', 20),
-('psu005', 'Cooler Master MWE 650', 60),
-('psu006', 'Thermaltake Toughpower', 35),
-('psu007', 'Gigabyte UD850GM', 50),
-('psu008', 'Corsair CX550M', 70),
-('psu009', 'Seasonic Prime TX-850', 25),
-('psu010', 'EVGA BQ 600W', 80),
-('cooling001', 'NZXT Kraken X63', 25),
-('cooling002', 'Noctua NH-D15', 30),
-('cooling003', 'Corsair H100i Elite', 20),
-('cooling004', 'Cooler Master ML240L', 40),
-('cooling005', 'DeepCool AK620', 35),
-('cooling006', 'Arctic Freezer 34', 50),
-('cooling007', 'Be Quiet! Pure Rock 2', 45),
-('cooling008', 'Thermaltake UX100', 60),
-('cooling009', 'Corsair iCUE H150i', 15),
-('cooling010', 'Noctua NH-U12S', 50),
-('case001', 'Lian Li PC-O11 Dynamic', 30),
-('case002', 'NZXT H510 Flow', 40),
-('case003', 'Fractal Design Meshify', 25),
-('case004', 'Corsair 7000D Airflow', 20),
-('case005', 'MSI MAG FORGE 120A', 49),
-('case006', 'Corsair 2500X mATX', 22),
-('case007', 'DeepCool CK560 3F', 83),
-('case008', 'NZXT H9 Elite', 20),
-('case009', 'Corsair ICUE 4000D', 30),
-('case010', 'Xigmatek Aqua III', 51),
-('mouse001', 'Logitech G Pro X', 80),
-('kb001', 'Keychron K8 Pro', 45),
-('mouse002', 'Razer DeathAdder V3', 50),
-('peripheral003', 'Razer BlackWidow V4', 30),
-('peripheral004', 'Logitech MX Master 3S', 40),
-('peripheral005', 'SteelSeries Apex Pro', 35),
-('peripheral006', 'Corsair K70 RGB MK.2', 50),
-('peripheral007', 'HyperX Pulsefire Haste', 60),
-('peripheral008', 'Logitech G502 X Plus', 45),
-('peripheral009', 'Keychron K6', 50),
-('peripheral010', 'Razer Basilisk V3 Pro', 40);
+(12, 12, 'cod', 26500000, 'Chưa thanh toán', NULL, NULL, NULL),
+(13, 13, 'cod', 40000000, 'Chưa thanh toán', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -492,7 +325,7 @@ ALTER TABLE `thanh_toan`
 -- AUTO_INCREMENT for table `chi_tiet_don_hang`
 --
 ALTER TABLE `chi_tiet_don_hang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `dang_ky`
@@ -504,25 +337,25 @@ ALTER TABLE `dang_ky`
 -- AUTO_INCREMENT for table `danh_gia`
 --
 ALTER TABLE `danh_gia`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `dia_chi_giao_hang`
 --
 ALTER TABLE `dia_chi_giao_hang`
-  MODIFY `ma_dia_chi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `ma_dia_chi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `don_hang`
 --
 ALTER TABLE `don_hang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `gio_hang`
 --
 ALTER TABLE `gio_hang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `khuyen_mai`
@@ -534,13 +367,13 @@ ALTER TABLE `khuyen_mai`
 -- AUTO_INCREMENT for table `phan_hoi_review`
 --
 ALTER TABLE `phan_hoi_review`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `thanh_toan`
 --
 ALTER TABLE `thanh_toan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

@@ -21,8 +21,6 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
 $logFile = __DIR__ . '/debug.log';
-$rawData = file_get_contents("php://input");
-file_put_contents($logFile, date('Y-m-d H:i:s') . " - Update Profile Request: " . $rawData . PHP_EOL, FILE_APPEND);
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -38,21 +36,30 @@ try {
         throw new Exception("Database connection failed: " . $conn->connect_error);
     }
 
-    // Parse JSON input
-    $data = json_decode($rawData, true);
+    // Xử lý cho cả dữ liệu JSON và form data
+    if ($_SERVER['CONTENT_TYPE'] && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+        $rawData = file_get_contents("php://input");
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Update Profile Request (JSON): " . $rawData . PHP_EOL, FILE_APPEND);
+        $data = json_decode($rawData, true);
+    } else {
+        // Xử lý form data
+        $data = $_POST;
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Update Profile Request (Form): " . print_r($data, true) . PHP_EOL, FILE_APPEND);
+    }
 
     // Log dữ liệu đầu vào
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - Parsed data: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
 
     // Kiểm tra dữ liệu đầu vào
-    if (!isset($data['user'])) {
+    if (!isset($data['username'])) {
         echo json_encode(['success' => false, 'message' => 'Thiếu tên người dùng']);
         exit();
     }
 
-    $username = $data['user'];
+    $username = $data['username'];
     $phone = $data['phone'] ?? null;
     $email = $data['email'] ?? null;
+    $password = $data['password'] ?? null;
     $currentIdentifier = $data['currentIdentifier'] ?? null;
     $currentType = $data['currentType'] ?? null;
 
@@ -83,13 +90,68 @@ try {
     $existingData = $resultCheck->fetch_assoc();
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - Existing data in DB: " . print_r($existingData, true) . PHP_EOL, FILE_APPEND);
 
+    // Xử lý upload ảnh đại diện
+    $avatarUrl = null;
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/uploads/avatars/';
+        
+        // Tạo thư mục uploads/avatars nếu chưa tồn tại
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        
+        // Tạo tên file duy nhất
+        $fileName = uniqid('avatar_') . '_' . basename($_FILES['avatar']['name']);
+        $uploadFile = $uploadDir . $fileName;
+        
+        // Kiểm tra loại file
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+        $fileType = $_FILES['avatar']['type'];
+        
+        if (!in_array($fileType, $allowedTypes)) {
+            throw new Exception("Loại file không được hỗ trợ. Chỉ chấp nhận JPG, PNG và GIF.");
+        }
+        
+        // Giới hạn kích thước file (5MB)
+        if ($_FILES['avatar']['size'] > 5 * 1024 * 1024) {
+            throw new Exception("Kích thước file quá lớn (tối đa 5MB).");
+        }
+        
+        if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
+            // URL để truy cập ảnh
+            $avatarUrl = 'http://localhost/backend/uploads/avatars/' . $fileName;
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Uploaded avatar: " . $avatarUrl . PHP_EOL, FILE_APPEND);
+        } else {
+            throw new Exception("Không thể tải lên ảnh đại diện.");
+        }
+    }
+
     // Cập nhật thông tin trong cơ sở dữ liệu
-    $stmt = $conn->prepare("UPDATE dang_ky SET user = ?, phone = ?, email = ? WHERE " . ($currentType === "phone" ? "phone" : "email") . " = ?");
-    $stmt->bind_param("ssss", $username, $phone, $email, $currentIdentifier);
+    $updateQuery = "UPDATE dang_ky SET user = ?, phone = ?, email = ?";
+    $paramTypes = "sss";
+    $params = [$username, $phone, $email];
+
+    // Thêm password vào query nếu có
+    if (!empty($password)) {
+        $updateQuery .= ", pass = ?";
+        $paramTypes .= "s";
+        $params[] = $password;
+    }
+
+    $updateQuery .= " WHERE " . ($currentType === "phone" ? "phone" : "email") . " = ?";
+    $paramTypes .= "s";
+    $params[] = $currentIdentifier;
+
+    $stmt = $conn->prepare($updateQuery);
+    $stmt->bind_param($paramTypes, ...$params);
 
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
-            echo json_encode(['success' => true, 'message' => 'Cập nhật thông tin thành công']);
+            $response = ['success' => true, 'message' => 'Cập nhật thông tin thành công'];
+            if ($avatarUrl) {
+                $response['avatarUrl'] = $avatarUrl;
+            }
+            echo json_encode($response);
         } else {
             echo json_encode(['success' => false, 'message' => 'Không có thay đổi nào được thực hiện']);
         }

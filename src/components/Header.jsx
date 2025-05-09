@@ -6,7 +6,6 @@ import {
   User,
   MapPin,
   Code,
-  Gift,
   History,
 } from "lucide-react";
 import { FiPackage } from "react-icons/fi";
@@ -14,7 +13,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
 import { FaBars, FaBlogger } from "react-icons/fa";
 import "../style/header.css";
-import products from "../page/funtion/Linh_kien";
+import products from "../page/funtion/Linh_kien.json";
 
 const allProducts = Object.values(products).flat();
 
