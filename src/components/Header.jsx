@@ -241,59 +241,64 @@ const Header = () => {
 
         <div className="header-actions">
           {isLoggedIn ? (
-            <div className="user-profile" ref={userDropdownRef}>
-              <button onClick={toggleUserDropdown}>
-                {user?.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt="Avatar"
-                    className="header-avatar"
-                  />
-                ) : (
-                  <div className="default-avatar">
-                    <UserCircle size={24} color="#7f8c8d" />
-                  </div>
-                )}
-                <span>{user?.username || "Người dùng"}</span>
-              </button>
-              {showUserDropdown && (
-                <div className="user-dropdown">
-                  <Link to="/Profile" className="dropdown-item">
-                    <UserCircle size={16} /> Thông tin cá nhân
-                  </Link>
-                  <Link to="/cart" className="dropdown-item">
-                    <ShoppingBag size={16} /> Đơn hàng của tôi
-                  </Link>
-                  <Link to="/lich_su_don_hang" className="dropdown-item">
-                    <History size={16} /> Lịch sử đơn hàng
-                  </Link>
-                  {user?.role === "admin" && (
-                    <>
-                      <Link to="/admin" className="dropdown-item">
-                        <User size={16} /> Quản trị viên
-                      </Link>
-                      <Link to="/tracuu" className="dropdown-item">
-                        <FiPackage size={16} /> Tra cứu đơn hàng
-                      </Link>
-                    </>
-                  )}
-                  <button
-                    onClick={handleLogout}
-                    className="dropdown-item logout-button"
-                  >
-                    <LogOut size={16} /> Đăng xuất
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="user-actions">
-              <span className="separator">|</span>
-              <Link to="/register">
-                <User size={24} />
-              </Link>
-            </div>
-          )}
+  <div className="user-profile" ref={userDropdownRef}>
+    <button onClick={toggleUserDropdown}>
+      {user?.avatar ? (
+        <img
+          src={user.avatar}
+          alt="Avatar"
+          className="header-avatar"
+          onError={(e) => {
+            // Fallback khi ảnh lỗi
+            e.target.onerror = null;
+            e.target.src = "/photos/default-avatar.png"; // Thay bằng ảnh mặc định
+          }}
+        />
+      ) : (
+        <div className="default-avatar">
+          <UserCircle size={24} color="#7f8c8d" />
+        </div>
+      )}
+      <span>{user?.username || "Người dùng"}</span>
+    </button>
+    {showUserDropdown && (
+      <div className="user-dropdown">
+        <Link to="/Profile" className="dropdown-item">
+          <UserCircle size={16} /> Thông tin cá nhân
+        </Link>
+        <Link to="/cart" className="dropdown-item">
+          <ShoppingBag size={16} /> Đơn hàng của tôi
+        </Link>
+        <Link to="/lich_su_don_hang" className="dropdown-item">
+          <History size={16} /> Lịch sử đơn hàng
+        </Link>
+        {user?.role === "admin" && (
+          <>
+            <Link to="/admin" className="dropdown-item">
+              <User size={16} /> Quản trị viên
+            </Link>
+            <Link to="/tracuu" className="dropdown-item">
+              <FiPackage size={16} /> Tra cứu đơn hàng
+            </Link>
+          </>
+        )}
+        <button
+          onClick={handleLogout}
+          className="dropdown-item logout-button"
+        >
+          <LogOut size={16} /> Đăng xuất
+        </button>
+      </div>
+    )}
+  </div>
+) : (
+  <div className="user-actions">
+    <span className="separator">|</span>
+    <Link to="/register">
+      <User size={24} />
+    </Link>
+  </div>
+)}
         </div>
       </div>
     </header>

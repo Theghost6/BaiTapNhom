@@ -435,3 +435,39 @@ body {
       max-width: 200px;
   }
 }
+/* Tạo style dành riêng cho avatar trong header */
+.header-avatar {
+  width: 32px !important; /* Giảm kích thước xuống cho cân đối */
+  height: 32px !important;
+  border-radius: 50% !important; /* Tạo hình tròn hoàn hảo */
+  object-fit: cover !important; /* Đảm bảo ảnh không bị méo */
+  border: 2px solid #f0f0f0 !important; /* Tạo viền nhẹ */
+  transition: all 0.2s ease-in-out !important; /* Hiệu ứng mượt mà khi hover */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important; /* Tạo độ sâu nhẹ */
+}
+
+.header-avatar:hover {
+  transform: scale(1.05) !important; /* Hiệu ứng phóng to nhẹ khi hover */
+  border-color: #3bb773 !important; /* Đổi màu viền khi hover */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15) !important; /* Tăng độ sâu */
+}
+
+/* Đối với container của avatar */
+.user-profile button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border: none; /* Bỏ border mặc định */
+  transition: all 0.3s ease;
+}
+
+.user-profile button:hover {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
