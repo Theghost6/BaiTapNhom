@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     logMessage("Khớp hash: " . ($secureHash === $vnp_SecureHash ? "Có" : "Không"));
     
     if ($secureHash !== $vnp_SecureHash) {
-        logMessage("Chữ ký VNPay không hợp lệ. Expected: $vnp_SecureHash, Got: $secureHash");
+        logMessage("Chữ ký VNPay không hợp lệ. Expected: $secureHash, Got: $vnp_SecureHash");
         http_response_code(400);
         echo json_encode(['status' => 'error', 'message' => 'Chữ ký không hợp lệ']);
         exit;
@@ -99,9 +99,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
         $conn->query($sqlUpdateOrder);
         logMessage("Cập nhật trạng thái đơn hàng $orderId thành 'Đã thanh toán'");
         
-        header("Location: http://localhost:5173/thankyou?orderId=$orderId&success=true");
+        // Change from localhost:5173 to localhost:3000 to match your application
+        header("Location: http://localhost:5173/BaiTapNhom/thankyou?orderId=$orderId&success=true");
+        logMessage("Chuyển hướng người dùng đến trang thankyou");
+        exit;
     } else {
         header("Location: http://localhost:3000/payment-failed?orderId=$orderId");
+        logMessage("Chuyển hướng người dùng đến trang payment-failed");
+        exit;
     }
     $conn->close();
     exit;
@@ -347,7 +352,7 @@ try {
     // Handle VNPay payment initiation
     if ($phuong_thuc_thanh_toan === 'vnpay') {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost/backend/payments.php";
+        $vnp_Returnurl = "http://localhost/BaiTapNhom/backend/payments.php";
         $vnp_TmnCode = "LYE5QSH7";
         $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ";
 

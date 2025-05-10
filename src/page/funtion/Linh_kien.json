@@ -13,7 +13,7 @@
                 "socket": "LGA 1700",
                 "cache": "36MB"
             },
-            "so_luong": 1,
+            "so_luong": "10",
             "mo_ta": "Intel Core i9-13900K là bộ vi xử lý hàng đầu dành cho game thủ, nhà sáng tạo nội dung và chuyên gia cần hiệu năng vượt trội. Với 24 nhân (8 nhân hiệu năng cao, 16 nhân tiết kiệm điện) và 32 luồng, sản phẩm này vượt trội trong đa nhiệm, dựng hình 3D và chơi game nặng. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz giúp xử lý nhanh các ứng dụng như Adobe After Effects, Blender và các tựa game AAA. Socket LGA 1700 tương thích với bo mạch chủ Intel 600\/700-series, hỗ trợ RAM DDR5 và PCIe 5.0, đảm bảo khả năng nâng cấp trong tương lai. Kiến trúc lai tối ưu hiệu suất và tiết kiệm năng lượng, lý tưởng cho ép xung. Công nghệ Intel Turbo Boost Max 3.0 và Thermal Velocity Boost tăng cường hiệu năng khi tải nặng. Dù bạn lắp ráp PC chơi game hay máy trạm dựng phim, i9-13900K mang lại tốc độ và độ tin cậy đỉnh cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -1739,7 +1739,7 @@
                 "boostClock": "2.52 GHz",
                 "power": "450W"
             },
-            "so_luong": 2,
+            "so_luong": 1,
             "mo_ta": "NVIDIA GeForce RTX 4090 là card đồ họa đỉnh cao cho game thủ và chuyên gia cần hiệu năng 4K và 8K. Với 24GB bộ nhớ GDDR6X và 16384 nhân CUDA, sản phẩm mang lại sức mạnh vượt trội cho chơi game có hiệu ứng ray tracing, công việc AI và dựng hình 3D. Tốc độ tăng tốc 2.52 GHz đảm bảo chơi mượt các tựa game như Starfield và Cyberpunk 2077 ở cài đặt tối đa. Công nghệ DLSS 3 và ray tracing tạo hình ảnh chân thực, tăng FPS đáng kể. Kiến trúc Ada Lovelace cải thiện hiệu suất năng lượng, trong khi mã hóa AV1 hỗ trợ streamer và nhà sáng tạo. Phù hợp cho PC chơi game cao cấp hoặc máy trạm chạy Blender, RTX 4090 hỗ trợ HDMI 2.1 và DisplayPort 1.4. Hệ thống tản nhiệt cao cấp và chất lượng build đảm bảo độ bền, là lựa chọn hàng đầu cho hiệu năng tối ưu.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -3843,7 +3843,7 @@
                 "connectivity": "Bluetooth, USB-C",
                 "backlighting": "White LED"
             },
-            "so_luong": 50,
+            "so_luong": 49,
             "mo_ta": "K6 là bàn phím không dây và có dây cáp tháo rời cung cấp cho bạn tất cả các phím và chức năng bạn cần trong khi vẫn giữ được sự nhỏ gọn, với pin cực lớn từng thấy trong những bàn phím cơ không dây.Được thiết kế sử dụng Switch Keychron để tăng năng suất của bạn nhưng vẫn đảm bảo tính thẩm mỹ. Cảm giác nhấp cổ điển và cho phản hồi nhanh, tùy theo nhu cầu sử dụng mà K6 có 3 phiên bản switch tùy chọn. Với Switch Red ta cảm nhận được sự mượt mà và yên tĩnh, thích hợp với môi trường làm việc văn phòng. Với Switch Blue ta có thể nghe thấy tiếng gõ clicky mỗi khi nhấn phím, tạo cảm giác chuyên nghiệp khi chơi game. Còn ở Switch Brown ta thấy được cảm giác nhấn cùng sự nhẹ nhàng yên tĩnh trong đó, là sự kết hợp giữa văn phòng và gaming.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
