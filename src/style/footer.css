@@ -54,16 +54,24 @@
 }
 
 .footer-description {
-  font-style: italic;
-  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000;
+  margin: 12px 0;
 }
+
+.footer-description-icon {
+  color: #000; /* hoặc màu chủ đạo của bạn */
+}
+
 
 .column-title {
   font-weight: bold;
   margin-bottom: 10px;
   color: #000;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 19px;
 }
 
 .footer-links {
@@ -100,7 +108,7 @@
 
 .contact-icon {
   margin-right: 8px;
-  color: #888;
+  color: #000;
 }
 
 .footer-bottom {
@@ -134,28 +142,40 @@
 
 /* icon */
 .social-icons {
-  margin-top: 20px;
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-
+  margin-top: 1rem;
 }
 
-.social-icons a {
-  display: inline-flex;
+.social-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333; /* Adjust based on your theme */
+  text-transform: uppercase;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.5rem; /* Reduced space between icons */
+}
+
+.social-link {
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
+  background-color: #f5f5f5; 
+  border: 1px solid #ddd; 
   border-radius: 50%;
-  background-color: #f1f1f1;
-  color: #666;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.social-icons a:hover {
-  background-color: skyblue;
-  color: #fff;
+.social-link svg {
+  color: #000;
+}
+
+.social-link:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover */
 }
 
 .scroll-to-top {
@@ -181,30 +201,15 @@
   background-color: skyblue;
 }
 
-.fixed-social-icons {
-  position: fixed;
-  bottom: 80px; /* nằm trên nút scroll-to-top một chút */
-  right: 20px;
+.payment-icons {
+  margin-top: 10px;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  z-index: 999;
-}
-
-.fixed-social-icons a {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #f1f1f1;
-  color: #666;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: background-color 0.3s, color 0.3s;
-  text-decoration: none;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.fixed-social-icons a:hover {
-  background-color: skyblue;
-  color: #fff;
+.payment-icons svg {
+  color: #000;
 }
