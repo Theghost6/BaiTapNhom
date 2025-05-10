@@ -264,7 +264,6 @@ body {
   padding: 4px;
 }
 
-
 .user-profile button {
   display: flex;
   align-items: center;
@@ -278,7 +277,24 @@ body {
 .user-profile button:hover {
   border: 1px solid black;
   border-radius: 8px;
-  padding: 8px 17px;
+  padding: 10px 16px;
+}
+
+.user-profile .header-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.user-profile .default-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
 }
 
 .user-dropdown {
