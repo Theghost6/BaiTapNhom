@@ -577,7 +577,7 @@ const ProductDetail = () => {
           <h1 className="hero-title">Chi tiết sản phẩm</h1>
           <nav className="breadcrumbs">
             <a href="/">Trang chủ</a> &gt;
-            <a href="/products">Sản phẩm</a> &gt;
+            <a href="/alllinhkien">Sản phẩm</a> &gt;
             <span>{product.ten || "Không xác định"}</span>
           </nav>
         </div>

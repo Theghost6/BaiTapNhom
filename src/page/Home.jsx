@@ -307,12 +307,6 @@ const Home = () => {
                 Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để
                 nhận thêm quà tặng đặc biệt!
               </p>
-              <div className="promotion-buttons">
-                <button className="promotion-primary-button">Đặt ngay</button>
-                <button className="promotion-secondary-button">
-                  Xem ưu đãi
-                </button>
-              </div>
             </div>
             <div className="promotion-deals">
               <div className="deals-card">

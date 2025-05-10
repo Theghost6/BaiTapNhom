@@ -73,6 +73,10 @@ const AllLinhKien = () => {
 
   // Lọc sản phẩm
   const filteredItems = allProducts.filter((product) => {
+    if (!product.ten || !product.gia) {
+      return false; // Loại bỏ sản phẩm không hợp lệ
+    }
+
     const matchesSearchTerm =
       !searchTerm ||
       product.ten.toLowerCase().includes(searchTerm.toLowerCase());
