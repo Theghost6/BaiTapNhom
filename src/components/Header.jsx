@@ -307,7 +307,17 @@ const Header = () => {
           {isLoggedIn ? (
             <div className="user-profile" ref={userDropdownRef}>
               <button onClick={toggleUserDropdown}>
-                <UserCircle size={24} />
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="Avatar"
+                    className="header-avatar"
+                  />
+                ) : (
+                  <div className="default-avatar">
+                    <UserCircle size={24} color="#7f8c8d" />
+                  </div>
+                )}
                 <span>{user?.username || "Người dùng"}</span>
               </button>
               {showUserDropdown && (

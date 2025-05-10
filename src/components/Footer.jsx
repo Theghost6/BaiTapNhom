@@ -2,8 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Phone, Mail, Clock } from "lucide-react";
 import "../style/footer.css";
-import { Facebook, Twitter, Instagram } from "lucide-react";
-import { ArrowUp } from "lucide-react";
+import { Facebook, Twitter, Instagram, YoutubeIcon, Linkedin } from "lucide-react";
+import { ArrowUp, MapPin } from "lucide-react";
+import {
+  SiPaypal,
+  SiApplepay,
+  SiVisa,
+  SiDiscover,
+  SiJcb,
+  SiAmazonpay,
+  SiAmericanexpress,
+} from "react-icons/si";
+
 
 
 const Footer = () => {
@@ -15,15 +25,33 @@ const Footer = () => {
             <div className="footer-logo">
               <div className="footer-logo-container">
                 <img src="/photos/logo.jpg" alt="Logo" className="footer-logo-image" />
-                <span className="footer-logo-text">Component</span>
+                <span className="footer-logo-text">COMPONENT</span>
               </div>
             </div>
             <p className="footer-description">
-              -4th floor, Royal City, 666 Nguyen Trai District, Ho Chi Minh
+              <MapPin size={16} className="footer-description-icon" />
+              <span>4th floor, Royal City, 666 Nguyen Trai District, Ho Chi Minh</span>
             </p>
-            {/* <div className ="footer-phone-number" >
-              <a href="tel:+ (+84) 394 02 1004">(+84) 394 02 1004</a>
-            </div> */}
+            <div className="social-icons">
+              <h4 className="social-title">Follow us</h4>
+              <div className="social-links">
+                <a href="#" aria-label="Facebook" className="social-link">
+                  <Facebook size={16} />
+                </a>
+                <a href="#" aria-label="Twitter" className="social-link">
+                  <Twitter size={16} />
+                </a>
+                <a href="#" aria-label="Instagram" className="social-link">
+                  <Instagram size={16} />
+                </a>
+                <a href="#" aria-label="Linkedin" className="social-link">
+                  <Linkedin size={16} />
+                </a>
+                <a href="#" aria-label="Youtube" className="social-link">
+                  <YoutubeIcon size={16} />
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="footer-column links-column">
@@ -109,13 +137,17 @@ const Footer = () => {
             <span className="separator">|</span>
             <Link to="/payment">Phương thức thanh toán</Link>
           </div>
-        </div>
-      </div> 
 
-      <div className="fixed-social-icons">
-        <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
-        <a href="#" aria-label="Twitter"><Twitter size={20} /></a>
-        <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
+          <div className="payment-icons">
+            <SiPaypal size={28} />
+            <SiApplepay size={28} />
+            <SiVisa size={28} />
+            <SiDiscover size={28} />
+            <SiJcb size={28} />
+            <SiAmazonpay size={28} />
+            <SiAmericanexpress size={28} />
+          </div>
+        </div>
       </div>
 
       <button
@@ -125,9 +157,7 @@ const Footer = () => {
       >
         <ArrowUp size={24} />
       </button>
-
     </footer>
-
   );
 };
 

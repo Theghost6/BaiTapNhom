@@ -346,76 +346,68 @@ try {
 
     // Handle VNPay payment initiation
     if ($phuong_thuc_thanh_toan === 'vnpay') {
-        try {
-            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/BaiTapNhom/backend/payments.php";
-            $vnp_TmnCode = "LYE5QSH7";
-            $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ";
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://localhost/backend/payments.php";
+        $vnp_TmnCode = "LYE5QSH7";
+        $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ";
 
-            $vnp_TxnRef = $orderId;
-            $vnp_OrderInfo = "Thanh toan don hang " . $orderId;
-            $vnp_OrderType = "billpayment";
-            $vnp_Amount = $orderTotal; // Remove * 100, already in VND
-            $vnp_Locale = "vn";
-            $vnp_BankCode = "";
-            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-            $vnp_ExpireDate = date('YmdHis', strtotime('+30 minutes'));
+        $vnp_TxnRef = $orderId;
+        $vnp_OrderInfo = "Thanh toan don hang " . $orderId;
+        $vnp_OrderType = "billpayment";
+        $vnp_Amount = $orderTotal * 100;
+        $vnp_Locale = "vn";
+        $vnp_BankCode = "";
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $vnp_ExpireDate = date('YmdHis', strtotime('+30 minutes'));
 
-            $inputData = array(
-                "vnp_Version" => "2.1.0",
-                "vnp_TmnCode" => $vnp_TmnCode,
-                "vnp_Amount" => $vnp_Amount,
-                "vnp_Command" => "pay",
-                "vnp_CreateDate" => date('YmdHis'),
-                "vnp_CurrCode" => "VND",
-                "vnp_IpAddr" => $vnp_IpAddr,
-                "vnp_Locale" => $vnp_Locale,
-                "vnp_OrderInfo" => $vnp_OrderInfo,
-                "vnp_OrderType" => $vnp_OrderType,
-                "vnp_ReturnUrl" => $vnp_Returnurl,
-                "vnp_TxnRef" => $vnp_TxnRef,
-                "vnp_ExpireDate" => $vnp_ExpireDate
-            );
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_ExpireDate" => $vnp_ExpireDate
+        );
 
-            ksort($inputData);
-            $query = "";
-            $i = 0;
-            $hashdata = "";
-            foreach ($inputData as $key => $value) {
-                if ($i == 1) {
-                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-                } else {
-                    $hashdata = urlencode($key) . "=" . urlencode($value);
-                    $i = 1;
-                }
-                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata = urlencode($key) . "=" . urlencode($value);
+                $i = 1;
             }
-
-            logMessage("Chuỗi truy vấn VNPay: " . $query);
-            logMessage("Dữ liệu băm VNPay: " . $hashdata);
-
-            $vnp_Url = $vnp_Url . "?" . $query;
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-            logMessage("Hash VNPay được tạo: " . $vnpSecureHash);
-            
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-
-            $conn->commit();
-            logMessage("Khởi tạo thanh toán VNPay cho đơn hàng $orderId: $vnp_Url");
-            http_response_code(200);
-            echo json_encode([
-                "status" => "success",
-                "message" => "Khởi tạo thanh toán VNPay thành công",
-                "orderId" => $orderId,
-                "payUrl" => $vnp_Url
-            ]);
-        } catch (Exception $e) {
-            $conn->rollback();
-            $errorMsg = "Lỗi khi khởi tạo VNPay: " . $e->getMessage();
-            logMessage($errorMsg);
-            http_response_code(500);
-            echo json_encode(["status" => "error", "message" => $errorMsg]);
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
         }
+
+        logMessage("Chuỗi truy vấn VNPay: " . $query);
+        logMessage("Dữ liệu băm VNPay: " . $hashdata);
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+        logMessage("Hash VNPay được tạo: " . $vnpSecureHash);
+        
+        $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+
+        $conn->commit();
+        logMessage("Khởi tạo thanh toán VNPay cho đơn hàng $orderId: $vnp_Url");
+        http_response_code(200);
+        echo json_encode([
+            "status" => "success",
+            "message" => "Khởi tạo thanh toán VNPay thành công",
+            "orderId" => $orderId,
+            "payUrl" => $vnp_Url
+        ]);
         exit;
     }
 
