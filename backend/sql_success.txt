@@ -1,0 +1,8 @@
+Reply inserted: id_danh_gia=2, time=2025-04-27 15:23:37
+Review inserted: id_product=cpu003, time=2025-04-28 12:57:41
+Reply inserted: id_danh_gia=4, time=2025-04-28 12:57:54
+Reply inserted: id_danh_gia=4, time=2025-04-28 12:58:15
+Review inserted: id_product=cpu003, time=2025-05-06 08:18:36
+Reply inserted: id_danh_gia=5, time=2025-05-06 08:18:52
+Review inserted: id_product=cpu007, time=2025-05-06 09:32:03
+Review inserted: id_product=cpu001, time=2025-05-06 12:09:17

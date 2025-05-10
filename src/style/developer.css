@@ -1,0 +1,70 @@
+.developer-page {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .developer-title {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  .developer-subtitle {
+    margin-top: 8px;
+    font-size: 18px;
+    color: #3bb773;
+  }
+
+  .subtitle-icon {
+    margin-right: 8px;
+    color: #3bb773;
+    vertical-align: middle;
+    font-size: 1.2rem;
+  }
+  
+  
+  .developer-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    gap: 20px;
+  }
+  
+  .developer-card {
+    width: 220px;
+    padding: 20px;
+    border: 3px solid;
+    border-radius: 5px;
+    text-align: center;
+    transition: 0.3s;
+  }
+  
+  .developer-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .developer-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 16px;
+  }
+  
+  .developer-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .developer-role {
+    color: #3bb773;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .developer-description {
+    font-size: 14px;
+    color: #555;
+  }
+  

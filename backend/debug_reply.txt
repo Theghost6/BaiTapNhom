@@ -1,0 +1,4 @@
+{"id_danh_gia":2,"ten_nguoi_tra_loi":"test12345","noi_dung":"dô","ngay":"2025-04-27"}
+{"id_danh_gia":4,"ten_nguoi_tra_loi":"admin","noi_dung":"hi there","ngay":"2025-04-28"}
+{"id_danh_gia":4,"ten_nguoi_tra_loi":"admin","noi_dung":"ok hi","ngay":"2025-04-28"}
+{"id_danh_gia":5,"ten_nguoi_tra_loi":"admin","noi_dung":"seo","ngay":"2025-05-06"}

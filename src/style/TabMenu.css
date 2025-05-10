@@ -1,0 +1,39 @@
+.tab-menu {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  position: relative;
+  padding: 0.6rem 1.2rem;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  background-color: #f4f4f4;
+}
+
+.tab-button.active {
+  background-color: #ea6a2e;
+  color: white;
+  border: none;
+}
+
+.tab-arrow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #ea6a2e;
+}

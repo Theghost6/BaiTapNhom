@@ -1,0 +1,343 @@
+.all-products-container {
+  max-width: 1400px;
+  margin: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+} 
+
+/* h1,p */
+.hero-banner {
+  position: relative;
+  width: 1350px;
+  height: 350px;
+  overflow: hidden;
+  margin-left: -32px;
+  margin-bottom: 50px;
+  margin-top: -10px;
+}
+
+.hero-image {
+  /* background-size: cover; */
+  /* background-position: center; */
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 50px;
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Product card */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.product-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  color: white;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-image-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+.product-details {
+  position: relative;
+  z-index: 1;
+  padding: 1.2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+}
+
+.product-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.product-brand,
+.product-price,
+.product-warranty,
+.product-compatible,
+.product-sale {
+  font-size: 0.880rem;
+  margin: 0.2rem 0;
+  font-weight: 400;
+}
+
+.product-sale {
+  color: #ffd700;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+
+.details-button {
+  margin-top: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border: 1px solid white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.details-button:hover {
+  background-color: white;
+  color: black;
+}
+
+
+/* Details button */
+.details-button {
+  background-color: #fff;
+  color: #000;
+  border-radius: 6px;
+  padding: 10px 16px;
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+  Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 17px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0 #fff;
+  -webkit-transition: ease-out 0.6s;
+  -moz-transition: ease-out 0.6s;
+  transition: ease-out 0.6s;
+  font-weight: bold;
+  width: 100%;
+}
+
+.details-button:hover {
+  box-shadow: inset 400px 0 0 0 #3bb77e;
+  color: #fff;
+  border-radius: 6px;
+  border: 1px solid #fff;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination-button:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  border-radius: 4px;
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 1.2;
+}
+
+.pagination-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #fff;
+}
+/* Styles for the filter bar */
+.filter-bar {
+  display: flex;
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  min-height: 200px;
+}
+
+.filter-left {
+  width: 200px;
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-item {
+  padding: 15px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
+}
+
+.filter-item.active, .filter-item:hover {
+  background: #fff;
+  font-weight: bold;
+  color: #3bb77e; /* CellphoneS đỏ */
+}
+
+.filter-right {
+  flex-grow: 1;
+  padding: 10px 10px 10px 10px;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  row-gap: 0px;
+}
+
+.filter-option {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 15%;
+}
+
+.filter-option:hover {
+  background: #3bb77e;
+  color: #fff;
+  border-color: #3bb77e;
+}
+
+.filter-option.selected {
+  background: #3bb77e;
+  color: #fff;
+  border-color: #3bb77e;
+}
+
+.selected-options {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.selected-item {
+  background: #f0f0f0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.selected-item button {
+  background: none;
+  border: none;
+  color: #d70018;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+
+.search-bar {
+  margin: 20px 0;
+  text-align: center;
+}
+@keyframes magicMotion {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+}
+.search-input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid black;
+  max-width: 500px;
+}
+.product-warranty {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+.product-compatible {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+  font-style: italic;
+}
