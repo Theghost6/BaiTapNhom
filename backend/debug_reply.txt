@@ -2,3 +2,6 @@
 {"id_danh_gia":4,"ten_nguoi_tra_loi":"admin","noi_dung":"hi there","ngay":"2025-04-28"}
 {"id_danh_gia":4,"ten_nguoi_tra_loi":"admin","noi_dung":"ok hi","ngay":"2025-04-28"}
 {"id_danh_gia":5,"ten_nguoi_tra_loi":"admin","noi_dung":"seo","ngay":"2025-05-06"}
+{"id_danh_gia":7,"ten_nguoi_tra_loi":"Admin","noi_dung":"ok too\n","ngay":"2025-05-16"}
+{"id_danh_gia":8,"ten_nguoi_tra_loi":"Admin","noi_dung":"wooo","ngay":"2025-05-16"}
+{"id_danh_gia":9,"ten_nguoi_tra_loi":"Admin","noi_dung":"what","ngay":"2025-05-16"}

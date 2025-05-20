@@ -6,3 +6,8 @@ Review inserted: id_product=cpu003, time=2025-05-06 08:18:36
 Reply inserted: id_danh_gia=5, time=2025-05-06 08:18:52
 Review inserted: id_product=cpu007, time=2025-05-06 09:32:03
 Review inserted: id_product=cpu001, time=2025-05-06 12:09:17
+Reply inserted: id_danh_gia=7, time=2025-05-16 09:48:46
+Review inserted: id_product=gpu001, time=2025-05-16 10:17:12
+Reply inserted: id_danh_gia=8, time=2025-05-16 10:17:19
+Review inserted: id_product=peripheral009, time=2025-05-16 13:20:32
+Reply inserted: id_danh_gia=9, time=2025-05-16 13:20:42

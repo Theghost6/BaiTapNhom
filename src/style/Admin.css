@@ -1041,3 +1041,20 @@
   font-size: 18px;
   margin-bottom: 30px;
 }
+.button-yellow {
+  background-color: #f1c40f;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-green {
+  background-color: #2ecc71;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

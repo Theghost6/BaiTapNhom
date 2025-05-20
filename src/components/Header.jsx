@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   UserCircle,
@@ -14,6 +15,7 @@ import { Search } from "lucide-react";
 import { FaBars, FaBlogger } from "react-icons/fa";
 import "../style/header.css";
 import products from "../page/funtion/Linh_kien.json";
+import { useCart } from "../page/funtion/useCart";
 
 const allProducts = Object.values(products).flat();
 
@@ -27,6 +29,37 @@ const cities = [
   "Hà Nam",
 ];
 
+// Định nghĩa cấu trúc danh mục phân cấp
+const menuCategories = {
+  "CPU": {
+    items: allProducts.filter(item => item.danh_muc === "CPU")
+  },
+  "Mainboard": {
+    items: allProducts.filter(item => item.danh_muc === "Mainboard")
+  },
+  "RAM": {
+    items: allProducts.filter(item => item.danh_muc === "RAM")
+  },
+  "Ổ cứng": {
+    items: allProducts.filter(item => item.danh_muc === "Storage")
+  },
+  "VGA": {
+    items: allProducts.filter(item => item.danh_muc === "GPU")
+  },
+  "PSU": {
+    items: allProducts.filter(item => item.danh_muc === "PSU")
+  },
+  "Case": {
+    items: allProducts.filter(item => item.danh_muc === "Case")
+  },
+  "Tản nhiệt": {
+    items: allProducts.filter(item => item.danh_muc === "Cooling")
+  },
+  "Phụ kiện khác": {
+    items: allProducts.filter(item => item.danh_muc === "Peripherals")
+  }
+};
+
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -34,22 +67,15 @@ const Header = () => {
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Hà Nội");
   const [searchInput, setSearchInput] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const headerRef = useRef(null);
   const userDropdownRef = useRef(null);
+  const categoryMenuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const categories = {};
-
-  allProducts.forEach((item) => {
-    const category = item.danh_muc || "Khác";
-    if (!categories[category]) {
-      categories[category] = [];
-    }
-    categories[category].push({ id: item.id, ten: item.ten });
-  });
-
+  const { totalQuantity } = useCart();
 
   const USER_KEY = "user";
 
@@ -91,6 +117,13 @@ const Header = () => {
       ) {
         setShowUserDropdown(false);
       }
+      
+      if (
+        categoryMenuRef.current && 
+        !categoryMenuRef.current.contains(e.target)
+      ) {
+        setSelectedCategory(null);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -104,6 +137,15 @@ const Header = () => {
     setShowUserDropdown(false);
     navigate("/");
   };
+  
+  const handleCategoryClick = (category) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
   const filteredProducts = allProducts.filter((item) =>
     item.ten.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -118,22 +160,42 @@ const Header = () => {
           </div>
         </Link>
 
-        <div className="category-menu">
+        <div className="category-menu" ref={categoryMenuRef}>
           <button className="category-button">
             <FaBars size={21} className="menu-icon" />
             Danh mục
           </button>
-          <div className="mega-menu">
-            {Object.entries(categories).map(([title, items], idx) => (
-              <div className="mega-menu-column" key={idx}>
-                <h4 className="mega-menu-title">{title}</h4>
-                <ul className="mega-menu-list">
-                  {items.map((item, i) => (
-                    <li key={i} className="mega-menu-item">
-                      <Link to={`/linh-kien/${item.id}`}>{item.ten}</Link>
-                    </li>
-                  ))}
-                </ul>
+          <div className="category-dropdown">
+            {Object.keys(menuCategories).map((category) => (
+              <div key={category} className="category-item-wrapper">
+                <div 
+                  className="category-item" 
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category}
+                  <span className="category-arrow">›</span>
+                </div>
+                
+                {selectedCategory === category && (
+                  <div className="subcategory-panel">
+                    <h4 className="subcategory-title">{category}</h4>
+                    <div className="subcategory-items">
+                      {menuCategories[category].items.map((item) => (
+                        <Link 
+                          key={item.id} 
+                          to={`/linh-kien/${item.id}`}
+                          className="subcategory-item"
+                          onClick={() => setSelectedCategory(null)}
+                        >
+                          {item.ten}
+                        </Link>
+                      ))}
+                      {menuCategories[category].items.length === 0 && (
+                        <div className="no-items">Không có sản phẩm</div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -241,64 +303,84 @@ const Header = () => {
 
         <div className="header-actions">
           {isLoggedIn ? (
-  <div className="user-profile" ref={userDropdownRef}>
-    <button onClick={toggleUserDropdown}>
-      {user?.avatar ? (
-        <img
-          src={user.avatar}
-          alt="Avatar"
-          className="header-avatar"
-          onError={(e) => {
-            // Fallback khi ảnh lỗi
-            e.target.onerror = null;
-            e.target.src = "/photos/default-avatar.png"; // Thay bằng ảnh mặc định
-          }}
-        />
-      ) : (
-        <div className="default-avatar">
-          <UserCircle size={24} color="#7f8c8d" />
-        </div>
-      )}
-      <span>{user?.username || "Người dùng"}</span>
-    </button>
-    {showUserDropdown && (
-      <div className="user-dropdown">
-        <Link to="/Profile" className="dropdown-item">
-          <UserCircle size={16} /> Thông tin cá nhân
-        </Link>
-        <Link to="/cart" className="dropdown-item">
-          <ShoppingBag size={16} /> Đơn hàng của tôi
-        </Link>
-        <Link to="/lich_su_don_hang" className="dropdown-item">
-          <History size={16} /> Lịch sử đơn hàng
-        </Link>
-        {user?.role === "admin" && (
-          <>
-            <Link to="/admin" className="dropdown-item">
-              <User size={16} /> Quản trị viên
-            </Link>
-            <Link to="/tracuu" className="dropdown-item">
-              <FiPackage size={16} /> Tra cứu đơn hàng
-            </Link>
-          </>
-        )}
-        <button
-          onClick={handleLogout}
-          className="dropdown-item logout-button"
-        >
-          <LogOut size={16} /> Đăng xuất
-        </button>
-      </div>
-    )}
-  </div>
-) : (
-  <div className="user-actions">
-    <span className="separator">|</span>
-    <Link to="/register">
-      <User size={24} />
-    </Link>
-  </div>
-)}
+            <div className="user-profile" ref={userDropdownRef}>
+              <button onClick={toggleUserDropdown}>
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="Avatar"
+                    className="header-avatar"
+                    onError={(e) => {
+                      // Fallback khi ảnh lỗi
+                      e.target.onerror = null;
+                      e.target.src = "/photos/default-avatar.png"; // Thay bằng ảnh mặc định
+                    }}
+                  />
+                ) : (
+                  <div className="default-avatar">
+                    <UserCircle size={24} color="#7f8c8d" />
+                  </div>
+                )}
+                <span>{user?.username || "Người dùng"}</span>
+              </button>
+              {showUserDropdown && (
+                <div className="user-dropdown">
+                  <Link to="/Profile" className="dropdown-item">
+                    <UserCircle size={16} /> Thông tin cá nhân
+                  </Link>
+                  <Link to="/cart" className="dropdown-item">
+                    <div style={{ position: "relative", display: "inline-block" }}>
+                      <ShoppingBag size={16} />
+                      {totalQuantity > 0 && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "-8px",
+                            right: "-10px",
+                            backgroundColor: "red",
+                            color: "white",
+                            borderRadius: "50%",
+                            padding: "1px 5px",
+                            fontSize: "9px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {totalQuantity}
+                        </span>
+                      )}
+                    </div>
+                    Đơn hàng của tôi
+                  </Link>
+                  <Link to="/lich_su_don_hang" className="dropdown-item">
+                    <History size={16} /> Lịch sử đơn hàng
+                  </Link>
+                  {user?.role === "admin" && (
+                    <>
+                      <Link to="/admin" className="dropdown-item">
+                        <User size={16} /> Quản trị viên
+                      </Link>
+                      <Link to="/tracuu" className="dropdown-item">
+                        <FiPackage size={16} /> Tra cứu đơn hàng
+                      </Link>
+                    </>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="dropdown-item logout-button"
+                  >
+                    <LogOut size={16} /> Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="user-actions">
+              <span className="separator">|</span>
+              <Link to="/register">
+                <User size={24} />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

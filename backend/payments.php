@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
         logMessage("Cập nhật trạng thái đơn hàng $orderId thành 'Đã thanh toán'");
         
         // Change from localhost:5173 to localhost:3000 to match your application
-        header("Location: http://localhost:5173/BaiTapNhom/thankyou?orderId=$orderId&success=true");
+        header("Location: http://localhost:5173/thankyou");
         logMessage("Chuyển hướng người dùng đến trang thankyou");
         exit;
     } else {

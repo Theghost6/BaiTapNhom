@@ -318,13 +318,13 @@ const Home = () => {
                   {[
                     {
                       name: "CPU Intel Core i9-13900K",
-                      price: "2,999,000đ",
+                      price: "12,999,000đ",
                       trend: "+15%",
                     },
-                    { name: "AMD Ryzen 9 7950X3D", price: "3,499,000đ", trend: "+23%" },
+                    { name: "AMD Ryzen 9 7950X3D", price: "13,499,000đ", trend: "+23%" },
                     {
                       name: "ASUS ROG Strix Z790-E Gaming",
-                      price: "4,199,000đ",
+                      price: "14,199,000đ",
                       trend: "+18%",
                     },
                   ].map((tour, idx) => (

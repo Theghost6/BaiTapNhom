@@ -6,3 +6,7 @@ Content-Type: application/json
 Content-Type: application/json
 {"id_product":"cpu001","ten_nguoi_dung":"admin","so_sao":5,"binh_luan":"ok","ngay":"2025-05-06"}
 Content-Type: application/json
+{"id_product":"gpu001","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"woo\n","ngay":"2025-05-16"}
+Content-Type: application/json
+{"id_product":"peripheral009","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"yo","ngay":"2025-05-16"}
+Content-Type: application/json
