@@ -28,6 +28,7 @@ const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
 const Blog = lazy(() => import("./page/funtion/Blog"));
+const Invoice = lazy(() => import("./page/funtion/Invoice"));
 
 // NotFound component (can be moved to a separate file)
 const NotFound = () => (
@@ -123,6 +124,20 @@ const App = ({children}) => {
                         transition={{ duration: 0.5, ease: "easeInOut" }}
                       >
                         <Checkout />
+                      </motion.div>
+                    }
+                  />
+                  <Route
+                    path="/invoice"
+                    element={
+                      <motion.div
+                        key="invoice"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <Invoice />
                       </motion.div>
                     }
                   />

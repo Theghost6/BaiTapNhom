@@ -33,6 +33,24 @@ const Checkout = () => {
     note: "",
   });
 
+  const handleResetForm = () => {
+    setCustomerInfo({
+      fullName: user?.username || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      address: "",
+      city: "",
+      district: "",
+      ward: "",
+      note: "",
+    });
+
+    setPaymentMethod("cod");
+    setShippingMethod("ship");
+    setFormErrors({});
+    setError("");
+  };
+
   const [formErrors, setFormErrors] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [shippingMethod, setShippingMethod] = useState("ship");
@@ -194,14 +212,14 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) {
       return;
     }
-  
+
     setIsProcessing(true);
     setError("");
-  
+
     try {
       const orderData = {
         userId: user?.id || null,
@@ -218,45 +236,58 @@ const Checkout = () => {
         totalAmount: finalTotalAmount,
         orderDate: new Date().toISOString(),
       };
-  
+
       console.log("Order data being sent:", orderData);
-  
+
       const response = await fetch("http://localhost/BaiTapNhom/backend/payments.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text().catch(() => "No response body");
         const headers = Object.fromEntries(response.headers.entries());
-        console.error("Fetch error details:", { 
-          status: response.status, 
-          statusText: response.statusText, 
-          errorText, 
+        console.error("Fetch error details:", {
+          status: response.status,
+          statusText: response.statusText,
+          errorText,
           headers,
-          url: response.url 
+          url: response.url
         });
         throw new Error(`HTTP error! Status: ${response.status}, Response: ${errorText}`);
       }
-  
+
       const result = await response.json();
       console.log("Backend response:", result);
-  
+
       if (result.status === "success") {
         const stockUpdateResult = await updateProductStock(finalCartItems);
-        
+
         if (!stockUpdateResult.success) {
-          toast.warning("Đơn hàng đã được xử lý, nhưng có lỗi khi cập nhật tồn kho: " + 
-                       (stockUpdateResult.message || "Lỗi không xác định"));
+          toast.warning("Đơn hàng đã được xử lý, nhưng có lỗi khi cập nhật tồn kho: " +
+            (stockUpdateResult.message || "Lỗi không xác định"));
         }
-  
+
         if (paymentMethod === "vnpay" && result.payUrl) {
           window.location.href = result.payUrl;
           clearCart();
         } else {
           clearCart();
-          navigate("/thankyou", { state: { orderId: result.orderId } });
+          navigate("/invoice", {
+            state: {
+              orderData: {
+                customerInfo,
+                cartItems: finalCartItems,
+                totalAmount: finalTotalAmount,
+                shippingCost: shippingMethod === "ship" ? shippingCost : 0,
+                paymentMethod,
+                shippingMethod,
+                orderDate: new Date().toISOString(),
+                orderId: result.orderId
+              }
+            }
+          });
         }
       } else {
         setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
@@ -606,11 +637,28 @@ const Checkout = () => {
             </div>
 
             <button
+              type="button"
+              className="reset-button"
+              onClick={handleResetForm}
+              disabled={isProcessing}
+              title="Xóa toàn bộ thông tin đã nhập"
+            >
+              Nhập lại
+            </button>
+
+            <button
               type="submit"
               className="checkout-button"
               disabled={isProcessing || finalCartItems.length === 0 || !!error}
+              title={finalCartItems.length === 0 ? "Giỏ hàng trống" : ""}
             >
-              {isProcessing ? "Đang xử lý..." : "Đặt hàng"}
+              {isProcessing ? (
+                <>
+                  <span className="spinner"></span> Đang xử lý...
+                </>
+              ) : (
+                "Đặt hàng"
+              )}
             </button>
           </form>
         </div>

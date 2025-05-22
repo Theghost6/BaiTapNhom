@@ -1,0 +1,157 @@
+.invoice-page {
+  font-family: 'Arial', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+.invoice-container {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 20px;
+}
+
+.invoice-header h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.invoice-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.invoice-section {
+  margin-bottom: 25px;
+}
+
+.invoice-section h2 {
+  color: #2c3e50;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+
+.customer-info p {
+  margin: 20px 0;
+}
+
+.invoice-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+
+.invoice-items th {
+  background-color: #f8f9fa;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.invoice-items td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.invoice-totals {
+    margin-top: -50px;
+  margin: 20px 0;
+  float: right;
+  width: 300px;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.grand-total {
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.invoice-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  padding-top: 20px;
+}
+
+.thank-you {
+  font-style: italic;
+}
+
+.signature {
+  text-align: center;
+}
+
+.invoice-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.print-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.print-button:hover {
+  background-color: #2980b9;
+}
+
+@media print {
+  .invoice-actions {
+    display: none;
+  }
+  
+  body {
+    background-color: white;
+  }
+  
+  .invoice-container {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+
+.invoice-thanks {
+  background-color: #10b981; 
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px; 
+}
+
+.invoice-thanks:hover {
+  background-color: #059669;
+}
+
+.invoice-thanks:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
