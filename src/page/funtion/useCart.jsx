@@ -37,7 +37,7 @@ export function CartProvider({ children }) {
       try {
         console.log("Fetching cart for user_id:", user.id);
         const response = await axios.get(
-          "http://localhost/backend/gio_hang.php",
+          "http://localhost/BaiTapNhom/backend/gio_hang.php",
           {
             params: { user_id: user.id },
           }
@@ -102,7 +102,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost/backend/gio_hang.php",
+        "http://localhost/BaiTapNhom/backend/gio_hang.php",
         {
           user_id,
           product_id,
@@ -112,7 +112,7 @@ export function CartProvider({ children }) {
       console.log("POST cart response:", response.data);
       if (response.data.success) {
         const updatedResponse = await axios.get(
-          "http://localhost/backend/gio_hang.php",
+          "http://localhost/BaiTapNhom/backend/gio_hang.php",
           {
             params: { user_id },
           }
@@ -163,7 +163,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost/backend/gio_hang.php",
+        "http://localhost/BaiTapNhom/backend/gio_hang.php",
         {
           action: "delete",
           user_id,
@@ -173,7 +173,7 @@ export function CartProvider({ children }) {
       console.log("DELETE cart response:", response.data);
       if (response.data.success) {
         const updatedResponse = await axios.get(
-          "http://localhost/backend/gio_hang.php",
+          "http://localhost/BaiTapNhom/backend/gio_hang.php",
           {
             params: { user_id },
           }
@@ -224,7 +224,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost/backend/gio_hang.php",
+        "http://localhost/BaiTapNhom/backend/gio_hang.php",
         {
           action: "update_quantity",
           user_id,
@@ -235,7 +235,7 @@ export function CartProvider({ children }) {
       console.log("UPDATE quantity response:", response.data);
       if (response.data.success) {
         const updatedResponse = await axios.get(
-          "http://localhost/backend/gio_hang.php",
+          "http://localhost/BaiTapNhom/backend/gio_hang.php",
           {
             params: { user_id },
           }
@@ -279,7 +279,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost/backend/gio_hang.php",
+        "http://localhost/BaiTapNhom/backend/gio_hang.php",
         {
           action: "clear",
           user_id,

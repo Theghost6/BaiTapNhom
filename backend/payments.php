@@ -11,6 +11,9 @@ function logMessage($message) {
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - $message\n", FILE_APPEND);
 }
 
+// Log all incoming requests
+logMessage("Nhận yêu cầu: " . $_SERVER['REQUEST_METHOD'] . " " . $_SERVER['REQUEST_URI']);
+
 // CORS headers
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
@@ -44,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     ksort($inputData);
     logMessage("inputData sau khi sắp xếp: " . json_encode($inputData));
     
-    $i = 0;
     $hashData = "";
+    $i = 0;
     foreach ($inputData as $key => $value) {
         if ($i == 1) {
             $hashData .= '&' . urlencode($key) . "=" . urlencode($value);
         } else {
-            $hashData = urlencode($key) . "=" . urlencode($value);
+            $hashData .= urlencode($key) . "=" . urlencode($value);
             $i = 1;
         }
     }
@@ -59,9 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
     logMessage("secureHash được tạo: " . $secureHash);
     logMessage("Khớp hash: " . ($secureHash === $vnp_SecureHash ? "Có" : "Không"));
-
+    
     if ($secureHash !== $vnp_SecureHash) {
-        logMessage("Chữ ký VNPay không hợp lệ");
+        logMessage("Chữ ký VNPay không hợp lệ. Expected: $secureHash, Got: $vnp_SecureHash");
         http_response_code(400);
         echo json_encode(['status' => 'error', 'message' => 'Chữ ký không hợp lệ']);
         exit;
@@ -90,17 +93,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     
     logMessage("Trạng thái thanh toán được cập nhật cho đơn hàng $orderId: $status");
     
-    // Near line ~85 in payments.php, add after updating payment status:
-if ($_GET['vnp_ResponseCode'] == '00') {
-    // Update order status to indicate payment completed
-    $sqlUpdateOrder = "UPDATE don_hang SET trang_thai = 'Đã thanh toán' WHERE id = '$orderId'";
-    $conn->query($sqlUpdateOrder);
-    logMessage("Cập nhật trạng thái đơn hàng $orderId thành 'Đã thanh toán'");
-    
-    header("Location: http://localhost:5173/thankyou?orderId=$orderId&success=true");
-} else {
-    header("Location: http://localhost:3000/payment-failed?orderId=$orderId");
-}
+    if ($_GET['vnp_ResponseCode'] == '00') {
+        // Update order status to indicate payment completed
+        $sqlUpdateOrder = "UPDATE don_hang SET trang_thai = 'Đã thanh toán' WHERE id = '$orderId'";
+        $conn->query($sqlUpdateOrder);
+        logMessage("Cập nhật trạng thái đơn hàng $orderId thành 'Đã thanh toán'");
+        
+        // Change from localhost:5173 to localhost:3000 to match your application
+        header("Location: http://localhost:5173/thankyou");
+        logMessage("Chuyển hướng người dùng đến trang thankyou");
+        exit;
+    } else {
+        header("Location: http://localhost:3000/payment-failed?orderId=$orderId");
+        logMessage("Chuyển hướng người dùng đến trang payment-failed");
+        exit;
+    }
     $conn->close();
     exit;
 }
@@ -167,7 +174,7 @@ if ($phuong_thuc_van_chuyen === 'ship') {
     $requiredCustomerFields = array_merge($requiredCustomerFields, ['address', 'city', 'district']);
 }
 foreach ($requiredCustomerFields as $field) {
-    if (!isset($thong_tin_khach_hang[$field]) || empty(trim($thong_tin_khach_hang[$field]))) {
+    if (!isset($thong_tin_khach_hang[$field]) || ($phuong_thuc_van_chuyen === 'ship' && empty(trim($thong_tin_khach_hang[$field])))) {
         http_response_code(400);
         $errorMsg = "Thiếu hoặc trường khách hàng rỗng: $field";
         logMessage($errorMsg);
@@ -280,7 +287,7 @@ try {
         $fullName = $conn->real_escape_string($thong_tin_khach_hang['fullName']);
         $phone = $conn->real_escape_string($thong_tin_khach_hang['phone']);
         $defaultAddress = $conn->real_escape_string('Lấy tại cửa hàng');
-        $defaultCity = $conn->real_escape_string(''); // Giá trị rỗng hoặc mặc định
+        $defaultCity = $conn->real_escape_string('');
         $defaultDistrict = $conn->real_escape_string('');
         $defaultWard = $conn->real_escape_string('');
         
@@ -345,7 +352,7 @@ try {
     // Handle VNPay payment initiation
     if ($phuong_thuc_thanh_toan === 'vnpay') {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost/backend/payments.php";
+        $vnp_Returnurl = "http://localhost/BaiTapNhom/backend/payments.php";
         $vnp_TmnCode = "LYE5QSH7";
         $vnp_HashSecret = "FC3731AMJQ13YF261SEG5E3F6X2YKRFJ";
 

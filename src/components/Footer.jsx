@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Phone, Mail, Clock } from "lucide-react";
 import "../style/footer.css";
 import { Facebook, Twitter, Instagram, YoutubeIcon, Linkedin } from "lucide-react";
-import { ArrowUp, MapPin } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import {
   SiPaypal,
   SiApplepay,
@@ -29,8 +29,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="footer-description">
-              <MapPin size={16} className="footer-description-icon" />
-              <span>4th floor, Royal City, 666 Nguyen Trai District, Ho Chi Minh</span>
+              <span>Nhóm 11: Đề tài xây dựng web bán linh kiện máy tính</span>
             </p>
             <div className="social-icons">
               <h4 className="social-title">Follow us</h4>
@@ -117,7 +116,7 @@ const Footer = () => {
               </li>
               <li className="contact-item">
                 <Mail className="contact-icon" size={16} />
-                <span>Email: info@nhom12.com</span>
+                <span>Email: info@nhom11.com</span>
               </li>
               <li className="contact-item">
                 <Clock className="contact-icon" size={16} />

@@ -12,23 +12,20 @@ const Checkout = () => {
   const { cartItems, totalAmount, clearCart } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useContext(AuthContext) || {}; // Lấy user từ AuthContext
+  const { isAuthenticated, user } = useContext(AuthContext) || {};
 
-  // Get product data from location state if coming from direct product purchase
   const directProduct = location.state?.product;
   const cartItemsFromRoute = location.state?.products;
 
-  // State for checkout data
   const [finalCartItems, setFinalCartItems] = useState([]);
   const [finalTotalAmount, setFinalTotalAmount] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
 
-  // Customer information form
   const [customerInfo, setCustomerInfo] = useState({
-    fullName: user?.username || "", // Tự động điền tên người dùng nếu có
-    email: user?.email || "", // Tự động điền email nếu có
-    phone: user?.phone || "", // Tự động điền số điện thoại nếu có
+    fullName: user?.username || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
     address: "",
     city: "",
     district: "",
@@ -36,12 +33,28 @@ const Checkout = () => {
     note: "",
   });
 
-  // Validation states
+  const handleResetForm = () => {
+    setCustomerInfo({
+      fullName: user?.username || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      address: "",
+      city: "",
+      district: "",
+      ward: "",
+      note: "",
+    });
+
+    setPaymentMethod("cod");
+    setShippingMethod("ship");
+    setFormErrors({});
+    setError("");
+  };
+
   const [formErrors, setFormErrors] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [shippingMethod, setShippingMethod] = useState("ship");
 
-  // Kiểm tra đăng nhập
   useEffect(() => {
     if (!isAuthenticated) {
       setError("Vui lòng đăng nhập để thanh toán");
@@ -49,7 +62,6 @@ const Checkout = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Format price with VND
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -57,12 +69,10 @@ const Checkout = () => {
     }).format(amount);
   };
 
-  // Calculate final cart items and total
   useEffect(() => {
     let calculatedCartItems = [];
     let calculatedTotal = 0;
 
-    // If coming from direct product purchase
     if (directProduct) {
       const item = {
         id_product: directProduct.id || "unknown",
@@ -73,10 +83,8 @@ const Checkout = () => {
         images: directProduct.images?.[0] || "/placeholder.jpg",
       };
       calculatedCartItems.push(item);
-      calculatedTotal = item.gia* item.so_luong;
-    }
-    // If coming from cart page with products in route state
-    else if (cartItemsFromRoute && cartItemsFromRoute.length > 0) {
+      calculatedTotal = item.gia * item.so_luong;
+    } else if (cartItemsFromRoute && cartItemsFromRoute.length > 0) {
       calculatedCartItems = cartItemsFromRoute.map((item) => ({
         id_product: item.id_product || "unknown",
         ten: item.ten || "Sản phẩm không xác định",
@@ -89,9 +97,7 @@ const Checkout = () => {
         (total, item) => total + item.gia * item.so_luong,
         0
       );
-    }
-    // Use cart context data
-    else if (cartItems && cartItems.length > 0) {
+    } else if (cartItems && cartItems.length > 0) {
       calculatedCartItems = cartItems.map((item) => ({
         id_product: item.id_product,
         ten: item.ten || "Sản phẩm không xác định",
@@ -102,18 +108,17 @@ const Checkout = () => {
       }));
       calculatedTotal = totalAmount;
     }
-    const maxTotalAllowed = 99999999.99; // Giới hạn tương ứng với DECIMAL(10,2)
+    const maxTotalAllowed = 99999999.99;
     if (calculatedTotal > maxTotalAllowed) {
       toast.error("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
-      setFinalCartItems(calculatedCartItems); // Vẫn giữ giỏ hàng để hiển thị
-      setFinalTotalAmount(calculatedTotal); // Vẫn giữ tổng tiền để hiển thị
+      setFinalCartItems(calculatedCartItems);
+      setFinalTotalAmount(calculatedTotal);
       return;
     }
     setFinalCartItems(calculatedCartItems);
     setFinalTotalAmount(calculatedTotal);
   }, [directProduct, cartItems, cartItemsFromRoute, totalAmount]);
 
-  // Validate form fields
   const validateForm = () => {
     const errors = {};
 
@@ -147,26 +152,21 @@ const Checkout = () => {
       }
     }
 
-    // Validate cart items
     finalCartItems.forEach((item, index) => {
       if (!item.id_product || item.id_product === "unknown") {
-        errors[`id_product_${index}`] = `Sản phẩm tại vị trí ${index + 1
-          } thiếu ID`;
+        errors[`id_product_${index}`] = `Sản phẩm tại vị trí ${index + 1} thiếu ID`;
       }
       if (!item.ten || item.ten === "Sản phẩm không xác định") {
         errors[`ten_${index}`] = `Sản phẩm tại vị trí ${index + 1} thiếu tên`;
       }
       if (!item.danh_muc) {
-        errors[`danh_muc_${index}`] = `Sản phẩm tại vị trí ${index + 1
-          } thiếu danh mục`;
+        errors[`danh_muc_${index}`] = `Sản phẩm tại vị trí ${index + 1} thiếu danh mục`;
       }
       if (!Number.isFinite(item.gia) || item.gia <= 0) {
-        errors[`gia_${index}`] = `Sản phẩm tại vị trí ${index + 1
-          } có giá không hợp lệ`;
+        errors[`gia_${index}`] = `Sản phẩm tại vị trí ${index + 1} có giá không hợp lệ`;
       }
       if (!item.so_luong || item.so_luong < 1) {
-        errors[`so_luong_${index}`] = `Sản phẩm tại vị trí ${index + 1
-          } có số lượng không hợp lệ`;
+        errors[`so_luong_${index}`] = `Sản phẩm tại vị trí ${index + 1} có số lượng không hợp lệ`;
       }
     });
 
@@ -174,99 +174,139 @@ const Checkout = () => {
     return Object.keys(errors).length === 0;
   };
 
-  // Handle form submission
-// Trong hàm handleSubmit của file Checkout.jsx, thêm đoạn code để gọi API kiểm tra tồn kho trước khi xử lý thanh toán
+  const updateProductStock = async (products) => {
+    try {
+      const updatePromises = products.map(async (item) => {
+        const formData = new FormData();
+        formData.append('id', item.id_product);
+        formData.append('so_luong', item.so_luong);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+        console.log(`Updating stock for product: id=${item.id_product}, so_luong=${item.so_luong}`);
 
-  if (!validateForm()) {
-    return;
-  }
+        const response = await fetch("http://localhost/BaiTapNhom/backend/stock_json.php", {
+          method: "POST",
+          body: formData
+        });
 
-  setIsProcessing(true);
-  setError("");
-  try {
-    // Kiểm tra tồn kho trước khi thanh toán
-    const stockCheckData = {
-      items: finalCartItems.map((item) => ({
-        id_san_pham: item.id_product,
-        so_luong: item.so_luong
-      }))
-    };
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-    // Gọi API kiểm tra tồn kho
-    const stockResponse = await fetch("http://localhost/backend/check_stock.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(stockCheckData),
-    });
+        const result = await response.json();
+        return result;
+      });
 
-    const stockResult = await stockResponse.json();
-
-    if (stockResult.status === "error") {
-      // Nếu có lỗi từ API kiểm tra tồn kho
-      setError(stockResult.message || "Lỗi kiểm tra tồn kho");
-      if (stockResult.errors && stockResult.errors.length > 0) {
-        // Hiển thị lỗi chi tiết nếu có
-        toast.error(stockResult.errors.join(", "));
+      const results = await Promise.all(updatePromises);
+      const hasError = results.some(result => !result.success);
+      if (hasError) {
+        console.error("Stock update errors:", results);
+        return { success: false, message: "Không thể cập nhật tồn kho cho một số sản phẩm" };
       }
-      setIsProcessing(false);
+
+      return { success: true };
+    } catch (error) {
+      console.error("Error updating stock:", error);
+      return { success: false, message: error.message };
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
       return;
     }
 
-    // Nếu kiểm tra tồn kho thành công, tiếp tục xử lý đơn hàng
-    const orderData = {
-      userId: user?.id || null,
-      cartItems: finalCartItems.map((item) => ({
-        id_product: item.id_product,
-        ten: item.ten,
-        gia: item.gia,
-        so_luong: item.so_luong,
-        danh_muc: item.danh_muc,
-      })),
-      customerInfo,
-      paymentMethod,
-      shippingMethod,
-      totalAmount: finalTotalAmount,
-      orderDate: new Date().toISOString(),
-      // Truyền thêm order ID từ kết quả kiểm tra tồn kho
-      orderId: stockResult.orderId || undefined
-    };
+    setIsProcessing(true);
+    setError("");
 
-    console.log("Order data being sent:", orderData);
+    try {
+      const orderData = {
+        userId: user?.id || null,
+        cartItems: finalCartItems.map((item) => ({
+          id_product: item.id_product,
+          ten: item.ten,
+          gia: item.gia,
+          so_luong: item.so_luong,
+          danh_muc: item.danh_muc,
+        })),
+        customerInfo,
+        paymentMethod,
+        shippingMethod,
+        totalAmount: finalTotalAmount,
+        orderDate: new Date().toISOString(),
+      };
 
-    const response = await fetch("http://localhost/backend/payments.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData),
-    });
+      console.log("Order data being sent:", orderData);
 
-    const result = await response.json();
+      const response = await fetch("http://localhost/BaiTapNhom/backend/payments.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
 
-    if (result.status === "success") {
-      if (paymentMethod === "vnpay" && result.payUrl) {
-        window.location.href = result.payUrl;
-        clearCart();
-      } else {
-        clearCart();
-        navigate("/thankyou", { state: { orderId: result.orderId || stockResult.orderId } });
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "No response body");
+        const headers = Object.fromEntries(response.headers.entries());
+        console.error("Fetch error details:", {
+          status: response.status,
+          statusText: response.statusText,
+          errorText,
+          headers,
+          url: response.url
+        });
+        throw new Error(`HTTP error! Status: ${response.status}, Response: ${errorText}`);
       }
-    } else {
-      setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
-      // Nếu thanh toán không thành công, cần khôi phục lại số lượng tồn kho
-      // Có thể thực hiện một cuộc gọi API khác để hoàn tác thay đổi tồn kho
+
+      const result = await response.json();
+      console.log("Backend response:", result);
+
+      if (result.status === "success") {
+        const stockUpdateResult = await updateProductStock(finalCartItems);
+
+        if (!stockUpdateResult.success) {
+          toast.warning("Đơn hàng đã được xử lý, nhưng có lỗi khi cập nhật tồn kho: " +
+            (stockUpdateResult.message || "Lỗi không xác định"));
+        }
+
+        if (paymentMethod === "vnpay" && result.payUrl) {
+          window.location.href = result.payUrl;
+          clearCart();
+        } else {
+          clearCart();
+          navigate("/invoice", {
+            state: {
+              orderData: {
+                customerInfo,
+                cartItems: finalCartItems,
+                totalAmount: finalTotalAmount,
+                shippingCost: shippingMethod === "ship" ? shippingCost : 0,
+                paymentMethod,
+                shippingMethod,
+                orderDate: new Date().toISOString(),
+                orderId: result.orderId
+              }
+            }
+          });
+        }
+      } else {
+        setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
+      }
+    } catch (err) {
+      console.error("Checkout error details:", {
+        message: err.message,
+        name: err.name,
+        stack: err.stack
+      });
+      setError("Có lỗi xảy ra: " + err.message);
+    } finally {
+      setIsProcessing(false);
     }
-  } catch (err) {
-    setError("Có lỗi xảy ra: " + err.message);
-    setIsProcessing(false);
-  }
-};
-  // Calculate shipping cost (simplified)
+  };
+
   const shippingCost =
     shippingMethod === "ship" && finalTotalAmount > 10000000 ? 0 : 30000;
 
-  // Calculate total with shipping
   const orderTotal = finalTotalAmount + shippingCost;
 
   return (
@@ -470,8 +510,7 @@ const handleSubmit = async (e) => {
                   </div>
 
                   <div
-                    className={`form-group ${formErrors.district ? "error" : ""
-                      }`}
+                    className={`form-group ${formErrors.district ? "error" : ""}`}
                   >
                     <label htmlFor="district">Quận/Huyện</label>
                     <select
@@ -598,11 +637,28 @@ const handleSubmit = async (e) => {
             </div>
 
             <button
+              type="button"
+              className="reset-button"
+              onClick={handleResetForm}
+              disabled={isProcessing}
+              title="Xóa toàn bộ thông tin đã nhập"
+            >
+              Nhập lại
+            </button>
+
+            <button
               type="submit"
               className="checkout-button"
               disabled={isProcessing || finalCartItems.length === 0 || !!error}
+              title={finalCartItems.length === 0 ? "Giỏ hàng trống" : ""}
             >
-              {isProcessing ? "Đang xử lý..." : "Đặt hàng"}
+              {isProcessing ? (
+                <>
+                  <span className="spinner"></span> Đang xử lý...
+                </>
+              ) : (
+                "Đặt hàng"
+              )}
             </button>
           </form>
         </div>

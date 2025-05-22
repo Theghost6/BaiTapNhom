@@ -118,8 +118,8 @@ try {
         }
         
         if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
-            // URL để truy cập ảnh
-            $avatarUrl = 'http://localhost/backend/uploads/avatars/' . $fileName;
+            // Sửa URL để truy cập ảnh - đảm bảo đường dẫn đầy đủ và chính xác
+            $avatarUrl = 'http://localhost/BaiTapNhom/backend/uploads/avatars/' . $fileName;
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Uploaded avatar: " . $avatarUrl . PHP_EOL, FILE_APPEND);
         } else {
             throw new Exception("Không thể tải lên ảnh đại diện.");
@@ -131,7 +131,7 @@ try {
     $paramTypes = "sss";
     $params = [$username, $phone, $email];
 
-    // Thêm password vào query nếu có
+    // Chỉ thêm password vào query nếu có
     if (!empty($password)) {
         $updateQuery .= ", pass = ?";
         $paramTypes .= "s";
@@ -146,15 +146,14 @@ try {
     $stmt->bind_param($paramTypes, ...$params);
 
     if ($stmt->execute()) {
-        if ($stmt->affected_rows > 0) {
-            $response = ['success' => true, 'message' => 'Cập nhật thông tin thành công'];
-            if ($avatarUrl) {
-                $response['avatarUrl'] = $avatarUrl;
-            }
-            echo json_encode($response);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Không có thay đổi nào được thực hiện']);
+        $response = ['success' => true, 'message' => 'Cập nhật thông tin thành công'];
+        
+        // Trả về URL avatar nếu có
+        if ($avatarUrl) {
+            $response['avatarUrl'] = $avatarUrl;
         }
+        
+        echo json_encode($response);
     } else {
         echo json_encode(['success' => false, 'message' => 'Lỗi khi cập nhật: ' . $stmt->error]);
     }

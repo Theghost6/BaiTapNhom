@@ -25,7 +25,7 @@ const OrderHistory = () => {
         }
 
         const response = await axios.get(
-          `http://localhost/backend/lich_su_dh.php?user_id=${user_id.id}`
+          `http://localhost/BaiTapNhom/backend/lich_su_dh.php?user_id=${user_id.id}`
         );
         console.log("Dữ liệu đơn hàng trả về:", response.data.data);
         setOrders(response.data.data);

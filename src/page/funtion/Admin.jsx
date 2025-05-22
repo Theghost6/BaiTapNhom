@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
@@ -22,7 +23,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 function DeleteModal({ isOpen, onCancel, onConfirm, itemId, itemType }) {
@@ -58,38 +60,173 @@ function Admin() {
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [payments, setPayments] = useState([]);
-  const [promotions, setPromotions] = useState([]);
   const [totalPayment, setTotalPayment] = useState([]);
-  const [inventory, setInventory] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
   const [replies, setReplies] = useState([]);
   const [orderAddress, setOrderAddress] = useState(null);
   const [showAddress, setShowAddress] = useState(false);
+  const [linhKien, setLinhKien] = useState({});
+  const [editLinhKien, setEditLinhKien] = useState(null);
+  const [newLinhKien, setNewLinhKien] = useState({
+    loai: "cpu",
+    ten: "",
+    mo_ta: "",
+    gia: "",
+  });
+  const [loaiLinhKienList, setLoaiLinhKienList] = useState([]);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false); // New loading state
 
-  //trạng thái đơn hàng
-const updateOrderStatus = (id, status) => {
-  console.log(`Updating order ${id} to status ${status}`);
-  axios
-    .get(`http://localhost/backend/api.php?action=update_order_status&id=${id}&status=${status}`)
-    .then(() => {
-      console.log("Update successful");
-      setOrders(orders.map((o) => (o.id === id ? { ...o, trang_thai: status } : o)));
-      if (view === "total_payment") {
-        axios
-          .get(
-            `http://localhost/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
-          )
-          .then((res) => {
-            console.log("Statistics updated:", res.data);
-            setStatistics(res.data);
-          })
-          .catch((err) => console.error("Error fetching statistics:", err));
+  // Lấy icon phù hợp với loại linh kiện
+  const getCategoryIcon = (loai) => {
+    const iconMap = {
+      cpu: "microchip",
+      mainboard: "server",
+      ram: "memory",
+      ssd: "hdd",
+      psu: "plug",
+      case: "desktop",
+      gpu: "gamepad",
+      keyboard: "keyboard",
+      mouse: "mouse",
+      monitor: "tv",
+      default: "laptop-code",
+    };
+
+    return iconMap[loai] || iconMap.default;
+  };
+
+  // Lấy nhãn hiển thị cho từng trường
+  const getFieldLabel = (key) => {
+    const labelMap = {
+      id: "Mã",
+      ten: "Tên sản phẩm",
+      mo_ta: "Mô tả",
+      gia: "Giá bán",
+      hang: "Hãng",
+      socket: "Socket",
+      core: "Lõi",
+      xung: "Xung nhịp",
+      tdp: "TDP",
+      solg_trong_kho: "Tồn kho",
+    };
+
+    return (
+      labelMap[key] ||
+      key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " ")
+    );
+  };
+
+  // Lấy placeholder cho từng trường
+  const getFieldPlaceholder = (key) => {
+    const placeholderMap = {
+      id: "Tự động tạo",
+      ten: "Nhập tên sản phẩm",
+      mo_ta: "Nhập mô tả chi tiết",
+      gia: "Nhập giá bán",
+      hang: "Nhập tên hãng sản xuất",
+      socket: "Ví dụ: LGA1700",
+      core: "Ví dụ: 8 cores 16 threads",
+      xung: "Ví dụ: 3.6 GHz",
+      tdp: "Ví dụ: 65W",
+      solg_trong_kho: "Nhập số lượng",
+    };
+
+    return placeholderMap[key] || `Nhập ${key}`;
+  };
+
+  // Lấy kiểu input phù hợp
+  const getInputType = (key) => {
+    if (key === "gia" || key === "solg_trong_kho" || key.includes("nam"))
+      return "number";
+    if (key.includes("ngay")) return "date";
+    return "text";
+  };
+
+  // Format giá tiền
+  const formatPrice = (price) => {
+    if (!price) return "0 VNĐ";
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  // Lấy danh sách trường từ mẫu
+  const getSampleKeys = (linhKien, loai) => {
+    if (Array.isArray(linhKien[loai]) && linhKien[loai][0]) {
+      return Object.keys(linhKien[loai][0]).filter(
+        (k) => k !== "rating" && k !== "reviewCount" && k !== "id"
+      );
+    }
+    return ["ten", "mo_ta", "gia", "hang", "solg_trong_kho"];
+  };
+
+  // Thêm state cho hộp thoại xác nhận xóa
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    show: false,
+    id: null,
+    loai: null,
+  });
+
+  // Hiển thị hộp thoại xác nhận trước khi xóa
+  const handleDeleteConfirm = (id, loai) => {
+    setDeleteConfirmation({
+      show: true,
+      id,
+      loai,
+    });
+  };
+
+  // Tạo ref cho từng bảng loại linh kiện
+  const loaiRefs = React.useRef({});
+  React.useEffect(() => {
+    loaiLinhKienList.forEach((loai) => {
+      if (!loaiRefs.current[loai]) {
+        loaiRefs.current[loai] = React.createRef();
       }
-    })
-    .catch((err) => console.error("Error updating order status:", err));
-};
+    });
+  }, [loaiLinhKienList]);
+
+  // Thêm state để lưu loại linh kiện đang được chọn để hiển thị bảng
+  const [selectedLoaiTable, setSelectedLoaiTable] = useState("");
+
+  // Khi danh sách loại thay đổi, nếu chưa chọn loại nào thì mặc định chọn loại đầu tiên
+  React.useEffect(() => {
+    if (loaiLinhKienList.length > 0 && !selectedLoaiTable) {
+      setSelectedLoaiTable(loaiLinhKienList[0]);
+    }
+  }, [loaiLinhKienList]);
+
+  // Trạng thái đơn hàng
+  const updateOrderStatus = (id, status) => {
+    console.log(`Updating order ${id} to status ${status}`);
+    axios
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=update_order_status&id=${id}&status=${status}`
+      )
+      .then(() => {
+        console.log("Update successful");
+        setOrders(
+          orders.map((o) => (o.id === id ? { ...o, trang_thai: status } : o))
+        );
+        if (view === "total_payment") {
+          axios
+            .get(
+              `http://localhost/BaiTapNhom/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
+            )
+            .then((res) => {
+              console.log("Statistics updated:", res.data);
+              setStatistics(res.data);
+            })
+            .catch((err) => console.error("Error fetching statistics:", err));
+        }
+      })
+      .catch((err) => console.error("Error updating order status:", err));
+  };
+
   // State for delete confirmation modal
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -97,52 +234,112 @@ const updateOrderStatus = (id, status) => {
     itemType: "",
     onConfirm: () => {},
   });
+
   // State mới cho thống kê
   const [statistics, setStatistics] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Tháng hiện tại
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Năm hiện tại
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
   // Fetch data based on current view
   useEffect(() => {
     switch (view) {
       case "orders":
         axios
-          .get("http://localhost/backend/api.php?action=get_orders")
-          .then((res) => setOrders(res.data))
-          .catch((err) => console.error("Error fetching orders:", err));
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_orders")
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setOrders(res.data);
+            } else {
+              console.error("API get_orders did not return an array:", res.data);
+              setOrders([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching orders:", err);
+            setOrders([]);
+          });
         break;
       case "users":
+        setIsLoadingUsers(true);
         axios
-          .get("http://localhost/backend/api.php?action=get_users")
-          .then((res) => setUsers(res.data))
-          .catch((err) => console.error("Error fetching users:", err));
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_users")
+          .then((res) => {
+            console.log("Users API response:", res.data);
+            if (Array.isArray(res.data)) {
+              const usersData = res.data.map((user) => ({
+                ...user,
+                is_active: Number(user.is_active), // Ensure is_active is a number
+              }));
+              setUsers(usersData);
+            } else {
+              console.error("API get_users did not return an array:", res.data);
+              setUsers([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching users:", err);
+            setUsers([]);
+          })
+          .finally(() => setIsLoadingUsers(false));
         break;
       case "reviews":
         axios
-          .get("http://localhost/backend/api.php?action=get_reviews")
-          .then((res) => setReviews(res.data))
-          .catch((err) => console.error("Error fetching reviews:", err));
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_reviews")
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setReviews(res.data);
+            } else {
+              console.error("API get_reviews did not return an array:", res.data);
+              setReviews([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching reviews:", err);
+            setReviews([]);
+          });
         break;
       case "payments":
         axios
-          .get("http://localhost/backend/api.php?action=get_payments")
-          .then((res) => setPayments(res.data))
-          .catch((err) => console.error("Error fetching payments:", err));
-        break;
-      case "promotions":
-        axios
-          .get("http://localhost/backend/api.php?action=get_promotions")
-          .then((res) => setPromotions(res.data))
-          .catch((err) => console.error("Error fetching promotions:", err));
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_payments")
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setPayments(res.data);
+            } else {
+              console.error(
+                "API get_payments did not return an array:",
+                res.data
+              );
+              setPayments([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching payments:", err);
+            setPayments([]);
+          });
         break;
       case "total_payment":
         axios
-          .get("http://localhost/backend/api.php?action=get_total_payment")
-          .then((res) => setTotalPayment(res.data))
-          .catch((err) => console.error("Error fetching total:", err));
-        // Fetch thống kê nâng cao
+          .get(
+            "http://localhost/BaiTapNhom/backend/api.php?action=get_total_payment"
+          )
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setTotalPayment(res.data);
+            } else {
+              console.error(
+                "API get_total_payment did not return an array:",
+                res.data
+              );
+              setTotalPayment([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching total:", err);
+            setTotalPayment([]);
+          });
         axios
           .get(
-            `http://localhost/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
+            `http://localhost/BaiTapNhom/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
           )
           .then((res) => {
             console.log("data static", res.data);
@@ -150,37 +347,56 @@ const updateOrderStatus = (id, status) => {
           })
           .catch((err) => console.error("Error fetching statistics:", err));
         break;
-      case "inventory":
+      case "linh_kien":
         axios
-          .get("http://localhost/backend/api.php?action=get_inventory")
+          .get(
+            "http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all"
+          )
           .then((res) => {
-            // Kiểm tra và đảm bảo dữ liệu là mảng
-            if (Array.isArray(res.data)) {
-              setInventory(res.data);
+            if (
+              res.data &&
+              typeof res.data === "object" &&
+              !Array.isArray(res.data)
+            ) {
+              setLinhKien(res.data);
+              setLoaiLinhKienList(Object.keys(res.data));
+              if (!Object.keys(res.data).includes(newLinhKien.loai)) {
+                setNewLinhKien((lk) => ({
+                  ...lk,
+                  loai: Object.keys(res.data)[0] || "",
+                }));
+              }
             } else {
-              console.error("Dữ liệu tồn kho không hợp lệ:", res.data);
-              setInventory([]);
+              console.error(
+                "API get_all linh_kien did not return an object:",
+                res.data
+              );
+              setLinhKien({});
+              setLoaiLinhKienList([]);
             }
           })
           .catch((err) => {
-            console.error("Error fetching inventory:", err);
-            setInventory([]);
+            console.error("Error fetching linh_kien:", err);
+            setLinhKien({});
+            setLoaiLinhKienList([]);
           });
         break;
       default:
         break;
     }
-  }, [view]);
+  }, [view, selectedMonth, selectedYear]);
 
   // View order details
   const viewDetails = (id) => {
     axios
-      .get(`http://localhost/backend/api.php?action=get_order_detail&id=${id}`)
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=get_order_detail&id=${id}`
+      )
       .then((res) => {
-        setOrderItems(res.data.items);
-        setOrderAddress(res.data.address);
+        setOrderItems(res.data.items || []);
+        setOrderAddress(res.data.address || null);
         setSelectedOrder(id);
-        setShowAddress(false); // Ẩn địa chỉ mặc định khi xem chi tiết đơn hàng mới
+        setShowAddress(false);
       })
       .catch((err) => console.error("Error fetching order details:", err));
   };
@@ -189,11 +405,20 @@ const updateOrderStatus = (id, status) => {
   const viewReply = (id) => {
     axios
       .get(
-        `http://localhost/backend/api.php?action=get_review_replies&id=${id}`
+        `http://localhost/BaiTapNhom/backend/api.php?action=get_review_replies&id=${id}`
       )
       .then((res) => {
-        setReplies(res.data);
-        setSelectedReview(id);
+        if (Array.isArray(res.data)) {
+          setReplies(res.data);
+          setSelectedReview(id);
+        } else {
+          console.error(
+            "API get_review_replies did not return an array:",
+            res.data
+          );
+          setReplies([]);
+          setSelectedReview(id);
+        }
       })
       .catch((err) => console.error("Error fetching replies:", err));
   };
@@ -220,7 +445,9 @@ const updateOrderStatus = (id, status) => {
   // Delete order
   const deleteOrder = (id) => {
     axios
-      .get(`http://localhost/backend/api.php?action=delete_order&id=${id}`)
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=delete_order&id=${id}`
+      )
       .then(() => {
         setOrders(orders.filter((o) => o.id !== id));
         if (selectedOrder === id) {
@@ -235,7 +462,9 @@ const updateOrderStatus = (id, status) => {
   // Delete user
   const deleteUser = (phone) => {
     axios
-      .get(`http://localhost/backend/api.php?action=delete_user&phone=${phone}`)
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=delete_user&phone=${phone}`
+      )
       .then(() => {
         setUsers(users.filter((u) => u.phone !== phone));
         cancelDelete();
@@ -246,7 +475,9 @@ const updateOrderStatus = (id, status) => {
   // Delete review
   const deleteReview = (id) => {
     axios
-      .get(`http://localhost/backend/api.php?action=delete_review&id=${id}`)
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=delete_review&id=${id}`
+      )
       .then(() => {
         setReviews(reviews.filter((r) => r.id !== id));
         if (selectedReview === id) {
@@ -261,7 +492,9 @@ const updateOrderStatus = (id, status) => {
   // Delete payment
   const deletePayment = (id) => {
     axios
-      .get(`http://localhost/backend/api.php?action=delete_payment&id=${id}`)
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=delete_payment&id=${id}`
+      )
       .then(() => {
         setPayments(payments.filter((p) => p.id !== id));
         cancelDelete();
@@ -269,16 +502,6 @@ const updateOrderStatus = (id, status) => {
       .catch((err) => console.error("Error deleting payment:", err));
   };
 
-  // Delete promotion
-  const deletePromotion = (id) => {
-    axios
-      .get(`http://localhost/backend/api.php?action=delete_promotion&id=${id}`)
-      .then(() => {
-        setPromotions(promotions.filter((p) => p.id !== id));
-        cancelDelete();
-      })
-      .catch((err) => console.error("Error deleting promotion:", err));
-  };
   // Dữ liệu cho biểu đồ
   const chartData = {
     labels: (statistics?.doanh_thu_theo_ngay || []).map(
@@ -325,31 +548,126 @@ const updateOrderStatus = (id, status) => {
     },
   };
 
-  // Thêm hàm cập nhật số lượng tồn kho
-  const updateInventoryQuantity = (id_san_pham, quantity) => {
-    console.log("Updating inventory:", { id_san_pham, quantity }); // Log dữ liệu gửi đi
-    const url = `http://localhost/backend/api.php?action=update_inventory&id=${id_san_pham}&quantity=${quantity}`;
-    console.log("Request URL:", url); // Log URL request
-
+  // Thêm các hàm CRUD cho linh kiện
+  const handleAddLinhKien = () => {
+    const item = { ...newLinhKien };
+    delete item.loai;
     axios
-      .get(url)
+      .post(
+        `http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=add&loai=${newLinhKien.loai}`,
+        new URLSearchParams({ item: JSON.stringify(item) })
+      )
       .then((res) => {
-        console.log("Response:", res.data); // Log response
         if (res.data.success) {
-          setInventory(inventory.map((item) => 
-            item.id_san_pham === id_san_pham ? { ...item, solg_trong_kho: quantity } : item
-          ));
+          setLinhKien((lk) => ({
+            ...lk,
+            [newLinhKien.loai]: [
+              ...(lk[newLinhKien.loai] || []),
+              res.data.item,
+            ],
+          }));
+          setNewLinhKien((lk) => ({ ...lk, ten: "", mo_ta: "", gia: "" }));
         } else {
-          alert("Không thể cập nhật số lượng: " + (res.data.error || "Lỗi không xác định"));
+          alert("Thêm thất bại: " + (res.data.error || "Lỗi không xác định"));
+        }
+      })
+      .catch((err) => console.error("Error adding linh_kien:", err));
+  };
+
+  const handleUpdateLinhKien = () => {
+    const { loai, ...item } = editLinhKien;
+    axios
+      .post(
+        `http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=update&loai=${loai}`,
+        new URLSearchParams({
+          id: item.id,
+          item: JSON.stringify(item),
+        })
+      )
+      .then((res) => {
+        if (res.data.success) {
+          setLinhKien((lk) => ({
+            ...lk,
+            [loai]: lk[loai].map((l) => (l.id === item.id ? { ...item } : l)),
+          }));
+          setEditLinhKien(null);
+        } else {
+          alert(
+            "Cập nhật thất bại: " + (res.data.error || "Lỗi không xác định")
+          );
+        }
+      })
+      .catch((err) => console.error("Error updating linh_kien:", err));
+  };
+
+  const handleDeleteLinhKien = (id, loai) => {
+    axios
+      .post(
+        `http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=delete&loai=${loai}`,
+        new URLSearchParams({ id })
+      )
+      .then((res) => {
+        if (res.data.success) {
+          setLinhKien((lk) => ({
+            ...lk,
+            [loai]: lk[loai].filter((l) => l.id !== id),
+          }));
+        } else {
+          alert("Xóa thất bại: " + (res.data.error || "Lỗi không xác định"));
+        }
+      })
+      .catch((err) => console.error("Error deleting linh_kien:", err));
+  };
+
+  const toggleUserStatus = (phone, is_active) => {
+    console.log(`Toggling status for phone: ${phone}, is_active: ${is_active}`);
+    axios
+      .get(
+        `http://localhost/BaiTapNhom/backend/api.php?action=toggle_user_status&phone=${phone}&is_active=${
+          is_active ? 0 : 1
+        }`
+      )
+      .then((res) => {
+        console.log("API response:", res.data);
+        if (res.data.success) {
+          // Làm mới danh sách người dùng từ API
+          axios
+            .get("http://localhost/BaiTapNhom/backend/api.php?action=get_users")
+            .then((res) => {
+              if (Array.isArray(res.data)) {
+                const usersData = res.data.map((user) => ({
+                  ...user,
+                  is_active: Number(user.is_active),
+                }));
+                setUsers(usersData);
+              } else {
+                console.error(
+                  "API get_users did not return an array:",
+                  res.data
+                );
+                setUsers([]);
+              }
+            })
+            .catch((err) => {
+              console.error("Error fetching users:", err);
+              setUsers([]);
+            });
+        } else {
+          alert(
+            "Không thể cập nhật trạng thái tài khoản: " +
+              (res.data.error || "Lỗi không xác định")
+          );
         }
       })
       .catch((err) => {
-        console.error("Error updating inventory:", err);
-        alert("Có lỗi xảy ra khi cập nhật số lượng: " + err.message);
+        console.error("Error toggling user status:", err);
+        alert("Có lỗi xảy ra khi cập nhật trạng thái tài khoản");
       });
   };
 
   // Render different views based on the selected menu item
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   const renderContent = () => {
     switch (view) {
       case "orders":
@@ -391,7 +709,9 @@ const updateOrderStatus = (id, status) => {
                             updateOrderStatus(Number(order.id), e.target.value);
                           }}
                         >
-                          <option value="Chưa thanh toán">Chưa thanh toán</option>
+                          <option value="Chưa thanh toán">
+                            Chưa thanh toán
+                          </option>
                           <option value="Đã thanh toán">Đã thanh toán</option>
                           <option value="Đang giao">Đang giao</option>
                           <option value="Hoàn thành">Hoàn thành</option>
@@ -517,42 +837,73 @@ const updateOrderStatus = (id, status) => {
         return (
           <div>
             <h2>Quản lý Tài khoản</h2>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Tên đăng nhập</th>
-                  <th>Số điện thoại</th>
-                  <th>Email</th>
-                  <th>Vai trò</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={index}>
-                    <td>{user.user}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          handleDelete(user.phone, "tài khoản", () =>
-                            deleteUser(user.phone)
-                          )
-                        }
-                        className="button-red"
-                      >
-                        Xóa
-                      </button>
-                    </td>
+            {isLoadingUsers ? (
+              <div className="loading">
+                <div className="loading-spinner"></div>
+                <p>Đang tải danh sách tài khoản...</p>
+              </div>
+            ) : (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Tên đăng nhập</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {!Array.isArray(users) || users.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center" }}>
+                        Không có tài khoản nào
+                      </td>
+                    </tr>
+                  ) : (
+                    users.map((user, index) => (
+                      <tr key={user.phone}>
+                        <td>{user.user}</td>
+                        <td>{user.phone}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                        <td>
+                          {user.is_active === 1 ? "Hoạt động" : "Vô hiệu hóa"}
+                        </td>
+                        <td>
+                          <button
+                            onClick={() =>
+                              toggleUserStatus(user.phone, user.is_active)
+                            }
+                            className={
+                              user.is_active === 1
+                                ? "button-yellow"
+                                : "button-green"
+                            }
+                            style={{ marginRight: 10 }}
+                          >
+                            {user.is_active === 1 ? "Vô hiệu hóa" : "Kích hoạt"}
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleDelete(user.phone, "tài khoản", () =>
+                                deleteUser(user.phone)
+                              )
+                            }
+                            className="button-red"
+                          >
+                            Xóa
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
           </div>
         );
-
       case "reviews":
         return (
           <div>
@@ -695,139 +1046,19 @@ const updateOrderStatus = (id, status) => {
           </div>
         );
 
-      case "promotions":
-        return (
-          <div>
-            <h2>Quản lý Khuyến mãi</h2>
-            <button
-              className="button-green"
-              onClick={() =>
-                alert("Chức năng thêm khuyến mãi sẽ được phát triển sau")
-              }
-            >
-              Thêm khuyến mãi mới
-            </button>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Tên khuyến mãi</th>
-                  <th>Mô tả</th>
-                  <th>Ngày bắt đầu</th>
-                  <th>Ngày kết thúc</th>
-                  <th>Mã sản phẩm</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {promotions.length === 0 ? (
-                  <tr>
-                    <td colSpan="7" style={{ textAlign: "center" }}>
-                      Không có khuyến mãi nào
-                    </td>
-                  </tr>
-                ) : (
-                  promotions.map((promo) => (
-                    <tr key={promo.id}>
-                      <td>{promo.id}</td>
-                      <td>{promo.ten_khuyen_mai}</td>
-                      <td>{promo.mo_ta}</td>
-                      <td>{promo.ngay_bat_dau}</td>
-                      <td>{promo.ngay_ket_thuc}</td>
-                      <td>{promo.id_product || "N/A"}</td>
-                      <td>
-                        <button style={{ marginRight: "10px" }}>Sửa</button>
-                        <button
-                          onClick={() =>
-                            handleDelete(promo.id, "khuyến mãi", () =>
-                              deletePromotion(promo.id)
-                            )
-                          }
-                          className="button-red"
-                        >
-                          Xóa
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        );
-      case "inventory":
-        return (
-          <div>
-            <h2>Quản lý Tồn kho</h2>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>ID Sản phẩm</th>
-                  <th>Tên sản phẩm</th>
-                  <th>Số lượng trong kho</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!Array.isArray(inventory) || inventory.length === 0 ? (
-                  <tr>
-                    <td colSpan="4" style={{ textAlign: "center" }}>
-                      Không có dữ liệu tồn kho
-                    </td>
-                  </tr>
-                ) : (
-                  inventory.map((item) => (
-                    <tr key={item.id_san_pham}>
-                      <td>{item.id_san_pham}</td>
-                      <td>{item.ten_san_pham}</td>
-                      <td>
-                        <input
-                          type="number"
-                          min="0"
-                          value={item.solg_trong_kho || 0}
-                          onChange={(e) => {
-                            const newQuantity = parseInt(e.target.value);
-                            if (!isNaN(newQuantity) && newQuantity >= 0) {
-                              updateInventoryQuantity(item.id_san_pham, newQuantity);
-                            }
-                          }}
-                          style={{ width: "80px" }}
-                        />
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => {
-                            const newQuantity = parseInt(prompt("Nhập số lượng mới:", item.solg_trong_kho || 0));
-                            if (!isNaN(newQuantity) && newQuantity >= 0) {
-                              updateInventoryQuantity(item.id_san_pham, newQuantity);
-                            } else {
-                              alert("Vui lòng nhập số lượng hợp lệ");
-                            }
-                          }}
-                        >
-                          Cập nhật
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        );
       case "total_payment":
         return (
-          <div>
-            <h2>Thống kê Doanh thu</h2>
+          <div className="statistics-dashboard">
+            <h2 className="dashboard-title">Thống kê Doanh Thu</h2>
 
             {/* Bộ chọn tháng và năm */}
-            <div style={{ marginBottom: "20px", display: "flex", gap: "15px" }}>
-              <div>
+            <div className="date-selector">
+              <div className="date-picker">
                 <label>Chọn tháng: </label>
                 <select
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                  style={{ padding: "5px", marginLeft: "5px" }}
+                  className="select-input"
                 >
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                     <option key={month} value={month}>
@@ -836,12 +1067,12 @@ const updateOrderStatus = (id, status) => {
                   ))}
                 </select>
               </div>
-              <div>
+              <div className="date-picker">
                 <label>Chọn năm: </label>
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(Number(e.target.value))}
-                  style={{ padding: "5px", marginLeft: "5px" }}
+                  className="select-input"
                 >
                   {Array.from(
                     { length: 5 },
@@ -857,88 +1088,545 @@ const updateOrderStatus = (id, status) => {
 
             {/* Hiển thị thống kê */}
             {statistics ? (
-              <div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "20px",
-                    marginBottom: "30px",
-                  }}
-                >
-                  <div
-                    style={{
-                      padding: "20px",
-                      background: "#f8f9fa",
-                      borderRadius: "8px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <h3>Tổng doanh thu</h3>
-                    <p style={{ fontSize: "24px", fontWeight: "bold" }}>
-                      {Number(statistics.tong_doanh_thu || 0).toLocaleString(
-                        "vi-VN"
-                      )}{" "}
-                      đ{console.log("Tong danh thu", statistics.tong_doanh_thu)}
-                    </p>
+              <div className="statistics-content">
+                <div className="stats-cards">
+                  <div className="stats-card revenue">
+                    <div className="card-icon">
+                      <i className="fas fa-chart-line"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Tổng doanh thu</h3>
+                      <p className="stats-value">
+                        {Number(statistics.tong_doanh_thu || 0).toLocaleString(
+                          "vi-VN"
+                        )}{" "}
+                        đ
+                      </p>
+                    </div>
                   </div>
-                  <div
-                    style={{
-                      padding: "20px",
-                      background: "#f8f9fa",
-                      borderRadius: "8px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <h3>Tổng đơn hàng</h3>
-                    <p style={{ fontSize: "24px", fontWeight: "bold" }}>
-                      {statistics.tong_don_hang || 0}
-                    </p>
+
+                  <div className="stats-card orders">
+                    <div className="card-icon">
+                      <i className="fas fa-shopping-cart"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Tổng đơn hàng</h3>
+                      <p className="stats-value">
+                        {statistics.tong_don_hang || 0}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="stats-card avg-order">
+                    <div className="card-icon">
+                      <i className="fas fa-receipt"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Giá trị trung bình/đơn</h3>
+                      <p className="stats-value">
+                        {statistics.tong_don_hang > 0
+                          ? Number(
+                              statistics.tong_doanh_thu /
+                                statistics.tong_don_hang
+                            ).toLocaleString("vi-VN")
+                          : 0}{" "}
+                        đ
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="stats-card daily-avg">
+                    <div className="card-icon">
+                      <i className="fas fa-calendar-day"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Doanh thu TB/ngày</h3>
+                      <p className="stats-value">
+                        {statistics.doanh_thu_theo_ngay &&
+                        statistics.doanh_thu_theo_ngay.length > 0
+                          ? Number(
+                              statistics.tong_doanh_thu /
+                                statistics.doanh_thu_theo_ngay.length
+                            ).toLocaleString("vi-VN")
+                          : 0}{" "}
+                        đ
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Sản phẩm bán chạy */}
-                <h3>Sản phẩm bán chạy nhất</h3>
-                {(statistics?.san_pham_ban_chay || []).length > 0 ? (
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Tên sản phẩm</th>
-                        <th>Số lượng bán</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {statistics.san_pham_ban_chay.map((product, index) => (
-                        <tr key={index}>
-                          <td>{product.ten_san_pham}</td>
-                          <td>{product.tong_so_luong}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p>Không có dữ liệu sản phẩm bán chạy.</p>
-                )}
+                <div className="statistics-panels">
+                  <div className="chart-panel">
+                    <h3 className="panel-title">Doanh thu theo ngày</h3>
+                    <div className="chart-container">
+                      <Line
+                        key={`${selectedMonth}-${selectedYear}`}
+                        data={chartData}
+                        options={{
+                          ...chartOptions,
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            ...chartOptions.plugins,
+                            legend: {
+                              position: "top",
+                              labels: {
+                                font: {
+                                  size: 14,
+                                },
+                              },
+                            },
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
 
-                {/* Biểu đồ doanh thu theo ngày */}
-                <h3>Doanh thu theo ngày</h3>
-                <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-                  {/* <Line data={chartData} options={chartOptions} /> */}
-                  <Line
-                    key={`${selectedMonth}-${selectedYear}`}
-                    data={chartData}
-                    options={chartOptions}
-                  />
+                  <div className="bestsellers-panel">
+                    <h3 className="panel-title">Sản phẩm bán chạy nhất</h3>
+                    {(statistics?.san_pham_ban_chay || []).length > 0 ? (
+                      <div className="bestsellers-list">
+                        {statistics.san_pham_ban_chay.map((product, index) => (
+                          <div key={index} className="bestseller-item">
+                            <div className="bestseller-rank">{index + 1}</div>
+                            <div className="bestseller-info">
+                              <div className="bestseller-name">
+                                {product.ten_san_pham}
+                              </div>
+                              <div className="bestseller-sales">
+                                <span className="sales-count">
+                                  {product.tong_so_luong}
+                                </span>
+                                <span className="sales-label">sản phẩm</span>
+                              </div>
+                            </div>
+                            <div className="bestseller-bar-container">
+                              <div
+                                className="bestseller-bar"
+                                style={{
+                                  width: `${
+                                    (product.tong_so_luong /
+                                      Math.max(
+                                        ...statistics.san_pham_ban_chay.map(
+                                          (p) => p.tong_so_luong
+                                        )
+                                      )) *
+                                    100
+                                  }%`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="no-data">
+                        Không có dữ liệu sản phẩm bán chạy.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             ) : (
-              <p>Đang tải dữ liệu thống kê...</p>
+              <div className="loading">
+                <div className="loading-spinner"></div>
+                <p>Đang tải dữ liệu thống kê...</p>
+              </div>
             )}
           </div>
         );
 
-      default:
-        return <div>Chọn một mục từ menu để quản lý</div>;
+      case "linh_kien":
+        return (
+          <div className="linh-kien-manager">
+            <div className="linh-kien-header">
+              <h2>Quản lý Linh kiện</h2>
+              <div className="linh-kien-stats">
+                <div className="stat-card">
+                  <div className="stat-icon">
+                    <i className="fas fa-microchip"></i>
+                  </div>
+                  <div className="stat-content">
+                    <span className="stat-value">
+                      {Object.values(linhKien).flat().length}
+                    </span>
+                    <span className="stat-label">Tổng linh kiện</span>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">
+                    <i className="fas fa-tags"></i>
+                  </div>
+                  <div className="stat-content">
+                    <span className="stat-value">
+                      {loaiLinhKienList.length}
+                    </span>
+                    <span className="stat-label">Danh mục</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Menu mục lục các loại linh kiện */}
+            <div className="category-tabs">
+              {loaiLinhKienList.map((loai) => (
+                <button
+                  key={loai}
+                  className={`category-tab ${
+                    selectedLoaiTable === loai ? "active" : ""
+                  }`}
+                  onClick={() => setSelectedLoaiTable(loai)}
+                >
+                  <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
+                  <span>{loai.toUpperCase()}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Phần thêm mới linh kiện */}
+            <div className="add-component-card">
+              <div className="card-header">
+                <h3>Thêm linh kiện mới</h3>
+                <div className="category-selector">
+                  <label>Loại linh kiện:</label>
+                  <select
+                    value={newLinhKien.loai}
+                    onChange={(e) =>
+                      setNewLinhKien({ ...newLinhKien, loai: e.target.value })
+                    }
+                    className="select-input"
+                  >
+                    {loaiLinhKienList.map((loai) => (
+                      <option key={loai} value={loai}>
+                        {loai.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="add-form">
+                {getSampleKeys(linhKien, newLinhKien.loai).map((key) => (
+                  <div className="form-group" key={key}>
+                    <label htmlFor={`new-${key}`}>{getFieldLabel(key)}:</label>
+                    {key === "mo_ta" ? (
+                      <textarea
+                        id={`new-${key}`}
+                        placeholder={getFieldPlaceholder(key)}
+                        value={newLinhKien[key] || ""}
+                        onChange={(e) =>
+                          setNewLinhKien({
+                            ...newLinhKien,
+                            [key]: e.target.value,
+                          })
+                        }
+                      />
+                    ) : key === "gia" ? (
+                      <div className="price-input">
+                        <input
+                          id={`new-${key}`}
+                          type="number"
+                          placeholder={getFieldPlaceholder(key)}
+                          value={newLinhKien[key] || ""}
+                          onChange={(e) =>
+                            setNewLinhKien({
+                              ...newLinhKien,
+                              [key]: e.target.value,
+                            })
+                          }
+                        />
+                        <span className="price-suffix">VNĐ</span>
+                      </div>
+                    ) : (
+                      <input
+                        id={`new-${key}`}
+                        type={getInputType(key)}
+                        placeholder={getFieldPlaceholder(key)}
+                        value={newLinhKien[key] || ""}
+                        onChange={(e) =>
+                          setNewLinhKien({
+                            ...newLinhKien,
+                            [key]: e.target.value,
+                          })
+                        }
+                      />
+                    )}
+                  </div>
+                ))}
+                <button className="add-button" onClick={handleAddLinhKien}>
+                  <i className="fas fa-plus-circle"></i> Thêm linh kiện
+                </button>
+              </div>
+            </div>
+
+            {/* Hiển thị bảng linh kiện cho loại đang chọn */}
+            {loaiLinhKienList.map((loai) => {
+              if (loai !== selectedLoaiTable) return null;
+
+              const items = Array.isArray(linhKien[loai])
+                ? linhKien[loai].filter((item) => {
+                    const keyword = searchKeyword.trim().toLowerCase();
+                    if (!keyword) return true;
+
+                    const normalizeText = (text) =>
+                      text
+                        ? text
+                            .normalize("NFD")
+                            .replace(/\p{Diacritic}/gu, "")
+                            .toLowerCase()
+                        : "";
+                    return Object.values(item).some((value) => {
+                      if (value === null || value === undefined) return false;
+                      return normalizeText(String(value)).includes(
+                        normalizeText(keyword)
+                      );
+                    });
+                  })
+                : [];
+              if (items.length === 0) {
+                return (
+                  <div key={loai} className="empty-table-container">
+                    <div className="empty-table-message">
+                      <i className="fas fa-box-open"></i>
+                      <p>
+                        Không có linh kiện {loai.toUpperCase()} nào trong danh
+                        sách
+                      </p>
+                      <button
+                        className="add-first-button"
+                        onClick={() => {
+                          setNewLinhKien({ ...newLinhKien, loai: loai });
+                          document
+                            .querySelector(".add-component-card")
+                            ?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                      >
+                        <i className="fas fa-plus"></i> Thêm{" "}
+                        {loai.toUpperCase()} đầu tiên
+                      </button>
+                    </div>
+                  </div>
+                );
+              }
+
+              const allKeys = Object.keys(items[0] || {}).filter(
+                (k) => k !== "rating" && k !== "reviewCount"
+              );
+
+              return (
+                <div key={loai} className="component-table-container">
+                  <div className="table-header">
+                    <h3>
+                      <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
+                      Danh sách {loai.toUpperCase()}
+                    </h3>
+                    <div className="table-actions">
+                      <div className="search-box">
+                        <input
+                          type="text"
+                          placeholder={`Tìm kiếm ${loai}...`}
+                          value={searchKeyword}
+                          onChange={(e) => setSearchKeyword(e.target.value)}
+                        />
+                        <i className="fas fa-search"></i>
+                      </div>
+                      <button
+                        className="export-button"
+                        onClick={() =>
+                          alert(`Xuất danh sách ${loai} sẽ được phát triển sau`)
+                        }
+                      >
+                        <i className="fas fa-file-export"></i> Xuất
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="table-responsive">
+                    <table className="components-table">
+                      <thead>
+                        <tr>
+                          {allKeys.map((key) => (
+                            <th key={key}>{getFieldLabel(key)}</th>
+                          ))}
+                          <th className="action-column">Thao tác</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {items.map((lk) =>
+                          editLinhKien && editLinhKien.id === lk.id ? (
+                            <tr key={lk.id} className="editing-row">
+                              {allKeys.map((key) => (
+                                <td key={key}>
+                                  {key === "mo_ta" ? (
+                                    <textarea
+                                      value={editLinhKien[key] || ""}
+                                      onChange={(e) =>
+                                        setEditLinhKien({
+                                          ...editLinhKien,
+                                          [key]: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  ) : key === "gia" ? (
+                                    <div className="price-input">
+                                      <input
+                                        type="number"
+                                        value={editLinhKien[key] || ""}
+                                        onChange={(e) =>
+                                          setEditLinhKien({
+                                            ...editLinhKien,
+                                            [key]: e.target.value,
+                                          })
+                                        }
+                                      />
+                                      <span className="price-suffix">VNĐ</span>
+                                    </div>
+                                  ) : (
+                                    <input
+                                      type={getInputType(key)}
+                                      value={editLinhKien[key] || ""}
+                                      onChange={(e) =>
+                                        setEditLinhKien({
+                                          ...editLinhKien,
+                                          [key]: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  )}
+                                </td>
+                              ))}
+                              <td className="action-column">
+                                <div className="action-buttons">
+                                  <button
+                                    className="save-button"
+                                    onClick={handleUpdateLinhKien}
+                                    title="Lưu thay đổi"
+                                  >
+                                    <i className="fas fa-save"></i>
+                                  </button>
+                                  <button
+                                    className="cancel-button"
+                                    onClick={() => setEditLinhKien(null)}
+                                    title="Hủy chỉnh sửa"
+                                  >
+                                    <i className="fas fa-times"></i>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ) : (
+                            <tr key={lk.id}>
+                              {allKeys.map((key) => (
+                                <td
+                                  key={key}
+                                  className={
+                                    key === "gia" ? "price-column" : ""
+                                  }
+                                >
+                                  {key === "mo_ta" ? (
+                                    <div className="description-cell">
+                                      <span className="description-text">
+                                        {lk[key] && lk[key].length > 60
+                                          ? lk[key].slice(0, 60) + "..."
+                                          : lk[key] || ""}
+                                      </span>
+                                      {lk[key] && lk[key].length > 60 && (
+                                        <div className="tooltip-content">
+                                          {lk[key]}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : key === "gia" ? (
+                                    formatPrice(lk[key])
+                                  ) : Array.isArray(lk[key]) ? (
+                                    lk[key].join(", ")
+                                  ) : typeof lk[key] === "object" &&
+                                    lk[key] !== null ? (
+                                    JSON.stringify(lk[key])
+                                  ) : (
+                                    lk[key] || ""
+                                  )}
+                                </td>
+                              ))}
+                              <td className="action-column">
+                                <div className="action-buttons">
+                                  <button
+                                    className="edit-button"
+                                    onClick={() =>
+                                      setEditLinhKien({ ...lk, loai })
+                                    }
+                                    title="Chỉnh sửa"
+                                  >
+                                    <i className="fas fa-edit"></i>
+                                  </button>
+                                  <button
+                                    className="delete-button"
+                                    onClick={() =>
+                                      handleDeleteConfirm(lk.id, loai)
+                                    }
+                                    title="Xóa"
+                                  >
+                                    <i className="fas fa-trash-alt"></i>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Hộp thoại xác nhận xóa linh kiện */}
+            {deleteConfirmation.show && (
+              <div className="delete-confirmation-modal">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <i className="fas fa-exclamation-triangle"></i>
+                    <h3>Xác nhận xóa</h3>
+                  </div>
+                  <div className="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa linh kiện này?</p>
+                    <p>Hành động này không thể hoàn tác.</p>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      className="cancel-button"
+                      onClick={() =>
+                        setDeleteConfirmation({
+                          show: false,
+                          id: null,
+                          loai: null,
+                        })
+                      }
+                    >
+                      <i className="fas fa-times"></i> Hủy
+                    </button>
+                    <button
+                      className="confirm-button"
+                      onClick={() => {
+                        handleDeleteLinhKien(
+                          deleteConfirmation.id,
+                          deleteConfirmation.loai
+                        );
+                        setDeleteConfirmation({
+                          show: false,
+                          id: null,
+                          loai: null,
+                        });
+                      }}
+                    >
+                      <i className="fas fa-check"></i> Xác nhận
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
     }
   };
 
@@ -946,7 +1634,7 @@ const updateOrderStatus = (id, status) => {
     <div className="admin-container">
       <h1>Quản trị Hệ thống Bán Linh kiện</h1>
 
-      {/* Navigation Menu (giữ nguyên) */}
+      {/* Navigation Menu */}
       <div className="nav-menu">
         <button
           onClick={() => setView("orders")}
@@ -973,29 +1661,23 @@ const updateOrderStatus = (id, status) => {
           Thanh toán
         </button>
         <button
-          onClick={() => setView("promotions")}
-          className={`nav-button ${view === "promotions" ? "active" : ""}`}
-        >
-          Khuyến mãi
-        </button>
-        <button
-          onClick={() => setView("inventory")}
-          className={`nav-button ${view === "inventory" ? "active" : ""}`}
-        >
-          Tồn kho
-        </button>
-        <button
           onClick={() => setView("total_payment")}
           className={`nav-button ${view === "total_payment" ? "active" : ""}`}
         >
           Thống kê
+        </button>
+        <button
+          onClick={() => setView("linh_kien")}
+          className={`nav-button ${view === "linh_kien" ? "active" : ""}`}
+        >
+          Linh kiện
         </button>
       </div>
 
       {/* Content Area */}
       <div className="content-box">{renderContent()}</div>
 
-      {/* Delete Confirmation Modal (giữ nguyên) */}
+      {/* Delete Confirmation Modal */}
       <DeleteModal
         isOpen={deleteModal.isOpen}
         onCancel={cancelDelete}

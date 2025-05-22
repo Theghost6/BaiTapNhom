@@ -36,10 +36,10 @@ const Profile = () => {
 
       setFormData({
         username: parsedUser.username || "",
-        phone: parsedUser.identifier === "phone" ? parsedUser.identifier : "",
+        phone: parsedUser.type === "phone" ? parsedUser.identifier : "",
         email: parsedUser.type === "email" ? parsedUser.identifier : "",
-        password: "", // Thêm trường này
-        confirmPassword: "", // Thêm trường này
+        password: "", 
+        confirmPassword: "",
       });
     } else {
       navigate("/");
@@ -64,6 +64,7 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
+  
   const validatePassword = () => {
     if (
       formData?.password &&
@@ -76,6 +77,7 @@ const Profile = () => {
 
     return true;
   };
+  
   const handleSave = async () => {
     try {
       if (formData.password && !validatePassword()) {
@@ -86,16 +88,23 @@ const Profile = () => {
       formDataToSend.append("username", formData.username);
       formDataToSend.append("phone", formData.phone);
       formDataToSend.append("email", formData.email);
-      formDataToSend.append("password", formData.password);
-      formDataToSend.append("confirmPassword", formData.confirmPassword);
+      
+      if (formData.password) {
+        formDataToSend.append("password", formData.password);
+        formDataToSend.append("confirmPassword", formData.confirmPassword);
+      }
+      
       formDataToSend.append("currentIdentifier", user.identifier);
       formDataToSend.append("currentType", user.type);
 
       if (avatar) {
         formDataToSend.append("avatar", avatar);
       }
+      
+      console.log("Sending form data:", Object.fromEntries(formDataToSend));
+      
       const response = await fetch(
-        "http://localhost/backend/update-profile.php",
+        "http://localhost/BaiTapNhom/backend/update-profile.php",
         {
           method: "POST",
           body: formDataToSend,
@@ -109,26 +118,48 @@ const Profile = () => {
       }
 
       const result = await response.json();
+      console.log("Response from server:", result);
 
       if (result.success) {
+        // Nếu có avatar mới từ server
+        let newAvatarUrl = user.avatar; // Giữ nguyên avatar hiện tại nếu không có mới
+        
+        if (result.avatarUrl) {
+          // Nếu server trả về URL avatar mới
+          newAvatarUrl = result.avatarUrl;
+          setAvatarPreview(result.avatarUrl);
+        }
+        
+        // Tạo dữ liệu user mới để lưu vào localStorage
         const newUserData = {
           ...user,
           username: formData.username,
           identifier: user.type === "phone" ? formData.phone : formData.email,
-          password: formData.password,
-          avatar: result.avatarUrl || avatarPreview || user.avatar,
+          type: user.type,
+          avatar: newAvatarUrl, // Cập nhật avatar nếu có
         };
+        
+        // Nếu có mật khẩu mới, cập nhật
+        if (formData.password) {
+          newUserData.password = formData.password;
+        }
 
+        console.log("Updating user data in localStorage:", newUserData);
+        
+        // Lưu dữ liệu người dùng mới vào localStorage
         localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
+        
+        // Cập nhật state
         setUser(newUserData);
         setIsEditing(false);
+        
         toast.success("Cập nhật thông tin thành công!");
       } else {
         throw new Error(result.message || "Cập nhật thất bại");
       }
     } catch (error) {
       console.error("Lỗi khi cập nhật profile:", error);
-              toast.error(
+      toast.error(
         "Cập nhật thông tin thất bại. Vui lòng thử lại! Chi tiết: " +
           error.message
       );
@@ -233,7 +264,6 @@ const Profile = () => {
                 onChange={handleChange}
                 placeholder="Nhập mật khẩu xác nhận"
               />
-              {console.log("test", formData)}
             </div>
 
             <div className="button-group">
@@ -249,6 +279,7 @@ const Profile = () => {
                 onClick={() => {
                   if (window.confirm("Bạn có chắc chắn muốn hủy chỉnh sửa?")) {
                     setIsEditing(false);
+                    setAvatarPreview(user.avatar || ""); // Reset avatar preview
                   }
                 }}
                 className="cancel-button"

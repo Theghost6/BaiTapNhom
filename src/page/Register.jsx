@@ -28,7 +28,8 @@ export default function Register() {
       else if (!/^\d{10}$/.test(formData.phone))
         newErrors.phone = "Số điện thoại không hợp lệ";
       if (!formData.email) newErrors.email = "Email không được để trống";
-      else if (!/^\S+@\S+\.\S+$/.test(formData.email)) // Sử dụng regex tốt hơn
+      else if (!/^\S+@\S+\.\S+$/.test(formData.email))
+        // Sử dụng regex tốt hơn
         newErrors.email = "Email không hợp lệ";
       if (!formData.password)
         newErrors.password = "Mật khẩu không được để trống";
@@ -38,7 +39,8 @@ export default function Register() {
         newErrors.confirmPassword = "Mật khẩu xác nhận không khớp";
     } else {
       if (!formData.loginIdentifier)
-        newErrors.loginIdentifier = "Email hoặc số điện thoại không được để trống";
+        newErrors.loginIdentifier =
+          "Email hoặc số điện thoại không được để trống";
       if (!formData.password)
         newErrors.password = "Mật khẩu không được để trống";
     }
@@ -62,81 +64,68 @@ export default function Register() {
       delete payload.confirmPassword;
       delete payload.username;
 
-      if (/^\d{10}$/.test(payload.loginIdentifier)) {
-        payload.phone = payload.loginIdentifier;
-        delete payload.email;
-      } else if (/^\S+@\S+\.\S+$/.test(payload.loginIdentifier)) {
+      // Bỏ regex, chỉ kiểm tra có @ để phân biệt email/phone
+      if (payload.loginIdentifier.includes("@")) {
         payload.email = payload.loginIdentifier;
         delete payload.phone;
       } else {
-        setErrors({
-          ...errors,
-          loginIdentifier: "Email hoặc số điện thoại không hợp lệ",
-        });
-        return;
+        payload.phone = payload.loginIdentifier;
+        delete payload.email;
       }
 
       delete payload.loginIdentifier;
     } else {
       delete payload.loginIdentifier;
     }
-
     try {
-      const response = await fetch("http://localhost/backend/register.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Lỗi từ server: " + response.status);
-      }
-
-      const text = await response.text();
-      try {
-        const data = JSON.parse(text);
-        setMessage(data.success ? data.message : data.message || "Lỗi xảy ra!");
-
-        if (data.success) {
-          if (!isRegistering) {
-            const userData = {
-
-              id: data.user.id,
-              username: data.username || data.user?.username || "Người dùng",
-              identifier: payload.email || payload.phone,
-              type: payload.email ? "email" : "phone",
-                role: data.user?.role || "user", // Lấy role từ backend
-            };
-
-            // Cập nhật AuthContext
-            login(userData);
-
-            // Lưu vào localStorage (dù đã có trong AuthContext)
-            localStorage.setItem("user", JSON.stringify(userData));
-
-            // Chuyển hướng về trang chủ
-            navigate("/");
-          } else {
-            setMessage("Đăng ký thành công! Vui lòng đăng nhập.");
-            setIsRegistering(false); // Chuyển sang form đăng nhập sau khi đăng ký
-          }
-
-          setFormData({
-            username: "",
-            phone: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-            loginIdentifier: "",
-          });
+      const response = await fetch(
+        "http://localhost/BaiTapNhom/backend/register.php",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
         }
-      } catch (jsonError) {
-        console.error("Lỗi parse JSON:", jsonError);
-        setMessage("Phản hồi không phải định dạng JSON hợp lệ");
+      );
+      //     const response = await fetch("http://localhost:5000/api/register", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(payload),
+      // });
+      const data = await response.json(); // Parse JSON once
+
+      // Display message from WAF or backend
+      setMessage(data.message || "Lỗi không xác định");
+
+      if (response.ok && data.success) {
+        if (!isRegistering) {
+          const userData = {
+            id: data.user.id,
+            username: data.user?.username || "Người dùng",
+            identifier: payload.email || payload.phone,
+            type: payload.email ? "email" : "phone",
+            role: data.user?.role || "user",
+          };
+
+          login(userData);
+          localStorage.setItem("user", JSON.stringify(userData));
+          navigate("/");
+        } else {
+          setMessage("Đăng ký thành công! Vui lòng đăng nhập.");
+          setIsRegistering(false);
+        }
+
+        setFormData({
+          username: "",
+          phone: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          loginIdentifier: "",
+        });
       }
     } catch (error) {
       console.error("Lỗi kết nối:", error);
-      setMessage("Lỗi kết nối đến server!");
+      setMessage("Không thể kết nối đến server!");
     }
   };
 
@@ -177,7 +166,13 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <h1>Đăng nhập</h1>
             {message && (
-              <p className={message.includes("thành công") ? "message success" : "message error"}>
+              <p
+                className={
+                  message.includes("thành công")
+                    ? "message success"
+                    : "message error"
+                }
+              >
                 {message}
               </p>
             )}
@@ -190,7 +185,9 @@ export default function Register() {
                 onChange={handleChange}
               />
               <i className="bx bxs-user" />
-              {errors.loginIdentifier && <p className="error">{errors.loginIdentifier}</p>}
+              {errors.loginIdentifier && (
+                <p className="error">{errors.loginIdentifier}</p>
+              )}
             </div>
             <div className="input-box">
               <input
@@ -216,7 +213,13 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <h1>Đăng ký</h1>
             {message && (
-              <p className={message.includes("thành công") ? "message success" : "message error"}>
+              <p
+                className={
+                  message.includes("thành công")
+                    ? "message success"
+                    : "message error"
+                }
+              >
                 {message}
               </p>
             )}
@@ -273,7 +276,9 @@ export default function Register() {
                 onChange={handleChange}
               />
               <i className="bx bxs-lock-alt" />
-              {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && (
+                <p className="error">{errors.confirmPassword}</p>
+              )}
             </div>
             <button type="submit" className="btn">
               Đăng ký

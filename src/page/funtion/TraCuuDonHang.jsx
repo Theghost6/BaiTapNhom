@@ -59,7 +59,7 @@ function OrderTracking() {
 
     try {
       const response = await axios.get(
-        `http://localhost/backend/tracuudh.php?action=track_order&order_id=${orderId}&phone=${phone}`
+        `http://localhost/BaiTapNhom/backend/tracuudh.php?action=track_order&order_id=${orderId}&phone=${phone}`
       );
       console.log("API response:", response.data); // Debug
       if (response.data.success) {
