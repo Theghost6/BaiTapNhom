@@ -68,62 +68,51 @@ try {
             exit();
         }
 
-        // Validate phone length (max 15 characters)
+        // Validate lengths (same as before)
         if (strlen($phone) > 15) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Phone number too long: $phone\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Số điện thoại quá dài']);
             exit();
         }
-
-        // Validate email length (max 100 characters)
         if (strlen($email) > 100) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Email too long: $email\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Email quá dài']);
             exit();
         }
-
-        // Validate username length (max 50 characters)
         if (strlen($username) > 50) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Username too long: $username\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Tên đăng nhập quá dài']);
             exit();
         }
 
-        // Check if email already exists
-        $stmt = $conn->prepare("SELECT email FROM dang_ky WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
+        // Check if email already exists (vulnerable to SQLi here)
+        $sqlCheckEmail = "SELECT email FROM dang_ky WHERE email = '$email'";
+        $result = $conn->query($sqlCheckEmail);
+        if ($result && $result->num_rows > 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Email already exists: $email\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Email đã tồn tại']);
             exit();
         }
-        $stmt->close();
 
-        // Check if phone already exists
-        $stmt = $conn->prepare("SELECT phone FROM dang_ky WHERE phone = ?");
-        $stmt->bind_param("s", $phone);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
+        // Check if phone already exists (vulnerable to SQLi)
+        $sqlCheckPhone = "SELECT phone FROM dang_ky WHERE phone = '$phone'";
+        $result = $conn->query($sqlCheckPhone);
+        if ($result && $result->num_rows > 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Phone already exists: $phone\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Số điện thoại đã tồn tại']);
             exit();
         }
-        $stmt->close();
 
-        // Insert new user
-        $stmt = $conn->prepare("INSERT INTO dang_ky (user, phone, email, pass, role, is_active) VALUES (?, ?, ?, ?, 'user', 1)");
-        $stmt->bind_param("ssss", $username, $phone, $email, $password);
-        if ($stmt->execute()) {
+        // Insert new user (vulnerable to SQLi)
+        $sqlInsert = "INSERT INTO dang_ky (user, phone, email, pass, role, is_active) VALUES ('$username', '$phone', '$email', '$password', 'user', 1)";
+        if ($conn->query($sqlInsert) === TRUE) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Success: Registered user: $username\n", FILE_APPEND);
             echo json_encode(['success' => true, 'message' => 'Đăng ký thành công']);
         } else {
-            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Registration failed: " . $stmt->error . "\n", FILE_APPEND);
-            echo json_encode(['success' => false, 'message' => 'Lỗi khi đăng ký: ' . $stmt->error]);
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Registration failed: " . $conn->error . "\n", FILE_APPEND);
+            echo json_encode(['success' => false, 'message' => 'Lỗi khi đăng ký: ' . $conn->error]);
         }
-        $stmt->close();
+
     } else {
         // LOGIN
         if (!isset($data['password']) || empty($data['password'])) {
@@ -142,18 +131,16 @@ try {
             exit();
         }
 
-        // Query based on email or phone
+        // Build SQL query vulnerable to SQL Injection
         if ($email !== null) {
-            $stmt = $conn->prepare("SELECT id, user, email, phone, pass, role, is_active FROM dang_ky WHERE email = ? AND is_active = 1");
-            $stmt->bind_param("s", $email);
+            $sqlLogin = "SELECT id, user, email, phone, pass, role, is_active FROM dang_ky WHERE email = '$email' AND is_active = 1";
         } else {
-            $stmt = $conn->prepare("SELECT id, user, email, phone, pass, role, is_active FROM dang_ky WHERE phone = ? AND is_active = 1");
-            $stmt->bind_param("s", $phone);
+            $sqlLogin = "SELECT id, user, email, phone, pass, role, is_active FROM dang_ky WHERE phone = '$phone' AND is_active = 1";
         }
-        $stmt->execute();
-        $result = $stmt->get_result();
 
-        if ($result->num_rows === 0) {
+        $result = $conn->query($sqlLogin);
+
+        if (!$result || $result->num_rows === 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Account not found or disabled\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Tài khoản không tồn tại hoặc đã bị vô hiệu hóa']);
         } else {
@@ -177,7 +164,6 @@ try {
                 echo json_encode(['success' => false, 'message' => 'Mật khẩu không đúng']);
             }
         }
-        $stmt->close();
     }
 
     $conn->close();
