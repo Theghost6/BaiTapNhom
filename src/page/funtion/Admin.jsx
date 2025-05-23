@@ -12,10 +12,9 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-
 import { Line } from "react-chartjs-2";
 
-// Đăng ký các component vào ChartJS
+// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,7 +25,6 @@ ChartJS.register(
   Legend,
   Filler
 );
-
 function DeleteModal({ isOpen, onCancel, onConfirm, itemId, itemType }) {
   if (!isOpen) return null;
   return (
@@ -53,20 +51,192 @@ function DeleteModal({ isOpen, onCancel, onConfirm, itemId, itemType }) {
   );
 }
 
+function OrderDetailsModal({ isOpen, onClose, orderId, orderItems, orderAddress }) {
+  const [showAddress, setShowAddress] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleOverlayClick = (e) => {
+    if (e.target.className.includes("modal-overlay")) {
+      onClose();
+    }
+  };
+
+  return (
+    <div
+      className={`modal-overlay ${isOpen ? "modal-open" : "modal-close"}`}
+      onClick={handleOverlayClick}
+    >
+      <div
+        className="modal-content"
+        style={{
+          maxWidth: "800px",
+          width: "90%",
+          maxHeight: "80vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div
+          className="modal-header"
+          style={{ position: "sticky", top: 0, background: "#fff", zIndex: 10 }}
+        >
+          <h2>Chi tiết Đơn hàng ID: {orderId}</h2>
+          <button
+            className="close-btn"
+            onClick={onClose}
+            style={{
+              background: "none",
+              border: "none",
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              position: "absolute",
+              right: "15px",
+              top: "15px",
+            }}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+        </div>
+        <div
+          className="modal-body"
+          style={{
+            overflowY: "auto",
+            flex: 1,
+            padding: "15px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 15,
+            }}
+          >
+            <div>
+              <button
+                onClick={() => setShowAddress(!showAddress)}
+                style={{
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  padding: "8px 15px",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                {showAddress ? "Ẩn địa chỉ" : "Xem địa chỉ"}
+              </button>
+            </div>
+          </div>
+
+          {showAddress && orderAddress && (
+            <div
+              style={{
+                backgroundColor: "#f9f9f9",
+                padding: "15px",
+                borderRadius: "5px",
+                marginBottom: "20px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h3 style={{ marginTop: 0 }}>Địa chỉ giao hàng</h3>
+              <p>
+                <strong>Người nhận:</strong> {orderAddress.nguoi_nhan}
+              </p>
+              <p>
+                <strong>Điện thoại:</strong> {orderAddress.sdt_nhan}
+              </p>
+              <p>
+                <strong>Địa chỉ:</strong> {orderAddress.dia_chi}
+              </p>
+              <p>
+                <strong>Ghi chú:</strong>{" "}
+                {orderAddress.ghi_chu || "Không có"}
+              </p>
+            </div>
+          )}
+
+          {orderItems && Object.keys(orderItems).length === 0 ? (
+            <p>Không có sản phẩm nào.</p>
+          ) : (
+            <div>
+              <div
+                style={{
+                  backgroundColor: "#f9f9f9",
+                  padding: "15px",
+                  borderRadius: "5px",
+                  marginBottom: "20px",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                }}
+              >
+                <h3 style={{ marginTop: 0 }}>Thông tin hóa đơn</h3>
+                <p>
+                  <strong>Người nhận:</strong> {orderItems.ten_nguoi}
+                </p>
+                <p>
+                  <strong>Tổng tiền:</strong>{" "}
+                  {Number(orderItems.tong_tien).toLocaleString("vi-VN")} đ
+                </p>
+                <p>
+                  <strong>Địa chỉ:</strong> {orderItems.dia_chi}
+                </p>
+                <p>
+                  <strong>Phương thức thanh toán:</strong>{" "}
+                  {orderItems.phuong_thuc_thanh_toan}
+                </p>
+                <p>
+                  <strong>Ngày tạo:</strong> {orderItems.ngay_tao}
+                </p>
+              </div>
+
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderItems.san_pham && orderItems.san_pham.length > 0 ? (
+                    orderItems.san_pham.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.ten_san_pham}</td>
+                        <td>{item.so_luong}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="2" style={{ textAlign: "center" }}>
+                        Không có sản phẩm nào
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Admin() {
-  // States for different data types
-  const [view, setView] = useState("orders");
+  const [view, setView] = useState("dashboard");
+  const [dashboardMetrics, setDashboardMetrics] = useState(null);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [payments, setPayments] = useState([]);
   const [totalPayment, setTotalPayment] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [orderItems, setOrderItems] = useState([]);
+  const [orderItems, setOrderItems] = useState({});
   const [selectedReview, setSelectedReview] = useState(null);
   const [replies, setReplies] = useState([]);
   const [orderAddress, setOrderAddress] = useState(null);
-  const [showAddress, setShowAddress] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [linhKien, setLinhKien] = useState({});
   const [editLinhKien, setEditLinhKien] = useState(null);
   const [newLinhKien, setNewLinhKien] = useState({
@@ -76,9 +246,23 @@ function Admin() {
     gia: "",
   });
   const [loaiLinhKienList, setLoaiLinhKienList] = useState([]);
-  const [isLoadingUsers, setIsLoadingUsers] = useState(false); // New loading state
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    show: false,
+    id: null,
+    loai: null,
+  });
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    itemId: null,
+    itemType: "",
+    onConfirm: () => {},
+  });
+  const [statistics, setStatistics] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [searchKeyword, setSearchKeyword] = useState("");
 
-  // Lấy icon phù hợp với loại linh kiện
   const getCategoryIcon = (loai) => {
     const iconMap = {
       cpu: "microchip",
@@ -93,11 +277,9 @@ function Admin() {
       monitor: "tv",
       default: "laptop-code",
     };
-
     return iconMap[loai] || iconMap.default;
   };
 
-  // Lấy nhãn hiển thị cho từng trường
   const getFieldLabel = (key) => {
     const labelMap = {
       id: "Mã",
@@ -111,14 +293,9 @@ function Admin() {
       tdp: "TDP",
       solg_trong_kho: "Tồn kho",
     };
-
-    return (
-      labelMap[key] ||
-      key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " ")
-    );
+    return labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " ");
   };
 
-  // Lấy placeholder cho từng trường
   const getFieldPlaceholder = (key) => {
     const placeholderMap = {
       id: "Tự động tạo",
@@ -132,19 +309,15 @@ function Admin() {
       tdp: "Ví dụ: 65W",
       solg_trong_kho: "Nhập số lượng",
     };
-
     return placeholderMap[key] || `Nhập ${key}`;
   };
 
-  // Lấy kiểu input phù hợp
   const getInputType = (key) => {
-    if (key === "gia" || key === "solg_trong_kho" || key.includes("nam"))
-      return "number";
+    if (key === "gia" || key === "solg_trong_kho" || key.includes("nam")) return "number";
     if (key.includes("ngay")) return "date";
     return "text";
   };
 
-  // Format giá tiền
   const formatPrice = (price) => {
     if (!price) return "0 VNĐ";
     return new Intl.NumberFormat("vi-VN", {
@@ -154,7 +327,6 @@ function Admin() {
     }).format(price);
   };
 
-  // Lấy danh sách trường từ mẫu
   const getSampleKeys = (linhKien, loai) => {
     if (Array.isArray(linhKien[loai]) && linhKien[loai][0]) {
       return Object.keys(linhKien[loai][0]).filter(
@@ -164,14 +336,6 @@ function Admin() {
     return ["ten", "mo_ta", "gia", "hang", "solg_trong_kho"];
   };
 
-  // Thêm state cho hộp thoại xác nhận xóa
-  const [deleteConfirmation, setDeleteConfirmation] = useState({
-    show: false,
-    id: null,
-    loai: null,
-  });
-
-  // Hiển thị hộp thoại xác nhận trước khi xóa
   const handleDeleteConfirm = (id, loai) => {
     setDeleteConfirmation({
       show: true,
@@ -180,7 +344,6 @@ function Admin() {
     });
   };
 
-  // Tạo ref cho từng bảng loại linh kiện
   const loaiRefs = React.useRef({});
   React.useEffect(() => {
     loaiLinhKienList.forEach((loai) => {
@@ -190,17 +353,13 @@ function Admin() {
     });
   }, [loaiLinhKienList]);
 
-  // Thêm state để lưu loại linh kiện đang được chọn để hiển thị bảng
   const [selectedLoaiTable, setSelectedLoaiTable] = useState("");
-
-  // Khi danh sách loại thay đổi, nếu chưa chọn loại nào thì mặc định chọn loại đầu tiên
   React.useEffect(() => {
     if (loaiLinhKienList.length > 0 && !selectedLoaiTable) {
       setSelectedLoaiTable(loaiLinhKienList[0]);
     }
   }, [loaiLinhKienList]);
 
-  // Trạng thái đơn hàng
   const updateOrderStatus = (id, status) => {
     console.log(`Updating order ${id} to status ${status}`);
     axios
@@ -227,181 +386,27 @@ function Admin() {
       .catch((err) => console.error("Error updating order status:", err));
   };
 
-  // State for delete confirmation modal
-  const [deleteModal, setDeleteModal] = useState({
-    isOpen: false,
-    itemId: null,
-    itemType: "",
-    onConfirm: () => {},
-  });
-
-  // State mới cho thống kê
-  const [statistics, setStatistics] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-
-  // Fetch data based on current view
-  useEffect(() => {
-    switch (view) {
-      case "orders":
-        axios
-          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_orders")
-          .then((res) => {
-            if (Array.isArray(res.data)) {
-              setOrders(res.data);
-            } else {
-              console.error("API get_orders did not return an array:", res.data);
-              setOrders([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching orders:", err);
-            setOrders([]);
-          });
-        break;
-      case "users":
-        setIsLoadingUsers(true);
-        axios
-          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_users")
-          .then((res) => {
-            console.log("Users API response:", res.data);
-            if (Array.isArray(res.data)) {
-              const usersData = res.data.map((user) => ({
-                ...user,
-                is_active: Number(user.is_active), // Ensure is_active is a number
-              }));
-              setUsers(usersData);
-            } else {
-              console.error("API get_users did not return an array:", res.data);
-              setUsers([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching users:", err);
-            setUsers([]);
-          })
-          .finally(() => setIsLoadingUsers(false));
-        break;
-      case "reviews":
-        axios
-          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_reviews")
-          .then((res) => {
-            if (Array.isArray(res.data)) {
-              setReviews(res.data);
-            } else {
-              console.error("API get_reviews did not return an array:", res.data);
-              setReviews([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching reviews:", err);
-            setReviews([]);
-          });
-        break;
-      case "payments":
-        axios
-          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_payments")
-          .then((res) => {
-            if (Array.isArray(res.data)) {
-              setPayments(res.data);
-            } else {
-              console.error(
-                "API get_payments did not return an array:",
-                res.data
-              );
-              setPayments([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching payments:", err);
-            setPayments([]);
-          });
-        break;
-      case "total_payment":
-        axios
-          .get(
-            "http://localhost/BaiTapNhom/backend/api.php?action=get_total_payment"
-          )
-          .then((res) => {
-            if (Array.isArray(res.data)) {
-              setTotalPayment(res.data);
-            } else {
-              console.error(
-                "API get_total_payment did not return an array:",
-                res.data
-              );
-              setTotalPayment([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching total:", err);
-            setTotalPayment([]);
-          });
-        axios
-          .get(
-            `http://localhost/BaiTapNhom/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`
-          )
-          .then((res) => {
-            console.log("data static", res.data);
-            setStatistics(res.data);
-          })
-          .catch((err) => console.error("Error fetching statistics:", err));
-        break;
-      case "linh_kien":
-        axios
-          .get(
-            "http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all"
-          )
-          .then((res) => {
-            if (
-              res.data &&
-              typeof res.data === "object" &&
-              !Array.isArray(res.data)
-            ) {
-              setLinhKien(res.data);
-              setLoaiLinhKienList(Object.keys(res.data));
-              if (!Object.keys(res.data).includes(newLinhKien.loai)) {
-                setNewLinhKien((lk) => ({
-                  ...lk,
-                  loai: Object.keys(res.data)[0] || "",
-                }));
-              }
-            } else {
-              console.error(
-                "API get_all linh_kien did not return an object:",
-                res.data
-              );
-              setLinhKien({});
-              setLoaiLinhKienList([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching linh_kien:", err);
-            setLinhKien({});
-            setLoaiLinhKienList([]);
-          });
-        break;
-      default:
-        break;
-    }
-  }, [view, selectedMonth, selectedYear]);
-
-  // View order details
   const viewDetails = (id) => {
     axios
       .get(
         `http://localhost/BaiTapNhom/backend/api.php?action=get_order_detail&id=${id}`
       )
       .then((res) => {
-        setOrderItems(res.data.items || []);
+        setOrderItems(res.data.items || {});
         setOrderAddress(res.data.address || null);
         setSelectedOrder(id);
-        setShowAddress(false);
+        setIsOrderModalOpen(true);
       })
       .catch((err) => console.error("Error fetching order details:", err));
   };
 
-  // View review replies
+  const closeOrderModal = () => {
+    setIsOrderModalOpen(false);
+    setSelectedOrder(null);
+    setOrderItems({});
+    setOrderAddress(null);
+  };
+
   const viewReply = (id) => {
     axios
       .get(
@@ -423,7 +428,6 @@ function Admin() {
       .catch((err) => console.error("Error fetching replies:", err));
   };
 
-  // Handle delete actions
   const handleDelete = (itemId, itemType, onConfirm) => {
     setDeleteModal({
       isOpen: true,
@@ -442,7 +446,6 @@ function Admin() {
     });
   };
 
-  // Delete order
   const deleteOrder = (id) => {
     axios
       .get(
@@ -459,7 +462,6 @@ function Admin() {
       .catch((err) => console.error("Error deleting order:", err));
   };
 
-  // Delete user
   const deleteUser = (phone) => {
     axios
       .get(
@@ -472,7 +474,6 @@ function Admin() {
       .catch((err) => console.error("Error deleting user:", err));
   };
 
-  // Delete review
   const deleteReview = (id) => {
     axios
       .get(
@@ -489,7 +490,6 @@ function Admin() {
       .catch((err) => console.error("Error deleting review:", err));
   };
 
-  // Delete payment
   const deletePayment = (id) => {
     axios
       .get(
@@ -502,7 +502,6 @@ function Admin() {
       .catch((err) => console.error("Error deleting payment:", err));
   };
 
-  // Dữ liệu cho biểu đồ
   const chartData = {
     labels: (statistics?.doanh_thu_theo_ngay || []).map(
       (item) => `Ngày ${item.ngay}`
@@ -513,42 +512,15 @@ function Admin() {
         data: (statistics?.doanh_thu_theo_ngay || []).map(
           (item) => item.doanh_thu
         ),
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
         fill: true,
+        tension: 0.4,
       },
     ],
   };
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: `Doanh thu theo ngày - Tháng ${selectedMonth}/${selectedYear}`,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: "Doanh thu (VNĐ)",
-        },
-      },
-      x: {
-        title: {
-          display: true,
-          text: "Ngày",
-        },
-      },
-    },
-  };
 
-  // Thêm các hàm CRUD cho linh kiện
   const handleAddLinhKien = () => {
     const item = { ...newLinhKien };
     delete item.loai;
@@ -630,7 +602,6 @@ function Admin() {
       .then((res) => {
         console.log("API response:", res.data);
         if (res.data.success) {
-          // Làm mới danh sách người dùng từ API
           axios
             .get("http://localhost/BaiTapNhom/backend/api.php?action=get_users")
             .then((res) => {
@@ -664,13 +635,394 @@ function Admin() {
         alert("Có lỗi xảy ra khi cập nhật trạng thái tài khoản");
       });
   };
+const chartDataRevenue = {
+  labels: (statistics?.doanh_thu_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
+  datasets: [
+    {
+      label: "Doanh thu (VNĐ)",
+      data: (statistics?.doanh_thu_theo_ngay || []).map((item) => item.doanh_thu),
+      borderColor: "rgba(255, 99, 132, 1)",
+      backgroundColor: "rgba(255, 99, 132, 0.2)",
+      fill: true,
+      tension: 0.4,
+    },
+  ],
+};
 
-  // Render different views based on the selected menu item
-  const [searchKeyword, setSearchKeyword] = useState("");
+const chartDataOrders = {
+  labels: (statistics?.don_hang_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
+  datasets: [
+    {
+      label: "Số đơn hàng",
+      data: (statistics?.don_hang_theo_ngay || []).map((item) => item.don_hang),
+      borderColor: "rgba(54, 162, 235, 1)",
+      backgroundColor: "rgba(54, 162, 235, 0.2)",
+      fill: true,
+      tension: 0.4,
+    },
+  ],
+};
+
+const chartDataUsers = {
+  labels: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
+    console.log("Ngày:", item.ngay); // Debug ngày
+    return `Ngày ${item.ngay}`;
+  }),
+  datasets: [
+    {
+      label: "Người dùng hoạt động",
+      data: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
+        console.log("Người dùng:", statistics.nguoi_dung_theo_ngay); // Debug số người dùng
+        return item.nguoi_dung;
+      }),
+      borderColor: "rgba(75, 192, 192, 1)",
+      backgroundColor: "rgba(75, 192, 192, 0.2)",
+      fill: true,
+      tension: 0.4,
+    },
+  ],
+};
+
+const chartDataReviews = {
+  labels: (statistics?.danh_gia_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
+  datasets: [
+    {
+      label: "Số đánh giá",
+      data: (statistics?.danh_gia_theo_ngay || []).map((item) => item.danh_gia),
+      borderColor: "rgba(255, 206, 86, 1)",
+      backgroundColor: "rgba(255, 206, 86, 0.2)",
+      fill: true,
+      tension: 0.4,
+    },
+  ],
+};
+
+const chartOptions = (title) => ({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "top",
+      labels: {
+        font: {
+          size: 14,
+        },
+      },
+    },
+    title: {
+      display: true,
+      text: title,
+    },
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      title: {
+        display: true,
+        text: title.includes("Doanh thu") ? "Doanh thu (VNĐ)" : title.includes("Người dùng") ? "Số người dùng" : "Số lượng",
+      },
+    },
+    x: {
+      title: {
+        display: true,
+        text: "Ngày",
+      },
+    },
+  },
+});
+  useEffect(() => {
+    switch (view) {
+      case "orders":
+        axios
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_orders")
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setOrders(res.data);
+            } else {
+              console.error("API get_orders did not return an array:", res.data);
+              setOrders([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching orders:", err);
+            setOrders([]);
+          });
+        break;
+      case "users":
+        setIsLoadingUsers(true);
+        axios
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_users")
+          .then((res) => {
+            console.log("Users API response:", res.data);
+            if (Array.isArray(res.data)) {
+              const usersData = res.data.map((user) => ({
+                ...user,
+                is_active: Number(user.is_active),
+              }));
+              setUsers(usersData);
+            } else {
+              console.error("API get_users did not return an array:", res.data);
+              setUsers([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching users:", err);
+            setUsers([]);
+          })
+          .finally(() => setIsLoadingUsers(false));
+        break;
+      case "reviews":
+        axios
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_reviews")
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setReviews(res.data);
+            } else {
+              console.error("API get_reviews did not return an array:", res.data);
+              setReviews([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching reviews:", err);
+            setReviews([]);
+          });
+        break;
+      case "payments":
+        axios
+          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_payments")
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setPayments(res.data);
+            } else {
+              console.error(
+                "API get_payments did not return an array:",
+                res.data
+              );
+              setPayments([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching payments:", err);
+            setPayments([]);
+          });
+        break;
+   case "dashboard":
+      axios
+        .get("http://localhost/BaiTapNhom/backend/api.php?action=get_dashboard_metrics")
+        .then((res) => {
+          console.log("Dashboard metrics:", res.data);
+          setDashboardMetrics(res.data);
+        })
+        .catch((err) => {
+          console.error("Error fetching dashboard metrics:", err);
+          setDashboardMetrics(null);
+        });
+
+      axios
+        .get(`http://localhost/BaiTapNhom/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`)
+        .then((res) => {
+          setStatistics(res.data);
+        })
+        .catch((err) => console.error("Error fetching statistics:", err));
+
+      // Fetch reviews to get total count
+      axios
+        .get("http://localhost/BaiTapNhom/backend/api.php?action=get_reviews")
+        .then((res) => {
+          if (Array.isArray(res.data)) {
+            setReviews(res.data);
+          } else {
+            console.error("API get_reviews did not return an array:", res.data);
+            setReviews([]);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching reviews:", err);
+          setReviews([]);
+        });
+      break;      case "linh_kien":
+        axios
+          .get(
+            "http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all"
+          )
+          .then((res) => {
+            if (
+              res.data &&
+              typeof res.data === "object" &&
+              !Array.isArray(res.data)
+            ) {
+              setLinhKien(res.data);
+              setLoaiLinhKienList(Object.keys(res.data));
+              if (!Object.keys(res.data).includes(newLinhKien.loai)) {
+                setNewLinhKien((lk) => ({
+                  ...lk,
+                  loai: Object.keys(res.data)[0] || "",
+                }));
+              }
+            } else {
+              console.error(
+                "API get_all linh_kien did not return an object:",
+                res.data
+              );
+              setLinhKien({});
+              setLoaiLinhKienList([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching linh_kien:", err);
+            setLinhKien({});
+            setLoaiLinhKienList([]);
+          });
+        break;
+      default:
+        break;
+    }
+  }, [view, selectedMonth, selectedYear]);
 
   const renderContent = () => {
     switch (view) {
-      case "orders":
+     case "dashboard":
+      return (
+        <div className="dashboard-container">
+          <h2 className="dashboard-title">Bảng điều khiển</h2>
+          <div className="date-selector">
+            <div className="date-picker">
+              <label>Chọn tháng: </label>
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                className="select-input"
+              >
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                  <option key={month} value={month}>
+                    Tháng {month}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="date-picker">
+              <label>Chọn năm: </label>
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="select-input"
+              >
+                {Array.from(
+                  { length: 5 },
+                  (_, i) => new Date().getFullYear() - i
+                ).map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {statistics && dashboardMetrics ? (
+            <div className="dashboard-content">
+              <div className="stats-cards">
+                <div className="stats-card">
+                  <div className="card-icon">
+                    <i className="fas fa-chart-line"></i>
+                  </div>
+                  <div className="card-content">
+                    <h3>Doanh thu</h3>
+                    <p className="stats-value">
+                      {Number(statistics.tong_doanh_thu || 0).toLocaleString("vi-VN")} đ
+                    </p>
+                    <p className="stats-progress">
+                      <span className="progress-bar" style={{ width: "65%" }}></span>
+                      <span className="progress-text">65%</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="stats-card">
+                  <div className="card-icon">
+                    <i className="fas fa-shopping-cart"></i>
+                  </div>
+                  <div className="card-content">
+                    <h3>Đơn hàng</h3>
+                    <p className="stats-value">{dashboardMetrics.don_hang || 0}</p>
+                    <p className="stats-progress">
+                      <span className="progress-bar" style={{ width: "87.4%" }}></span>
+                      <span className="progress-text">87.4%</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="stats-card">
+                  <div className="card-icon">
+                    <i className="fas fa-users"></i>
+                  </div>
+                  <div className="card-content">
+                    <h3>Người dùng</h3>
+                    <p className="stats-value">{dashboardMetrics.tai_khoan || 0}</p>
+                    <p className="stats-progress">
+                      <span className="progress-bar" style={{ width: "17.2%" }}></span>
+                      <span className="progress-text">17.2%</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="stats-card">
+                  <div className="card-icon">
+                    <i className="fas fa-star"></i>
+                  </div>
+                  <div className="card-content">
+                    <h3>Đánh giá</h3>
+                    <p className="stats-value">{reviews.length || 0}</p>
+                    <p className="stats-progress">
+                      <span className="progress-bar" style={{ width: "50%" }}></span>
+                      <span className="progress-text">50%</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="charts-container">
+                <div className="chart-card">
+                  <h3>Doanh thu</h3>
+                  <div className="chart-container" style={{ height: "300px" }}>
+                    <Line
+                      data={chartDataRevenue}
+                      options={chartOptions(`Doanh thu - Tháng ${selectedMonth}/${selectedYear}`)}
+                    />
+                  </div>
+                </div>
+                <div className="chart-card">
+                  <h3>Đơn hàng</h3>
+                  <div className="chart-container" style={{ height: "300px" }}>
+                    <Line
+                      data={chartDataOrders}
+                      options={chartOptions(`Đơn hàng - Tháng ${selectedMonth}/${selectedYear}`)}
+                    />
+                  </div>
+                </div>
+                <div className="chart-card">
+                  <h3>Người dùng</h3>
+                  <div className="chart-container" style={{ height: "300px" }}>
+                    <Line
+                      data={chartDataUsers}
+                      options={chartOptions(`Người dùng hoạt động - Tháng ${selectedMonth}/${selectedYear}`)}
+                    />
+                  </div>
+                </div>
+                <div className="chart-card">
+                  <h3>Đánh giá</h3>
+                  <div className="chart-container" style={{ height: "300px" }}>
+                    <Line
+                      data={chartDataReviews}
+                      options={chartOptions(`Đánh giá - Tháng ${selectedMonth}/${selectedYear}`)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="loading">
+              <div className="loading-spinner"></div>
+              <p>Đang tải dữ liệu thống kê...</p>
+            </div>
+          )}
+        </div>
+      );      case "orders":
         return (
           <div>
             <h2>Danh sách Đơn hàng</h2>
@@ -704,10 +1056,9 @@ function Admin() {
                       <td>
                         <select
                           value={order.trang_thai}
-                          onChange={(e) => {
-                            console.log("Selected status:", e.target.value);
-                            updateOrderStatus(Number(order.id), e.target.value);
-                          }}
+                          onChange={(e) =>
+                            updateOrderStatus(Number(order.id), e.target.value)
+                          }
                         >
                           <option value="Chưa thanh toán">
                             Chưa thanh toán
@@ -741,98 +1092,8 @@ function Admin() {
                 )}
               </tbody>
             </table>
-
-            {selectedOrder && (
-              <div style={{ marginTop: 40 }}>
-                <h2>Chi tiết Đơn hàng ID: {selectedOrder}</h2>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: 15,
-                  }}
-                >
-                  <div>
-                    <button
-                      onClick={() => setShowAddress(!showAddress)}
-                      style={{
-                        backgroundColor: "#4CAF50",
-                        color: "white",
-                        padding: "8px 15px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {showAddress ? "Ẩn địa chỉ" : "Xem địa chỉ"}
-                    </button>
-                  </div>
-                </div>
-
-                {showAddress && orderAddress && (
-                  <div
-                    style={{
-                      backgroundColor: "#f9f9f9",
-                      padding: "15px",
-                      borderRadius: "5px",
-                      marginBottom: "20px",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                    }}
-                  >
-                    <h3 style={{ marginTop: 0 }}>Địa chỉ giao hàng</h3>
-                    <p>
-                      <strong>Người nhận:</strong> {orderAddress.nguoi_nhan}
-                    </p>
-                    <p>
-                      <strong>Điện thoại:</strong> {orderAddress.sdt_nhan}
-                    </p>
-                    <p>
-                      <strong>Địa chỉ:</strong> {orderAddress.dia_chi}
-                    </p>
-                    <p>
-                      <strong>Ghi chú:</strong>{" "}
-                      {orderAddress.ghi_chu || "Không có"}
-                    </p>
-                  </div>
-                )}
-
-                {orderItems.length === 0 ? (
-                  <p>Không có sản phẩm nào.</p>
-                ) : (
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Tên sản phẩm</th>
-                        <th>Danh mục</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                        <th>Tổng tiền</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orderItems.map((item, index) => (
-                        <tr key={index}>
-                          <td>{item.ten_san_pham}</td>
-                          <td>{item.danh_muc}</td>
-                          <td>{item.so_luong}</td>
-                          <td>{Number(item.gia).toLocaleString("vi-VN")} đ</td>
-                          <td>
-                            {Number(item.gia * item.so_luong).toLocaleString(
-                              "vi-VN"
-                            )}{" "}
-                            đ
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            )}
           </div>
         );
-
       case "users":
         return (
           <div>
@@ -957,7 +1218,6 @@ function Admin() {
                 )}
               </tbody>
             </table>
-
             {selectedReview && (
               <div style={{ marginTop: 40 }}>
                 <h2>Phản hồi Đánh giá ID: {selectedReview}</h2>
@@ -987,7 +1247,6 @@ function Admin() {
             )}
           </div>
         );
-
       case "payments":
         return (
           <div>
@@ -1045,13 +1304,10 @@ function Admin() {
             </table>
           </div>
         );
-
       case "total_payment":
         return (
           <div className="statistics-dashboard">
             <h2 className="dashboard-title">Thống kê Doanh Thu</h2>
-
-            {/* Bộ chọn tháng và năm */}
             <div className="date-selector">
               <div className="date-picker">
                 <label>Chọn tháng: </label>
@@ -1085,8 +1341,6 @@ function Admin() {
                 </select>
               </div>
             </div>
-
-            {/* Hiển thị thống kê */}
             {statistics ? (
               <div className="statistics-content">
                 <div className="stats-cards">
@@ -1104,7 +1358,6 @@ function Admin() {
                       </p>
                     </div>
                   </div>
-
                   <div className="stats-card orders">
                     <div className="card-icon">
                       <i className="fas fa-shopping-cart"></i>
@@ -1116,7 +1369,6 @@ function Admin() {
                       </p>
                     </div>
                   </div>
-
                   <div className="stats-card avg-order">
                     <div className="card-icon">
                       <i className="fas fa-receipt"></i>
@@ -1134,7 +1386,6 @@ function Admin() {
                       </p>
                     </div>
                   </div>
-
                   <div className="stats-card daily-avg">
                     <div className="card-icon">
                       <i className="fas fa-calendar-day"></i>
@@ -1154,7 +1405,6 @@ function Admin() {
                     </div>
                   </div>
                 </div>
-
                 <div className="statistics-panels">
                   <div className="chart-panel">
                     <h3 className="panel-title">Doanh thu theo ngày</h3>
@@ -1181,7 +1431,6 @@ function Admin() {
                       />
                     </div>
                   </div>
-
                   <div className="bestsellers-panel">
                     <h3 className="panel-title">Sản phẩm bán chạy nhất</h3>
                     {(statistics?.san_pham_ban_chay || []).length > 0 ? (
@@ -1235,7 +1484,6 @@ function Admin() {
             )}
           </div>
         );
-
       case "linh_kien":
         return (
           <div className="linh-kien-manager">
@@ -1266,8 +1514,6 @@ function Admin() {
                 </div>
               </div>
             </div>
-
-            {/* Menu mục lục các loại linh kiện */}
             <div className="category-tabs">
               {loaiLinhKienList.map((loai) => (
                 <button
@@ -1282,8 +1528,6 @@ function Admin() {
                 </button>
               ))}
             </div>
-
-            {/* Phần thêm mới linh kiện */}
             <div className="add-component-card">
               <div className="card-header">
                 <h3>Thêm linh kiện mới</h3>
@@ -1304,7 +1548,6 @@ function Admin() {
                   </select>
                 </div>
               </div>
-
               <div className="add-form">
                 {getSampleKeys(linhKien, newLinhKien.loai).map((key) => (
                   <div className="form-group" key={key}>
@@ -1358,16 +1601,12 @@ function Admin() {
                 </button>
               </div>
             </div>
-
-            {/* Hiển thị bảng linh kiện cho loại đang chọn */}
             {loaiLinhKienList.map((loai) => {
               if (loai !== selectedLoaiTable) return null;
-
               const items = Array.isArray(linhKien[loai])
                 ? linhKien[loai].filter((item) => {
                     const keyword = searchKeyword.trim().toLowerCase();
                     if (!keyword) return true;
-
                     const normalizeText = (text) =>
                       text
                         ? text
@@ -1408,11 +1647,9 @@ function Admin() {
                   </div>
                 );
               }
-
               const allKeys = Object.keys(items[0] || {}).filter(
                 (k) => k !== "rating" && k !== "reviewCount"
               );
-
               return (
                 <div key={loai} className="component-table-container">
                   <div className="table-header">
@@ -1440,7 +1677,6 @@ function Admin() {
                       </button>
                     </div>
                   </div>
-
                   <div className="table-responsive">
                     <table className="components-table">
                       <thead>
@@ -1579,8 +1815,6 @@ function Admin() {
                 </div>
               );
             })}
-
-            {/* Hộp thoại xác nhận xóa linh kiện */}
             {deleteConfirmation.show && (
               <div className="delete-confirmation-modal">
                 <div className="modal-content">
@@ -1633,9 +1867,13 @@ function Admin() {
   return (
     <div className="admin-container">
       <h1>Quản trị Hệ thống Bán Linh kiện</h1>
-
-      {/* Navigation Menu */}
       <div className="nav-menu">
+        <button
+          onClick={() => setView("dashboard")}
+          className={`nav-button ${view === "dashboard" ? "active" : ""}`}
+        >
+          Bảng điều khiển
+        </button>
         <button
           onClick={() => setView("orders")}
           className={`nav-button ${view === "orders" ? "active" : ""}`}
@@ -1673,17 +1911,20 @@ function Admin() {
           Linh kiện
         </button>
       </div>
-
-      {/* Content Area */}
       <div className="content-box">{renderContent()}</div>
-
-      {/* Delete Confirmation Modal */}
       <DeleteModal
         isOpen={deleteModal.isOpen}
         onCancel={cancelDelete}
         onConfirm={deleteModal.onConfirm}
         itemId={deleteModal.itemId}
         itemType={deleteModal.itemType}
+      />
+      <OrderDetailsModal
+        isOpen={isOrderModalOpen}
+        onClose={closeOrderModal}
+        orderId={selectedOrder}
+        orderItems={orderItems}
+        orderAddress={orderAddress}
       />
     </div>
   );

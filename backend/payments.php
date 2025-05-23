@@ -210,8 +210,8 @@ if (empty($muc_gio_hang)) {
     exit;
 }
 foreach ($muc_gio_hang as $index => $item) {
-    if (!isset($item['id_product']) || !isset($item['ten']) || !isset($item['gia']) || 
-        !isset($item['so_luong']) || !isset($item['danh_muc']) || !is_numeric($item['gia']) || $item['gia'] <= 0) {
+    if (!isset($item['ten']) || !isset($item['gia']) || 
+        !isset($item['so_luong']) || !is_numeric($item['gia']) || $item['gia'] <= 0) {
         http_response_code(400);
         $errorMsg = "Mục giỏ hàng không hợp lệ tại chỉ số $index: thiếu trường bắt buộc hoặc giá không hợp lệ";
         logMessage($errorMsg);
@@ -265,6 +265,7 @@ $conn->begin_transaction();
 try {
     // Check if we need to add shipping address (only for 'ship' method)
     $addressId = null;
+    $dia_chi = null;
     if ($phuong_thuc_van_chuyen === 'ship') {
         $fullName = $conn->real_escape_string($thong_tin_khach_hang['fullName']);
         $address = $conn->real_escape_string($thong_tin_khach_hang['address']);
@@ -273,6 +274,7 @@ try {
         $ward = $conn->real_escape_string($thong_tin_khach_hang['ward'] ?? '');
         $phone = $conn->real_escape_string($thong_tin_khach_hang['phone']);
         
+        $dia_chi = "$address, $ward, $district, $city";
         $addressQuery = "INSERT INTO dia_chi_giao_hang (ma_tk, nguoi_nhan, sdt_nhan, dia_chi, tinh_thanh, quan_huyen, phuong_xa) 
                          VALUES ('$userId', '$fullName', '$phone', '$address', '$city', '$district', '$ward')";
         
@@ -290,6 +292,7 @@ try {
         $defaultCity = $conn->real_escape_string('');
         $defaultDistrict = $conn->real_escape_string('');
         $defaultWard = $conn->real_escape_string('');
+        $dia_chi = $defaultAddress;
         
         $addressQuery = "INSERT INTO dia_chi_giao_hang (ma_tk, nguoi_nhan, sdt_nhan, dia_chi, tinh_thanh, quan_huyen, phuong_xa)
                          VALUES ('$userId', '$fullName', '$phone', '$defaultAddress', '$defaultCity', '$defaultDistrict', '$defaultWard')";
@@ -322,21 +325,20 @@ try {
     $orderId = $conn->insert_id;
     logMessage("Chèn đơn hàng với ID: $orderId");
 
-    // Insert order items into chi_tiet_don_hang
-    foreach ($muc_gio_hang as $item) {
-        $productId = $conn->real_escape_string($item['id_product']);
-        $productName = $conn->real_escape_string($item['ten']);
-        $category = $conn->real_escape_string($item['danh_muc'] ?? 'Không xác định');
-        $quantity = intval($item['so_luong']);
-        $price = floatval($item['gia']);
+    // Aggregate product names for hoa_don
+    $productNames = array_map(function($item) {
+        return $item['ten'] . ' (x' . $item['so_luong'] . ')';
+    }, $muc_gio_hang);
+    $ten_san_pham = $conn->real_escape_string(implode(', ', $productNames));
+    $ten_nguoi = $conn->real_escape_string($thong_tin_khach_hang['fullName']);
     
-        $itemSql = "INSERT INTO chi_tiet_don_hang (ma_don_hang, id_product, ten_san_pham, danh_muc, so_luong, gia, phuong_thuc_van_chuyen)
-                    VALUES ('$orderId', '$productId', '$productName', '$category', '$quantity', '$price', '$phuong_thuc_van_chuyen')";
-        
-        logMessage("Thực thi truy vấn chèn chi tiết đơn hàng: $itemSql");
-        if (!$conn->query($itemSql)) {
-            throw new Exception("Lỗi khi chèn vào chi_tiet_don_hang: " . $conn->error);
-        }
+    // Insert into hoa_don table
+    $invoiceSql = "INSERT INTO hoa_don (ma_don_hang, ten_nguoi, ten_san_pham, tong_tien, dia_chi, phuong_thuc_thanh_toan)
+                   VALUES ('$orderId', '$ten_nguoi', '$ten_san_pham', '$orderTotal', " . ($dia_chi ? "'$dia_chi'" : "NULL") . ", '$phuong_thuc_thanh_toan')";
+    
+    logMessage("Thực thi truy vấn chèn hóa đơn: $invoiceSql");
+    if (!$conn->query($invoiceSql)) {
+        throw new Exception("Lỗi khi chèn vào hoa_don: " . $conn->error);
     }
     
     // Create payment record
