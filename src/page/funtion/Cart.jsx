@@ -9,7 +9,7 @@ import { AuthContext } from './AuthContext';
 
 
 const Cart = () => {
-  
+
   const navigate = useNavigate();
   const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart, updateQuantity } = useCart();
   const { isAuthenticated } = useContext(AuthContext) || {};
@@ -38,7 +38,7 @@ const Cart = () => {
     }
   };
 
-  
+
   const handleCheckout = () => {
     navigate('/checkout', { state: { products: getProductDetails } });
   };
@@ -97,14 +97,11 @@ const Cart = () => {
 
   return (
     <div className="cart-page">
-      <h3>Giỏ Hàng Của Bạn</h3>
-
-      <div className="cart-summary-header">
-        <p>Tổng sản phẩm: <strong>{totalQuantity}</strong></p>
-        <p>Tổng giá trị: <strong>{formatPrice(totalAmount)}</strong></p>
-      </div>
-
       <div className="cart-items-container">
+        <div className="cart-summary-header">
+          <p>Tổng sản phẩm: <strong>{totalQuantity}</strong></p>
+          <p>Tổng giá trị: <strong>{formatPrice(totalAmount)}</strong></p>
+        </div>
         <div className="cart-table-responsive">
           <table className="cart-table">
             <thead>

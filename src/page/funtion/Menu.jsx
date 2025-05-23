@@ -53,10 +53,11 @@ export const Variants = () => {
                                 top: 0,
                                 left: 0,
                                 width: "100px",
-                                height: "100vh",
+                                height: "400px",
                                 backgroundColor: "white",
                                 zIndex: 9999,
-                                boxShadow: "-2px 0 10px rgba(0,0,0,0.1)"
+                                boxShadow: "-2px 0 10px rgba(0,0,0,0.1)",
+                                borderRadius: "10px",
                             }}
                         >
                             <motion.div style={background} variants={sidebarVariants} />
@@ -128,12 +129,12 @@ const MenuItem = ({ color, label, icon, targetId, onClick }) => {
             whileTap={{ scale: 0.95 }}
             onClick={onClick}
         >
-            <div style={{ display: "flex", textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+            <div style={{ display: "flex", textDecoration: "none", color: "inherit", cursor: "pointer", padding: 10 }} >
                 <div style={{ ...iconPlaceholder, border, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {icon}
                 </div>
                 <div className="menu-text" >
-                    <span style={{ color: "#000" }}>{label}</span>
+                    <span style={{ color: "#000", fontWeight: "600" }}>{label}</span>
                 </div>
             </div>
         </motion.li>
@@ -185,12 +186,13 @@ const MenuToggle = ({ toggle }) => (
  */
 
 const background = {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#fff",
     position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     width: 200,
+    borderRadius: "10px",
 };
 
 const toggleContainer = {

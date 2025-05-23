@@ -8,6 +8,11 @@ import {
   MapPin,
   Code,
   History,
+  MessageCircle,
+  Facebook,
+  Instagram,
+  Linkedin,
+  PhoneCall,
 } from "lucide-react";
 import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -156,8 +161,8 @@ const Header = () => {
         <div className="header-items">
           <Link to="/" className="logo-link">
             <div className="logo-container" >
-              <img src="/photos/logo.jpg" alt="Logo" className="logo-image" />
-              <span className="logo-text">Component</span>
+              <img src="/photos/Logo.png" alt="Logo" className="logo-image" />
+              <span className="logo-text">COMPONENT</span>
             </div>
           </Link>
 
@@ -203,7 +208,7 @@ const Header = () => {
           </div>
 
           <div className="search-bar">
-            
+
             <input
               type="text"
               placeholder="Bạn cần tìm gì?"
@@ -259,44 +264,43 @@ const Header = () => {
             <span>Tin tức</span>
           </Link>
 
-          <div className="location-selector">
+          <div className="consult-selector">
             <button onClick={() => setShowLocationPopup(!showLocationPopup)}>
-              <MapPin size={24} /> {selectedCity}
+              <MessageCircle size={24} /> Tư vấn
             </button>
             {showLocationPopup && (
-              <div className="location-popup">
-                <div className="popup-header">
-                  <span>Chọn tỉnh/thành phố</span>
+              <div className="consult-popup">
+                <div className="popup-header flex justify-between items-start">
+                  <div className="consult-info space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <PhoneCall size={20} strokeWidth={2} />
+                      <span>0123 456 789</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Facebook size={20} strokeWidth={2} />
+                      <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+                        Facebook
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Instagram size={20} strokeWidth={2} />
+                      <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
+                        Instagram
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Linkedin size={20} strokeWidth={2} />
+                      <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+                        LinkedIn
+                      </a>
+                    </div>
+                  </div>
                   <span
-                    className="close-btn"
+                    className="close-btn cursor-pointer text-lg font-bold"
                     onClick={() => setShowLocationPopup(false)}
                   >
                     ×
                   </span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Nhập tên tỉnh thành"
-                  onChange={(e) => setSearchInput(e.target.value)}
-                />
-                <div className="location-list">
-                  {cities
-                    .filter((city) =>
-                      city.toLowerCase().includes(searchInput.toLowerCase())
-                    )
-                    .map((city, index) => (
-                      <div
-                        key={index}
-                        className={`location-item ${selectedCity === city ? "selected" : ""
-                          }`}
-                        onClick={() => {
-                          setSelectedCity(city);
-                          setShowLocationPopup(false);
-                        }}
-                      >
-                        {city}
-                      </div>
-                    ))}
                 </div>
               </div>
             )}
@@ -314,7 +318,7 @@ const Header = () => {
                       onError={(e) => {
                         // Fallback khi ảnh lỗi
                         e.target.onerror = null;
-                        e.target.src = "/photos/default-avatar.png"; // Thay bằng ảnh mặc định
+                        e.target.src = "/photos/default-avatar.png";
                       }}
                     />
                   ) : (

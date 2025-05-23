@@ -10,6 +10,7 @@ import "./style/contact.css";
 import "./style/header.css";
 import "./style/footer.css";
 import "./style/app.css";
+import ScrollToTop from "./page/funtion/ScrollToTop";
 
 // Lazy load components
 const Contact = lazy(() => import("./page/Contact"));
@@ -52,6 +53,7 @@ const App = ({children}) => {
     <AuthProvider>
       <CartProvider>
         <Router>
+          <ScrollToTop />
           <div className="page-container">
             <Header />
             <Suspense fallback={<div className="loading">Đang tải...</div>}>

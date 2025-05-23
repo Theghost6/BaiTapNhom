@@ -346,7 +346,7 @@
   background-color: #fff;
   color: #f44336;
   padding: 12px 24px;
-  border: none;
+  border: 1px solid #f44336;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.1em;
@@ -359,7 +359,6 @@
 .reset-button:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-  border: 0px solid #333;
   background-color: #f44336;
   color: #fff;
 }

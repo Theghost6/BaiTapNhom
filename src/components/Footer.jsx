@@ -24,7 +24,7 @@ const Footer = () => {
           <div className="footer-column about-column">
             <div className="footer-logo">
               <div className="footer-logo-container">
-                <img src="/photos/logo.jpg" alt="Logo" className="footer-logo-image" />
+                <img src="/photos/Logo.png" alt="Logo" className="footer-logo-image" />
                 <span className="footer-logo-text">COMPONENT</span>
               </div>
             </div>
@@ -33,23 +33,14 @@ const Footer = () => {
             </p>
             <div className="social-icons">
               <h4 className="social-title">Follow us</h4>
-              <div className="social-links">
-                <a href="#" aria-label="Facebook" className="social-link">
-                  <Facebook size={16} />
-                </a>
-                <a href="#" aria-label="Twitter" className="social-link">
-                  <Twitter size={16} />
-                </a>
-                <a href="#" aria-label="Instagram" className="social-link">
-                  <Instagram size={16} />
-                </a>
-                <a href="#" aria-label="Linkedin" className="social-link">
-                  <Linkedin size={16} />
-                </a>
-                <a href="#" aria-label="Youtube" className="social-link">
-                  <YoutubeIcon size={16} />
-                </a>
+              <div className="social-links-vertical">
+                <a href="#" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
+                <a href="#" className="social-link" aria-label="Twitter"><Twitter size={20} /></a>
+                <a href="#" className="social-link" aria-label="Instagram"><Instagram size={20} /></a>
+                <a href="#" className="social-link" aria-label="LinkedIn"><Linkedin size={20} /></a>
+                <a href="#" className="social-link" aria-label="YouTube"><YoutubeIcon size={20} /></a>
               </div>
+
             </div>
           </div>
 

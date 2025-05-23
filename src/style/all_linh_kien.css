@@ -371,9 +371,8 @@ body {
   box-shadow: 0 14px 30px rgba(0, 170, 255, 0.25), 0 0 12px rgba(224, 64, 251, 0.15);
 }
 
-.product-card:hover .product-image {
-  /* Removed transform and filter changes */
-}
+/* .product-card:hover .product-image {
+} */
 
 .product-image-container {
   width: 100%;

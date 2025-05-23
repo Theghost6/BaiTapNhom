@@ -7,7 +7,7 @@
   color: #666;
   max-width: 1400px;
 }
-
+ 
 .footer-container {
   /* max-width: 1300px; */
   /* margin: 0 auto; */
@@ -54,8 +54,9 @@
 }
 
 .footer-description {
-  font-style: italic;
-  color: #666;
+  margin: 10px 0 20px;
+  font-size: 0.95rem;
+  color: #333;
 }
 
 .column-title {
@@ -137,7 +138,7 @@
   margin-top: 20px;
   display: flex;
   gap: 12px;
-  justify-content: center;
+  justify-content: left;
 
 }
 
@@ -156,6 +157,13 @@
 .social-icons a:hover {
   background-color: skyblue;
   color: #fff;
+}
+
+.social-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .scroll-to-top {
@@ -207,4 +215,11 @@
 .fixed-social-icons a:hover {
   background-color: skyblue;
   color: #fff;
+}
+
+.payment-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
 }

@@ -61,8 +61,8 @@ body {
 }
 
 .logo-image {
-  height: 30px;
-  width: 30px;
+  height: 46px;
+  width: 46px;
   object-fit: contain;
 }
 
@@ -153,7 +153,7 @@ body {
 }
 
 /* Location Selector */
-.location-selector button {
+.consult-selector button {
   background: none;
   color: #1A1A2E;
   font-size: 14px;
@@ -164,67 +164,79 @@ body {
   font-weight: bold;
 }
 
-.location-selector button:hover {
+.consult-selector button:hover {
   border-radius: 8px;
   padding: 8px 16px;
 }
 
-.location-popup {
+.consult-popup {
   position: absolute;
-  top: 60px;
-  right: 5%;
-  width: 90%;
-  max-width: 400px;
-  background: linear-gradient(135deg, #E3F2FD, #F3E7FD);
-  color: #1A1A2E;
-  border-radius: 10px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
-  padding: 16px;
-  z-index: 9999;
-}
-
-.location-popup input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #00FFFF;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  background: #FFFFFF;
-  color: #1A1A2E;
+  top: 48px;
+  right: 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  padding: 20px 24px;
+  width: 280px;
+  z-index: 999;
+  border: 1px solid #e0e0e0;
+  animation: fadeIn 0.2s ease-in-out;
 }
 
 .popup-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.consult-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 16px;
+  color: #333;
+}
+
+.consult-info div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.consult-info a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.consult-info a:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 .close-btn {
-  cursor: pointer;
-}
-
-.location-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.location-item {
-  width: 45%;
-  padding: 6px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.2s;
-}
-
-.location-item:hover,
-.location-item.selected {
-  background-color: #1A1A2E;
-  color: #FFFFFF;
+  font-size: 22px;
   font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s;
 }
+
+.close-btn:hover {
+  color: #333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* User Profile */
 .header-actions :hover {

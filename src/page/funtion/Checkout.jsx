@@ -311,7 +311,6 @@ const Checkout = () => {
 
   return (
     <div className="checkout-page">
-      <h2>Thanh Toán</h2>
 
       {error && <div className="error-message">{error}</div>}
 
@@ -572,6 +571,16 @@ const Checkout = () => {
               />
             </div>
 
+            <button
+              type="button"
+              className="reset-button"
+              onClick={handleResetForm}
+              disabled={isProcessing}
+              title="Xóa toàn bộ thông tin đã nhập"
+            >
+              Nhập lại
+            </button>
+
             <h3>Phương thức vận chuyển</h3>
             <div className="shipping-methods">
               <div className="shipping-option">
@@ -635,16 +644,6 @@ const Checkout = () => {
                 </label>
               </div>
             </div>
-
-            <button
-              type="button"
-              className="reset-button"
-              onClick={handleResetForm}
-              disabled={isProcessing}
-              title="Xóa toàn bộ thông tin đã nhập"
-            >
-              Nhập lại
-            </button>
 
             <button
               type="submit"
