@@ -507,6 +507,31 @@ while ($row = $result->fetch_assoc()) {
         
         echo json_encode($statistics);
         break;
+        case 'get_contacts':
+    $sql = "SELECT * FROM lien_he ORDER BY thoi_gian_gui DESC";
+    $result = $conn->query($sql);
+    $contacts = [];
+    while ($row = $result->fetch_assoc()) {
+        $contacts[] = $row;
+    }
+    echo json_encode($contacts);
+    break;
+    case 'delete_contact':
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    if ($id > 0) {
+        $sql = "DELETE FROM lien_he WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Không thể xóa liên hệ']);
+        }
+        $stmt->close();
+    } else {
+        echo json_encode(['success' => false, 'error' => 'ID không hợp lệ']);
+    }
+    break;
         case 'get_dashboard_metrics':
 
     

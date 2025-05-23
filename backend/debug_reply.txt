@@ -5,3 +5,4 @@
 {"id_danh_gia":7,"ten_nguoi_tra_loi":"Admin","noi_dung":"ok too\n","ngay":"2025-05-16"}
 {"id_danh_gia":8,"ten_nguoi_tra_loi":"Admin","noi_dung":"wooo","ngay":"2025-05-16"}
 {"id_danh_gia":9,"ten_nguoi_tra_loi":"Admin","noi_dung":"what","ngay":"2025-05-16"}
+{"id_danh_gia":9,"ten_nguoi_tra_loi":"unkown","noi_dung":"amzing good job","ngay":"2025-05-23"}
