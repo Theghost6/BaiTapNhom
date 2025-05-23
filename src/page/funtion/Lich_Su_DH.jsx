@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../funtion/AuthContext";
@@ -10,7 +10,7 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedOrder, setExpandedOrder] = useState(null);
-  const { user } = useState(AuthContext);
+  const { user } = useContext(AuthContext); // Fixed: Use useContext instead of useState
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -140,7 +140,7 @@ const OrderHistory = () => {
                       <p>
                         <strong>Số điện thoại:</strong> {order.sdt_nhan}
                       </p>
-                      {order.phuong_thuc_van_chuyen === "ship" && (
+                      {order.dia_chi !== "Lấy tại cửa hàng" && (
                         <p>
                           <strong>Địa chỉ:</strong> {order.dia_chi},{" "}
                           {order.phuong_xa}, {order.quan_huyen},{" "}
@@ -159,9 +159,9 @@ const OrderHistory = () => {
                       </p>
                       <p>
                         <strong>Phương thức vận chuyển:</strong>{" "}
-                        {order.phuong_thuc_van_chuyen === "ship"
-                          ? "Giao hàng tận tay"
-                          : "Lấy tại cửa hàng"}
+                        {order.dia_chi === "Lấy tại cửa hàng"
+                          ? "Lấy tại cửa hàng"
+                          : "Giao hàng tận tay"}
                       </p>
                       <p>
                         <strong>Trạng thái:</strong>{" "}
@@ -187,10 +187,7 @@ const OrderHistory = () => {
                       <thead>
                         <tr>
                           <th>Sản phẩm</th>
-                          <th>Danh mục</th>
                           <th>Số lượng</th>
-                          <th>Đơn giá</th>
-                          <th>Thành tiền</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -198,22 +195,13 @@ const OrderHistory = () => {
                         order.san_pham.length > 0 ? (
                           order.san_pham.map((product, index) => (
                             <tr key={index}>
-                              <td>
-                                <Link to={`/linh-kien/${product.id_product}`}>
-                                  {product.ten_san_pham}
-                                </Link>
-                              </td>
-                              <td>{product.danh_muc}</td>
+                              <td>{product.ten_san_pham}</td>
                               <td>{product.so_luong}</td>
-                              <td>{formatPrice(product.gia)}</td>
-                              <td>
-                                {formatPrice(product.gia * product.so_luong)}
-                              </td>
                             </tr>
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="5">
+                            <td colSpan="2">
                               Không có sản phẩm nào trong đơn hàng này.
                             </td>
                           </tr>
