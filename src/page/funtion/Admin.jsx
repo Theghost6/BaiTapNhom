@@ -25,6 +25,7 @@ ChartJS.register(
   Legend,
   Filler
 );
+
 function DeleteModal({ isOpen, onCancel, onConfirm, itemId, itemType }) {
   if (!isOpen) return null;
   return (
@@ -225,6 +226,7 @@ function OrderDetailsModal({ isOpen, onClose, orderId, orderItems, orderAddress 
 
 function Admin() {
   const [view, setView] = useState("dashboard");
+  const [contacts, setContacts] = useState([]);
   const [dashboardMetrics, setDashboardMetrics] = useState(null);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
@@ -520,7 +522,6 @@ function Admin() {
     ],
   };
 
-
   const handleAddLinhKien = () => {
     const item = { ...newLinhKien };
     delete item.loai;
@@ -635,101 +636,104 @@ function Admin() {
         alert("Có lỗi xảy ra khi cập nhật trạng thái tài khoản");
       });
   };
-const chartDataRevenue = {
-  labels: (statistics?.doanh_thu_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
-  datasets: [
-    {
-      label: "Doanh thu (VNĐ)",
-      data: (statistics?.doanh_thu_theo_ngay || []).map((item) => item.doanh_thu),
-      borderColor: "rgba(255, 99, 132, 1)",
-      backgroundColor: "rgba(255, 99, 132, 0.2)",
-      fill: true,
-      tension: 0.4,
-    },
-  ],
-};
 
-const chartDataOrders = {
-  labels: (statistics?.don_hang_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
-  datasets: [
-    {
-      label: "Số đơn hàng",
-      data: (statistics?.don_hang_theo_ngay || []).map((item) => item.don_hang),
-      borderColor: "rgba(54, 162, 235, 1)",
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-      fill: true,
-      tension: 0.4,
-    },
-  ],
-};
+  const chartDataRevenue = {
+    labels: (statistics?.doanh_thu_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
+    datasets: [
+      {
+        label: "Doanh thu (VNĐ)",
+        data: (statistics?.doanh_thu_theo_ngay || []).map((item) => item.doanh_thu),
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
 
-const chartDataUsers = {
-  labels: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
-    console.log("Ngày:", item.ngay); // Debug ngày
-    return `Ngày ${item.ngay}`;
-  }),
-  datasets: [
-    {
-      label: "Người dùng hoạt động",
-      data: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
-        console.log("Người dùng:", statistics.nguoi_dung_theo_ngay); // Debug số người dùng
-        return item.nguoi_dung;
-      }),
-      borderColor: "rgba(75, 192, 192, 1)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: true,
-      tension: 0.4,
-    },
-  ],
-};
+  const chartDataOrders = {
+    labels: (statistics?.don_hang_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
+    datasets: [
+      {
+        label: "Số đơn hàng",
+        data: (statistics?.don_hang_theo_ngay || []).map((item) => item.don_hang),
+        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
 
-const chartDataReviews = {
-  labels: (statistics?.danh_gia_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
-  datasets: [
-    {
-      label: "Số đánh giá",
-      data: (statistics?.danh_gia_theo_ngay || []).map((item) => item.danh_gia),
-      borderColor: "rgba(255, 206, 86, 1)",
-      backgroundColor: "rgba(255, 206, 86, 0.2)",
-      fill: true,
-      tension: 0.4,
-    },
-  ],
-};
+  const chartDataUsers = {
+    labels: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
+      console.log("Ngày:", item.ngay); // Debug ngày
+      return `Ngày ${item.ngay}`;
+    }),
+    datasets: [
+      {
+        label: "Người dùng hoạt động",
+        data: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
+          console.log("Người dùng:", statistics.nguoi_dung_theo_ngay); // Debug số người dùng
+          console.log("Người dùng 1:", item.nguoi_dung); // Debug số người dùng
+          return item.nguoi_dung;
+        }),
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
 
-const chartOptions = (title) => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-      labels: {
-        font: {
-          size: 14,
+  const chartDataReviews = {
+    labels: (statistics?.danh_gia_theo_ngay || []).map((item) => `Ngày ${item.ngay}`),
+    datasets: [
+      {
+        label: "Số đánh giá",
+        data: (statistics?.danh_gia_theo_ngay || []).map((item) => item.danh_gia),
+        borderColor: "rgba(255, 206, 86, 1)",
+        backgroundColor: "rgba(255, 206, 86, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  const chartOptions = (title) => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+      title: {
+        display: true,
+        text: title,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: title.includes("Doanh thu") ? "Doanh thu (VNĐ)" : title.includes("Người dùng") ? "Số người dùng" : "Số lượng",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Ngày",
         },
       },
     },
-    title: {
-      display: true,
-      text: title,
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: title.includes("Doanh thu") ? "Doanh thu (VNĐ)" : title.includes("Người dùng") ? "Số người dùng" : "Số lượng",
-      },
-    },
-    x: {
-      title: {
-        display: true,
-        text: "Ngày",
-      },
-    },
-  },
-});
+  });
+
   useEffect(() => {
     switch (view) {
       case "orders":
@@ -806,41 +810,59 @@ const chartOptions = (title) => ({
             setPayments([]);
           });
         break;
-   case "dashboard":
-      axios
-        .get("http://localhost/BaiTapNhom/backend/api.php?action=get_dashboard_metrics")
-        .then((res) => {
-          console.log("Dashboard metrics:", res.data);
-          setDashboardMetrics(res.data);
-        })
-        .catch((err) => {
-          console.error("Error fetching dashboard metrics:", err);
-          setDashboardMetrics(null);
-        });
+      case "dashboard":
+        Promise.all([
+          axios.get("http://localhost/BaiTapNhom/backend/api.php?action=get_dashboard_metrics"),
+          axios.get(`http://localhost/BaiTapNhom/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`),
+          axios.get("http://localhost/BaiTapNhom/backend/api.php?action=get_reviews"),
+          axios.get("http://localhost/BaiTapNhom/backend/api.php?action=get_orders"),
+          axios.get("http://localhost/BaiTapNhom/backend/api.php?action=get_users"),
+        ])
+          .then(([metricsRes, statsRes, reviewsRes, ordersRes, usersRes]) => {
+            // Handle dashboard metrics
+            setDashboardMetrics(metricsRes.data);
 
-      axios
-        .get(`http://localhost/BaiTapNhom/backend/api.php?action=get_statistics&month=${selectedMonth}&year=${selectedYear}`)
-        .then((res) => {
-          setStatistics(res.data);
-        })
-        .catch((err) => console.error("Error fetching statistics:", err));
+            // Handle statistics
+            setStatistics(statsRes.data);
 
-      // Fetch reviews to get total count
-      axios
-        .get("http://localhost/BaiTapNhom/backend/api.php?action=get_reviews")
-        .then((res) => {
-          if (Array.isArray(res.data)) {
-            setReviews(res.data);
-          } else {
-            console.error("API get_reviews did not return an array:", res.data);
+            // Handle reviews
+            if (Array.isArray(reviewsRes.data)) {
+              setReviews(reviewsRes.data);
+            } else {
+              console.error("API get_reviews did not return an array:", reviewsRes.data);
+              setReviews([]);
+            }
+
+            // Handle users
+            if (Array.isArray(usersRes.data)) {
+              const usersData = usersRes.data.map((user) => ({
+                ...user,
+                is_active: Number(user.is_active),
+              }));
+              setUsers(usersData);
+            } else {
+              console.error("API get_users did not return an array:", usersRes.data);
+              setUsers([]);
+            }
+
+            // Handle orders
+            if (Array.isArray(ordersRes.data)) {
+              setOrders(ordersRes.data);
+            } else {
+              console.error("API get_orders did not return an array:", ordersRes.data);
+              setOrders([]);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching dashboard data:", err);
+            setDashboardMetrics(null);
+            setStatistics(null);
             setReviews([]);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching reviews:", err);
-          setReviews([]);
-        });
-      break;      case "linh_kien":
+            setOrders([]);
+            setUsers([]);
+          });
+        break;
+      case "linh_kien":
         axios
           .get(
             "http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all"
@@ -874,155 +896,197 @@ const chartOptions = (title) => ({
             setLoaiLinhKienList([]);
           });
         break;
+    case "contacts":
+      axios
+        .get("http://localhost/BaiTapNhom/backend/api.php?action=get_contacts")
+        .then((res) => {
+          if (Array.isArray(res.data)) {
+            setContacts(res.data);
+          } else {
+            console.error("API get_contacts did not return an array:", res.data);
+            setContacts([]);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching contacts:", err);
+          setContacts([]);
+        });
+      break;
       default:
         break;
     }
   }, [view, selectedMonth, selectedYear]);
 
+  // Calculate percentages for dashboard cards
+  const targetRevenue = 100000000; // Example target revenue (100 million VNĐ)
+  const revenuePercentage = statistics?.tong_doanh_thu
+    ? (statistics.tong_doanh_thu / targetRevenue) * 100
+    : 0;
+
+  const completedOrders = orders.filter((order) => order.trang_thai === "Đã thanh toán").length;
+  const orderCompletionPercentage = orders.length > 0 ? (completedOrders / orders.length) * 100 : 0;
+
+  const activeUsers = users.filter((user) => user.is_active === 1).length;
+  const userActivePercentage = users.length > 0 ? (activeUsers / users.length) * 100 : 0;
+
+  const positiveReviews = reviews.filter((review) => review.so_sao >= 3).length;
+  const positiveReviewPercentage = reviews.length > 0 ? (positiveReviews / reviews.length) * 100 : 0;
+
+  const deleteContact = (id) => {
+  axios
+    .get(`http://localhost/BaiTapNhom/backend/api.php?action=delete_contact&id=${id}`)
+    .then(() => {
+      setContacts(contacts.filter((c) => c.id !== id));
+      cancelDelete();
+    })
+    .catch((err) => console.error("Error deleting contact:", err));
+};
+
   const renderContent = () => {
     switch (view) {
-     case "dashboard":
-      return (
-        <div className="dashboard-container">
-          <h2 className="dashboard-title">Bảng điều khiển</h2>
-          <div className="date-selector">
-            <div className="date-picker">
-              <label>Chọn tháng: </label>
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="select-input"
-              >
-                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                  <option key={month} value={month}>
-                    Tháng {month}
-                  </option>
-                ))}
-              </select>
+      case "dashboard":
+        return (
+          <div className="dashboard-container">
+            <h2 className="dashboard-title"> Thông tin chung</h2>
+            <div className="date-selector">
+              <div className="date-picker">
+                <label>Chọn tháng: </label>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                  className="select-input"
+                >
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                    <option key={month} value={month}>
+                      Tháng {month}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="date-picker">
+                <label>Chọn năm: </label>
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(Number(e.target.value))}
+                  className="select-input"
+                >
+                  {Array.from(
+                    { length: 5 },
+                    (_, i) => new Date().getFullYear() - i
+                  ).map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="date-picker">
-              <label>Chọn năm: </label>
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="select-input"
-              >
-                {Array.from(
-                  { length: 5 },
-                  (_, i) => new Date().getFullYear() - i
-                ).map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          {statistics && dashboardMetrics ? (
-            <div className="dashboard-content">
-              <div className="stats-cards">
-                <div className="stats-card">
-                  <div className="card-icon">
-                    <i className="fas fa-chart-line"></i>
+            {statistics && dashboardMetrics ? (
+              <div className="dashboard-content">
+                <div className="stats-cards">
+                  <div className="stats-card">
+                    <div className="card-icon">
+                      <i className="fas fa-chart-line"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Doanh thu</h3>
+                      <p className="stats-value">
+                        {Number(statistics.tong_doanh_thu || 0).toLocaleString("vi-VN")} đ
+                      </p>
+                      <p className="stats-progress" title="Tỷ lệ đạt mục tiêu doanh thu">
+                        <span className="progress-bar" style={{ width: `${revenuePercentage}%` }}></span>
+                        <span className="progress-text">{revenuePercentage.toFixed(1)}%</span>
+                      </p>
+                    </div>
                   </div>
-                  <div className="card-content">
+                  <div className="stats-card">
+                    <div className="card-icon">
+                      <i className="fas fa-shopping-cart"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Đơn hàng</h3>
+                      <p className="stats-value">{orders.length || 0}</p>
+                      <p className="stats-progress" title="Tỷ lệ đơn hàng đã thanh toán">
+                        <span className="progress-bar" style={{ width: `${orderCompletionPercentage}%` }}></span>
+                        <span className="progress-text">{orderCompletionPercentage.toFixed(1)}%</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="stats-card">
+                    <div className="card-icon">
+                      <i className="fas fa-users"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Người dùng</h3>
+                      <p className="stats-value">{users.length || 0}</p>
+                      <p className="stats-progress" title="Tỷ lệ người dùng hoạt động">
+                        <span className="progress-bar" style={{ width: `${userActivePercentage}%` }}></span>
+                        <span className="progress-text">{userActivePercentage.toFixed(1)}%</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="stats-card">
+                    <div className="card-icon">
+                      <i className="fas fa-star"></i>
+                    </div>
+                    <div className="card-content">
+                      <h3>Đánh giá</h3>
+                      <p className="stats-value">{reviews.length || 0}</p>
+                      <p className="stats-progress" title="Tỷ lệ đánh giá tích cực (≥ 4 sao)">
+                        <span className="progress-bar" style={{ width: `${positiveReviewPercentage}%` }}></span>
+                        <span className="progress-text">{positiveReviewPercentage.toFixed(1)}%</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="charts-container">
+                  <div className="chart-card">
                     <h3>Doanh thu</h3>
-                    <p className="stats-value">
-                      {Number(statistics.tong_doanh_thu || 0).toLocaleString("vi-VN")} đ
-                    </p>
-                    <p className="stats-progress">
-                      <span className="progress-bar" style={{ width: "65%" }}></span>
-                      <span className="progress-text">65%</span>
-                    </p>
+                    <div className="chart-container" style={{ height: "300px" }}>
+                      <Line
+                        data={chartDataRevenue}
+                        options={chartOptions(`Doanh thu - Tháng ${selectedMonth}/${selectedYear}`)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="stats-card">
-                  <div className="card-icon">
-                    <i className="fas fa-shopping-cart"></i>
-                  </div>
-                  <div className="card-content">
+                  <div className="chart-card">
                     <h3>Đơn hàng</h3>
-                    <p className="stats-value">{dashboardMetrics.don_hang || 0}</p>
-                    <p className="stats-progress">
-                      <span className="progress-bar" style={{ width: "87.4%" }}></span>
-                      <span className="progress-text">87.4%</span>
-                    </p>
+                    <div className="chart-container" style={{ height: "300px" }}>
+                      <Line
+                        data={chartDataOrders}
+                        options={chartOptions(`Đơn hàng - Tháng ${selectedMonth}/${selectedYear}`)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="stats-card">
-                  <div className="card-icon">
-                    <i className="fas fa-users"></i>
-                  </div>
-                  <div className="card-content">
+                  <div className="chart-card">
                     <h3>Người dùng</h3>
-                    <p className="stats-value">{dashboardMetrics.tai_khoan || 0}</p>
-                    <p className="stats-progress">
-                      <span className="progress-bar" style={{ width: "17.2%" }}></span>
-                      <span className="progress-text">17.2%</span>
-                    </p>
+                    <div className="chart-container" style={{ height: "300px" }}>
+                      <Line
+                        data={chartDataUsers}
+                        options={chartOptions(`Người dùng hoạt động - Tháng ${selectedMonth}/${selectedYear}`)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="stats-card">
-                  <div className="card-icon">
-                    <i className="fas fa-star"></i>
-                  </div>
-                  <div className="card-content">
+                  <div className="chart-card">
                     <h3>Đánh giá</h3>
-                    <p className="stats-value">{reviews.length || 0}</p>
-                    <p className="stats-progress">
-                      <span className="progress-bar" style={{ width: "50%" }}></span>
-                      <span className="progress-text">50%</span>
-                    </p>
+                    <div className="chart-container" style={{ height: "300px" }}>
+                      <Line
+                        data={chartDataReviews}
+                        options={chartOptions(`Đánh giá - Tháng ${selectedMonth}/${selectedYear}`)}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="charts-container">
-                <div className="chart-card">
-                  <h3>Doanh thu</h3>
-                  <div className="chart-container" style={{ height: "300px" }}>
-                    <Line
-                      data={chartDataRevenue}
-                      options={chartOptions(`Doanh thu - Tháng ${selectedMonth}/${selectedYear}`)}
-                    />
-                  </div>
-                </div>
-                <div className="chart-card">
-                  <h3>Đơn hàng</h3>
-                  <div className="chart-container" style={{ height: "300px" }}>
-                    <Line
-                      data={chartDataOrders}
-                      options={chartOptions(`Đơn hàng - Tháng ${selectedMonth}/${selectedYear}`)}
-                    />
-                  </div>
-                </div>
-                <div className="chart-card">
-                  <h3>Người dùng</h3>
-                  <div className="chart-container" style={{ height: "300px" }}>
-                    <Line
-                      data={chartDataUsers}
-                      options={chartOptions(`Người dùng hoạt động - Tháng ${selectedMonth}/${selectedYear}`)}
-                    />
-                  </div>
-                </div>
-                <div className="chart-card">
-                  <h3>Đánh giá</h3>
-                  <div className="chart-container" style={{ height: "300px" }}>
-                    <Line
-                      data={chartDataReviews}
-                      options={chartOptions(`Đánh giá - Tháng ${selectedMonth}/${selectedYear}`)}
-                    />
-                  </div>
-                </div>
+            ) : (
+              <div className="loading">
+                <div className="loading-spinner"></div>
+                <p>Đang tải dữ liệu thống kê...</p>
               </div>
-            </div>
-          ) : (
-            <div className="loading">
-              <div className="loading-spinner"></div>
-              <p>Đang tải dữ liệu thống kê...</p>
-            </div>
-          )}
-        </div>
-      );      case "orders":
+            )}
+          </div>
+        );
+      case "orders":
         return (
           <div>
             <h2>Danh sách Đơn hàng</h2>
@@ -1379,7 +1443,7 @@ const chartOptions = (title) => ({
                         {statistics.tong_don_hang > 0
                           ? Number(
                               statistics.tong_doanh_thu /
-                                statistics.tong_don_hang
+                              statistics.tong_don_hang
                             ).toLocaleString("vi-VN")
                           : 0}{" "}
                         đ
@@ -1397,7 +1461,7 @@ const chartOptions = (title) => ({
                         statistics.doanh_thu_theo_ngay.length > 0
                           ? Number(
                               statistics.tong_doanh_thu /
-                                statistics.doanh_thu_theo_ngay.length
+                              statistics.doanh_thu_theo_ngay.length
                             ).toLocaleString("vi-VN")
                           : 0}{" "}
                         đ
@@ -1485,432 +1549,456 @@ const chartOptions = (title) => ({
           </div>
         );
       case "linh_kien":
-        return (
-          <div className="linh-kien-manager">
-            <div className="linh-kien-header">
-              <h2>Quản lý Linh kiện</h2>
-              <div className="linh-kien-stats">
-                <div className="stat-card">
-                  <div className="stat-icon">
-                    <i className="fas fa-microchip"></i>
-                  </div>
-                  <div className="stat-content">
-                    <span className="stat-value">
-                      {Object.values(linhKien).flat().length}
-                    </span>
-                    <span className="stat-label">Tổng linh kiện</span>
-                  </div>
-                </div>
-                <div className="stat-card">
-                  <div className="stat-icon">
-                    <i className="fas fa-tags"></i>
-                  </div>
-                  <div className="stat-content">
-                    <span className="stat-value">
-                      {loaiLinhKienList.length}
-                    </span>
-                    <span className="stat-label">Danh mục</span>
-                  </div>
-                </div>
-              </div>
+  return (
+    <div className="linh-kien-manager">
+      <div className="linh-kien-header">
+        <h2>Quản lý sản phẩm</h2>
+        <div className="linh-kien-stats">
+          <div className="stat-card">
+            <div className="stat-icon">
+              <i className="fas fa-microchip"></i>
             </div>
-            <div className="category-tabs">
+            <div className="stat-content">
+              <span className="stat-value">{Object.values(linhKien).flat().length}</span>
+              <span className="stat-label">Tổng linh kiện</span>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">
+              <i className="fas fa-tags"></i>
+            </div>
+            <div className="stat-content">
+              <span className="stat-value">{loaiLinhKienList.length}</span>
+              <span className="stat-label">Danh mục</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="category-tabs">
+        {loaiLinhKienList.map((loai) => (
+          <button
+            key={loai}
+            className={`category-tab ${selectedLoaiTable === loai ? "active" : ""}`}
+            onClick={() => setSelectedLoaiTable(loai)}
+          >
+            <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
+            <span>{loai.toUpperCase()}</span>
+          </button>
+        ))}
+      </div>
+      <div className="add-component-card">
+        <div className="card-header">
+          <h3>Thêm linh kiện mới</h3>
+          <div className="category-selector">
+            <label>Loại linh kiện:</label>
+            <select
+              value={newLinhKien.loai}
+              onChange={(e) => setNewLinhKien({ ...newLinhKien, loai: e.target.value })}
+              className="select-input"
+            >
               {loaiLinhKienList.map((loai) => (
-                <button
-                  key={loai}
-                  className={`category-tab ${
-                    selectedLoaiTable === loai ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedLoaiTable(loai)}
-                >
-                  <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
-                  <span>{loai.toUpperCase()}</span>
-                </button>
+                <option key={loai} value={loai}>
+                  {loai.toUpperCase()}
+                </option>
               ))}
-            </div>
-            <div className="add-component-card">
-              <div className="card-header">
-                <h3>Thêm linh kiện mới</h3>
-                <div className="category-selector">
-                  <label>Loại linh kiện:</label>
-                  <select
-                    value={newLinhKien.loai}
+            </select>
+          </div>
+        </div>
+        <div className="add-form">
+          {getSampleKeys(linhKien, newLinhKien.loai).map((key) => (
+            <div className="form-group" key={key}>
+              <label htmlFor={`new-${key}`}>{getFieldLabel(key)}:</label>
+              {key === "mo_ta" ? (
+                <textarea
+                  id={`new-${key}`}
+                  placeholder={getFieldPlaceholder(key)}
+                  value={newLinhKien[key] || ""}
+                  onChange={(e) =>
+                    setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
+                  }
+                />
+              ) : key === "gia" ? (
+                <div className="price-input">
+                  <input
+                    id={`new-${key}`}
+                    type="number"
+                    placeholder={getFieldPlaceholder(key)}
+                    value={newLinhKien[key] || ""}
                     onChange={(e) =>
-                      setNewLinhKien({ ...newLinhKien, loai: e.target.value })
+                      setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
                     }
-                    className="select-input"
-                  >
-                    {loaiLinhKienList.map((loai) => (
-                      <option key={loai} value={loai}>
-                        {loai.toUpperCase()}
-                      </option>
-                    ))}
-                  </select>
+                  />
+                  <span className="price-suffix">VNĐ</span>
                 </div>
-              </div>
-              <div className="add-form">
-                {getSampleKeys(linhKien, newLinhKien.loai).map((key) => (
-                  <div className="form-group" key={key}>
-                    <label htmlFor={`new-${key}`}>{getFieldLabel(key)}:</label>
-                    {key === "mo_ta" ? (
-                      <textarea
-                        id={`new-${key}`}
-                        placeholder={getFieldPlaceholder(key)}
-                        value={newLinhKien[key] || ""}
-                        onChange={(e) =>
-                          setNewLinhKien({
-                            ...newLinhKien,
-                            [key]: e.target.value,
-                          })
-                        }
-                      />
-                    ) : key === "gia" ? (
-                      <div className="price-input">
-                        <input
-                          id={`new-${key}`}
-                          type="number"
-                          placeholder={getFieldPlaceholder(key)}
-                          value={newLinhKien[key] || ""}
-                          onChange={(e) =>
-                            setNewLinhKien({
-                              ...newLinhKien,
-                              [key]: e.target.value,
-                            })
-                          }
-                        />
-                        <span className="price-suffix">VNĐ</span>
-                      </div>
-                    ) : (
-                      <input
-                        id={`new-${key}`}
-                        type={getInputType(key)}
-                        placeholder={getFieldPlaceholder(key)}
-                        value={newLinhKien[key] || ""}
-                        onChange={(e) =>
-                          setNewLinhKien({
-                            ...newLinhKien,
-                            [key]: e.target.value,
-                          })
-                        }
-                      />
-                    )}
-                  </div>
-                ))}
-                <button className="add-button" onClick={handleAddLinhKien}>
-                  <i className="fas fa-plus-circle"></i> Thêm linh kiện
+              ) : (
+                <input
+                  id={`new-${key}`}
+                  type={getInputType(key)}
+                  placeholder={getFieldPlaceholder(key)}
+                  value={newLinhKien[key] || ""}
+                  onChange={(e) =>
+                    setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
+                  }
+                />
+              )}
+            </div>
+          ))}
+          <button className="add-button" onClick={handleAddLinhKien}>
+            <i className="fas fa-plus-circle"></i> Thêm linh kiện
+          </button>
+        </div>
+      </div>
+      {loaiLinhKienList.map((loai) => {
+        if (loai !== selectedLoaiTable) return null;
+        const items = Array.isArray(linhKien[loai])
+          ? linhKien[loai].filter((item) => {
+              const keyword = searchKeyword.trim().toLowerCase();
+              if (!keyword) return true;
+              const normalizeText = (text) =>
+                text
+                  ? text
+                      .normalize("NFD")
+                      .replace(/\p{Diacritic}/gu, "")
+                      .toLowerCase()
+                  : "";
+              return Object.values(item).some((value) => {
+                if (value === null || value === undefined) return false;
+                return normalizeText(String(value)).includes(normalizeText(keyword));
+              });
+            })
+          : [];
+        if (items.length === 0) {
+          return (
+            <div key={loai} className="empty-table-container">
+              <div className="empty-table-message">
+                <i className="fas fa-box-open"></i>
+                <p>Không có linh kiện {loai.toUpperCase()} nào trong danh sách</p>
+                <button
+                  className="add-first-button"
+                  onClick={() => {
+                    setNewLinhKien({ ...newLinhKien, loai: loai });
+                    document
+                      .querySelector(".add-component-card")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  <i className="fas fa-plus"></i> Thêm {loai.toUpperCase()} đầu tiên
                 </button>
               </div>
             </div>
-            {loaiLinhKienList.map((loai) => {
-              if (loai !== selectedLoaiTable) return null;
-              const items = Array.isArray(linhKien[loai])
-                ? linhKien[loai].filter((item) => {
-                    const keyword = searchKeyword.trim().toLowerCase();
-                    if (!keyword) return true;
-                    const normalizeText = (text) =>
-                      text
-                        ? text
-                            .normalize("NFD")
-                            .replace(/\p{Diacritic}/gu, "")
-                            .toLowerCase()
-                        : "";
-                    return Object.values(item).some((value) => {
-                      if (value === null || value === undefined) return false;
-                      return normalizeText(String(value)).includes(
-                        normalizeText(keyword)
-                      );
-                    });
-                  })
-                : [];
-              if (items.length === 0) {
-                return (
-                  <div key={loai} className="empty-table-container">
-                    <div className="empty-table-message">
-                      <i className="fas fa-box-open"></i>
-                      <p>
-                        Không có linh kiện {loai.toUpperCase()} nào trong danh
-                        sách
-                      </p>
-                      <button
-                        className="add-first-button"
-                        onClick={() => {
-                          setNewLinhKien({ ...newLinhKien, loai: loai });
-                          document
-                            .querySelector(".add-component-card")
-                            ?.scrollIntoView({ behavior: "smooth" });
-                        }}
-                      >
-                        <i className="fas fa-plus"></i> Thêm{" "}
-                        {loai.toUpperCase()} đầu tiên
-                      </button>
-                    </div>
-                  </div>
-                );
-              }
-              const allKeys = Object.keys(items[0] || {}).filter(
-                (k) => k !== "rating" && k !== "reviewCount"
-              );
-              return (
-                <div key={loai} className="component-table-container">
-                  <div className="table-header">
-                    <h3>
-                      <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
-                      Danh sách {loai.toUpperCase()}
-                    </h3>
-                    <div className="table-actions">
-                      <div className="search-box">
-                        <input
-                          type="text"
-                          placeholder={`Tìm kiếm ${loai}...`}
-                          value={searchKeyword}
-                          onChange={(e) => setSearchKeyword(e.target.value)}
-                        />
-                        <i className="fas fa-search"></i>
-                      </div>
-                      <button
-                        className="export-button"
-                        onClick={() =>
-                          alert(`Xuất danh sách ${loai} sẽ được phát triển sau`)
-                        }
-                      >
-                        <i className="fas fa-file-export"></i> Xuất
-                      </button>
-                    </div>
-                  </div>
-                  <div className="table-responsive">
-                    <table className="components-table">
-                      <thead>
-                        <tr>
-                          {allKeys.map((key) => (
-                            <th key={key}>{getFieldLabel(key)}</th>
-                          ))}
-                          <th className="action-column">Thao tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {items.map((lk) =>
-                          editLinhKien && editLinhKien.id === lk.id ? (
-                            <tr key={lk.id} className="editing-row">
-                              {allKeys.map((key) => (
-                                <td key={key}>
-                                  {key === "mo_ta" ? (
-                                    <textarea
-                                      value={editLinhKien[key] || ""}
-                                      onChange={(e) =>
-                                        setEditLinhKien({
-                                          ...editLinhKien,
-                                          [key]: e.target.value,
-                                        })
-                                      }
-                                    />
-                                  ) : key === "gia" ? (
-                                    <div className="price-input">
-                                      <input
-                                        type="number"
-                                        value={editLinhKien[key] || ""}
-                                        onChange={(e) =>
-                                          setEditLinhKien({
-                                            ...editLinhKien,
-                                            [key]: e.target.value,
-                                          })
-                                        }
-                                      />
-                                      <span className="price-suffix">VNĐ</span>
-                                    </div>
-                                  ) : (
-                                    <input
-                                      type={getInputType(key)}
-                                      value={editLinhKien[key] || ""}
-                                      onChange={(e) =>
-                                        setEditLinhKien({
-                                          ...editLinhKien,
-                                          [key]: e.target.value,
-                                        })
-                                      }
-                                    />
-                                  )}
-                                </td>
-                              ))}
-                              <td className="action-column">
-                                <div className="action-buttons">
-                                  <button
-                                    className="save-button"
-                                    onClick={handleUpdateLinhKien}
-                                    title="Lưu thay đổi"
-                                  >
-                                    <i className="fas fa-save"></i>
-                                  </button>
-                                  <button
-                                    className="cancel-button"
-                                    onClick={() => setEditLinhKien(null)}
-                                    title="Hủy chỉnh sửa"
-                                  >
-                                    <i className="fas fa-times"></i>
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ) : (
-                            <tr key={lk.id}>
-                              {allKeys.map((key) => (
-                                <td
-                                  key={key}
-                                  className={
-                                    key === "gia" ? "price-column" : ""
-                                  }
-                                >
-                                  {key === "mo_ta" ? (
-                                    <div className="description-cell">
-                                      <span className="description-text">
-                                        {lk[key] && lk[key].length > 60
-                                          ? lk[key].slice(0, 60) + "..."
-                                          : lk[key] || ""}
-                                      </span>
-                                      {lk[key] && lk[key].length > 60 && (
-                                        <div className="tooltip-content">
-                                          {lk[key]}
-                                        </div>
-                                      )}
-                                    </div>
-                                  ) : key === "gia" ? (
-                                    formatPrice(lk[key])
-                                  ) : Array.isArray(lk[key]) ? (
-                                    lk[key].join(", ")
-                                  ) : typeof lk[key] === "object" &&
-                                    lk[key] !== null ? (
-                                    JSON.stringify(lk[key])
-                                  ) : (
-                                    lk[key] || ""
-                                  )}
-                                </td>
-                              ))}
-                              <td className="action-column">
-                                <div className="action-buttons">
-                                  <button
-                                    className="edit-button"
-                                    onClick={() =>
-                                      setEditLinhKien({ ...lk, loai })
-                                    }
-                                    title="Chỉnh sửa"
-                                  >
-                                    <i className="fas fa-edit"></i>
-                                  </button>
-                                  <button
-                                    className="delete-button"
-                                    onClick={() =>
-                                      handleDeleteConfirm(lk.id, loai)
-                                    }
-                                    title="Xóa"
-                                  >
-                                    <i className="fas fa-trash-alt"></i>
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          )
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+          );
+        }
+        // Define compact columns for display
+        const displayKeys = ["id", "ten", "gia", "solg_trong_kho"];
+        const allKeys = Object.keys(items[0] || {}).filter(
+          (k) => k !== "rating" && k !== "reviewCount"
+        );
+        return (
+          <div key={loai} className="component-table-container">
+            <div className="table-header">
+              <h3>
+                <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
+                Danh sách {loai.toUpperCase()}
+              </h3>
+              <div className="table-actions">
+                <div className="search-box">
+                  <input
+                    type="text"
+                    placeholder={`Tìm kiếm ${loai}...`}
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                  />
+                  <i className="fas fa-search"></i>
                 </div>
-              );
-            })}
-            {deleteConfirmation.show && (
-              <div className="delete-confirmation-modal">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <i className="fas fa-exclamation-triangle"></i>
-                    <h3>Xác nhận xóa</h3>
-                  </div>
-                  <div className="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa linh kiện này?</p>
-                    <p>Hành động này không thể hoàn tác.</p>
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      className="cancel-button"
-                      onClick={() =>
-                        setDeleteConfirmation({
-                          show: false,
-                          id: null,
-                          loai: null,
-                        })
-                      }
-                    >
-                      <i className="fas fa-times"></i> Hủy
-                    </button>
-                    <button
-                      className="confirm-button"
-                      onClick={() => {
-                        handleDeleteLinhKien(
-                          deleteConfirmation.id,
-                          deleteConfirmation.loai
-                        );
-                        setDeleteConfirmation({
-                          show: false,
-                          id: null,
-                          loai: null,
-                        });
-                      }}
-                    >
-                      <i className="fas fa-check"></i> Xác nhận
-                    </button>
-                  </div>
-                </div>
+                <button
+                  className="export-button"
+                  onClick={() => alert(`Xuất danh sách ${loai} sẽ được phát triển sau`)}
+                >
+                  <i className="fas fa-file-export"></i> Xuất
+                </button>
               </div>
-            )}
+            </div>
+            <div className="table-responsive">
+              <table className="components-table">
+                <thead>
+                  <tr>
+                    {displayKeys.map((key) => (
+                      <th key={key}>{getFieldLabel(key)}</th>
+                    ))}
+                    <th className="action-column">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((lk) =>
+                    editLinhKien && editLinhKien.id === lk.id ? (
+                      <tr key={lk.id} className="editing-row">
+                        {allKeys.map((key) => (
+                          <td key={key}>
+                            {key === "mo_ta" ? (
+                              <textarea
+                                value={editLinhKien[key] || ""}
+                                onChange={(e) =>
+                                  setEditLinhKien({
+                                    ...editLinhKien,
+                                    [key]: e.target.value,
+                                  })
+                                }
+                              />
+                            ) : key === "gia" ? (
+                              <div className="price-input">
+                                <input
+                                  type="number"
+                                  value={editLinhKien[key] || ""}
+                                  onChange={(e) =>
+                                    setEditLinhKien({
+                                      ...editLinhKien,
+                                      [key]: e.target.value,
+                                    })
+                                  }
+                                />
+                                <span className="price-suffix">VNĐ</span>
+                              </div>
+                            ) : (
+                              <input
+                                type={getInputType(key)}
+                                value={editLinhKien[key] || ""}
+                                onChange={(e) =>
+                                  setEditLinhKien({
+                                    ...editLinhKien,
+                                    [key]: e.target.value,
+                                  })
+                                }
+                              />
+                            )}
+                          </td>
+                        ))}
+                        <td className="action-column">
+                          <div className="action-buttons">
+                            <button
+                              className="save-button"
+                              onClick={handleUpdateLinhKien}
+                              title="Lưu thay đổi"
+                            >
+                              <i className="fas fa-save"></i>
+                            </button>
+                            <button
+                              className="cancel-button"
+                              onClick={() => setEditLinhKien(null)}
+                              title="Hủy chỉnh sửa"
+                            >
+                              <i className="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+
+                      <tr key={lk.id}>
+
+                        {displayKeys.map((key) => (
+                          <td
+                            key={key}
+                            className={key === "gia" ? "price-column" : ""}
+                          >
+                            {key === "gia" ? (
+                              formatPrice(lk[key])
+                            ) : (
+                              lk[key] || ""
+                            )}
+                          </td>
+                        ))}
+
+                        <td className="action-column">
+                          <div className="action-buttons">
+                            <button
+                              className="edit-button"
+                              onClick={() => setEditLinhKien({ ...lk, loai })}
+                              title="Chỉnh sửa"
+                            >
+                              <i className="fas fa-edit"></i>
+                            </button>
+                            <button
+                              className="delete-button"
+                              onClick={() => handleDeleteConfirm(lk.id, loai)}
+                              title="Xóa"
+                            >
+                              <i className="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         );
+      })}
+      {deleteConfirmation.show && (
+        <div className="delete-confirmation-modal">
+          <div className="modal-content">
+            <div className="modal-header">
+              <i className="fas fa-exclamation-triangle"></i>
+              <h3>Xác nhận xóa</h3>
+            </div>
+            <div className="modal-body">
+              <p>Bạn có chắc chắn muốn xóa linh kiện này?</p>
+              <p>Hành động này không thể hoàn tác.</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                className="cancel-button"
+                onClick={() =>
+                  setDeleteConfirmation({
+                    show: false,
+                    id: null,
+                    loai: null,
+                  })
+                }
+              >
+                <i className="fas fa-times"></i> Hủy
+              </button>
+              <button
+                className="confirm-button"
+                onClick={() => {
+                  handleDeleteLinhKien(
+                    deleteConfirmation.id,
+                    deleteConfirmation.loai
+                  );
+                  setDeleteConfirmation({
+                    show: false,
+                    id: null,
+                    loai: null,
+                  });
+                }}
+              >
+                <i className="fas fa-check"></i> Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  ); 
+      case "contacts":
+  return (
+    <div>
+      <h2>Quản lý Liên hệ</h2>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Nội dung</th>
+            <th>Thời gian gửi</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {contacts.length === 0 ? (
+            <tr>
+              <td colSpan="7" style={{ textAlign: "center" }}>
+                Không có liên hệ nào
+              </td>
+            </tr>
+          ) : (
+            contacts.map((contact) => (
+              <tr key={contact.id}>
+                <td>{contact.id}</td>
+                <td>{contact.ten}</td>
+                <td>{contact.email}</td>
+                <td>{contact.sdt || "N/A"}</td>
+                <td>
+                  <div className="description-cell">
+                    <span className="description-text">
+                      {contact.noi_dung && contact.noi_dung.length > 60
+                        ? contact.noi_dung.slice(0, 60) + "..."
+                        : contact.noi_dung || ""}
+                    </span>
+                    {contact.noi_dung && contact.noi_dung.length > 60 && (
+                      <div className="tooltip-content">{contact.noi_dung}</div>
+                    )}
+                  </div>
+                </td>
+                <td>{new Date(contact.thoi_gian_gui).toLocaleString("vi-VN")}</td>
+                <td>
+                  <button
+                    onClick={() =>
+                      handleDelete(contact.id, "liên hệ", () =>
+                        deleteContact(contact.id)
+                      )
+                    }
+                    className="button-red"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
     }
   };
 
   return (
     <div className="admin-container">
       <h1>Quản trị Hệ thống Bán Linh kiện</h1>
-      <div className="nav-menu">
-        <button
-          onClick={() => setView("dashboard")}
-          className={`nav-button ${view === "dashboard" ? "active" : ""}`}
-        >
-          Bảng điều khiển
-        </button>
-        <button
-          onClick={() => setView("orders")}
-          className={`nav-button ${view === "orders" ? "active" : ""}`}
-        >
-          Đơn hàng
-        </button>
-        <button
-          onClick={() => setView("users")}
-          className={`nav-button ${view === "users" ? "active" : ""}`}
-        >
-          Tài khoản
-        </button>
-        <button
-          onClick={() => setView("reviews")}
-          className={`nav-button ${view === "reviews" ? "active" : ""}`}
-        >
-          Đánh giá
-        </button>
-        <button
-          onClick={() => setView("payments")}
-          className={`nav-button ${view === "payments" ? "active" : ""}`}
-        >
-          Thanh toán
-        </button>
-        <button
-          onClick={() => setView("total_payment")}
-          className={`nav-button ${view === "total_payment" ? "active" : ""}`}
-        >
-          Thống kê
-        </button>
-        <button
-          onClick={() => setView("linh_kien")}
-          className={`nav-button ${view === "linh_kien" ? "active" : ""}`}
-        >
-          Linh kiện
-        </button>
-      </div>
+<div className="nav-menu">
+  <button
+    onClick={() => setView("dashboard")}
+    className={`nav-button ${view === "dashboard" ? "active" : ""}`}
+  >
+          Trang chủ
+  </button>
+  <button
+    onClick={() => setView("orders")}
+    className={`nav-button ${view === "orders" ? "active" : ""}`}
+  >
+    Đơn hàng
+  </button>
+  <button
+    onClick={() => setView("users")}
+    className={`nav-button ${view === "users" ? "active" : ""}`}
+  >
+    Tài khoản
+  </button>
+  <button
+    onClick={() => setView("reviews")}
+    className={`nav-button ${view === "reviews" ? "active" : ""}`}
+  >
+    Đánh giá
+  </button>
+  <button
+    onClick={() => setView("payments")}
+    className={`nav-button ${view === "payments" ? "active" : ""}`}
+  >
+    Thanh toán
+  </button>
+  <button
+    onClick={() => setView("total_payment")}
+    className={`nav-button ${view === "total_payment" ? "active" : ""}`}
+  >
+    Thống kê
+  </button>
+  <button
+    onClick={() => setView("linh_kien")}
+    className={`nav-button ${view === "linh_kien" ? "active" : ""}`}
+  >
+    Sản phẩm
+  </button>
+  <button
+    onClick={() => setView("contacts")}
+    className={`nav-button ${view === "contacts" ? "active" : ""}`}
+  >
+    Liên hệ
+  </button>
+</div>
       <div className="content-box">{renderContent()}</div>
       <DeleteModal
         isOpen={deleteModal.isOpen}

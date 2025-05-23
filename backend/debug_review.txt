@@ -10,3 +10,5 @@ Content-Type: application/json
 Content-Type: application/json
 {"id_product":"peripheral009","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"yo","ngay":"2025-05-16"}
 Content-Type: application/json
+{"id_product":"gpu001","ten_nguoi_dung":"Admin","so_sao":1,"binh_luan":"hàng lỗi","ngay":"2025-05-23"}
+Content-Type: application/json
