@@ -13,7 +13,7 @@ const AllLinhKien = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [activeFilter, setActiveFilter] = useState(null);
   const [showSelectedOptions, setShowSelectedOptions] = useState(false);
-  
+
   // Reset pagination when filters change
   useEffect(() => {
     setCurrentPage(1);
@@ -26,7 +26,7 @@ const AllLinhKien = () => {
         setActiveFilter(null);
       }
     };
-    
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -39,7 +39,7 @@ const AllLinhKien = () => {
     } else {
       // If selecting a new category/brand/price range, remove the previous selection from same group
       let newSelectedOptions = [...selectedOptions];
-      
+
       // Check which group the option belongs to
       if (categories.includes(option) && option !== "Tất cả loại hàng") {
         newSelectedOptions = newSelectedOptions.filter(item => !categories.includes(item) || item === "Tất cả loại hàng");
@@ -48,7 +48,7 @@ const AllLinhKien = () => {
       } else if (priceRanges.includes(option) && option !== "Tất cả giá") {
         newSelectedOptions = newSelectedOptions.filter(item => !priceRanges.includes(item) || item === "Tất cả giá");
       }
-      
+
       setSelectedOptions([...newSelectedOptions, option]);
     }
   };
@@ -66,7 +66,7 @@ const AllLinhKien = () => {
     "Case",
     "Peripherals",
   ];
-  
+
   // Get unique brands from data
   const brands = [
     "Tất cả hãng",
@@ -76,7 +76,7 @@ const AllLinhKien = () => {
         .filter(brand => brand) // Filter out undefined/null
     ),
   ];
-  
+
   const priceRanges = [
     "Tất cả giá",
     "Dưới 2 triệu",
@@ -90,7 +90,7 @@ const AllLinhKien = () => {
     categories.find(
       (cat) => cat !== "Tất cả loại hàng" && selectedOptions.includes(cat)
     ) || "Tất cả loại hàng";
-    
+
   const activeBrand =
     brands.find(
       (br) => br !== "Tất cả hãng" && selectedOptions.includes(br)
@@ -120,7 +120,7 @@ const AllLinhKien = () => {
       (product.danh_muc && product.danh_muc.toLowerCase() === activeCategory.toLowerCase());
 
     const matchesBrand =
-      activeBrand === "Tất cả hãng" || 
+      activeBrand === "Tất cả hãng" ||
       (product.hang && product.hang === activeBrand);
 
     const productPrice = parseFloat(product.gia);
@@ -152,8 +152,8 @@ const AllLinhKien = () => {
 
   // Helper function to format currency
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('vi-VN', { 
-      style: 'currency', 
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
       currency: 'VND',
       maximumFractionDigits: 0
     }).format(amount);
@@ -271,70 +271,72 @@ const AllLinhKien = () => {
       )}
 
       {/* Products Count */}
-      <div style={{ marginBottom: '20px', fontWeight: '500' }}>
-        Đang hiển thị {currentItems.length} trong {filteredItems.length} sản phẩm
-      </div>
+      <div className="products-count-zone">
+        <div style={{ marginBottom: '20px', fontWeight: '500' }}>
+          Đang hiển thị {currentItems.length} trong {filteredItems.length} sản phẩm
+        </div>
 
-      {/* Products Grid */}
-      <div className="products-grid">
-        {currentItems.length > 0 ? (
-          currentItems.map((product) => (
-            <div key={product.id} className="product-card">
-              <div className="product-image-container">
-                <img
-                  src={(Array.isArray(product.images) && product.images.length > 0) 
-                    ? product.images[0] 
-                    : "/photos/placeholder.jpg"}
-                  alt={product.ten}
-                  className="product-image"
-                  onError={(e) => {
-                    e.target.src = "/photos/placeholder.jpg";
-                  }}
-                />
+        {/* Products Grid */}
+        <div className="products-grid">
+          {currentItems.length > 0 ? (
+            currentItems.map((product) => (
+              <div key={product.id} className="product-card">
+                <div className="product-image-container">
+                  <img
+                    src={(Array.isArray(product.images) && product.images.length > 0)
+                      ? product.images[0]
+                      : "/photos/placeholder.jpg"}
+                    alt={product.ten}
+                    className="product-image"
+                    onError={(e) => {
+                      e.target.src = "/photos/placeholder.jpg";
+                    }}
+                  />
+                </div>
+                <div className="product-details">
+                  <h3 className="product-name">{product.ten}</h3>
+                  <p className="product-brand">{product.hang || "Không xác định"}</p>
+                  <p className="product-price">
+                    {formatCurrency(product.gia)}
+                  </p>
+                  {product.bao_hanh && (
+                    <p className="product-warranty">
+                      {product.bao_hanh}
+                    </p>
+                  )}
+                  {product.thiet_bi_tuong_thich && (
+                    <p className="product-compatible">
+                      {Array.isArray(product.thiet_bi_tuong_thich)
+                        ? product.thiet_bi_tuong_thich.join(", ")
+                        : product.thiet_bi_tuong_thich}
+                    </p>
+                  )}
+                  {product.khuyen_mai && (
+                    <p className="product-sale">
+                      <FaGift style={{ marginRight: "6px" }} />
+                      {product.khuyen_mai}
+                    </p>
+                  )}
+                  <button
+                    className="details-button"
+                    onClick={() => navigate(`/linh-kien/${product.id}`)}
+                  >
+                    Xem chi tiết
+                  </button>
+                </div>
               </div>
-              <div className="product-details">
-                <h3 className="product-name">{product.ten}</h3>
-                <p className="product-brand">{product.hang || "Không xác định"}</p>
-                <p className="product-price">
-                  {formatCurrency(product.gia)}
-                </p>
-                {product.bao_hanh && (
-                  <p className="product-warranty">
-                    {product.bao_hanh}
-                  </p>
-                )}
-                {product.thiet_bi_tuong_thich && (
-                  <p className="product-compatible">
-                    {Array.isArray(product.thiet_bi_tuong_thich) 
-                      ? product.thiet_bi_tuong_thich.join(", ") 
-                      : product.thiet_bi_tuong_thich}
-                  </p>
-                )}
-                {product.khuyen_mai && (
-                  <p className="product-sale">
-                    <FaGift style={{ marginRight: "6px" }} />
-                    {product.khuyen_mai}
-                  </p>
-                )} 
-                <button
-                  className="details-button"
-                  onClick={() => navigate(`/linh-kien/${product.id}`)}
-                > 
-                  Xem chi tiết
-                </button>
-              </div>
+            ))
+          ) : (
+            <div style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '50px 0',
+              color: '#666'
+            }}>
+              Không tìm thấy sản phẩm phù hợp với bộ lọc hiện tại.
             </div>
-          ))
-        ) : (
-          <div style={{ 
-            gridColumn: '1 / -1', 
-            textAlign: 'center', 
-            padding: '50px 0',
-            color: '#666' 
-          }}>
-            Không tìm thấy sản phẩm phù hợp với bộ lọc hiện tại.
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Pagination */}
@@ -347,7 +349,7 @@ const AllLinhKien = () => {
           >
             Trước
           </button>
-          
+
           {/* Display pagination numbers intelligently */}
           {Array.from({ length: totalPages }, (_, index) => {
             const pageNumber = index + 1;
@@ -373,7 +375,7 @@ const AllLinhKien = () => {
             }
             return null;
           })}
-          
+
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages || totalPages === 0}

@@ -117,9 +117,9 @@ const Header = () => {
       ) {
         setShowUserDropdown(false);
       }
-      
+
       if (
-        categoryMenuRef.current && 
+        categoryMenuRef.current &&
         !categoryMenuRef.current.contains(e.target)
       ) {
         setSelectedCategory(null);
@@ -137,7 +137,7 @@ const Header = () => {
     setShowUserDropdown(false);
     navigate("/");
   };
-  
+
   const handleCategoryClick = (category) => {
     if (selectedCategory === category) {
       setSelectedCategory(null);
@@ -153,234 +153,236 @@ const Header = () => {
   return (
     <header className="main-header" ref={headerRef}>
       <div className="main-header-container">
-        <Link to="/" className="logo-link">
-          <div className="logo-container" >
-            <img src="/photos/logo.jpg" alt="Logo" className="logo-image" />
-            <span className="logo-text">Component</span>
-          </div>
-        </Link>
+        <div className="header-items">
+          <Link to="/" className="logo-link">
+            <div className="logo-container" >
+              <img src="/photos/logo.jpg" alt="Logo" className="logo-image" />
+              <span className="logo-text">Component</span>
+            </div>
+          </Link>
 
-        <div className="category-menu" ref={categoryMenuRef}>
-          <button className="category-button">
-            <FaBars size={21} className="menu-icon" />
-            Danh mục
-          </button>
-          <div className="category-dropdown">
-            {Object.keys(menuCategories).map((category) => (
-              <div key={category} className="category-item-wrapper">
-                <div 
-                  className="category-item" 
-                  onClick={() => handleCategoryClick(category)}
-                >
-                  {category}
-                  <span className="category-arrow">›</span>
-                </div>
-                
-                {selectedCategory === category && (
-                  <div className="subcategory-panel">
-                    <h4 className="subcategory-title">{category}</h4>
-                    <div className="subcategory-items">
-                      {menuCategories[category].items.map((item) => (
-                        <Link 
-                          key={item.id} 
-                          to={`/linh-kien/${item.id}`}
-                          className="subcategory-item"
-                          onClick={() => setSelectedCategory(null)}
-                        >
-                          {item.ten}
-                        </Link>
-                      ))}
-                      {menuCategories[category].items.length === 0 && (
-                        <div className="no-items">Không có sản phẩm</div>
-                      )}
-                    </div>
+          <div className="category-menu" ref={categoryMenuRef}>
+            <button className="category-button">
+              <FaBars size={21} className="menu-icon" />
+              Danh mục
+            </button>
+            <div className="category-dropdown">
+              {Object.keys(menuCategories).map((category) => (
+                <div key={category} className="category-item-wrapper">
+                  <div
+                    className="category-item"
+                    onClick={() => handleCategoryClick(category)}
+                  >
+                    {category}
+                    <span className="category-arrow">›</span>
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="search-bar">
-          <Search className="search-icon" size={24} />
-          <input
-            type="text"
-            placeholder="Bạn cần tìm gì?"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-
-          {searchInput && (
-            <div className="search-suggestions">
-              {filteredProducts.slice(0, 5).map((item) => (
-                <div
-                  key={item.id}
-                  className="search-suggestion-item"
-                  onClick={() => {
-                    navigate(`/linh-kien/${item.id}`);
-                    setSearchInput("");
-                  }}
-                >
-                  {item.ten}
+                  {selectedCategory === category && (
+                    <div className="subcategory-panel">
+                      <h4 className="subcategory-title">{category}</h4>
+                      <div className="subcategory-items">
+                        {menuCategories[category].items.map((item) => (
+                          <Link
+                            key={item.id}
+                            to={`/linh-kien/${item.id}`}
+                            className="subcategory-item"
+                            onClick={() => setSelectedCategory(null)}
+                          >
+                            {item.ten}
+                          </Link>
+                        ))}
+                        {menuCategories[category].items.length === 0 && (
+                          <div className="no-items">Không có sản phẩm</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
-              {filteredProducts.length === 0 && (
-                <div className="search-suggestion-item">
-                  Không tìm thấy kết quả
-                </div>
-              )}
             </div>
-          )}
-        </div>
+          </div>
 
-        <Link to="/contact" className="contact-button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            stroke="black"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .56 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.6-.6a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.56A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-          <span>Liên hệ</span>
-        </Link>
+          <div className="search-bar">
+            
+            <input
+              type="text"
+              placeholder="Bạn cần tìm gì?"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
 
-        <Link to="/developer" className="developer-button">
-          <Code size={24} />
-          <span>Nhà phát triển</span>
-        </Link>
-
-        <Link to="/blog" className="discount-button">
-          <FaBlogger size={24} />
-          <span>Blog</span>
-        </Link>
-
-        <div className="location-selector">
-          <button onClick={() => setShowLocationPopup(!showLocationPopup)}>
-            <MapPin size={24} /> {selectedCity}
-          </button>
-          {showLocationPopup && (
-            <div className="location-popup">
-              <div className="popup-header">
-                <span>Chọn tỉnh/thành phố</span>
-                <span
-                  className="close-btn"
-                  onClick={() => setShowLocationPopup(false)}
-                >
-                  ×
-                </span>
-              </div>
-              <input
-                type="text"
-                placeholder="Nhập tên tỉnh thành"
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-              <div className="location-list">
-                {cities
-                  .filter((city) =>
-                    city.toLowerCase().includes(searchInput.toLowerCase())
-                  )
-                  .map((city, index) => (
-                    <div
-                      key={index}
-                      className={`location-item ${selectedCity === city ? "selected" : ""
-                        }`}
-                      onClick={() => {
-                        setSelectedCity(city);
-                        setShowLocationPopup(false);
-                      }}
-                    >
-                      {city}
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="header-actions">
-          {isLoggedIn ? (
-            <div className="user-profile" ref={userDropdownRef}>
-              <button onClick={toggleUserDropdown}>
-                {user?.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt="Avatar"
-                    className="header-avatar"
-                    onError={(e) => {
-                      // Fallback khi ảnh lỗi
-                      e.target.onerror = null;
-                      e.target.src = "/photos/default-avatar.png"; // Thay bằng ảnh mặc định
+            {searchInput && (
+              <div className="search-suggestions">
+                {filteredProducts.slice(0, 5).map((item) => (
+                  <div
+                    key={item.id}
+                    className="search-suggestion-item"
+                    onClick={() => {
+                      navigate(`/linh-kien/${item.id}`);
+                      setSearchInput("");
                     }}
-                  />
-                ) : (
-                  <div className="default-avatar">
-                    <UserCircle size={24} color="#7f8c8d" />
+                  >
+                    {item.ten}
+                  </div>
+                ))}
+                {filteredProducts.length === 0 && (
+                  <div className="search-suggestion-item">
+                    Không tìm thấy kết quả
                   </div>
                 )}
-                <span>{user?.username || "Người dùng"}</span>
-              </button>
-              {showUserDropdown && (
-                <div className="user-dropdown">
-                  <Link to="/Profile" className="dropdown-item">
-                    <UserCircle size={16} /> Thông tin cá nhân
-                  </Link>
-                  <Link to="/cart" className="dropdown-item">
-                    <div style={{ position: "relative", display: "inline-block" }}>
-                      <ShoppingBag size={16} />
-                      {totalQuantity > 0 && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "-8px",
-                            right: "-10px",
-                            backgroundColor: "red",
-                            color: "white",
-                            borderRadius: "50%",
-                            padding: "1px 5px",
-                            fontSize: "9px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {totalQuantity}
-                        </span>
-                      )}
-                    </div>
-                    Đơn hàng của tôi
-                  </Link>
-                  <Link to="/lich_su_don_hang" className="dropdown-item">
-                    <History size={16} /> Lịch sử đơn hàng
-                  </Link>
-                  {user?.role === "admin" && (
-                    <>
-                      <Link to="/admin" className="dropdown-item">
-                        <User size={16} /> Quản trị viên
-                      </Link>
-                      <Link to="/tracuu" className="dropdown-item">
-                        <FiPackage size={16} /> Tra cứu đơn hàng
-                      </Link>
-                    </>
-                  )}
-                  <button
-                    onClick={handleLogout}
-                    className="dropdown-item logout-button"
+              </div>
+            )}
+          </div>
+
+          <Link to="/contact" className="contact-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="black"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .56 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.6-.6a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.56A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span>Liên hệ</span>
+          </Link>
+
+          <Link to="/developer" className="developer-button">
+            <Code size={24} />
+            <span>Nhà phát triển</span>
+          </Link>
+
+          <Link to="/blog" className="discount-button">
+            <FaBlogger size={24} />
+            <span>Tin tức</span>
+          </Link>
+
+          <div className="location-selector">
+            <button onClick={() => setShowLocationPopup(!showLocationPopup)}>
+              <MapPin size={24} /> {selectedCity}
+            </button>
+            {showLocationPopup && (
+              <div className="location-popup">
+                <div className="popup-header">
+                  <span>Chọn tỉnh/thành phố</span>
+                  <span
+                    className="close-btn"
+                    onClick={() => setShowLocationPopup(false)}
                   >
-                    <LogOut size={16} /> Đăng xuất
-                  </button>
+                    ×
+                  </span>
                 </div>
-              )}
-            </div>
-          ) : (
-            <div className="user-actions">
-              <span className="separator">|</span>
-              <Link to="/register">
-                <User size={24} />
-              </Link>
-            </div>
-          )}
+                <input
+                  type="text"
+                  placeholder="Nhập tên tỉnh thành"
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+                <div className="location-list">
+                  {cities
+                    .filter((city) =>
+                      city.toLowerCase().includes(searchInput.toLowerCase())
+                    )
+                    .map((city, index) => (
+                      <div
+                        key={index}
+                        className={`location-item ${selectedCity === city ? "selected" : ""
+                          }`}
+                        onClick={() => {
+                          setSelectedCity(city);
+                          setShowLocationPopup(false);
+                        }}
+                      >
+                        {city}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="header-actions">
+            {isLoggedIn ? (
+              <div className="user-profile" ref={userDropdownRef}>
+                <button onClick={toggleUserDropdown}>
+                  {user?.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt="Avatar"
+                      className="header-avatar"
+                      onError={(e) => {
+                        // Fallback khi ảnh lỗi
+                        e.target.onerror = null;
+                        e.target.src = "/photos/default-avatar.png"; // Thay bằng ảnh mặc định
+                      }}
+                    />
+                  ) : (
+                    <div className="default-avatar">
+                      <UserCircle size={24} color="#7f8c8d" />
+                    </div>
+                  )}
+                  <span>{user?.username || "Người dùng"}</span>
+                </button>
+                {showUserDropdown && (
+                  <div className="user-dropdown">
+                    <Link to="/Profile" className="dropdown-item">
+                      <UserCircle size={16} /> Thông tin cá nhân
+                    </Link>
+                    <Link to="/cart" className="dropdown-item">
+                      <div style={{ position: "relative", display: "inline-block" }}>
+                        <ShoppingBag size={16} />
+                        {totalQuantity > 0 && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "-8px",
+                              right: "-10px",
+                              backgroundColor: "red",
+                              color: "white",
+                              borderRadius: "50%",
+                              padding: "1px 5px",
+                              fontSize: "9px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {totalQuantity}
+                          </span>
+                        )}
+                      </div>
+                      Đơn hàng của tôi
+                    </Link>
+                    <Link to="/lich_su_don_hang" className="dropdown-item">
+                      <History size={16} /> Lịch sử đơn hàng
+                    </Link>
+                    {user?.role === "admin" && (
+                      <>
+                        <Link to="/admin" className="dropdown-item">
+                          <User size={16} /> Quản trị viên
+                        </Link>
+                        <Link to="/tracuu" className="dropdown-item">
+                          <FiPackage size={16} /> Tra cứu đơn hàng
+                        </Link>
+                      </>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="dropdown-item logout-button"
+                    >
+                      <LogOut size={16} /> Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="user-actions">
+                <span className="separator">|</span>
+                <Link to="/register">
+                  <User size={24} />
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

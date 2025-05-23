@@ -391,14 +391,12 @@ const Home = () => {
               Start Your Daily Shopping with <span class="highlight">Nest Mart</span>
             </p>
             <div class="newsletter-form">
-              <input
-                type="email"
-                placeholder="Your email address"
-                class="newsletter-input"
-              />
+              <Link to="/contact">
               <button class="newsletter-button">Subscribe</button>
+              </Link>
             </div>
           </div>
+
           {/* right */}
           {/* <div class="newsletter-image">
             <img src="/photos/g.jpg" alt="Delivery" />

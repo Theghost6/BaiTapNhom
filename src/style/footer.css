@@ -1,7 +1,7 @@
 /* footer.css */
 
 .site-footer {
-  background-color: #fff;
+  background: linear-gradient(135deg, #E3F2FD, #F3E7FD);
   padding-top: 40px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #666;

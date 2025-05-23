@@ -29,7 +29,6 @@ body {
   margin-top: 0;
   border-radius: 16px;
   box-shadow: 0 15px 30px rgba(0, 170, 255, 0.15);
-  /* border: 1px; */
 }
 
 .hero-image {
@@ -318,14 +317,42 @@ body {
 }
 
 /* Products Grid */
+/* .products-count-zone {
+  background-image: url(./photos/banner.jpg);
+  background-size: cover;
+  margin: -18px;
+} */
+
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 40px;
+
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.products-grid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/photos/c.jpg');
+  background-repeat: repeat;
+  background-size: cover;
+  opacity: 0.1; /* mờ nhẹ */
+  pointer-events: none;
+  z-index: 0;
 }
 
 .product-card {
+  position: relative;
   border-radius: 20px;
   overflow: hidden;
   background: linear-gradient(135deg, #E3F2FD, #F3E7FD);
@@ -340,6 +367,8 @@ body {
 /* Removed hover effects */
 .product-card:hover {
   /* Removed transform and box-shadow changes */
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 170, 255, 0.25), 0 0 12px rgba(224, 64, 251, 0.15);
 }
 
 .product-card:hover .product-image {
@@ -392,7 +421,7 @@ body {
   font-size: 0.95rem;
   font-weight: 700;
   margin: 8px 0;
-  color: #00FFFF;
+  color: #e62828;
 }
 
 .product-sale {
@@ -409,18 +438,19 @@ body {
 .details-button {
   margin-top: 8px;
   width: 100%;
-  background: linear-gradient(135deg, #E040FB, #1DE9B6);
+  background: rgb(97, 222, 238);
   color: #FFFFFF;
   padding: 8px 0;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2);
 }
 
 .details-button::before {
@@ -437,8 +467,8 @@ body {
 .details-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 15px rgba(224, 64, 251, 0.15), 0 0 0 1px #E040FB;
-  background: linear-gradient(135deg, #00FFFF, #FF4081);
-  color: #1A1A2E;
+  background: #f83636;
+  color: #fff;
 }
 
 .details-button:hover::before {
