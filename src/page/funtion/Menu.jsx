@@ -50,10 +50,10 @@ export const Variants = () => {
                             ref={containerRef}
                             style={{
                                 position: "fixed",
-                                top: 0,
+                                top: 70,
                                 left: 0,
                                 width: "100px",
-                                height: "400px",
+                                height: "350px",
                                 backgroundColor: "white",
                                 zIndex: 9999,
                                 boxShadow: "-2px 0 10px rgba(0,0,0,0.1)",
@@ -113,8 +113,8 @@ const itemVariants = {
 
 const menuItems = [
     { icon: <FaHome />, iconColor: "#FF008C", label: "Trang chủ", targetId: "hero-slider" },
-    { icon: <FaInfoCircle />, iconColor: "#D309E1", label: "Giới thiệu", targetId: "diem-den" },
-    { icon: <FaBoxOpen />, iconColor: "#9C1AFF", label: "Sản phẩm", targetId: "discount" },
+    { icon: <FaInfoCircle />, iconColor: "#D309E1", label: "Linh kiện hot", targetId: "linhkien" },
+    { icon: <FaBoxOpen />, iconColor: "#9C1AFF", label: "Ưu đãi", targetId: "uudai" },
     { icon: <FaServicestack />, iconColor: "#7700FF", label: "Dịch vụ", targetId: "dich-vu" },
     { icon: <FaPhone />, iconColor: "#4400FF", label: "Liên hệ", targetId: "dang-ki" }
 ];
@@ -215,7 +215,7 @@ const list = {
     padding: 10,
     margin: 0,
     position: "absolute",
-    top: 60,
+    top: 10,
     width: 201,
 };
 

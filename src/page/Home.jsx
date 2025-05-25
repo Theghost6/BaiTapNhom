@@ -205,7 +205,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="section destinations-section">
+      <div className="section destinations-section" id="linhkien">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <div className="section-header">
           <div className="section-title-part">
@@ -264,7 +264,7 @@ const Home = () => {
 
 
       {/* Promotion */}
-      <div className="promotion-section">
+      <div className="promotion-section" id = "uudai">
         <div className="promotion-container">
           <div className="promotion-content">
             <div className="promotion-text">
@@ -499,6 +499,9 @@ const Home = () => {
           ))}
         </div>
       </div>
+
+
+      
       {/* Newsletter */}
       <div class="newsletter-section" id="dang-ki">
         <div class="newsletter-wrapper">
