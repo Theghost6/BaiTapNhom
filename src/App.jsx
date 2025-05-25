@@ -23,8 +23,6 @@ const Checkout = lazy(() => import("./page/funtion/Checkout"));
 const Cart = lazy(() => import("./page/funtion/Cart"));
 const Admin = lazy(() => import("./page/funtion/Admin"));
 const ThankYou = lazy(() => import("./page/funtion/ThankYou"));
-const Hotels = lazy(() => import("./page/funtion/Hotels"));
-const ChiTietHotel = lazy(() => import("./page/funtion/ChiTietHotel"));
 const TraCuuDonHang = lazy(() => import("./page/funtion/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
@@ -196,34 +194,6 @@ const App = ({children}) => {
                         transition={{ duration: 0.5, ease: "easeInOut" }}
                       >
                         <ChiTietLinhKien />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/hotels"
-                    element={
-                      <motion.div
-                        key="hotels"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
-                      >
-                        <Hotels />
-                      </motion.div>
-                    }
-                  />
-                  <Route
-                    path="/hotel/:id"
-                    element={
-                      <motion.div
-                        key="chi-tiet-hotel"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
-                      >
-                        <ChiTietHotel />
                       </motion.div>
                     }
                   />
