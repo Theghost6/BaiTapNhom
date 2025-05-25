@@ -32,86 +32,86 @@ const ProductDetail = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   // Fetch product data and initialize
-useEffect(() => {
-  const fetchProductData = async () => {
-    try {
-      // Tìm sản phẩm trong dữ liệu local LinhKien
-      const allProducts = Object.values(LinhKien).flat();
-      const foundProduct = allProducts.find(
-        (item) => item.id === parseInt(id) || item.id === id
-      );
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        // Tìm sản phẩm trong dữ liệu local LinhKien
+        const allProducts = Object.values(LinhKien).flat();
+        const foundProduct = allProducts.find(
+          (item) => item.id === parseInt(id) || item.id === id
+        );
 
-      if (foundProduct) {
-        // Kiểm tra số lượng tồn kho từ database
-        try {
-          const response = await fetch(
-            `http://localhost/BaiTapNhom/backend/stock_json.php?id=${foundProduct.id}&loai=${foundProduct.danh_muc?.toLowerCase()}`
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          if (data.status === 'success' && data.product) {
-            const dbProduct = {
-              ...foundProduct,
-              so_luong: data.product.solg_trong_kho,
-            };
-            setProduct(dbProduct);
-            setQuantity(1);
-          } else {
-            setProduct(foundProduct);
-            console.warn('Không thể lấy thông tin tồn kho từ database, sử dụng dữ liệu local');
-          }
-        } catch (apiError) {
-          console.error("Lỗi khi gọi API tồn kho:", apiError);
-          setProduct(foundProduct);
-        }
-
-        // Lấy danh sách đánh giá từ API reviews.php
-        try {
-          const reviewResponse = await fetch(
-            `http://localhost/BaiTapNhom/backend/reviews.php?id_product=${id}`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
+        if (foundProduct) {
+          // Kiểm tra số lượng tồn kho từ database
+          try {
+            const response = await fetch(
+              `http://localhost/BaiTapNhom/backend/stock_json.php?id=${foundProduct.id}&loai=${foundProduct.danh_muc?.toLowerCase()}`
+            );
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
             }
-          );
-          const reviewData = await reviewResponse.json();
-          if (reviewData.success) {
-            setReviews(reviewData.data); // Cập nhật danh sách đánh giá
-          } else {
-            console.error("Lỗi khi lấy đánh giá:", reviewData.message);
-            setReviews([]);
+            const data = await response.json();
+            if (data.status === 'success' && data.product) {
+              const dbProduct = {
+                ...foundProduct,
+                so_luong: data.product.solg_trong_kho,
+              };
+              setProduct(dbProduct);
+              setQuantity(1);
+            } else {
+              setProduct(foundProduct);
+              console.warn('Không thể lấy thông tin tồn kho từ database, sử dụng dữ liệu local');
+            }
+          } catch (apiError) {
+            console.error("Lỗi khi gọi API tồn kho:", apiError);
+            setProduct(foundProduct);
           }
-        } catch (reviewError) {
-          console.error("Lỗi khi gọi API đánh giá:", reviewError);
-          setReviews([]);
-          toast.error("Không thể tải đánh giá sản phẩm");
+
+          // Lấy danh sách đánh giá từ API reviews.php
+          try {
+            const reviewResponse = await fetch(
+              `http://localhost/BaiTapNhom/backend/reviews.php?id_product=${id}`,
+              {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              }
+            );
+            const reviewData = await reviewResponse.json();
+            if (reviewData.success) {
+              setReviews(reviewData.data); // Cập nhật danh sách đánh giá
+            } else {
+              console.error("Lỗi khi lấy đánh giá:", reviewData.message);
+              setReviews([]);
+            }
+          } catch (reviewError) {
+            console.error("Lỗi khi gọi API đánh giá:", reviewError);
+            setReviews([]);
+            toast.error("Không thể tải đánh giá sản phẩm");
+          }
+
+          // Lấy sản phẩm liên quan
+          const similarProducts = allProducts
+            .filter(
+              (item) =>
+                item.danh_muc === foundProduct.danh_muc && item.id !== foundProduct.id
+            )
+            .slice(0, 4);
+          setRelatedProducts(similarProducts);
+        } else {
+          toast.error("Không tìm thấy sản phẩm");
         }
-
-        // Lấy sản phẩm liên quan
-        const similarProducts = allProducts
-          .filter(
-            (item) =>
-              item.danh_muc === foundProduct.danh_muc && item.id !== foundProduct.id
-          )
-          .slice(0, 4);
-        setRelatedProducts(similarProducts);
-      } else {
-        toast.error("Không tìm thấy sản phẩm");
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+        toast.error("Không thể tải thông tin sản phẩm");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching product data:", error);
-      toast.error("Không thể tải thông tin sản phẩm");
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  fetchProductData();
-}, [id]);
+    fetchProductData();
+  }, [id]);
   // Thêm useEffect để tự động cập nhật số lượng tồn kho mỗi 30 giây
   useEffect(() => {
     if (!product) return;
@@ -119,11 +119,11 @@ useEffect(() => {
     const updateStock = async () => {
       try {
         const response = await fetch(`http://localhost/BaiTapNhom/backend/stock_json.php?id=${product.id}&loai=${product.danh_muc?.toLowerCase()}`);
-        
+
         if (!response.ok) return;
-        
+
         const data = await response.json();
-        
+
         if (data.status === 'success' && data.product) {
           setProduct(prev => ({
             ...prev,
@@ -215,22 +215,22 @@ useEffect(() => {
       });
 
       const data = await response.json();
-      
+
       if (data.status === 'success' && data.updated_items && data.updated_items.length > 0) {
         const realStock = data.updated_items[0].so_luong_cu;
-        
+
         // Cập nhật lại số lượng trong product state
         setProduct(prev => ({
           ...prev,
           so_luong: realStock
         }));
-        
+
         // Kiểm tra có đủ hàng không
         if (realStock < quantity) {
           toast.error(`Chỉ còn ${realStock} sản phẩm trong kho!`);
           return;
         }
-        
+
         // Nếu đủ hàng, thêm vào giỏ hàng
         const productToAdd = {
           ...product,
@@ -279,7 +279,7 @@ useEffect(() => {
       }
     } catch (error) {
       console.error("Lỗi khi kiểm tra tồn kho:", error);
-      
+
       // Nếu gặp lỗi, vẫn cho phép thêm vào giỏ hàng với dữ liệu hiện tại
       if (product.so_luong < quantity) {
         toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
@@ -328,22 +328,22 @@ useEffect(() => {
       });
 
       const data = await response.json();
-      
+
       if (data.status === 'success' && data.updated_items && data.updated_items.length > 0) {
         const realStock = data.updated_items[0].so_luong_cu;
-        
+
         // Cập nhật lại số lượng trong product state
         setProduct(prev => ({
           ...prev,
           so_luong: realStock
         }));
-        
+
         // Kiểm tra có đủ hàng không
         if (realStock < quantity) {
           toast.error(`Chỉ còn ${realStock} sản phẩm trong kho!`);
           return;
         }
-        
+
         // Nếu đủ hàng, tiến hành checkout
         const productToCheckout = {
           ...product,
@@ -394,7 +394,7 @@ useEffect(() => {
       }
     } catch (error) {
       console.error("Lỗi khi kiểm tra tồn kho:", error);
-      
+
       // Nếu gặp lỗi, vẫn cho phép mua với dữ liệu hiện tại
       if (product.so_luong < quantity) {
         toast.error(`Chỉ còn ${product.so_luong} sản phẩm trong kho!`);
@@ -431,61 +431,61 @@ useEffect(() => {
     });
   };
 
-const handleSubmitReview = async (e) => {
-  e.preventDefault();
-  if (!isAuthenticated) {
-    toast.error("Vui lòng đăng nhập để đánh giá!");
-    navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
-    return;
-  }
-  if (!newReview.binh_luan.trim()) {
-    toast.error("Vui lòng nhập nội dung đánh giá");
-    return;
-  }
-  setIsSubmitting(true);
-
-  // Tạo object đánh giá để gửi lên server
-  const reviewData = {
-    id_product: id,
-    ten_nguoi_dung: user?.username || "Khách",
-    so_sao: newReview.so_sao,
-    binh_luan: newReview.binh_luan,
-    ngay: new Date().toISOString().split("T")[0],
-  };
-
-  try {
-    const response = await fetch("http://localhost/BaiTapNhom/backend/reviews.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(reviewData),
-    });
-    const result = await response.json();
-
-    if (result.success) {
-      // Cập nhật lại danh sách đánh giá
-      const updatedReviews = [
-        ...reviews,
-        {
-          id: result.id, // ID từ server
-          ...reviewData,
-          replies: [], // Khởi tạo mảng replies
-        },
-      ];
-      setReviews(updatedReviews);
-      setNewReview({ so_sao: 5, binh_luan: "" });
-      toast.success("Cảm ơn bạn đã đánh giá!");
-    } else {
-      throw new Error(result.message);
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error("Vui lòng đăng nhập để đánh giá!");
+      navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
+      return;
     }
-  } catch (error) {
-    console.error("Error submitting review:", error);
-    toast.error("Có lỗi xảy ra khi gửi đánh giá: " + error.message);
-  } finally {
-    setIsSubmitting(false);
-  }
-};  const toggleReplyForm = (reviewId) => {
+    if (!newReview.binh_luan.trim()) {
+      toast.error("Vui lòng nhập nội dung đánh giá");
+      return;
+    }
+    setIsSubmitting(true);
+
+    // Tạo object đánh giá để gửi lên server
+    const reviewData = {
+      id_product: id,
+      ten_nguoi_dung: user?.username || "Khách",
+      so_sao: newReview.so_sao,
+      binh_luan: newReview.binh_luan,
+      ngay: new Date().toISOString().split("T")[0],
+    };
+
+    try {
+      const response = await fetch("http://localhost/BaiTapNhom/backend/reviews.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reviewData),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        // Cập nhật lại danh sách đánh giá
+        const updatedReviews = [
+          ...reviews,
+          {
+            id: result.id, // ID từ server
+            ...reviewData,
+            replies: [], // Khởi tạo mảng replies
+          },
+        ];
+        setReviews(updatedReviews);
+        setNewReview({ so_sao: 5, binh_luan: "" });
+        toast.success("Cảm ơn bạn đã đánh giá!");
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      toast.error("Có lỗi xảy ra khi gửi đánh giá: " + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }; const toggleReplyForm = (reviewId) => {
     setReplyForms((prev) => ({
       ...prev,
       [reviewId]: {
@@ -505,75 +505,75 @@ const handleSubmitReview = async (e) => {
     }));
   };
 
-const handleSubmitReply = async (e, reviewId) => {
-  e.preventDefault();
-  if (!isAuthenticated) {
-    toast.error("Vui lòng đăng nhập để gửi phản hồi!");
-    navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
-    return;
-  }
-  if (!replyForms[reviewId]?.noi_dung.trim()) {
-    toast.error("Vui lòng nhập nội dung phản hồi");
-    return;
-  }
-
-  setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: true }));
-
-  // Tạo object phản hồi để gửi lên server
-  const replyData = {
-    id_danh_gia: reviewId,
-    ten_nguoi_tra_loi: user?.username || "Khách",
-    noi_dung: replyForms[reviewId].noi_dung,
-    ngay: new Date().toISOString().split("T")[0],
-  };
-
-  try {
-    const response = await fetch(
-      "http://localhost/BaiTapNhom/backend/reply_review.php",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(replyData),
-      }
-    );
-    const result = await response.json();
-
-    if (result.success) {
-      // Cập nhật lại danh sách đánh giá với phản hồi mới
-      const updatedReviews = reviews.map((review) => {
-        if (review.id === reviewId) {
-          return {
-            ...review,
-            replies: [
-              ...(review.replies || []),
-              {
-                id: result.id, // ID từ server
-                ...replyData,
-              },
-            ],
-          };
-        }
-        return review;
-      });
-
-      setReviews(updatedReviews);
-      setReplyForms((prev) => ({
-        ...prev,
-        [reviewId]: { noi_dung: "", isOpen: false },
-      }));
-      toast.success("Phản hồi đã được gửi!");
-    } else {
-      throw new Error(result.message);
+  const handleSubmitReply = async (e, reviewId) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error("Vui lòng đăng nhập để gửi phản hồi!");
+      navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
+      return;
     }
-  } catch (error) {
-    console.error("Error submitting reply:", error);
-    toast.error("Có lỗi xảy ra khi gửi phản hồi: " + error.message);
-  } finally {
-    setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: false }));
-  }
-};
+    if (!replyForms[reviewId]?.noi_dung.trim()) {
+      toast.error("Vui lòng nhập nội dung phản hồi");
+      return;
+    }
+
+    setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: true }));
+
+    // Tạo object phản hồi để gửi lên server
+    const replyData = {
+      id_danh_gia: reviewId,
+      ten_nguoi_tra_loi: user?.username || "Khách",
+      noi_dung: replyForms[reviewId].noi_dung,
+      ngay: new Date().toISOString().split("T")[0],
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost/BaiTapNhom/backend/reply_review.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(replyData),
+        }
+      );
+      const result = await response.json();
+
+      if (result.success) {
+        // Cập nhật lại danh sách đánh giá với phản hồi mới
+        const updatedReviews = reviews.map((review) => {
+          if (review.id === reviewId) {
+            return {
+              ...review,
+              replies: [
+                ...(review.replies || []),
+                {
+                  id: result.id, // ID từ server
+                  ...replyData,
+                },
+              ],
+            };
+          }
+          return review;
+        });
+
+        setReviews(updatedReviews);
+        setReplyForms((prev) => ({
+          ...prev,
+          [reviewId]: { noi_dung: "", isOpen: false },
+        }));
+        toast.success("Phản hồi đã được gửi!");
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error("Error submitting reply:", error);
+      toast.error("Có lỗi xảy ra khi gửi phản hồi: " + error.message);
+    } finally {
+      setIsSubmittingReply((prev) => ({ ...prev, [reviewId]: false }));
+    }
+  };
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -585,9 +585,9 @@ const handleSubmitReply = async (e, reviewId) => {
   const averageRating =
     reviews.length > 0
       ? (
-          reviews.reduce((total, review) => total + review.so_sao, 0) /
-          reviews.length
-        ).toFixed(1)
+        reviews.reduce((total, review) => total + review.so_sao, 0) /
+        reviews.length
+      ).toFixed(1)
       : 0;
 
   return (
@@ -634,9 +634,9 @@ const handleSubmitReply = async (e, reviewId) => {
                 <button onClick={increaseQuantity}>+</button>
               </div>
               <span className={`stock-info ${product.so_luong <= 5 ? 'low-stock' : ''}`}>
-                {product.so_luong > 0 
-                  ? product.so_luong <= 5 
-                    ? `Chỉ còn ${product.so_luong} sản phẩm!` 
+                {product.so_luong > 0
+                  ? product.so_luong <= 5
+                    ? `Chỉ còn ${product.so_luong} sản phẩm!`
                     : `Còn ${product.so_luong} sản phẩm`
                   : "Hết hàng"}
               </span>
@@ -655,10 +655,10 @@ const handleSubmitReply = async (e, reviewId) => {
                 className={`add-to-cart-button ${isInCart ? "in-cart" : ""}`}
                 disabled={product.so_luong < 1}
               >
-                {product.so_luong < 1 
-                  ? "Hết hàng" 
-                  : isInCart 
-                    ? "✅ Đã thêm vào giỏ hàng" 
+                {product.so_luong < 1
+                  ? "Hết hàng"
+                  : isInCart
+                    ? "✅ Đã thêm vào giỏ hàng"
                     : "🛒 Thêm vào giỏ hàng"}
               </button>
             </div>
@@ -676,12 +676,16 @@ const handleSubmitReply = async (e, reviewId) => {
             </div>
             <div className="product-price">
               {formatCurrency(product.gia || 0)}
+              {product.gia_cu && product.gia_cu > product.gia && (
+                <span className="product-old-price">
+                  {formatCurrency(product.gia_cu)}
+                </span>
+              )}
             </div>
             <div className="product-availability">
               <span
-                className={`status ${
-                  product.so_luong > 0 ? "in-stock" : "out-of-stock"
-                }`}
+                className={`status ${product.so_luong > 0 ? "in-stock" : "out-of-stock"
+                  }`}
               >
                 {product.so_luong > 0 ? "Còn hàng" : "Hết hàng"}
               </span>
@@ -693,9 +697,8 @@ const handleSubmitReply = async (e, reviewId) => {
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`tab-button ${
-                    selectedTab === tab ? "active" : ""
-                  }`}
+                  className={`tab-button ${selectedTab === tab ? "active" : ""
+                    }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}
@@ -727,7 +730,7 @@ const handleSubmitReply = async (e, reviewId) => {
                         {Array.isArray(product.thiet_bi_tuong_thich)
                           ? product.thiet_bi_tuong_thich.join(", ")
                           : product.thiet_bi_tuong_thich ||
-                            "Không có thông tin"}
+                          "Không có thông tin"}
                       </span>
                     </div>
                     <div className="info-row">
@@ -764,12 +767,12 @@ const handleSubmitReply = async (e, reviewId) => {
                         ))}
                       {(!product.thong_so ||
                         Object.keys(product.thong_so).length === 0) && (
-                        <tr>
-                          <td colSpan="2" className="no-specs">
-                            Không có thông số kỹ thuật nào được cung cấp.
-                          </td>
-                        </tr>
-                      )}
+                          <tr>
+                            <td colSpan="2" className="no-specs">
+                              Không có thông số kỹ thuật nào được cung cấp.
+                            </td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </div>
