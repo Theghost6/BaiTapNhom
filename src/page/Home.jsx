@@ -262,6 +262,62 @@ const Home = () => {
         </div>
       </div>
 
+
+      {/* Promotion */}
+      <div className="promotion-section">
+        <div className="promotion-container">
+          <div className="promotion-content">
+            <div className="promotion-text">
+              <h2 className="promotion-title" id="discount">Ưu đãi linh kiện 2025</h2>
+              <p className="promotion-description">
+                Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để
+                nhận thêm quà tặng đặc biệt!
+              </p>
+            </div>
+            <div className="promotion-deals">
+              <div className="deals-card">
+                <div className="deals-header">
+                  <Calendar className="deals-icon" />
+                  <h3 className="deals-title">Linh kiện hot trong tháng</h3>
+                </div>
+                <ul className="deals-list">
+                  {[
+                    {
+                      id: "cpu001",
+                      name: "CPU Intel Core i9-13900K",
+                      price: "13,999,000đ",
+                      trend: "+15%",
+                    },
+                    { id: "cpu006", name: "AMD Ryzen 9 7950X3D", price: "15,999,000đ", trend: "+23%" },
+                    {
+                      id: "mb001",
+                      name: "ASUS ROG Strix Z790-E Gaming",
+                      price: "10,000,000đ",
+                      trend: "+18%",
+                    },
+                  ].map((tour, idx) => (
+                    <li key={idx} className="deal-item"
+                      onClick={() => navigate(`/linh-kien/${tour.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <span className="deal-name">{tour.name}</span>
+                      <div className="deal-info">
+                        <span className="deal-price">{tour.price}</span>
+                        <div className="deal-trend">
+                          <TrendingUp className="trend-icon" />
+                          <span className="trend-value">{tour.trend}</span>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       {/* Discount */}
       <div className="uudai">
         <div className="uudai-header">
@@ -299,7 +355,7 @@ const Home = () => {
                 className="uudai-main-image"
               />
               <div className="uudai-product-main"
-              onClick={() => navigate(`/linh-kien/ram003`)}
+                onClick={() => navigate(`/linh-kien/ram003`)}
                 style={{ cursor: "pointer" }}>
                 <p className="uudai-category">RAM</p>
                 <h3 className="uudai-price">5.990.000 VNĐ</h3>
@@ -407,60 +463,6 @@ const Home = () => {
       </div>
 
 
-
-      {/* Promotion */}
-      <div className="promotion-section">
-        <div className="promotion-container">
-          <div className="promotion-content">
-            <div className="promotion-text">
-              <h2 className="promotion-title" id="discount">Ưu đãi linh kiện 2025</h2>
-              <p className="promotion-description">
-                Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để
-                nhận thêm quà tặng đặc biệt!
-              </p>
-            </div>
-            <div className="promotion-deals">
-              <div className="deals-card">
-                <div className="deals-header">
-                  <Calendar className="deals-icon" />
-                  <h3 className="deals-title">Linh kiện hot trong tháng</h3>
-                </div>
-                <ul className="deals-list">
-                  {[
-                    {
-                      id: "cpu001",
-                      name: "CPU Intel Core i9-13900K",
-                      price: "13,999,000đ",
-                      trend: "+15%",
-                    },
-                    { id: "cpu006", name: "AMD Ryzen 9 7950X3D", price: "15,999,000đ", trend: "+23%" },
-                    {
-                      id: "mb001",
-                      name: "ASUS ROG Strix Z790-E Gaming",
-                      price: "10,000,000đ",
-                      trend: "+18%",
-                    },
-                  ].map((tour, idx) => (
-                    <li key={idx} className="deal-item"
-                     onClick={() => navigate(`/linh-kien/${tour.id}`)}
-                     style={{ cursor: "pointer" }}
-                    >
-                      <span className="deal-name">{tour.name}</span>
-                      <div className="deal-info">
-                        <span className="deal-price">{tour.price}</span>
-                        <div className="deal-trend">
-                          <TrendingUp className="trend-icon" />
-                          <span className="trend-value">{tour.trend}</span>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* Services */}
       <div className="section services-section" id="dich-vu">
         <section class="recommended-section">

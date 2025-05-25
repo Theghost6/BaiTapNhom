@@ -1199,25 +1199,11 @@
   gap: 20px;
 }
 
-.uudai-left {
-  flex: 1;
-  padding: 20px;
-  background: #f6f9fc;
-  border-radius: 8px;
-  border: 1px solid #eee;
-}
-
 .uudai-right {
   flex: 2;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
-}
-
-.uudai-product-main {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
 .uudai-category {
@@ -1270,7 +1256,7 @@
 }
 
 .uudai-card:hover {
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   border-color: #dae1e7;
 }
 
@@ -1307,15 +1293,6 @@
   height: 100px;
   object-fit: cover;
   border-radius: 4px;
-}
-
-/* Adjust card layout for images */
-.uudai-card {
-  padding: 15px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #e3e9ef;
-  transition: all 0.3s ease;
 }
 
 .uudai-name {
