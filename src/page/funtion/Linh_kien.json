@@ -1057,7 +1057,7 @@
             "id": "ram005",
             "ten": "ADATA XPG LANCER RGB DDR5 32GB",
             "hang": "ADATA",
-            "gia": 3690000,
+            "gia": 2800000,
             "thong_so": {
                 "capacity": "32GB (2x16GB)",
                 "speed": "DDR5-6000",
@@ -1366,7 +1366,7 @@
             "id": "storage002",
             "ten": "WD Black SN850X 2TB",
             "hang": "Western Digital",
-            "gia": 4500000,
+            "gia": 3800000,
             "thong_so": {
                 "type": "NVMe SSD",
                 "capacity": "2TB",
@@ -1996,7 +1996,7 @@
             "id": "gpu007",
             "ten": "ZOTAC RTX 4060 Ti Twin Edge 8GB GDDR6",
             "hang": "ZOTAC",
-            "gia": 12900000,
+            "gia": 11900000,
             "thong_so": {
                 "vram": "8GB GDDR6",
                 "cudaCores": 4352,
@@ -2640,7 +2640,7 @@
             "id": "cool002",
             "ten": "NZXT Kraken Z73 RGB",
             "hang": "NZXT",
-            "gia": 6500000,
+            "gia": 5600000,
             "thong_so": {
                 "type": "AIO Liquid Cooler",
                 "radiatorSize": "360mm",
@@ -2681,7 +2681,7 @@
             "id": "cool003",
             "ten": "Xigmatek Epix II",
             "hang": "XIGMATEK",
-            "gia": 4900000,
+            "gia": 3400000,
             "thong_so": {
                 "type": "AIO Liquid Cooler",
                 "height": "154mm",
@@ -3012,7 +3012,7 @@
             "id": "case001",
             "ten": "Lian Li PC-O11 Dynamic",
             "hang": "Lian Li",
-            "gia": 3500000,
+            "gia": 2900000,
             "thong_so": {
                 "type": "Mid Tower",
                 "material": "Steel, Tempered Glass",

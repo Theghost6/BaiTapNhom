@@ -20,6 +20,33 @@ const Home = () => {
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
   const [openedIndex, setOpenedIndex] = useState(null);
+  const [showUrl, setShowUrl] = useState(null);
+
+  const [timeLeft, setTimeLeft] = useState({
+    days: 2,
+    hours: 12,
+    minutes: 45,
+    seconds: 30
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        const { days, hours, minutes, seconds } = prev;
+
+        if (seconds > 0) return { ...prev, seconds: seconds - 1 };
+        if (minutes > 0) return { ...prev, minutes: minutes - 1, seconds: 59 };
+        if (hours > 0) return { ...prev, hours: hours - 1, minutes: 59, seconds: 59 };
+        if (days > 0) return { days: days - 1, hours: 23, minutes: 59, seconds: 59 };
+
+        clearInterval(timer);
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const slides = [
     {
       id: "gpu001",
@@ -66,31 +93,31 @@ const Home = () => {
 
   ];
   const promoSlides = [
-    {
-      id: 1,
-      image: "/photos/nv.jpg",
-      title: "NVDIA - Global leader in AI computing and graphics processing, known for its cutting-edge GPUs and innovative solutions in gaming, AI, and data science.",
-    },
-    {
-      id: 2,
-      image: "/photos/cs.jpg",
-      title: "CORSAIR - Gaming peripherals and components.",
-    },
-    {
-      id: 3,
-      image: "/photos/rz.jpg",
-      title: "RAZER - A global leader in gaming hardware, software, and systems.",
-    },
+    // {
+    //   id: 1,
+    //   image: "/photos/nv.jpg",
+    //   title: "NVDIA - Global leader in AI computing and graphics processing, known for its cutting-edge GPUs and innovative solutions in gaming, AI, and data science.",
+    // },
+    // {
+    //   id: 2,
+    //   image: "/photos/cs.jpg",
+    //   title: "CORSAIR - Gaming peripherals and components.",
+    // },
+    // {
+    //   id: 3,
+    //   image: "/photos/rz.jpg",
+    //   title: "RAZER - A global leader in gaming hardware, software, and systems.",
+    // },
     {
       id: 4,
       image: "/photos/msi.jpg",
       title: "MSI - Innovating gaming laptops and components for enthusiasts.",
     },
-    {
-      id: 5,
-      image: "/photos/ss.jpg",
-      title: "SAMSUNG - Pioneering innovation in memory, and consumer electronics.",
-    },
+    // {
+    //   id: 5,
+    //   image: "/photos/ss.jpg",
+    //   title: "SAMSUNG - Pioneering innovation in memory, and consumer electronics.",
+    // },
     {
       id: 6,
       image: "/photos/asus.jpg",
@@ -111,28 +138,6 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [slides.length]);
-
-  // Menu
-  // const menuRef = useRef();
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (menuRef.current && !menuRef.current.contains(event.target)) {
-  //       setMenuVisible(false);
-  //     }
-  //   };
-
-  //   if (menuVisible) {
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //   } else {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [menuVisible]);
-
 
   return (
     <div className="home-container">
@@ -200,45 +205,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Travel Navigation Bar - added here as requested */}
-      {/* <div className="travel-container">
-        <div className="travel-tabs">
-          <div
-            className={`tab-item ${activeTab === "khachsan" ? "active" : ""}`}
-            onClick={() => setActiveTab("khachsan")}
-          >
-            <div className="tab-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24">
-                <path d="M19,7h-8C9.9,7,9,7.9,9,9v10h12V9C21,7.9,20.1,7,19,7z M13,15h-2v-2h2V15z M13,11h-2V9h2V11z M17,15h-2v-2h2V15z M17,11h-2V9h2V11z M7,9H3v10h4V9z M5,15H3v-2h2V15z M5,11H3V9h2V11z M14,5c-1.1,0-2,0.9-2,2h-2.2C9.9,4.9,8.1,3.5,6,3.5v2C7.3,5.5,8.4,6.3,8.8,7.5H6C4.9,7.5,4,8.4,4,9.5v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-10c0-0.3-0.1-0.6-0.2-0.9c0-0.1,0.2-0.6,0.2-1.1C20,5.7,17.3,5,14,5z" />
-              </svg>
-            </div>
-            <span>Khách sạn</span>
-          </div>
-
-
-          <div
-            className={`tab-item ${activeTab === "combo" ? "active" : ""}`}
-            onClick={() => setActiveTab("combo")}
-          >
-            <div className="tab-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24">
-                <path d="M19,7h-8C9.9,7,9,7.9,9,9v10h12V9C21,7.9,20.1,7,19,7z M13,15h-2v-2h2V15z M13,11h-2V9h2V11z M17,15h-2v-2h2V15z M17,11h-2V9h2V11z M7,9H3v10h4V9z M5,15H3v-2h2V15z M5,11H3V9h2V11z" />
-              </svg>
-              <span>+</span>
-              <svg viewBox="0 0 24 24" width="24" height="24">
-                <path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z" />
-              </svg>
-            </div>
-            <span>Combo</span>
-          </div>
-
-        </div>
-        {activeTab === "khachsan" && <HotelSearch />}
-        {activeTab === "maybay" && <FlySearch />}
-        {activeTab === "combo" && <ComboSearch />}
-
-      </div> */}
-
       <div className="section destinations-section">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <div className="section-header">
@@ -279,7 +245,7 @@ const Home = () => {
                 <p className="products-brand">Thương hiệu: {lk.hang}</p>
                 <p className="products-price">
                   {lk.gia.toLocaleString("vi-VN")} VNĐ
-                  {console.log("wrfwedewdwed",lk)}
+                  {console.log("wrfwedewdwed", lk)}
                 </p>
                 {lk.khuyen_mai && (
                   <p className="products-sale">
@@ -295,6 +261,151 @@ const Home = () => {
           ))}
         </div>
       </div>
+
+      {/* Discount */}
+      <div className="uudai">
+        <div className="uudai-header">
+          <h2 className="uudai-title">Deal Of The Week</h2>
+          <div className="uudai-countdown">
+            <div className="countdown-box">
+              <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
+              <span className="countdown-label">Days</span>
+            </div>
+            <div className="countdown-separator">:</div>
+            <div className="countdown-box">
+              <span className="countdown-value">{timeLeft.hours.toString().padStart(2, '0')}</span>
+              <span className="countdown-label">Hours</span>
+            </div>
+            <div className="countdown-separator">:</div>
+            <div className="countdown-box">
+              <span className="countdown-value">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+              <span className="countdown-label">Mins</span>
+            </div>
+            <div className="countdown-separator">:</div>
+            <div className="countdown-box">
+              <span className="countdown-value">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+              <span className="countdown-label">Secs</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="uudai-content">
+          <div className="uudai-wrapper">
+            {/* Main Product */}
+            <div className="uudai-left">
+              <img
+                src="https:\/\/bizweb.dktcdn.net\/thumb\/1024x1024\/100\/410\/941\/products\/screenshot-2023-06-03-111330-03c3d347-c279-4168-8efc-ae1700ca15f4.png?v=1685766864083"
+                alt="Russet Idaho Potatoes"
+                className="uudai-main-image"
+              />
+              <div className="uudai-product-main"
+              onClick={() => navigate(`/linh-kien/ram003`)}
+                style={{ cursor: "pointer" }}>
+                <p className="uudai-category">RAM</p>
+                <h3 className="uudai-price">5.990.000 VNĐ</h3>
+                <p className="uudai-stars">★★★★★ (5.00)</p>
+                <p className="uudai-desc">Kingston Fury Beast RGB DDR5 64GB mang lại hiệu suất vượt trội cho game thủ và người sáng tạo nội dung cần bộ nhớ lớn và tốc độ cao. Với tốc độ 6000MHz và dung lượng 64GB (2x32GB), RAM hỗ trợ xử lý đa nhiệm nặng, dựng video, mô phỏng 3D và chơi game AAA một cách mượt mà. Sản phẩm tích hợp RGB có thể tùy chỉnh qua phần mềm Kingston FURY CTRL hoặc đồng bộ với phần mềm bo mạch chủ. Hỗ trợ XMP 3.0 giúp ép xung dễ dàng, điện áp 1.35V và tản nhiệt nhôm giúp vận hành ổn định. Đây là lựa chọn lý tưởng cho hệ thống cao cấp yêu cầu cả tốc độ, dung lượng và tính thẩm mỹ.</p>
+              </div>
+            </div>
+
+            {/* Product Grid */}
+            <div className="uudai-right">
+              {[
+                {
+                  id: "gpu007",
+                  category: "GPU",
+                  name: "ZOTAC RTX 4060 Ti Twin Edge 8GB GDDR6",
+                  price: "11.900.000 VNĐ",
+                  oldPrice: "12.900.000 VNĐ",
+                  rating: 4.00,
+                  image: "https:\/\/nguyencongpc.vn\/media\/product\/25073-card-m--n-h--nh-zotac-gaming-geforce-rtx-4060-ti-8gb-twin-edge-7.jpg"
+                },
+                {
+                  id: "case001",
+                  category: "Case",
+                  name: "Lian Li PC-O11 Dynamic",
+                  price: "2.900.000 VNĐ",
+                  oldPrice: "3.500.000 VNĐ",
+                  rating: 5.00,
+                  image: "https:\/\/www.createpcs.co.uk\/wp-content\/uploads\/2022\/05\/lian-li-o11-dynamic-evo-i7-12700kf-rtx3050-white-custom-pc-27-Large.jpg"
+                },
+                {
+                  id: "cool002",
+                  category: "Cooling",
+                  name: "NZXT Kraken Z73 RGB",
+                  price: "5.600.000 VNĐ",
+                  oldPrice: "6.500.000 VNĐ",
+                  rating: 4.00,
+                  image: "https:\/\/cdn2.cellphones.com.vn\/x\/media\/catalog\/product\/c\/a\/case-may-tinh-nzxt-h9-elite-atx_12_.png"
+                },
+                {
+                  id: "cool003",
+                  category: "Cooling",
+                  name: "Xigmatek Epix II",
+                  price: "3.400.000 VNĐ",
+                  oldPrice: "4.500.000 VNĐ",
+                  rating: 4.00,
+                  image: "https:\/\/cdn2.cellphones.com.vn\/x\/media\/catalog\/product\/n\/g\/nguon-may-tinh-xigmatek-x-power-iii-500-artic-450w_4__2.png"
+                },
+                {
+                  id: "storage002",
+                  category: "Storage",
+                  name: "WD Black SN850X 2TB",
+                  price: "3.800.000 VNĐ",
+                  oldPrice: "4.500.000 VNĐ",
+                  rating: 5.00,
+                  image: "https:\/\/bizweb.dktcdn.net\/thumb\/1024x1024\/100\/329\/122\/products\/wd-black-sn850x-2tb-3d-hr.jpg?v=1741160387027"
+                },
+                {
+                  id: "ram005",
+                  category: "RAM",
+                  name: "ADATA XPG LANCER RGB DDR5 32GB",
+                  price: "2.800.000 VNĐ",
+                  oldPrice: "3.690.000 VNĐ",
+                  rating: 5.00,
+                  image: "https:\/\/minhducpc.vn\/\/uploads\/thu_vien\/ram-adata-xpg-lancer-rgb-16gb-6000mhz-6.webp"
+                }
+              ].map((item, index) => (
+                <div className="uudai-card"
+                  key={item.id}
+                  onClick={() => navigate(`/linh-kien/${item.id}`)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="uudai-card-content">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="uudai-product-image"
+                    />
+                    <div className="uudai-product-info">
+                      <p className="uudai-category">{item.category}</p>
+                      <p className="uudai-price">
+                        {item.price}
+                        {item.oldPrice && <span className="uudai-old-price">{item.oldPrice}</span>}
+                      </p>
+                      <p className="uudai-name">{item.name}</p>
+                      <p className="uudai-stars">
+                        {'★'.repeat(Math.floor(item.rating))}
+                        ({item.rating.toFixed(2)})
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {showUrl && (
+              <div className="url-popup">
+                <p>Đường dẫn sản phẩm: {showUrl}</p>
+                <button onClick={() => setShowUrl(null)}>Đóng</button>
+                <button onClick={() => window.open(showUrl, '_blank')}>Mở trong tab mới</button>
+              </div>
+            )}
+
+          </div>
+        </div>
+      </div>
+
 
 
       {/* Promotion */}
@@ -317,18 +428,23 @@ const Home = () => {
                 <ul className="deals-list">
                   {[
                     {
+                      id: "cpu001",
                       name: "CPU Intel Core i9-13900K",
-                      price: "12,999,000đ",
+                      price: "13,999,000đ",
                       trend: "+15%",
                     },
-                    { name: "AMD Ryzen 9 7950X3D", price: "13,499,000đ", trend: "+23%" },
+                    { id: "cpu006", name: "AMD Ryzen 9 7950X3D", price: "15,999,000đ", trend: "+23%" },
                     {
+                      id: "mb001",
                       name: "ASUS ROG Strix Z790-E Gaming",
-                      price: "14,199,000đ",
+                      price: "10,000,000đ",
                       trend: "+18%",
                     },
                   ].map((tour, idx) => (
-                    <li key={idx} className="deal-item">
+                    <li key={idx} className="deal-item"
+                     onClick={() => navigate(`/linh-kien/${tour.id}`)}
+                     style={{ cursor: "pointer" }}
+                    >
                       <span className="deal-name">{tour.name}</span>
                       <div className="deal-info">
                         <span className="deal-price">{tour.price}</span>
@@ -386,13 +502,13 @@ const Home = () => {
         <div class="newsletter-wrapper">
           {/* left */}
           <div class="newsletter-content">
-            <h2 class="newsletter-title">Stay home & get your daily needs from our shop</h2>
+            <h2 class="newsletter-title">Ở nhà an toàn - Mua sắm nhu yếu phẩm tại shop chúng tôi</h2>
             <p class="newsletter-description">
-              Start Your Daily Shopping with <span class="highlight">Nest Mart</span>
+              Mua sắm mỗi ngày cùng <span class="highlight">NANOCORE4</span>
             </p>
             <div class="newsletter-form">
               <Link to="/contact">
-              <button class="newsletter-button">Subscribe</button>
+                <button class="newsletter-button">Subscribe</button>
               </Link>
             </div>
           </div>
