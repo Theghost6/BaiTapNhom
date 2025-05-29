@@ -11,6 +11,7 @@ import "./style/header.css";
 import "./style/footer.css";
 import "./style/app.css";
 import ScrollToTop from "./page/funtion/ScrollToTop";
+import { createGlobalStyle } from "styled-components";
 
 // Lazy load components
 const Contact = lazy(() => import("./page/Contact"));
@@ -28,7 +29,12 @@ const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
 const Blog = lazy(() => import("./page/funtion/Blog"));
 const Invoice = lazy(() => import("./page/funtion/Invoice"));
-
+// font chữ
+ const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: 'Ubuntu', sans-serif;
+  }
+`;
 // NotFound component (can be moved to a separate file)
 const NotFound = () => (
   <motion.div
@@ -48,6 +54,8 @@ const NotFound = () => (
 
 const App = ({children}) => {
   return (
+    <>
+  <GlobalStyle />
     <AuthProvider>
       <CartProvider>
         <Router>
@@ -289,6 +297,7 @@ const App = ({children}) => {
         </Router>
       </CartProvider>
     </AuthProvider>
+  </>
   );
 };
 

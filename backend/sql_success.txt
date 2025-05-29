@@ -13,3 +13,5 @@ Review inserted: id_product=peripheral009, time=2025-05-16 13:20:32
 Reply inserted: id_danh_gia=9, time=2025-05-16 13:20:42
 Reply inserted: id_danh_gia=9, time=2025-05-23 07:27:51
 Review inserted: id_product=gpu001, time=2025-05-23 08:59:57
+Review inserted: id_product=case009, time=2025-05-25 15:56:54
+Review inserted: id_product=case009, time=2025-05-25 15:57:10
