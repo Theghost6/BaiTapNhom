@@ -50,20 +50,20 @@ const Home = () => {
   const slides = [
     {
       id: "gpu001",
-      image: ["/photos/k.jpg"],
-      title: "GPU NVIDIA GeForce RTX 4090",
+      image: ["/photos/m.jpeg"],
+      title: "NVIDIA GeForce RTX 4090",
       description: "Sức mạnh đồ họa vượt trội cho game thủ",
     },
     {
       id: "peripheral009",
       image:
-        "/photos/l.jpg",
+        "/photos/n.jpg",
       title: "Keychron K6",
       description: "Trải nghiệm gõ phím tuyệt vời với đèn RGB",
     },
     {
       id: "peripheral004",
-      image: "/photos/j.jpg",
+      image: "/photos/h.jpg",
       title: "Logitech MX Master 3S",
       description: "Chuột chơi game với cảm biến HERO 25K",
     },
