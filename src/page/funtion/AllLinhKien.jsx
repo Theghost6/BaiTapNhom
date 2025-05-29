@@ -214,7 +214,8 @@ const AllLinhKien = () => {
             Loại linh kiện
           </div>
         </div>
-
+        
+        {activeFilter && (
         <div className="filter-right">
           {activeFilter === "Hãng" && (
             <div className="filter-content">
@@ -256,6 +257,7 @@ const AllLinhKien = () => {
             </div>
           )}
         </div>
+        )}
       </div>
 
       {/* Selected Options Display */}
@@ -295,22 +297,22 @@ const AllLinhKien = () => {
                 </div>
                 <div className="product-details">
                   <h3 className="product-name">{product.ten}</h3>
-                  <p className="product-brand">{product.hang || "Không xác định"}</p>
+                  {/* <p className="product-brand">{product.hang || "Không xác định"}</p> */}
                   <p className="product-price">
                     {formatCurrency(product.gia)}
                   </p>
-                  {product.bao_hanh && (
+                  {/* {product.bao_hanh && (
                     <p className="product-warranty">
                       {product.bao_hanh}
                     </p>
-                  )}
-                  {product.thiet_bi_tuong_thich && (
+                  )} */}
+                  {/* {product.thiet_bi_tuong_thich && (
                     <p className="product-compatible">
                       {Array.isArray(product.thiet_bi_tuong_thich)
                         ? product.thiet_bi_tuong_thich.join(", ")
                         : product.thiet_bi_tuong_thich}
                     </p>
-                  )}
+                  )} */}
                   {product.khuyen_mai && (
                     <p className="product-sale">
                       <FaGift style={{ marginRight: "6px" }} />
