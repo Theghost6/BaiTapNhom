@@ -207,8 +207,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="search-bar">
-
+          <div className="search-bar-container">
             <input
               type="text"
               placeholder="Bạn cần tìm gì?"

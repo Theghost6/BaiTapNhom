@@ -199,16 +199,6 @@ const Home = () => {
                 className="promo-image"
                 style={{ backgroundImage: `url('${item.image}')` }}
               ></div>
-
-              <div className="promo-content">
-                <div className="brand-name">Creamy Fruits</div>
-                <div className="product-name">baby Jem</div>
-
-                <div className="price-section">
-                  <div className="only-text">Only</div>
-                  <div className="price">$12.99</div>
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -510,7 +500,7 @@ const Home = () => {
       </div>
 
 
-
+      
       {/* Newsletter */}
       <div class="newsletter-section" id="dang-ki">
         <div class="newsletter-wrapper">

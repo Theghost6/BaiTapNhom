@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!isset($data['id_product']) || !isset($data['ten_nguoi_dung']) || 
-        !isset($data['so_sao']) || !isset($data['binh_luan']) || !isset($data['ngay'])) {
+        !isset($data['so_sao']) || !isset($data['binh_luan'])) {
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "Missing required fields", "received" => $data]);
         exit;
@@ -50,19 +50,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ten_nguoi_dung = $conn->real_escape_string($data['ten_nguoi_dung']);
     $so_sao = (int)$data['so_sao'];
     $binh_luan = $conn->real_escape_string($data['binh_luan']);
-    $ngay = $conn->real_escape_string($data['ngay']);
 
-    // Bỏ qua việc kiểm tra sản phẩm có tồn tại trong bảng san_pham
-    // Thay vào đó, ta có thể kiểm tra định dạng ID sản phẩm nếu muốn
+    // Validate product ID format
     if (!preg_match('/^[a-zA-Z0-9]+$/', $id_product)) {
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "Invalid product ID format"]);
         exit;
     }
 
-    $sql = "INSERT INTO danh_gia (id_product, ten_nguoi_dung, so_sao, binh_luan, ngay) VALUES (?, ?, ?, ?, ?)";
+    // Use NOW() for the ngay field to capture current date and time
+    $sql = "INSERT INTO danh_gia (id_product, ten_nguoi_dung, so_sao, binh_luan, ngay) VALUES (?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssiss", $id_product, $ten_nguoi_dung, $so_sao, $binh_luan, $ngay);
+    $stmt->bind_param("ssis", $id_product, $ten_nguoi_dung, $so_sao, $binh_luan);
 
     if ($stmt->execute()) {
         file_put_contents('sql_success.txt', "Review inserted: id_product=$id_product, time=" . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);

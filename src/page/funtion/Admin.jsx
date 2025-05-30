@@ -293,7 +293,7 @@ function Admin() {
       core: "Lõi",
       xung: "Xung nhịp",
       tdp: "TDP",
-      solg_trong_kho: "Tồn kho",
+      so_luong: "Tồn kho",
     };
     return labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " ");
   };
@@ -309,13 +309,13 @@ function Admin() {
       core: "Ví dụ: 8 cores 16 threads",
       xung: "Ví dụ: 3.6 GHz",
       tdp: "Ví dụ: 65W",
-      solg_trong_kho: "Nhập số lượng",
+      so_luong: "Nhập số lượng",
     };
     return placeholderMap[key] || `Nhập ${key}`;
   };
 
   const getInputType = (key) => {
-    if (key === "gia" || key === "solg_trong_kho" || key.includes("nam")) return "number";
+    if (key === "gia" || key === "so_luong" || key.includes("nam")) return "number";
     if (key.includes("ngay")) return "date";
     return "text";
   };
@@ -335,7 +335,7 @@ function Admin() {
         (k) => k !== "rating" && k !== "reviewCount" && k !== "id"
       );
     }
-    return ["ten", "mo_ta", "gia", "hang", "solg_trong_kho"];
+    return ["ten", "mo_ta", "gia", "hang", "so_luong"];
   };
 
   const handleDeleteConfirm = (id, loai) => {
@@ -667,15 +667,12 @@ function Admin() {
 
   const chartDataUsers = {
     labels: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
-      console.log("Ngày:", item.ngay); // Debug ngày
       return `Ngày ${item.ngay}`;
     }),
     datasets: [
       {
         label: "Người dùng hoạt động",
         data: (statistics?.nguoi_dung_theo_ngay || []).map((item) => {
-          console.log("Người dùng:", statistics.nguoi_dung_theo_ngay); // Debug số người dùng
-          console.log("Người dùng 1:", item.nguoi_dung); // Debug số người dùng
           return item.nguoi_dung;
         }),
         borderColor: "rgba(75, 192, 192, 1)",
@@ -863,39 +860,30 @@ function Admin() {
           });
         break;
       case "linh_kien":
-        axios
-          .get(
-            "http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all"
-          )
-          .then((res) => {
-            if (
-              res.data &&
-              typeof res.data === "object" &&
-              !Array.isArray(res.data)
-            ) {
-              setLinhKien(res.data);
-              setLoaiLinhKienList(Object.keys(res.data));
-              if (!Object.keys(res.data).includes(newLinhKien.loai)) {
-                setNewLinhKien((lk) => ({
-                  ...lk,
-                  loai: Object.keys(res.data)[0] || "",
-                }));
-              }
-            } else {
-              console.error(
-                "API get_all linh_kien did not return an object:",
-                res.data
-              );
-              setLinhKien({});
-              setLoaiLinhKienList([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching linh_kien:", err);
-            setLinhKien({});
-            setLoaiLinhKienList([]);
-          });
-        break;
+axios
+  .get("http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all")
+  .then((res) => {
+    console.log("API response:", res.data); // Log dữ liệu để kiểm tra
+    if (res.data && typeof res.data === "object" && !Array.isArray(res.data)) {
+      setLinhKien(res.data);
+      setLoaiLinhKienList(Object.keys(res.data));
+      if (!Object.keys(res.data).includes(newLinhKien.loai)) {
+        setNewLinhKien((lk) => ({
+          ...lk,
+          loai: Object.keys(res.data)[0] || "",
+        }));
+      }
+    } else {
+      console.error("API get_all linh_kien did not return an object:", res.data);
+      setLinhKien({});
+      setLoaiLinhKienList([]);
+    }
+  })
+  .catch((err) => {
+    console.error("Error fetching linh_kien:", err);
+    setLinhKien({});
+    setLoaiLinhKienList([]);
+  });       break;
     case "contacts":
       axios
         .get("http://localhost/BaiTapNhom/backend/api.php?action=get_contacts")
@@ -1689,10 +1677,11 @@ function Admin() {
           );
         }
         // Define compact columns for display
-        const displayKeys = ["id", "ten", "gia", "solg_trong_kho"];
-        const allKeys = Object.keys(items[0] || {}).filter(
-          (k) => k !== "rating" && k !== "reviewCount"
-        );
+        const displayKeys = ["id", "ten", "gia", "so_luong"];
+const allKeys = Object.keys(items[0] || {}).filter(
+  (k) => k !== "rating" && k !== "reviewCount"
+);
+const editableKeys = ["ten", "mo_ta", "gia", "hang", "solg_trong_kho", "socket", "core", "xung", "tdp"];
         return (
           <div key={loai} className="component-table-container">
             <div className="table-header">
@@ -1732,47 +1721,46 @@ function Admin() {
                   {items.map((lk) =>
                     editLinhKien && editLinhKien.id === lk.id ? (
                       <tr key={lk.id} className="editing-row">
-                        {allKeys.map((key) => (
-                          <td key={key}>
-                            {key === "mo_ta" ? (
-                              <textarea
-                                value={editLinhKien[key] || ""}
-                                onChange={(e) =>
-                                  setEditLinhKien({
-                                    ...editLinhKien,
-                                    [key]: e.target.value,
-                                  })
-                                }
-                              />
-                            ) : key === "gia" ? (
-                              <div className="price-input">
-                                <input
-                                  type="number"
-                                  value={editLinhKien[key] || ""}
-                                  onChange={(e) =>
-                                    setEditLinhKien({
-                                      ...editLinhKien,
-                                      [key]: e.target.value,
-                                    })
-                                  }
-                                />
-                                <span className="price-suffix">VNĐ</span>
-                              </div>
-                            ) : (
-                              <input
-                                type={getInputType(key)}
-                                value={editLinhKien[key] || ""}
-                                onChange={(e) =>
-                                  setEditLinhKien({
-                                    ...editLinhKien,
-                                    [key]: e.target.value,
-                                  })
-                                }
-                              />
-                            )}
-                          </td>
-                        ))}
-                        <td className="action-column">
+  {editableKeys.map((key) => (
+  <td key={key}>
+    {key === "mo_ta" ? (
+      <textarea
+        value={editLinhKien[key] || ""}
+        onChange={(e) =>
+          setEditLinhKien({
+            ...editLinhKien,
+            [key]: e.target.value,
+          })
+        }
+      />
+    ) : key === "gia" ? (
+      <div className="price-input">
+        <input
+          type="number"
+          value={editLinhKien[key] || ""}
+          onChange={(e) =>
+            setEditLinhKien({
+              ...editLinhKien,
+              [key]: e.target.value,
+            })
+          }
+        />
+        <span className="price-suffix">VNĐ</span>
+      </div>
+    ) : (
+      <input
+        type={getInputType(key)}
+        value={editLinhKien[key] || ""}
+        onChange={(e) =>
+          setEditLinhKien({
+            ...editLinhKien,
+            [key]: e.target.value,
+          })
+        }
+      />
+    )}
+  </td>
+))}                      <td className="action-column">
                           <div className="action-buttons">
                             <button
                               className="save-button"
@@ -1956,17 +1944,24 @@ function Admin() {
   >
           Trang chủ
   </button>
-  <button
-    onClick={() => setView("orders")}
-    className={`nav-button ${view === "orders" ? "active" : ""}`}
-  >
-    Đơn hàng
-  </button>
+
   <button
     onClick={() => setView("users")}
     className={`nav-button ${view === "users" ? "active" : ""}`}
   >
     Tài khoản
+  </button>
+  <button
+    onClick={() => setView("linh_kien")}
+    className={`nav-button ${view === "linh_kien" ? "active" : ""}`}
+  >
+    Sản phẩm
+  </button>
+  <button
+    onClick={() => setView("orders")}
+    className={`nav-button ${view === "orders" ? "active" : ""}`}
+  >
+    Đơn hàng
   </button>
   <button
     onClick={() => setView("reviews")}
@@ -1985,12 +1980,6 @@ function Admin() {
     className={`nav-button ${view === "total_payment" ? "active" : ""}`}
   >
     Thống kê
-  </button>
-  <button
-    onClick={() => setView("linh_kien")}
-    className={`nav-button ${view === "linh_kien" ? "active" : ""}`}
-  >
-    Sản phẩm
   </button>
   <button
     onClick={() => setView("contacts")}

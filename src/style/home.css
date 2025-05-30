@@ -142,7 +142,6 @@
   color: #f2f2f2;
   margin-bottom: 2rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-
 }
 
 @media (min-width: 768px) {
@@ -1257,7 +1256,7 @@
 
 .uudai-card {
   padding: 15px;
-  background: #fff;
+  background: #f6f9fc;
   border-radius: 8px;
   border: 1px solid #e3e9ef;
   display: flex;

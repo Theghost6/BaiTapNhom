@@ -12,3 +12,7 @@ Content-Type: application/json
 Content-Type: application/json
 {"id_product":"gpu001","ten_nguoi_dung":"Admin","so_sao":1,"binh_luan":"hàng lỗi","ngay":"2025-05-23"}
 Content-Type: application/json
+{"id_product":"case009","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"hello there","ngay":"2025-05-25"}
+Content-Type: application/json
+{"id_product":"case009","ten_nguoi_dung":"Admin","so_sao":3,"binh_luan":"ok","ngay":"2025-05-25"}
+Content-Type: application/json

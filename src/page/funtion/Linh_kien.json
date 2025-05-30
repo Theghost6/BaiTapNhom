@@ -393,7 +393,7 @@
                 "socket": "AM5",
                 "cache": "104MB"
             },
-            "so_luong": 30,
+            "so_luong": 29,
             "mo_ta": "AMD Ryzen 7 9800X3D là bộ vi xử lý cao cấp thế hệ Zen 5, tích hợp công nghệ 3D V-Cache thế hệ 2 với tổng bộ nhớ đệm lên tới 104MB. Với 8 nhân, 16 luồng và xung nhịp cơ bản 4.7 GHz (tăng tốc tối đa 5.2 GHz), CPU này mang lại hiệu năng vượt trội trong các tựa game AAA và ứng dụng sáng tạo như Premiere Pro, Blender hay DaVinci Resolve. Sử dụng socket AM5, hỗ trợ RAM DDR5 và PCIe 5.0, Ryzen 7 9800X3D tương thích với các công nghệ mới nhất. Đồ họa tích hợp Radeon hỗ trợ hiển thị cơ bản, trong khi khả năng ép xung mở rộng thu hút người dùng chuyên sâu. Với hiệu suất cao và tiết kiệm điện, Ryzen 7 9800X3D là lựa chọn hoàn hảo cho PC chơi game hoặc máy trạm sáng tạo, mang lại tốc độ và độ tin cậy vượt trội.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-03-04",
@@ -758,7 +758,7 @@
                 "maxMemory": "128GB",
                 "pcieSlots": "1 x PCIe 5.0 x16, 1 x PCIe 4.0 x4, 1 x PCIe 3.0 x1"
             },
-            "so_luong": 25,
+            "so_luong": 23,
             "mo_ta": "Gigabyte B760M Gaming Plus Wifi D4 là bo mạch chủ micro-ATX hiệu năng cao hỗ trợ CPU Intel thế hệ 12 và 13 trên socket LGA1700. Bo mạch sử dụng chipset B760 và hỗ trợ RAM DDR4 với dung lượng tối đa 128GB. Nó được trang bị kết nối mạng Wi-Fi 6, LAN 2.5Gb, cùng khả năng hỗ trợ PCIe 5.0 và M.2 PCIe 4.0 cho tốc độ truyền tải dữ liệu vượt trội. Đây là lựa chọn lý tưởng cho game thủ và những người đam mê hiệu suất cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-03-16",
