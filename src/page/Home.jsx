@@ -50,7 +50,7 @@ const Home = () => {
   const slides = [
     {
       id: "gpu001",
-      image: ["/photos/m.jpeg"],
+      image: ["/photos/k.jpg"],
       title: "NVIDIA GeForce RTX 4090",
       description: "Sức mạnh đồ họa vượt trội cho game thủ",
     },
@@ -199,7 +199,16 @@ const Home = () => {
                 className="promo-image"
                 style={{ backgroundImage: `url('${item.image}')` }}
               ></div>
-              {/* <div className="promo-title">{item.title}</div> */}
+
+              <div className="promo-content">
+                <div className="brand-name">Creamy Fruits</div>
+                <div className="product-name">baby Jem</div>
+
+                <div className="price-section">
+                  <div className="only-text">Only</div>
+                  <div className="price">$12.99</div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -264,7 +273,7 @@ const Home = () => {
 
 
       {/* Promotion */}
-      <div className="promotion-section" id = "uudai">
+      <div className="promotion-section" id="uudai">
         <div className="promotion-container">
           <div className="promotion-content">
             <div className="promotion-text">
@@ -501,7 +510,7 @@ const Home = () => {
       </div>
 
 
-      
+
       {/* Newsletter */}
       <div class="newsletter-section" id="dang-ki">
         <div class="newsletter-wrapper">
