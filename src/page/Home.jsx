@@ -320,7 +320,7 @@ const Home = () => {
       {/* Discount */}
       <div className="uudai">
         <div className="uudai-header">
-          <h2 className="uudai-title">Deal Of The Week</h2>
+          <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
           <div className="uudai-countdown">
             <div className="countdown-box">
               <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
