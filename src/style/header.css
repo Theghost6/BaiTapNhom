@@ -10,7 +10,7 @@ body {
 }
 
 .main-header {
-  background: linear-gradient(135deg, #E3F2FD, #F3E7FD);
+  background: linear-gradient(45deg, rgba(224, 231, 235, 0.9), rgba(178, 205, 217, 0.7));
   color: #1A1A2E;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   position: fixed;

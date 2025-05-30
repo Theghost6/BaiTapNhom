@@ -1143,6 +1143,7 @@
   margin: 2rem auto;
   padding: 0 1rem;
   margin-top: 80px;
+  
 }
 
 .uudai-header {
@@ -1202,6 +1203,9 @@
   border: 2px solid #4a90e2;
   border-radius: 8px;
   padding: 20px;
+  background: linear-gradient(45deg, rgba(224, 231, 235, 0.9), rgba(178, 205, 217, 0.7));
+  backdrop-filter: blur(20px);          /* làm mờ nền phía sau */
+  -webkit-backdrop-filter: blur(100px);  
 }
 
 .uudai-wrapper {
