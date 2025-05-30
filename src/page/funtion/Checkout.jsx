@@ -342,8 +342,10 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("handleSubmit triggered, paymentMethod:", paymentMethod);
 
     if (!validateForm()) {
+      console.log("Form validation failed:", formErrors);
       return;
     }
 
@@ -367,6 +369,8 @@ const Checkout = () => {
         orderDate: new Date().toISOString(),
       };
 
+      console.log("Sending orderData to backend:", orderData);
+
       const response = await fetch(
         "http://localhost/BaiTapNhom/backend/payments.php",
         {
@@ -378,13 +382,10 @@ const Checkout = () => {
 
       if (!response.ok) {
         const errorText = await response.text().catch(() => "No response body");
-        const headers = Object.fromEntries(response.headers.entries());
         console.error("Fetch error details:", {
           status: response.status,
           statusText: response.statusText,
           errorText,
-          headers,
-          url: response.url,
         });
         throw new Error(
           `HTTP error! Status: ${response.status}, Response: ${errorText}`
@@ -392,9 +393,11 @@ const Checkout = () => {
       }
 
       const result = await response.json();
+      console.log("Backend response:", result);
 
       if (result.status === "success") {
         const stockUpdateResult = await updateProductStock(finalCartItems);
+        console.log("Stock update result:", stockUpdateResult);
 
         if (!stockUpdateResult.success) {
           toast.warning(
@@ -404,9 +407,16 @@ const Checkout = () => {
         }
 
         if (paymentMethod === "vnpay" && result.payUrl) {
+          console.log("Redirecting to VNPay URL:", result.payUrl);
           window.location.href = result.payUrl;
-          clearCart();
+          // Only clear cart after successful redirection
+          setTimeout(() => clearCart(), 0); // Delay to ensure redirection starts
+        } else if (paymentMethod === "vnpay" && !result.payUrl) {
+          console.error("VNPay selected but no payUrl provided in response");
+          toast.error("Lỗi: Không nhận được URL thanh toán VNPay từ server");
+          setError("Không thể xử lý thanh toán VNPay. Vui lòng thử lại.");
         } else {
+          console.log("Processing COD order, navigating to invoice");
           clearCart();
           navigate("/invoice", {
             state: {
@@ -424,7 +434,9 @@ const Checkout = () => {
           });
         }
       } else {
+        console.error("Backend returned non-success status:", result);
         setError(result.message || "Có lỗi xảy ra trong quá trình xử lý");
+        toast.error(result.message || "Lỗi xử lý đơn hàng");
       }
     } catch (err) {
       console.error("Checkout error details:", {
@@ -433,6 +445,7 @@ const Checkout = () => {
         stack: err.stack,
       });
       setError("Có lỗi xảy ra: " + err.message);
+      toast.error("Lỗi: " + err.message);
     } finally {
       setIsProcessing(false);
     }
@@ -460,7 +473,10 @@ const Checkout = () => {
   };
 
   const shippingCost =
-    shippingMethod === "ship" && finalTotalAmount > 10000000 ? 0 : 30000;
+    (shippingMethod === "ship" && finalTotalAmount > 10000000) ||
+    shippingMethod === "pickup"
+      ? 0
+      : 30000;
 
   const orderTotal = finalTotalAmount + shippingCost;
 
@@ -759,23 +775,14 @@ const Checkout = () => {
               <label htmlFor="vnpay">
                 <span className="payment-icon">💳</span>
                 <span>VNPay (Thẻ ATM/Visa/Master/JCB)</span>
-                </label>
+              </label>
             </div>
           </div>
           <div className="form-actions">
             <button
               type="button"
-              className="reset-button"
-              onClick={handleResetForm}
-              disabled={isProcessing}
-              title="Xóa toàn bộ thông tin đã nhập"
-            >
-              Nhập lại
-            </button>
-            <button
-              type="button"
               className="checkout-button"
-              onClick={() => formRef.current?.submit()}
+              onClick={() => formRef.current?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))}
               disabled={isProcessing || finalCartItems.length === 0 || !!error}
               title={finalCartItems.length === 0 ? "Giỏ hàng trống" : ""}
             >
@@ -786,6 +793,15 @@ const Checkout = () => {
               ) : (
                 "Đặt hàng"
               )}
+            </button>
+            <button
+              type="button"
+              className="reset-button"
+              onClick={handleResetForm}
+              disabled={isProcessing}
+              title="Xóa toàn bộ thông tin đã nhập"
+            >
+              Nhập lại
             </button>
           </div>
         </div>

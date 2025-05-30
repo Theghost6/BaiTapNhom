@@ -140,7 +140,7 @@
                 "socket": "LGA 1700",
                 "cache": "36 MB Intel Smart Cache"
             },
-            "so_luong": 40,
+            "so_luong": 38,
             "mo_ta": "Bộ vi xử lý Intel Core i7 14700K là một trong những CPU hiệu suất khủng đầu tiên của Intel Gen 14. Được trang bị cấu trúc hoàn toàn mới với những tính năng nâng cao, Intel Core i7 14700K sẽ mang lại hiệu năng khủng cho những đối tượng yêu cầu hiệu suất cao để cân các tác vụ game trên mức trung bình, các task đồ họa. Đây chắc chắn chính là nhân tố quyết định cuối cùng làm nên một dàn PC gaming mạnh mẽ mà các bạn không nên bỏ qua.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-15",
@@ -267,7 +267,7 @@
                 "socket": "AM5",
                 "cache": "160MB"
             },
-            "so_luong": 23,
+            "so_luong": 22,
             "mo_ta": "AMD Ryzen 9 9950X là bộ vi xử lý cao cấp thế hệ mới của AMD, lý tưởng cho cả game thủ lẫn nhà sáng tạo nội dung chuyên nghiệp. Sở hữu 16 nhân, 32 luồng xử lý, bộ nhớ đệm L3 lên tới 160MB và tốc độ xung nhịp cơ bản 4.5 GHz, tăng tốc tối đa 5.9 GHz, CPU này đem lại hiệu năng đột phá trong các tựa game AAA, cũng như các phần mềm sáng tạo như Blender, Premiere Pro hay DaVinci Resolve. Hỗ trợ socket AM5, RAM DDR5 và PCIe 5.0, Ryzen 9 9950X mang đến khả năng tương thích vượt trội với các công nghệ mới nhất. Đồ họa tích hợp Radeon giúp hiển thị cơ bản mà không cần card đồ họa rời. Khả năng ép xung tốt cùng hiệu suất điện năng tối ưu khiến nó trở thành lựa chọn lý tưởng cho các hệ thống PC cao cấp.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-05-01",
@@ -1741,7 +1741,7 @@
                 "boostClock": "2.52 GHz",
                 "power": "450W"
             },
-            "so_luong": 1,
+            "so_luong": 0,
             "mo_ta": "NVIDIA GeForce RTX 4090 là card đồ họa đỉnh cao cho game thủ và chuyên gia cần hiệu năng 4K và 8K. Với 24GB bộ nhớ GDDR6X và 16384 nhân CUDA, sản phẩm mang lại sức mạnh vượt trội cho chơi game có hiệu ứng ray tracing, công việc AI và dựng hình 3D. Tốc độ tăng tốc 2.52 GHz đảm bảo chơi mượt các tựa game như Starfield và Cyberpunk 2077 ở cài đặt tối đa. Công nghệ DLSS 3 và ray tracing tạo hình ảnh chân thực, tăng FPS đáng kể. Kiến trúc Ada Lovelace cải thiện hiệu suất năng lượng, trong khi mã hóa AV1 hỗ trợ streamer và nhà sáng tạo. Phù hợp cho PC chơi game cao cấp hoặc máy trạm chạy Blender, RTX 4090 hỗ trợ HDMI 2.1 và DisplayPort 1.4. Hệ thống tản nhiệt cao cấp và chất lượng build đảm bảo độ bền, là lựa chọn hàng đầu cho hiệu năng tối ưu.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
