@@ -319,32 +319,32 @@ const Home = () => {
 
       {/* Discount */}
       <div className="uudai">
-        <div className="uudai-header">
-          <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
-          <div className="uudai-countdown">
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Days</span>
-            </div>
-            <div className="countdown-separator">:</div>
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.hours.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Hours</span>
-            </div>
-            <div className="countdown-separator">:</div>
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.minutes.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Mins</span>
-            </div>
-            <div className="countdown-separator">:</div>
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.seconds.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Secs</span>
+        <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
+        <div className="uudai-content">
+          <div className="uudai-header">
+            <div className="uudai-countdown">
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Days</span>
+              </div>
+              <div className="countdown-separator">:</div>
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.hours.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Hours</span>
+              </div>
+              <div className="countdown-separator">:</div>
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Mins</span>
+              </div>
+              <div className="countdown-separator">:</div>
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Secs</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="uudai-content">
           <div className="uudai-wrapper">
             {/* Main Product */}
             <div className="uudai-left">
@@ -500,7 +500,7 @@ const Home = () => {
       </div>
 
 
-      
+
       {/* Newsletter */}
       <div class="newsletter-section" id="dang-ki">
         <div class="newsletter-wrapper">

@@ -19,7 +19,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(74, 144, 226, 0.1) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(74, 144, 226, 0.1) 1px, transparent 1px);
   background-size: 30px 30px;
@@ -160,7 +160,7 @@
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background-color: #ffd700; /* Giữ màu vàng neon Cyberpunk */
+  background-color: #ffd700;
   border-radius: 0;
   font-size: 1.125rem;
   font-weight: bold;
@@ -185,7 +185,8 @@
   align-items: center;
   padding: 0.75rem 1.5rem;
   background-color: transparent;
-  border: 2px solid #ffff99; /* Giữ màu vàng nhạt Cyberpunk */
+  border: 2px solid #ffff99;
+  /* Giữ màu vàng nhạt Cyberpunk */
   border-radius: 0;
   font-size: 1.125rem;
   font-weight: 600;
@@ -219,7 +220,7 @@
   filter: drop-shadow(0 0 2px rgba(255, 255, 153, 0.6));
 }
 
-.slide-indicators {
+/* .slide-indicators {
   position: absolute;
   bottom: 2rem;
   left: 0;
@@ -230,13 +231,13 @@
   max-width: 1400px;
   margin: 0 auto;
   z-index: 10;
-}
+} */
 
 .slide-indicator {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.5rem;              /* Nhỏ hơn 0.75rem */
+  height: 0.5rem;
   border-radius: 50%;
-  background-color: rgba(74, 144, 226, 0.3);
+  background-color: rgba(255, 255, 255, 0.5); /* Trắng mờ */
   transition: all 0.3s;
   border: none;
   cursor: pointer;
@@ -420,7 +421,8 @@
   transition: all 0.3s ease;
   right: 100%;
   cursor: pointer;
-  background: #ffd700; /* Giữ màu vàng neon Cyberpunk */
+  background: #ffd700;
+  /* Giữ màu vàng neon Cyberpunk */
   border-radius: 0;
   padding: 8px 16px;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.2);
@@ -569,7 +571,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(74, 144, 226, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(74, 144, 226, 0.05) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -648,7 +650,8 @@
   padding: 0.75rem 1.5rem;
   background-color: transparent;
   color: #ffffff;
-  border: 2px solid #ffff99; /* Giữ màu vàng nhạt Cyberpunk */
+  border: 2px solid #ffff99;
+  /* Giữ màu vàng nhạt Cyberpunk */
   border-radius: 0;
   font-weight: 600;
   transition: all 0.3s;
@@ -659,7 +662,8 @@
 }
 
 .promotion-primary-button:hover {
-  background-color: #ffff99; /* Giữ màu vàng nhạt Cyberpunk */
+  background-color: #ffff99;
+  /* Giữ màu vàng nhạt Cyberpunk */
   color: #1a1a2e;
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(255, 255, 153, 0.4), 0 0 20px rgba(255, 255, 153, 0.2);
@@ -667,7 +671,8 @@
 
 .promotion-secondary-button {
   padding: 0.75rem 1.5rem;
-  background-color: #ffd700; /* Giữ màu vàng neon Cyberpunk */
+  background-color: #ffd700;
+  /* Giữ màu vàng neon Cyberpunk */
   color: #1a1a2e;
   border-radius: 0;
   font-weight: 600;
@@ -679,7 +684,8 @@
 }
 
 .promotion-secondary-button:hover {
-  background-color: #ffff99; /* Giữ màu vàng nhạt Cyberpunk */
+  background-color: #ffff99;
+  /* Giữ màu vàng nhạt Cyberpunk */
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(255, 255, 153, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
 }
@@ -1045,7 +1051,8 @@
 .search-button {
   width: 48px;
   height: 48px;
-  background-color: #ffd700; /* Giữ màu vàng neon Cyberpunk */
+  background-color: #ffd700;
+  /* Giữ màu vàng neon Cyberpunk */
   border: none;
   border-radius: 4px;
   display: flex;
@@ -1060,7 +1067,8 @@
 }
 
 .search-button:hover {
-  background-color: #ffff99; /* Giữ màu vàng nhạt Cyberpunk */
+  background-color: #ffff99;
+  /* Giữ màu vàng nhạt Cyberpunk */
   box-shadow: 0 3px 8px rgba(255, 255, 153, 0.3);
 }
 
@@ -1081,6 +1089,7 @@
 }
 
 @media (max-width: 1400px) {
+
   .section,
   .travel-container,
   .promotion-container,
@@ -1117,10 +1126,14 @@
 }
 
 .content h2 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #4a90e2;
+  font-size: 40px;
+  font-weight: bold;
+  color: #1e272e;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px rgba(30, 39, 46, 0.3);
+  position: relative;
 }
 
 .view-all {
@@ -1143,26 +1156,30 @@
   margin: 2rem auto;
   padding: 0 1rem;
   margin-top: 80px;
-  
+  align-items: center;
 }
 
 .uudai-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: 15px;
   margin-bottom: 20px;
 }
 
 .uudai-title {
-  font-size: 2rem;
+  font-size: 40px;
   font-weight: bold;
   color: #1e272e;
-  margin: 0;
+  margin: 20px 0px ;
   position: relative;
   display: inline-block;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: 0 0 3px rgba(30, 39, 46, 0.3);
+  text-align: center;
+  width: 100%;
 }
 
 .uudai-countdown {
@@ -1175,12 +1192,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #4a90e2;
-  color: white;
+  background: white;
+  color: #1e272e;
   padding: 8px 12px;
   border-radius: 4px;
   min-width: 60px;
 }
+
 
 .countdown-value {
   font-size: 20px;
@@ -1195,18 +1213,20 @@
 .countdown-separator {
   font-size: 20px;
   font-weight: 700;
-  color: #4a90e2;
+  color: white;
   margin: 0 5px;
 }
 
 .uudai-content {
-  border: 2px solid #4a90e2;
   border-radius: 8px;
   padding: 20px;
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, rgba(224, 231, 235, 0.9), rgba(178, 205, 217, 0.7));
+  border-image-slice: 1;
   background: linear-gradient(45deg, rgba(224, 231, 235, 0.9), rgba(178, 205, 217, 0.7));
-  backdrop-filter: blur(20px);          /* làm mờ nền phía sau */
-  -webkit-backdrop-filter: blur(100px);  
+  color: white;
 }
+
 
 .uudai-wrapper {
   display: flex;
@@ -1260,7 +1280,7 @@
 
 .uudai-card {
   padding: 15px;
-  background: #f6f9fc;
+  background: #ffffff;
   border-radius: 8px;
   border: 1px solid #e3e9ef;
   display: flex;
@@ -1270,7 +1290,7 @@
 }
 
 .uudai-card:hover {
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   border-color: #dae1e7;
 }
 
@@ -1287,7 +1307,7 @@
   .uudai-wrapper {
     flex-direction: column;
   }
-  
+
   .uudai-right {
     grid-template-columns: 1fr;
   }
@@ -1322,7 +1342,7 @@
 .uudai-left {
   flex: 1;
   padding: 20px;
-  background: #f6f9fc;
+  background: #fff;
   border-radius: 8px;
   border: 1px solid #eee;
   display: flex;
@@ -1353,7 +1373,7 @@
   .uudai-card-content {
     flex-direction: column;
   }
-  
+
   .uudai-product-image {
     width: 100%;
     height: auto;
@@ -1369,7 +1389,7 @@
   background: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
 
