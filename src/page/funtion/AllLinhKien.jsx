@@ -55,10 +55,10 @@ const SelectedOptions = React.memo(({ selectedOptions, sortOrder, toggleOption, 
 
 const BannerAd = () => {
   const images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRZKxxMo-MP15nGmBJkNSbeBmwkl3GpeXWdQ&s",
+    "https://tinhocanhphat.vn/media/lib/28-02-2023/may-tinh-do-hoa.jpg",
     "https://no1computer.vn/upload_images/images/CPU/Chip%20hi%E1%BB%87u%20n%C4%83ng%20cao/i9/i9-13900HX/core-i9-13900HX.jpg",
-    "https://via.placeholder.com/600x300?text=Image+3",
-    "https://via.placeholder.com/600x300?text=Image+4"
+    "https://file.hstatic.net/200000053304/article/file_psd_banner_fb__6000018b277c40ec82da58cedf0ee4ea.png",
+    "https://kimlongcenter.com/upload/news/huong-dan-build-cau-hinh-pc-choi-game-cho-sinh-vien-2024_4.jpg"
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -95,6 +95,7 @@ const AllLinhKien = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [activeFilter, setActiveFilter] = useState(null);
   const [sortOrder, setSortOrder] = useState("default");
@@ -297,8 +298,11 @@ const AllLinhKien = () => {
       <BannerAd />
 
       <div className="search-bar">
-        <div className="search-input-container">
-          <FaSearch className="search-icon" />
+        <div className={`search-input-container ${isSearchExpanded ? 'expanded' : 'collapsed'}`}>
+          <FaSearch 
+            className="search-icon" 
+            onClick={() => setIsSearchExpanded(!isSearchExpanded)}
+          />
           <input
             type="text"
             value={searchTerm}
@@ -498,6 +502,24 @@ const AllLinhKien = () => {
                         )}
                         {product.danh_muc === "Mainboard" && product.thong_so.memorySlots && (
                           <div>{product.thong_so.memorySlots} RAM slots</div>
+                        )}
+                        {product.danh_muc === "RAM" && product.thong_so.capacity && (
+                          <div>{product.thong_so.capacity} RAM </div>
+                        )}
+                        {product.danh_muc === "Storage" && (
+                          <div>{product.thong_so.readSpeed} </div>
+                        )}
+                        {product.danh_muc === "GPU" && (
+                          <div> Vram {product.thong_so.vram} </div>
+                        )}
+                        {product.danh_muc === "PSU" && (
+                          <div> Max {product.thong_so.wattage} </div>
+                        )}
+                        {product.danh_muc === "Cooling" && (
+                          <div> {product.thong_so.type} </div>
+                        )}
+                        {product.danh_muc === "Peripherals" && (
+                          <div> {product.thong_so.type} </div>
                         )}
                       </div>
                     )}
