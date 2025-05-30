@@ -7,3 +7,4 @@
 {"id_danh_gia":9,"ten_nguoi_tra_loi":"Admin","noi_dung":"what","ngay":"2025-05-16"}
 {"id_danh_gia":9,"ten_nguoi_tra_loi":"unkown","noi_dung":"amzing good job","ngay":"2025-05-23"}
 {"id_danh_gia":4,"ten_nguoi_tra_loi":"Admin","noi_dung":"ok thanks","ngay":"2025-05-29"}
+{"id_danh_gia":10,"ten_nguoi_tra_loi":"Admin","noi_dung":"seo","ngay":"2025-05-30"}
