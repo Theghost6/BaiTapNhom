@@ -104,10 +104,10 @@
 .slide-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #458ee2;
+  color: #ff9900;
   margin-bottom: 1rem;
   line-height: 1.2;
-  text-shadow: 0 0 8px rgba(74, 144, 226, 0.6);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 2px;
   position: relative;
@@ -121,8 +121,8 @@
   left: 0;
   width: 60%;
   height: 2px;
-  background: #4a90e2;
-  box-shadow: 0 0 8px #4a90e2;
+  background: #ff9900;
+  box-shadow: 0 0 8px rgba(224, 231, 235, 0.9);
 }
 
 @media (min-width: 768px) {
@@ -139,9 +139,9 @@
 
 .slide-description {
   font-size: 1.25rem;
-  color: #fff;
+  color: #f2f2f2;
   margin-bottom: 2rem;
-  text-shadow: 0 0 2px rgba(30, 39, 46, 0.3);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 @media (min-width: 768px) {
@@ -500,7 +500,6 @@
   border-left: 2px solid #4a90e2;
 }
 
-/* Khi hover vào card, hiện nội dung */
 .products-card:hover .products-details {
   opacity: 1;
   transform: translateY(0);
@@ -536,7 +535,7 @@
   background-color: #ffd700;
   border-radius: 0;
   color: #1a1a2e;
-  font-weight: 500;
+  font-weight: 700;
   transition: all 0.3s ease;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
   text-transform: uppercase;
@@ -545,8 +544,10 @@
 }
 
 .shop-now-btn:hover {
-  background-color: #ffff99; /* Giữ màu vàng nhạt Cyberpunk */
-  box-shadow: 0 0 10px rgba(255, 255, 153, 0.4);
+  background-color: #ffffff;
+  color: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 /* Promotion */
@@ -1153,9 +1154,14 @@
 
 .uudai-title {
   font-size: 2rem;
-  font-weight: 600;
-  color: #333;
+  font-weight: bold;
+  color: #1e272e;
   margin: 0;
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px rgba(30, 39, 46, 0.3);
 }
 
 .uudai-countdown {
@@ -1188,7 +1194,7 @@
 .countdown-separator {
   font-size: 20px;
   font-weight: 700;
-  color: #ffd700;
+  color: #4a90e2;
   margin: 0 5px;
 }
 
@@ -1250,7 +1256,7 @@
 
 .uudai-card {
   padding: 15px;
-  background: #fff;
+  background: #f6f9fc;
   border-radius: 8px;
   border: 1px solid #e3e9ef;
   display: flex;

@@ -264,7 +264,7 @@
   width: 40%;
   padding: 12px 40px 12px 20px;
   border: 2px solid var(--border-color);
-  border-radius: 25px;
+  border-radius: 8px;
   font-size: 16px;
   outline: none;
   transition: border-color 0.3s ease;

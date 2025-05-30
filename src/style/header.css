@@ -74,13 +74,20 @@ body {
 }
 
 /* Search Bar */
+.search-bar-container {
+  max-width: var(--max-width);
+  margin: 0 2px;
+  padding: 0 20px;
+  position: relative;
+}
+
 .header-search-bar {
   position: relative;
   display: flex;
   align-items: center;
   flex: 0 1 auto;
   max-width: 250px;
-}
+} 
 
 .header-search-bar input {
   width: 100%;
