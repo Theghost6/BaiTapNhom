@@ -14,7 +14,7 @@ const developers = [
     name: "Nguyễn Trường Sinh",
     role: "Project Manager",
     description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
-    image: "photos/IMG_9371.JPG",
+    image: "https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/Image%20FP_2024/meme-meo-4.jpg",
     borderColor: "black"
   },
   {

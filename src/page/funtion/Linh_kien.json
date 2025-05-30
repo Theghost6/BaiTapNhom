@@ -13,7 +13,7 @@
                 "socket": "LGA 1700",
                 "cache": "36MB"
             },
-            "so_luong": 0,
+            "so_luong": "4",
             "mo_ta": "Intel Core i9-13900K là bộ vi xử lý hàng đầu dành cho game thủ, nhà sáng tạo nội dung và chuyên gia cần hiệu năng vượt trội. Với 24 nhân (8 nhân hiệu năng cao, 16 nhân tiết kiệm điện) và 32 luồng, sản phẩm này vượt trội trong đa nhiệm, dựng hình 3D và chơi game nặng. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz giúp xử lý nhanh các ứng dụng như Adobe After Effects, Blender và các tựa game AAA. Socket LGA 1700 tương thích với bo mạch chủ Intel 600\/700-series, hỗ trợ RAM DDR5 và PCIe 5.0, đảm bảo khả năng nâng cấp trong tương lai. Kiến trúc lai tối ưu hiệu suất và tiết kiệm năng lượng, lý tưởng cho ép xung. Công nghệ Intel Turbo Boost Max 3.0 và Thermal Velocity Boost tăng cường hiệu năng khi tải nặng. Dù bạn lắp ráp PC chơi game hay máy trạm dựng phim, i9-13900K mang lại tốc độ và độ tin cậy đỉnh cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -1915,7 +1915,7 @@
                 "boostClock": "2.55 GHz",
                 "power": "250W"
             },
-            "so_luong": 16,
+            "so_luong": 15,
             "mo_ta": "Gigabyte RTX 4070 GAMING OC là card đồ họa cao cấp sử dụng GPU NVIDIA Ada Lovelace, thiết kế dành cho chơi game 1440p và 4K. Với 12GB GDDR6X và 5888 nhân CUDA, card đồ họa này cung cấp hiệu năng ấn tượng, giúp bạn chơi game và xử lý đồ họa mượt mà. Xung nhịp tăng tốc lên tới 2.55 GHz cùng khả năng hỗ trợ Ray Tracing và DLSS 3 mang lại chất lượng hình ảnh tuyệt vời và trải nghiệm chơi game mượt mà. Tản nhiệt WINDFORCE 3X với ba quạt giúp giữ nhiệt độ thấp, duy trì hiệu suất ổn định ngay cả trong các tác vụ nặng. RTX 4070 là lựa chọn tuyệt vời cho các game thủ và nhà sáng tạo yêu cầu hiệu suất cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-03-15",
@@ -3916,6 +3916,25 @@
                 "RGB Chroma"
             ],
             "danh_muc": "Peripherals"
+        },
+        {
+            "ten": "Màn ICD",
+            "mo_ta": "xem film 4k",
+            "gia": "1000000",
+            "hang": "unkown",
+            "thong_so": "4k",
+            "so_luong": "2",
+            "trang_thai": "còn hàng",
+            "updatedAt": "20-10-2022",
+            "tags": "tivi",
+            "khuyen_mai": "tặng 100k",
+            "images": "test.jpg",
+            "bao_hanh": "2 năm",
+            "ngay_phat_hanh": "2025-05-30",
+            "thiet_bi_tuong_thich": "remote",
+            "tinh_nang": "màn cong",
+            "danh_muc": "Peripherals",
+            "id": "6839660346d97"
         }
     ]
 }
