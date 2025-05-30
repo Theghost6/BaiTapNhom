@@ -27,15 +27,28 @@
 /* Hero Banner */
 .hero-banner {
   position: relative;
-  height: 300px;
+  width: 100%;
+  height: 400px;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
+  margin-top: 0;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 170, 255, 0.15);
 }
 
 .hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 10s ease;
+  transform-origin: center;
+  animation: slowZoom 20s infinite alternate;
+  filter: brightness(1.0) saturate(1.2);
+}
+
+@keyframes slowZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
 .hero-text {
@@ -43,28 +56,53 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: #FFFFFF;
   text-align: center;
-  color: white;
-  z-index: 2;
+  width: 90%;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6), 0 0 25px rgba(0, 255, 255, 0.4);
 }
 
 .hero-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  animation: glowing 2s ease-in-out infinite alternate;
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  font-size: 1.4rem;
+  margin-top: 8px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  animation: glowing 2s ease-in-out infinite alternate 0.5s;
 }
+
+@keyframes glowing {
+  from {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.4);
+  }
+  to {
+    text-shadow: 0 0 15px rgba(224, 64, 251, 0.7), 0 0 25px rgba(224, 64, 251, 0.5);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* Banner Ad */
 .banner-ad {
   max-width: var(--max-width);
   margin: 0 auto 20px;
-  padding: 0 20px;
   background: var(--ad-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -103,7 +141,7 @@
 .slider-image {
   width: 100%;
   flex-shrink: 0;
-  height: 100px;
+  height: 120px;
   object-fit: cover;
 }
 
@@ -201,10 +239,29 @@
   position: relative;
   display: flex;
   align-items: center;
+  transition: all 0.3s ease;
+}
+
+.search-input-container.collapsed .search-input {
+  width: 0;
+  padding: 0;
+  border: none;
+  visibility: hidden;
+}
+
+.search-input-container.expanded .search-input {
+  width: 40%;
+  padding: 12px 40px 12px 20px;
+  border: 2px solid var(--border-color);
+  visibility: visible;
+}
+
+.search-icon {
+  cursor: pointer;
 }
 
 .search-input {
-  width: 100%;
+  width: 40%;
   padding: 12px 40px 12px 20px;
   border: 2px solid var(--border-color);
   border-radius: 8px;
@@ -220,7 +277,7 @@
 .search-icon {
   position: absolute;
   left: 5px;
-  color: #666;
+  color: #f00000;
   font-size: 16px;
 }
 
