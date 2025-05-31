@@ -13,6 +13,8 @@ import "../style/all_linh_kien.css";
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
 import { Variants } from "./funtion/Menu";
+import { AnimatePresence } from "framer-motion";
+
 // import * as motion from "motion/react-client"
 
 const Home = () => {
@@ -74,7 +76,7 @@ const Home = () => {
       ten: "Keychron K8 Pro",
       hang: "Keychron",
       gia: 2500000,
-      images: ["/photos/i.jpg"],
+      images: ["/photos/l.jpg"],
     },
     {
       id: "case009",
@@ -90,46 +92,101 @@ const Home = () => {
       gia: 17290000,
       images: ["/photos/intel ultra.jpg"],
     },
+    {
+      id: "cool001",
+      ten: "Noctua NH-D15",
+      hang: "Noctua",
+      gia: 2500000,
+      images: ["/photos/p.jpg"],
+    },
+    {
+      "id": "mb002",
+      "ten": "MSI MPG B650 Tomahawk WiFi",
+      "hang": "MSI",
+      "gia": 6500000,
+      "images": ["/photos/mainboard.png"],
+    },
+    {
+      "id": "storage004",
+      "ten": "Crucial P3 Plus 2TB NVMe PCIe Gen4",
+      "hang": "Crucial",
+      "gia": 3890000,
+      "images": ["/photos/storage.jpg"],
+    },
 
   ];
   const promoSlides = [
-    // {
-    //   id: 1,
-    //   image: "/photos/nv.jpg",
-    //   title: "NVDIA - Global leader in AI computing and graphics processing, known for its cutting-edge GPUs and innovative solutions in gaming, AI, and data science.",
-    // },
-    // {
-    //   id: 2,
-    //   image: "/photos/cs.jpg",
-    //   title: "CORSAIR - Gaming peripherals and components.",
-    // },
-    // {
-    //   id: 3,
-    //   image: "/photos/rz.jpg",
-    //   title: "RAZER - A global leader in gaming hardware, software, and systems.",
-    // },
     {
-      id: 4,
-      image: "/photos/msi.jpg",
-      title: "MSI - Innovating gaming laptops and components for enthusiasts.",
+      id: 1,
+      image: "/photos/nv.jpg",
+      title: "NVDIA - Global leader in AI computing and graphics processing, known for its cutting-edge GPUs and innovative solutions in gaming, AI, and data science.",
     },
+    {
+      id: 2,
+      image: "/photos/cs.jpg",
+      title: "CORSAIR - Gaming peripherals and components.",
+    },
+    {
+      id: 3,
+      image: "/photos/rz.jpg",
+      title: "RAZER - A global leader in gaming hardware, software, and systems.",
+    },
+    // {
+    //   id: 4,
+    //   image: "/photos/msi.jpg",
+    //   title: "MSI - Innovating gaming laptops and components for enthusiasts.",
+    // },
     // {
     //   id: 5,
     //   image: "/photos/ss.jpg",
     //   title: "SAMSUNG - Pioneering innovation in memory, and consumer electronics.",
     // },
-    {
-      id: 6,
-      image: "/photos/asus.jpg",
-      title: "ASUS - Leading the way in computer hardware and electronics.",
-    },
-    {
-      id: 7,
-      image: "/photos/amd.jpg",
-      title: "AMD - Pioneering high-performance computing and graphics solutions.",
-    },
+    // {
+    //   id: 6,
+    //   image: "/photos/asus.jpg",
+    //   title: "ASUS - Leading the way in computer hardware and electronics.",
+    // },
+    // {
+    //   id: 7,
+    //   image: "/photos/amd.jpg",
+    //   title: "AMD - Pioneering high-performance computing and graphics solutions.",
+    // },
   ];
 
+  const newsData = [
+    {
+      title: 'DDR5 RAM: Bước tiến tốc độ trong build PC 2025',
+      description: 'DDR5 ngày càng phổ biến trong các bộ PC hiệu năng cao, mang lại tốc độ vượt trội và hỗ trợ tối ưu cho các vi xử lý thế hệ mới.',
+      date: 'April 8, 2025',
+      category: 'Hardware',
+      readMoreLink: '#',
+      image: '/photos/ram.jpg',
+    },
+    {
+      title: 'Top 5 phần mềm tối ưu hệ thống Windows không thể thiếu',
+      description: 'Giới thiệu những phần mềm hàng đầu giúp dọn dẹp, tối ưu hiệu suất và bảo vệ máy tính Windows khỏi rác và phần mềm độc hại.',
+      date: 'May 1, 2025',
+      category: 'Software',
+      readMoreLink: '#',
+      image: '/photos/w.jpg',
+    },
+    {
+      title: 'M.2 Gen 5 SSD: Chuẩn lưu trữ siêu nhanh cho gaming và sáng tạo nội dung',
+      description: 'Ổ cứng M.2 Gen 5 mang lại tốc độ vượt trội, phù hợp cho người dùng chuyên nghiệp và game thủ muốn giảm thời gian tải xuống gần như bằng 0.',
+      date: 'March 18, 2025',
+      category: 'Storage',
+      readMoreLink: '#',
+      image: '/photos/ssd.jpg',
+    },
+    {
+      title: 'Mini PC Workstation: Xu hướng làm việc nhỏ gọn mà mạnh mẽ',
+      description: 'Mini PC đang thay thế dần desktop truyền thống trong văn phòng hiện đại, nhờ thiết kế gọn nhẹ nhưng vẫn mạnh mẽ và dễ nâng cấp.',
+      date: 'February 20, 2025',
+      category: 'PC Builds',
+      readMoreLink: '#',
+      image: '/photos/mini.jpg',
+    },
+  ];
 
   // Auto slide effect
   useEffect(() => {
@@ -149,60 +206,101 @@ const Home = () => {
 
       {/* Hero Slider */}
       <div className="hero-slider" id="hero-slider">
-        <div
-          className="slide-background"
-          style={{ backgroundImage: `url('${slides[activeSlide].image}')` }}
-        >
-          <div className="slide-overlay"></div>
-          <div className="slide-content">
-            <div className="slide-text">
-              <h1 className="slide-title">{slides[activeSlide].title}</h1>
-              <p className="slide-description">{slides[activeSlide].description}</p>
-              <div className="slide-buttons">
-                <button
-                  className="primary-button"
-                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
-                >
-                  Đặt hàng ngay <ArrowRight className="button-icon" />
-                </button>
-                <button
-                  className="secondary-button"
-                  onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
-                >
-                  Tìm hiểu thêm
-                </button>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slides[activeSlide].id}
+            className="slide-background"
+            style={{ backgroundImage: `url('${slides[activeSlide].image}')` }}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div
+              className="slide-background"
+              style={{ backgroundImage: `url('${slides[activeSlide].image}')` }}
+            >
+              <div className="slide-overlay"></div>
+              <div className="slide-content">
+                <div className="slide-text">
+                  <h1 className="slide-title">{slides[activeSlide].title}</h1>
+                  <p className="slide-description">{slides[activeSlide].description}</p>
+                  <div className="slide-buttons">
+                    <button
+                      className="primary-button"
+                      onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
+                    >
+                      Đặt hàng ngay <ArrowRight className="button-icon" />
+                    </button>
+                    <button
+                      className="secondary-button"
+                      onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
+                    >
+                      Tìm hiểu thêm
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+
+
+            {/* Slide indicators */}
+            <div className="slide-indicators">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveSlide(index)}
+                  className={`slide-indicator${index === activeSlide ? " active-indicator" : ""}`}
+                  aria-label={`Slide ${index + 1}`}
+                  aria-current={index === activeSlide ? "true" : undefined}
+                />
+              ))}
+            </div>
+
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className="brandBanner-container">
+        <div className="brandBanner-slide">
+          <img src="/photos/j.jpg" alt="Slide" className="brandBanner-image" />
+          <div className="brandBanner-overlay">
+            <p className="brandBanner-subtitle">Từ <span>2.500K VNĐ</span></p>
+            <p className="brandBanner-text">LINH KIỆN MỌI MÁY</p>
+            <h2 className="brandBanner-title">MX Master 3S</h2>
+            <Link to="/linh-kien/peripheral004">
+              <button className="brandBanner-button">SHOP NOW</button>
+            </Link>
           </div>
         </div>
 
-        {/* Slide indicators */}
-        <div className="slide-indicators">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveSlide(index)}
-              className={`slide-indicator${index === activeSlide ? " active-indicator" : ""
-                }`}
-              aria-label={`Slide ${index + 1}`}
-              aria-current={index === activeSlide ? "true" : undefined}
-            />
-          ))}
+        <div className="brandBanner-slide">
+          <img src="/photos/asrock.jpg" alt="Slide" className="brandBanner-image" />
+          <div className="brandBanner-overlay">
+            <p className="brandBanner-subtitle">Từ <span>4.390K VNĐ</span></p>
+            <p className="brandBanner-text">LINH KIỆN MỌI MÁY</p>
+            <h2 className="brandBanner-title">B760M Pro</h2>
+            <Link to="/linh-kien/mb007">
+              <button className="brandBanner-button">SHOP NOW</button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="brandBanner-slide">
+          <img src="/photos/nguon.jpg" alt="Slide" className="brandBanner-image" />
+          <div className="brandBanner-overlay">
+            <p className="brandBanner-subtitle">Từ <span>3.750K VNĐ</span></p>
+            <p className="brandBanner-text">LINH KIỆN MỌI MÁY</p>
+            <h2 className="brandBanner-title">RM850X</h2>
+            <Link to="/linh-kien/psu001">
+              <button className="brandBanner-button">SHOP NOW</button>
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="promo-grid-container">
-        <div className="promo-grid">
-          {promoSlides.map((item) => (
-            <div key={item.id} className="promo-card">
-              <div
-                className="promo-image"
-                style={{ backgroundImage: `url('${item.image}')` }}
-              ></div>
-            </div>
-          ))}
-        </div>
-      </div>
+
+
 
       <div className="section destinations-section" id="linhkien">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -319,32 +417,33 @@ const Home = () => {
 
       {/* Discount */}
       <div className="uudai">
-        <div className="uudai-header">
-          <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
-          <div className="uudai-countdown">
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Days</span>
-            </div>
-            <div className="countdown-separator">:</div>
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.hours.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Hours</span>
-            </div>
-            <div className="countdown-separator">:</div>
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.minutes.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Mins</span>
-            </div>
-            <div className="countdown-separator">:</div>
-            <div className="countdown-box">
-              <span className="countdown-value">{timeLeft.seconds.toString().padStart(2, '0')}</span>
-              <span className="countdown-label">Secs</span>
+        <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
+        <div class="background-text-deal">DEAL</div>
+        <div className="uudai-content">
+          <div className="uudai-header">
+            <div className="uudai-countdown">
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Days</span>
+              </div>
+              <div className="countdown-separator">:</div>
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.hours.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Hours</span>
+              </div>
+              <div className="countdown-separator">:</div>
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Mins</span>
+              </div>
+              <div className="countdown-separator">:</div>
+              <div className="countdown-box">
+                <span className="countdown-value">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                <span className="countdown-label">Secs</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="uudai-content">
           <div className="uudai-wrapper">
             {/* Main Product */}
             <div className="uudai-left">
@@ -461,6 +560,23 @@ const Home = () => {
         </div>
       </div>
 
+      <div className="brandBanner-uudai-slide">
+        <div className="brandBanner-uudai-overlay">
+          <div className="brandBanner-uudai-content-box">
+            <p className="brandBanner-uudai-text">
+              🧩 Xem thêm nhiều ưu đãi khác cùng với linh kiện
+            </p>
+            <p className="brandBanner-uudai-subtext">
+              🎁 Giảm đến 30% cho linh kiện PC - chỉ trong tuần này!
+            </p>
+            <Link to="/AllLinhKien">
+              <button className="brandBanner-uudai-button">SHOP NOW</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+
 
       {/* Services */}
       <div className="section services-section" id="dich-vu">
@@ -500,11 +616,44 @@ const Home = () => {
       </div>
 
 
-      
+      <div className="news-wrapper">
+        <h2 className="news-heading">Tin tức</h2>
+        <p className="news-subheading">Xem tin tức và sự kiện mới nhất gần đây</p>
+
+        <div className="news-list">
+          {newsData.map((post, index) => {
+            const date = new Date(post.date);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+
+            return (
+              <div className="news-card" key={index}>
+                <div className="news-image-wrapper">
+                  <img src={post.image} alt={post.title} className="news-image" />
+                  <div className="news-date">
+                    <div>{day}</div>
+                    <div>{month}</div>
+                  </div>
+                </div>
+                <div className="news-content">
+                  <p className="news-category">{post.category}</p>
+                  <h3 className="news-title">{post.title}</h3>
+                  <Link to="/blog">
+                    <button class="news-readmore">Read more</button>
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+
+
       {/* Newsletter */}
       <div class="newsletter-section" id="dang-ki">
         <div class="newsletter-wrapper">
-          {/* left */}
+          {/* Left */}
           <div class="newsletter-content">
             <h2 class="newsletter-title">Ở nhà an toàn - Mua sắm nhu yếu phẩm tại shop chúng tôi</h2>
             <p class="newsletter-description">
@@ -517,12 +666,13 @@ const Home = () => {
             </div>
           </div>
 
-          {/* right */}
-          {/* <div class="newsletter-image">
-            <img src="/photos/g.jpg" alt="Delivery" />
-          </div> */}
+          {/* Right */}
+          <div class="newsletter-image">
+            <img src="/photos/newsletter.jpg" alt="Delivery" />
+          </div>
         </div>
       </div>
+
     </div>
   );
 };
