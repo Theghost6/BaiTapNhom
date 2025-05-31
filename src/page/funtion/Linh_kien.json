@@ -3916,25 +3916,6 @@
                 "RGB Chroma"
             ],
             "danh_muc": "Peripherals"
-        },
-        {
-            "ten": "Màn ICD",
-            "mo_ta": "xem film 4k",
-            "gia": "1000000",
-            "hang": "unkown",
-            "thong_so": "4k",
-            "so_luong": "2",
-            "trang_thai": "còn hàng",
-            "updatedAt": "20-10-2022",
-            "tags": "tivi",
-            "khuyen_mai": "tặng 100k",
-            "images": "test.jpg",
-            "bao_hanh": "2 năm",
-            "ngay_phat_hanh": "2025-05-30",
-            "thiet_bi_tuong_thich": "remote",
-            "tinh_nang": "màn cong",
-            "danh_muc": "Peripherals",
-            "id": "6839660346d97"
         }
     ]
 }

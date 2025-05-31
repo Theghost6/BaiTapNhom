@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import "../../style/Admin.css";
 import {
@@ -1685,7 +1687,7 @@ function Admin() {
                   </div>
                   <div className="stat-content">
                     <span className="stat-value">{Object.values(linhKien).flat().length}</span>
-                    <span className="stat-label">Tổng linh kiện</span>
+                    <span className="stat-label"> Tổng linh kiện</span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -1694,7 +1696,7 @@ function Admin() {
                   </div>
                   <div className="stat-content">
                     <span className="stat-value">{loaiLinhKienList.length}</span>
-                    <span className="stat-label">Danh mục</span>
+                    <span className="stat-label"> Danh mục</span>
                   </div>
                 </div>
               </div>
@@ -1884,14 +1886,14 @@ function Admin() {
                                   }}
                                   title="Chỉnh sửa"
                                 >
-                                  <i className="fas fa-edit"></i>
+                                  <i className="fas fa-edit"><FaEdit /></i>
                                 </button>
                                 <button
                                   className="delete-button"
                                   onClick={() => handleDeleteConfirm(lk.id, loai)}
                                   title="Xóa"
                                 >
-                                  <i className="fas fa-trash-alt"></i>
+                                  <i className="fas fa-trash-alt"><MdDelete /></i>
                                 </button>
                               </div>
                             </td>
