@@ -104,7 +104,7 @@
 .slide-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #ff9900;
+  color: #4a90e2;
   margin-bottom: 1rem;
   line-height: 1.2;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
@@ -121,7 +121,7 @@
   left: 0;
   width: 60%;
   height: 2px;
-  background: #ff9900;
+  background: #4a90e2;
   box-shadow: 0 0 8px rgba(224, 231, 235, 0.9);
 }
 
@@ -220,7 +220,7 @@
   filter: drop-shadow(0 0 2px rgba(255, 255, 153, 0.6));
 }
 
-/* .slide-indicators {
+.slide-indicators {
   position: absolute;
   bottom: 2rem;
   left: 0;
@@ -231,23 +231,134 @@
   max-width: 1400px;
   margin: 0 auto;
   z-index: 10;
-} */
+  border: #000;
+}
 
-.slide-indicator {
-  width: 0.5rem;              /* Nhỏ hơn 0.75rem */
+/* .slide-indicator {
+  width: 0.5rem;           
   height: 0.5rem;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5); /* Trắng mờ */
+  background-color: rgba(255, 255, 255, 0.5);
   transition: all 0.3s;
   border: none;
   cursor: pointer;
-}
+} */
 
 .active-indicator {
-  background-color: #4a90e2;
-  width: 1.5rem;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+  background-color: #ffffff;
+  /* Trắng đậm cho trạng thái active */
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
 }
+
+/* Brand */
+.brandBanner-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
+
+.brandBanner-slide {
+  position: relative;
+  width: 100%;
+  max-width: 410px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 20px 10px;
+  z-index: 5;
+  cursor: pointer;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brandBanner-slide:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+.brandBanner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.brandBanner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brandBanner-subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.brandBanner-subtitle span {
+  color: white;
+  font-weight: bold;
+}
+
+.brandBanner-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4a90e2;
+  margin-bottom: 10px;
+  line-height: 1.2;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+}
+
+.brandBanner-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.brandBanner-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #ffd700;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1a1a2e;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+  letter-spacing: 1px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+
+.brandBanner-button:hover {
+  background-color: #ffffff;
+  color: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
 
 /* Promo-slide */
 .promo-grid-container {
@@ -447,24 +558,52 @@
 /* Product card */
 .destination-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  margin-top: -40px;
-  margin-bottom: -10px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: masonry;
+  grid-auto-rows: 250px;
+  gap: 12px;
+}
+
+.products-card:nth-child(1) {
+  grid-row: span 2;
+}
+
+.products-card:nth-child(2) {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.products-card:nth-child(3) {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.products-card:nth-child(4) {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.products-card:nth-child(5) {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.products-card:nth-child(6) {
+  grid-column: span 2;
+  grid-row: span 1;
 }
 
 .products-card {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  height: 250px;
   cursor: pointer;
   box-shadow: 0 0 6px rgba(74, 144, 226, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   border: 1px solid rgba(74, 144, 226, 0.2);
+  height: 100%;
 }
 
 .products-image-container {
@@ -473,6 +612,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .products-image {
@@ -512,7 +652,7 @@
   font-weight: bold;
   margin: 0;
   color: #4a90e2;
-  text-shadow: 0 0 4px rgba(74, 144, 226, 0.5);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -521,6 +661,7 @@
 .products-price {
   margin: 4px 0;
   font-size: 14px;
+  font-weight: 700;
   color: #1e272e;
 }
 
@@ -702,6 +843,8 @@
   }
 }
 
+
+
 .deals-card {
   background-color: rgba(224, 231, 235, 0.8);
   padding: 1.5rem;
@@ -845,83 +988,183 @@
   color: #1e272e;
 }
 
-/* Newsletter */
-.newsletter-section {
-  background-color: #e0e7eb;
-  background-image: url("/photos/tech-bg.jpg");
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: cover;
-  padding: 80px 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
-  position: relative;
+/* Blog */
+.news-wrapper {
+  padding: 0px 20px;
+  font-family: Arial, sans-serif;
 }
 
-.newsletter-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(224, 231, 235, 0.7), rgba(178, 205, 217, 0.5));
+.news-heading {
+  font-size: 40px;
+  font-weight: bold;
+  color: #1e272e;
+  margin: 30px 0px;
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px rgba(30, 39, 46, 0.3);
+  text-align: center;
+  width: 100%;
+}
+
+.news-subheading {
+  display: block;
+  /* Đổi từ inline-block sang block */
+  margin: -10px auto 40px;
+  /* Căn giữa theo chiều ngang, giữ margin-top */
+  font-size: 16px;
+  color: #ff9800;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  width: fit-content;
+  /* Hoặc đặt width cụ thể, ví dụ: width: 200px; */
+}
+
+.news-subheading:hover {
+  color: #ff5722;
+  text-decoration: underline;
+}
+
+.news-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0px 0px 0px 25px;
+}
+
+.news-card {
+  background: white;
+  border: 1px solid #eee;
   border-radius: 8px;
-  z-index: 0;
+  width: 300px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 10;
+  display: flex;
+  /* Sử dụng Flexbox */
+  flex-direction: column;
+  /* Xếp các phần tử theo cột */
+  height: 100%;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+}
+
+.news-image-wrapper {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+}
+
+.news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-date {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #4a90e2;
+  /* Màu xanh dương đậm */
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 6px;
+  text-align: center;
+  line-height: 1.2;
+  border-radius: 4px;
+}
+
+.news-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-grow: 1;
+}
+
+.news-category {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #4a90e2;
+  /* Màu xanh dương đậm */
+}
+
+.news-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #222;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* Giới hạn tiêu đề trong 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  height: 4.5em;
+  /* Chiều cao cố định cho 2 dòng */
+}
+
+.news-readmore {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000;
+  background: #ffd700;
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 2px;
+  text-decoration: none;
+  margin-top: auto;
+  /* Đẩy nút xuống dưới cùng của news-content */
+}
+
+/* Newsletter */
+.newsletter-section {
+  background: #fff;
+  padding: 40px 20px;
 }
 
 .newsletter-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 1;
+  max-width: 1300px;
+  margin: 10px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 
 .newsletter-content {
-  max-width: 600px;
-  flex: 1 1 500px;
+  flex: 1;
+  padding: 40px;
+  background: linear-gradient(45deg, rgba(224, 231, 235, 0.7), rgba(178, 205, 217, 0.5));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .newsletter-title {
-  font-size: 40px;
-  font-weight: 700;
-  color: #4a90e2;
-  margin-bottom: 15px;
-  text-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  width: 400px;
 }
 
 .newsletter-description {
-  font-size: 18px;
-  color: #1e272e;
-  margin-bottom: 35px;
-}
-
-.newsletter-description .highlight {
-  color: #ff9800;
-  font-weight: 500;
-}
-
-.newsletter-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.newsletter-input {
-  padding: 18px 25px;
-  border-radius: 4px;
-  border: 1px solid rgba(74, 144, 226, 0.1);
   font-size: 16px;
-  width: 100%;
-  max-width: 300px;
-  background-color: #ffffff;
-  color: #1e272e;
-  box-shadow: 0 2px 5px rgba(74, 144, 226, 0.05);
+  margin-bottom: 20px;
+}
+
+.highlight {
+  color: #ff6600;
+  font-weight: bold;
 }
 
 .newsletter-button {
@@ -936,6 +1179,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+  z-index: 10;
 }
 
 .newsletter-button:hover {
@@ -946,20 +1190,24 @@
 }
 
 .newsletter-image {
-  flex: 1 1 400px;
-  text-align: center;
+  flex: 1;
+  background-color: #f26522;
   position: relative;
-  z-index: 1;
+  clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-left: -65px;
+  z-index: 5;
 }
 
 .newsletter-image img {
-  max-width: 100%;
-  height: auto;
-  width: 400px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(74, 144, 226, 0.05);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+
 
 /* Travel Navigation Bar Styles */
 .travel-container {
@@ -1172,7 +1420,7 @@
   font-size: 40px;
   font-weight: bold;
   color: #1e272e;
-  margin: 20px 0px ;
+  margin: 30px 0px;
   position: relative;
   display: inline-block;
   text-transform: uppercase;
@@ -1180,6 +1428,19 @@
   text-shadow: 0 0 3px rgba(30, 39, 46, 0.3);
   text-align: center;
   width: 100%;
+}
+
+.background-text-deal {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 120px;
+  font-weight: 800;
+  color: rgba(74, 144, 226, 0.05);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
 }
 
 .uudai-countdown {
@@ -1302,7 +1563,6 @@
   margin-top: 5px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .uudai-wrapper {
     flex-direction: column;
@@ -1313,7 +1573,6 @@
   }
 }
 
-/* Image Styles */
 .uudai-main-image {
   width: 100%;
   height: 200px;
@@ -1347,6 +1606,12 @@
   border: 1px solid #eee;
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.uudai-left:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-color: #dae1e7;
 }
 
 .uudai-card-content {
@@ -1401,4 +1666,86 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+
+/* discount-banner */
+.brandBanner-uudai-slide {
+  display: flex;
+  align-items: center;
+  background-image: url('/photos/dell.webp');
+  background-size: 400px 220px;
+  background-position: right;
+  background-repeat: no-repeat;
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+}
+
+.brandBanner-uudai-overlay {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  padding-left: 0px;
+  border-radius: 5px;
+  max-width: 60%;
+  background: linear-gradient(45deg, rgba(224, 231, 235, 0.9), white);
+}
+
+.brandBanner-uudai-content-box {
+  padding: 12px 16px;
+  border-radius: 8px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brandBanner-uudai-text {
+  font-size: 16px;
+  color: #000;
+  margin: 0;
+  font-weight: bold;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brandBanner-uudai-subtext {
+  font-size: 14px;
+  color: #444;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brandBanner-uudai-button {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background-color: #ffd700;
+  border-radius: 0;
+  color: #1a1a2e;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+}
+
+.brandBanner-uudai-button:hover {
+  background-color: #ffffff;
+  color: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
 }

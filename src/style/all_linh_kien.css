@@ -429,6 +429,7 @@
   font-size: 13px;
   gap: 8px;
   animation: fadeIn 0.3s ease-in;
+  cursor: pointer;
 }
 
 .selected-item button {

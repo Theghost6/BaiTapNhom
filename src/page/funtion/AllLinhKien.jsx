@@ -27,11 +27,9 @@ const SelectedOptions = React.memo(({ selectedOptions, sortOrder, toggleOption, 
   <div className="selected-options">
     <span className="selected-label">Đã chọn:</span>
     {selectedOptions.map((option) => (
-      <div key={option} className="selected-item">
+      <div key={option} className="selected-item" onClick={() => toggleOption(option)}>
         {option}
-        <button onClick={() => toggleOption(option)}>
-          <FaTimes className="remove-icon" />
-        </button>
+        {selectedOptions.includes(option) && <FaTimes className="remove-icon" />}
       </div>
     ))}
     {sortOrder === "lowToHigh" && (
@@ -373,7 +371,6 @@ const AllLinhKien = () => {
         {activeFilter && (
           <div className="filter-right">
             <div className="filter-header">
-              <span>Chọn {activeFilter.toLowerCase()}</span>
               <button onClick={() => setActiveFilter(null)}>
                 <FaTimes />
               </button>
