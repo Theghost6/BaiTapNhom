@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import {
   ArrowRight,
   Star,
@@ -23,6 +27,8 @@ const Home = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [openedIndex, setOpenedIndex] = useState(null);
   const [showUrl, setShowUrl] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
 
   const [timeLeft, setTimeLeft] = useState({
     days: 2,
@@ -49,6 +55,7 @@ const Home = () => {
     return () => clearInterval(timer);
   }, []);
 
+
   const slides = [
     {
       id: "gpu001",
@@ -70,6 +77,7 @@ const Home = () => {
       description: "Chuột chơi game với cảm biến HERO 25K",
     },
   ];
+
   const Hanghoa = [
     {
       id: "kb001",
@@ -100,58 +108,70 @@ const Home = () => {
       images: ["/photos/p.jpg"],
     },
     {
-      "id": "mb002",
-      "ten": "MSI MPG B650 Tomahawk WiFi",
-      "hang": "MSI",
-      "gia": 6500000,
-      "images": ["/photos/mainboard.png"],
+      id: "mb002",
+      ten: "MSI MPG B650 Tomahawk WiFi",
+      hang: "MSI",
+      gia: 6500000,
+      images: ["/photos/mainboard.png"],
     },
     {
-      "id": "storage004",
-      "ten": "Crucial P3 Plus 2TB NVMe PCIe Gen4",
-      "hang": "Crucial",
-      "gia": 3890000,
-      "images": ["/photos/storage.jpg"],
+      id: "storage004",
+      ten: "Crucial P3 Plus 2TB NVMe PCIe Gen4",
+      hang: "Crucial",
+      gia: 3890000,
+      images: ["/photos/storage.jpg"],
     },
 
   ];
+
   const promoSlides = [
     {
-      id: 1,
-      image: "/photos/nv.jpg",
-      title: "NVDIA - Global leader in AI computing and graphics processing, known for its cutting-edge GPUs and innovative solutions in gaming, AI, and data science.",
+      id: "psu002",
+      image: "/photos/sea.jpg",
+      title: "Seasonic Prime TX-1000",
+      brand: "Thương hiệu: Seasonic",
+      price: "6.50.000 VNĐ"
     },
     {
-      id: 2,
-      image: "/photos/cs.jpg",
-      title: "CORSAIR - Gaming peripherals and components.",
+      id: "gpu006",
+      image: "/photos/sap.jpg",
+      title: "Sapphire NITRO+ RX 7900 XT 24GB GDDR6",
+      brand: "Thương hiệu: Sapphire",
+      price: "3.190.000 VNĐ"
     },
     {
-      id: 3,
-      image: "/photos/rz.jpg",
-      title: "RAZER - A global leader in gaming hardware, software, and systems.",
+      id: "cpu010",
+      image: "/photos/ry.jpg",
+      title: "AMD Ryzen 7 9800X3D",
+      brand: "Thương hiệu: AMD",
+      price: "14.390.000 VNĐ"
     },
-    // {
-    //   id: 4,
-    //   image: "/photos/msi.jpg",
-    //   title: "MSI - Innovating gaming laptops and components for enthusiasts.",
-    // },
-    // {
-    //   id: 5,
-    //   image: "/photos/ss.jpg",
-    //   title: "SAMSUNG - Pioneering innovation in memory, and consumer electronics.",
-    // },
-    // {
-    //   id: 6,
-    //   image: "/photos/asus.jpg",
-    //   title: "ASUS - Leading the way in computer hardware and electronics.",
-    // },
-    // {
-    //   id: 7,
-    //   image: "/photos/amd.jpg",
-    //   title: "AMD - Pioneering high-performance computing and graphics solutions.",
-    // },
+    {
+      id: "gpu008",
+      image: "/photos/po.jpg",
+      title: "PowerColor RX 7600 Fighter 8GB GDDR6",
+      brand: "Thương hiệu: PowerColor",
+      price: "12.900.000 VNĐ"
+    },
+    {
+      id: "mb007",
+      image: "/photos/main.png",
+      title: "Asrock B760M Pro RS\/D4",
+      brand: "Thương hiệu: Asrock",
+      price: "4.390.000 VNĐ"
+    },
+    {
+      id: "mb006",
+      image: "/photos/giga.jpg",
+      title: "Gigabyte Z790M Aorus Elite AX D5",
+      brand: "Thương hiệu: Gigabyte",
+      price: "5.290.000 VNĐ"
+    },
   ];
+
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
 
   const newsData = [
     {
@@ -417,8 +437,10 @@ const Home = () => {
 
       {/* Discount */}
       <div className="uudai">
-        <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
-        <div class="background-text-deal">DEAL</div>
+        <section className="recommended-section">
+          <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
+          <div class="background-text-deal">DEAL</div>
+        </section>
         <div className="uudai-content">
           <div className="uudai-header">
             <div className="uudai-countdown">
@@ -564,10 +586,10 @@ const Home = () => {
         <div className="brandBanner-uudai-overlay">
           <div className="brandBanner-uudai-content-box">
             <p className="brandBanner-uudai-text">
-              🧩 Xem thêm nhiều ưu đãi khác cùng với linh kiện
+              📘 Xem thêm nhiều ưu đãi khác cùng với linh kiện
             </p>
             <p className="brandBanner-uudai-subtext">
-              🎁 Giảm đến 30% cho linh kiện PC - chỉ trong tuần này!
+              🔥 Giảm đến 30% cho linh kiện PC - chỉ trong tuần này!
             </p>
             <Link to="/AllLinhKien">
               <button className="brandBanner-uudai-button">SHOP NOW</button>
@@ -576,6 +598,60 @@ const Home = () => {
         </div>
       </div>
 
+
+
+      {/* NEW */}
+      <div className="promo-carousel-container">
+        <div className="promo-content">
+          <h2 className="carousel-title">Linh kiện mới</h2>
+          <p className="sub-carousel-title">
+            Khuyến mãi hấp dẫn từ các thương hiệu hàng đầu
+          </p>
+        </div>
+
+        <div className="custom-slider-container">
+          <div ref={prevRef} className="custom-swiper-button-prev">&#10094;</div>
+          <div ref={nextRef} className="custom-swiper-button-next">&#10095;</div>
+          <Swiper
+            modules={[Navigation, Autoplay]}
+            onInit={(swiper) => {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
+              swiper.navigation.init();
+              swiper.navigation.update();
+            }}
+            spaceBetween={20}
+            slidesPerView={4}
+            loop
+            navigation={{
+              prevEl: prevRef.current,
+              nextEl: nextRef.current,
+            }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+          >
+            {promoSlides.map((slide) => (
+              <SwiperSlide key={slide.id}>
+                <div
+                  className="slide-card"
+                  style={{ backgroundImage: `url(${slide.image})` }}
+                >
+                  <div className="slide-overlay">
+                    <p className="slide-title">{slide.title}</p>
+                    <p className="slide-brand">{slide.brand}</p>
+                    <p className="slide-price">{slide.price}</p>
+                    <button className="shop-button">SHOP NOW →</button>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+
+        </div>
+      </div>
 
 
       {/* Services */}
@@ -615,11 +691,15 @@ const Home = () => {
         </div>
       </div>
 
-
+      {/* Tin tức */}
       <div className="news-wrapper">
-        <h2 className="news-heading">Tin tức</h2>
-        <p className="news-subheading">Xem tin tức và sự kiện mới nhất gần đây</p>
-
+        <section className="recommended-section" id="tintuc">
+          <div class="background-text">BLOG</div>
+          <div className="content">
+            <h2>Tin tức</h2>
+            <p href="/blog" className="view-all">Xem tin tức và sự kiện mới nhất gần đây</p>
+          </div>
+        </section>
         <div className="news-list">
           {newsData.map((post, index) => {
             const date = new Date(post.date);

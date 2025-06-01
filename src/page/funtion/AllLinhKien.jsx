@@ -73,7 +73,7 @@ const BannerAd = () => {
     const interval = setInterval(nextSlide, 3000);
     return () => clearInterval(interval);
   }, []);
-
+ 
   return (
     <div className="banner-ad">
       <div className="slider-container">

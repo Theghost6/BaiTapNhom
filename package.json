@@ -24,6 +24,7 @@
     "react-toastify": "^11.0.5",
     "react-transition-group": "^4.4.5",
     "styled-components": "^6.1.18",
+    "swiper": "^11.2.8",
     "toast": "^0.5.4"
   },
   "devDependencies": {

@@ -359,90 +359,6 @@
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
-
-/* Promo-slide */
-.promo-grid-container {
-  position: relative;
-  top: -55px;
-  z-index: 10;
-  padding: 0 20px;
-}
-
-.promo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  background-color: rgba(224, 231, 235, 0.9);
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(74, 144, 226, 0.2);
-  padding: 24px;
-  border: 1px solid rgba(74, 144, 226, 0.2);
-  border-left: 3px solid #4a90e2;
-}
-
-.promo-card {
-  background: #e0e7eb;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 6px rgba(74, 144, 226, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  border: 1px solid rgba(74, 144, 226, 0.2);
-}
-
-.promo-card:nth-child(1) {
-  grid: span 2;
-  grid-column: span 2;
-}
-
-.promo-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
-}
-
-.promo-image {
-  background-size: cover;
-  background-position: center;
-  height: 120px;
-  filter: contrast(1.1) saturate(1.1) brightness(1.0);
-  position: relative;
-  overflow: hidden;
-}
-
-.promo-image::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(74, 144, 226, 0.2), transparent);
-  pointer-events: none;
-}
-
-.promo-title {
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #4a90e2;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-}
-
-.promo-title::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 100%;
-  background: #4a90e2;
-}
-
 /* Sections */
 .section-title-part {
   margin: 0 0 0 24px;
@@ -998,7 +914,7 @@
   font-size: 40px;
   font-weight: bold;
   color: #1e272e;
-  margin: 30px 0px;
+  margin: 50px 0px 0px;
   position: relative;
   display: inline-block;
   text-transform: uppercase;
@@ -1011,8 +927,7 @@
 .news-subheading {
   display: block;
   /* Đổi từ inline-block sang block */
-  margin: -10px auto 40px;
-  /* Căn giữa theo chiều ngang, giữ margin-top */
+  margin: 40px auto 40px;
   font-size: 16px;
   color: #ff9800;
   text-decoration: none;
@@ -1407,6 +1322,8 @@
   align-items: center;
 }
 
+
+
 .uudai-header {
   display: flex;
   flex-direction: column;
@@ -1420,7 +1337,7 @@
   font-size: 40px;
   font-weight: bold;
   color: #1e272e;
-  margin: 30px 0px;
+  margin: 0px 0px;
   position: relative;
   display: inline-block;
   text-transform: uppercase;
@@ -1681,10 +1598,11 @@
   border-radius: 5px;
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 80px 175px 0;
   position: relative;
   overflow: hidden;
   height: 120px;
+  box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 .brandBanner-uudai-overlay {
@@ -1692,13 +1610,14 @@
   align-items: center;
   flex-grow: 1;
   padding-left: 0px;
+  margin-left: -20px;
   border-radius: 5px;
   max-width: 60%;
   background: linear-gradient(45deg, rgba(224, 231, 235, 0.9), white);
 }
 
 .brandBanner-uudai-content-box {
-  padding: 12px 16px;
+  padding: 12px 26px;
   border-radius: 8px;
   max-width: 100%;
   display: flex;
@@ -1748,4 +1667,160 @@
   color: #ffd700;
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+
+/* Promo */
+.promo-carousel-container {
+  padding: 40px;
+  font-family: sans-serif;
+}
+
+.promo-content {
+  text-align: center;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+
+.carousel-title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #1e272e;
+  margin: 40px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px rgba(30, 39, 46, 0.3);
+  position: relative;
+}
+
+.sub-carousel-title {
+  color: #555;
+  margin-top: 8px;
+  font-size: 16px;
+  display: block;
+  line-height: 1.4;
+}
+
+.slide-card {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  height: 350px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.slide-card:hover {
+  transform: scale(1.02);
+}
+
+.slide-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(131, 123, 123, 0.8), transparent);
+  color: white;
+  padding: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translateY(100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-left: 2px solid #4a90e2;
+}
+
+.slide-card:hover .slide-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  filter: brightness(0.95) contrast(1.2) saturate(1.2);
+}
+
+.slide-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #4a90e2;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.slide-brand,
+.slide-price {
+  margin: 4px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e272e;
+}
+
+.shop-button {
+  margin-top: 8px;
+  padding: 6px 3px;
+  background-color: #ffd700;
+  border-radius: 0;
+  color: #1a1a2e;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+}
+
+.shop-button:hover {
+  background-color: #ffffff;
+  color: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  color: #0066cc;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0066cc;
+  transition: all 0.3s ease;
+}
+
+.custom-swiper-button-prev:hover,
+.custom-swiper-button-next:hover {
+  background-color: #0066cc;
+  color: white;
+}
+
+.custom-swiper-button-prev {
+  left: 1px;
+}
+
+.custom-swiper-button-next {
+  right: 1px;
+}
+
+.custom-slider-container {
+  position: relative;
+  overflow: visible;
+  padding: 0 60px;
 }
