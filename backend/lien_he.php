@@ -4,7 +4,7 @@ ob_start();
 
 // Set headers
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: http://192.168.1.207:5173");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 

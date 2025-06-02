@@ -2385,3 +2385,84 @@
     top: 45%; /* Điều chỉnh vị trí nút cho phù hợp */
   }
 }
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #f8f8f8; /* Neutral background */
+  padding: 12px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333; /* Dark text for contrast */
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Lighter shadow for performance */
+}
+
+.marquee-inner {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 10s linear infinite; /* Adjust speed here (15s = duration) */
+  will-change: transform; /* GPU acceleration */
+}
+
+.marquee-text {
+  display: inline-block;
+}
+
+/* Right-to-left scrolling animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(100vw); /* Start at the right edge of the viewport */
+  }
+  100% {
+    transform: translateX(calc(-100vw - 100%)); /* Move off-screen, accounting for text width */
+  }
+}
+
+/* Pause on hover */
+.marquee-container:hover .marquee-inner {
+  animation-play-state: paused;
+  color: #007bff; /* Blue hover color */
+  transition: color 0.3s ease;
+}
+
+/* Simplified glow effect for performance */
+.marquee-text.glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Fade effect at edges */
+.marquee-container::before,
+.marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  z-index: 1;
+}
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, #f8f8f8, transparent);
+}
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, #f8f8f8, transparent);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .marquee-container {
+    font-size: 1rem;
+    padding: 8px 0;
+  }
+}

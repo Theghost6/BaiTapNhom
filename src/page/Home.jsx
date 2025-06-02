@@ -14,10 +14,9 @@ import {
 } from "lucide-react";
 import "../style/home.css";
 import "../style/all_linh_kien.css";
-import { motion } from "framer-motion";
+import { motion , AnimatePresence} from "framer-motion";
 import { FaGift } from "react-icons/fa";
 import { Variants } from "./funtion/Menu";
-import { AnimatePresence } from "framer-motion";
 
 // import * as motion from "motion/react-client"
 
@@ -28,7 +27,19 @@ const Home = () => {
   const [openedIndex, setOpenedIndex] = useState(null);
   const [showUrl, setShowUrl] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+const [marqueeText, setMarqueeText] = useState(0);
+  const messages = [
+    "🔥 Flash Sale: Giảm đến 30% cho tất cả linh kiện PC! Nhanh tay đặt hàng ngay hôm nay! 🔥",
+    "🎁 Mua combo linh kiện, nhận quà tặng đặc biệt!",
+    "🚚 Miễn phí vận chuyển cho đơn hàng trên 5 triệu!",
+  ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMarqueeText((prev) => (prev + 1) % messages.length);
+    }, 5000); // Match the 15s animation duration
+    return () => clearInterval(interval);
+  }, []);
 
   const [timeLeft, setTimeLeft] = useState({
     days: 2,
@@ -362,7 +373,6 @@ const Home = () => {
                 <p className="products-brand">Thương hiệu: {lk.hang}</p>
                 <p className="products-price">
                   {lk.gia.toLocaleString("vi-VN")} VNĐ
-                  {console.log("wrfwedewdwed", lk)}
                 </p>
                 {lk.khuyen_mai && (
                   <p className="products-sale">
@@ -441,6 +451,25 @@ const Home = () => {
           <h2 className="uudai-title"> Ưu đãi trong tháng</h2>
           <div class="background-text-deal">DEAL</div>
         </section>
+
+ {/* Dynamic Marquee with Right-to-Left Scrolling */}
+      <div className="marquee-container" role="marquee" aria-live="polite">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={marqueeText}
+            className="marquee-inner"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="marquee-text glow">
+              {messages[marqueeText]}
+            </span>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
         <div className="uudai-content">
           <div className="uudai-header">
             <div className="uudai-countdown">
