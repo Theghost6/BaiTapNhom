@@ -631,25 +631,38 @@ const Home = () => {
               delay: 3000,
               disableOnInteraction: false,
             }}
+            breakpoints={{
+              0: {
+                slidesPerView: 1.2, // Trên mobile: chỉ hiển thị 1 slide chính, 1 chút của slide kế
+              },
+              480: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 3,
+              },
+              1024: {
+                slidesPerView: 4,
+              },
+            }}
           >
             {promoSlides.map((slide) => (
               <SwiperSlide key={slide.id}>
                 <div
-                  className="slide-card"
+                  className="slider-card"
                   style={{ backgroundImage: `url(${slide.image})` }}
                 >
-                  <div className="slide-overlay">
-                    <p className="slide-title">{slide.title}</p>
-                    <p className="slide-brand">{slide.brand}</p>
-                    <p className="slide-price">{slide.price}</p>
-                    <button className="shop-button">SHOP NOW →</button>
+                  <div className="slider-overlay">
+                    <p className="slider-title">{slide.title}</p>
+                    <p className="slider-brand">{slide.brand}</p>
+                    <p className="slider-price">{slide.price}</p>
+                    <button className="shop-button"
+                      onClick={() => navigate(`/linh-kien/${slide.id}`)}>SHOP NOW →</button>
                   </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-
-
         </div>
       </div>
 

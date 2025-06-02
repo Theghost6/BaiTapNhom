@@ -80,6 +80,8 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const popupRef = useRef(null);
+
   const { totalQuantity } = useCart();
 
   const USER_KEY = "user";
@@ -112,27 +114,47 @@ const Header = () => {
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
+
   }, [location]);
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        userDropdownRef.current &&
-        !userDropdownRef.current.contains(e.target)
-      ) {
-        setShowUserDropdown(false);
-      }
 
-      if (
-        categoryMenuRef.current &&
-        !categoryMenuRef.current.contains(e.target)
-      ) {
-        setSelectedCategory(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowLocationPopup(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
+    if (showLocationPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showLocationPopup]);
+
+  // useEffect(() => {
+  //   const handleClickOutside = (e) => {
+  //     if (
+  //       userDropdownRef.current &&
+  //       !userDropdownRef.current.contains(e.target)
+  //     ) {
+  //       setShowUserDropdown(false);
+  //     }
+
+  //     if (
+  //       categoryMenuRef.current &&
+  //       !categoryMenuRef.current.contains(e.target)
+  //     ) {
+  //       setSelectedCategory(null);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
   const handleLogout = () => {
@@ -267,8 +289,9 @@ const Header = () => {
             <button onClick={() => setShowLocationPopup(!showLocationPopup)}>
               <MessageCircle size={24} /> Tư vấn
             </button>
+
             {showLocationPopup && (
-              <div className="consult-popup">
+              <div className="consult-popup" ref={popupRef}>
                 <div className="popup-header flex justify-between items-start">
                   <div className="consult-info space-y-2 text-sm">
                     <div className="flex items-center gap-2">
@@ -308,7 +331,8 @@ const Header = () => {
           <div className="header-actions">
             {isLoggedIn ? (
               <div className="user-profile" ref={userDropdownRef}>
-                <button onClick={toggleUserDropdown}>
+                <button onClick={toggleUserDropdown}
+                >
                   {user?.avatar ? (
                     <img
                       src={user.avatar}

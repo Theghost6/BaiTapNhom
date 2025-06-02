@@ -14,8 +14,6 @@ import {
   SiAmericanexpress,
 } from "react-icons/si";
 
-
-
 const Footer = () => {
   return (
     <footer className="site-footer">
@@ -29,19 +27,12 @@ const Footer = () => {
               </div>
             </div>
             <p className="footer-description">
-              <span>Nhóm 11: Đề tài xây dựng web bán linh kiện máy tính</span>
+              <span>• Nhóm 11: Đề tài xây dựng web bán linh kiện máy tính</span><br />
+              <span>• Trường: Đại học Kinh tế Kỹ thuật Công nghiệp - UNETI</span><br />
+              <span>• Lớp: DHMT16A2HN</span><br />
+              <span>• Thiết kế bởi: Nhóm 11</span><br />
+              <span>• Địa điểm: Thủ đô Hà Nội, Việt Nam</span><br />
             </p>
-            <div className="social-icons">
-              <h4 className="social-title">Follow us</h4>
-              <div className="social-links-vertical">
-                <a href="#" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
-                <a href="#" className="social-link" aria-label="Twitter"><Twitter size={20} /></a>
-                <a href="#" className="social-link" aria-label="Instagram"><Instagram size={20} /></a>
-                <a href="#" className="social-link" aria-label="LinkedIn"><Linkedin size={20} /></a>
-                <a href="#" className="social-link" aria-label="YouTube"><YoutubeIcon size={20} /></a>
-              </div>
-
-            </div>
           </div>
 
           <div className="footer-column links-column">
@@ -114,6 +105,17 @@ const Footer = () => {
                 <span>Giờ làm việc: 8:00-18:00(Thứ 2-Chủ nhật)</span>
               </li>
             </ul>
+
+            <div className="social-icons">
+              <h4 className="social-title">Follow us</h4>
+              <div className="social-links-vertical">
+                <a href="#" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
+                <a href="#" className="social-link" aria-label="Twitter"><Twitter size={20} /></a>
+                <a href="#" className="social-link" aria-label="Instagram"><Instagram size={20} /></a>
+                <a href="#" className="social-link" aria-label="LinkedIn"><Linkedin size={20} /></a>
+                <a href="#" className="social-link" aria-label="YouTube"><YoutubeIcon size={20} /></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
