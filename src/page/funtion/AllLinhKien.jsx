@@ -70,7 +70,7 @@ const BannerAd = () => {
       setBannerError(null);
 
       try {
-        console.log('Fetching banners...');
+        console.log('Fetching bmanners...');
         const response = await fetch('http://localhost/BaiTapNhom/backend/tt_home.php?path=banner', {
           method: 'GET',
           headers: {
@@ -89,21 +89,21 @@ const BannerAd = () => {
 
         if (data.success && Array.isArray(data.data)) {
           const activeBanners = data.data
-            .filter(item => item.is_active == 1) // Use == for loose comparison
+            .filter(item => item.trang_thai == 1) // Use == for loose comparison
             .sort((a, b) => parseInt(a.thu_tu) - parseInt(b.thu_tu))
             .map(item => item.hinh_anh);
 
           console.log('Active banners:', activeBanners);
-          setBanners(activeBanners.length > 0 ? activeBanners : fallbackImages);
+          setBanners(activeBanners.length > 0 ? activeBanners : []);
         } else {
           console.error('API returned error:', data);
           setBannerError(data.error || 'Failed to load banners');
-          setBanners(fallbackImages);
+          // setBanners(fallbackImages);
         }
       } catch (error) {
         console.error('Fetch error:', error);
         setBannerError('Error fetching banners: ' + error.message);
-        setBanners(fallbackImages);
+        // setBanners(fallbackImages);
       } finally {
         setIsLoading(false);
       }
