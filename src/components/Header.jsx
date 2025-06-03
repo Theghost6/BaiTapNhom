@@ -23,15 +23,6 @@ import { useCart } from "../page/funtion/useCart";
 
 const allProducts = Object.values(products).flat();
 
-const cities = [
-  "Hồ Chí Minh",
-  "Hà Nội",
-  "Ninh bình",
-  "Bắc Ninh",
-  "Nam Định",
-  "Thái Bình",
-  "Hà Nam",
-];
 
 // Định nghĩa cấu trúc danh mục phân cấp
 const menuCategories = {
