@@ -52,12 +52,12 @@ const SelectedOptions = React.memo(({ selectedOptions, sortOrder, toggleOption, 
 ));
 
 const BannerAd = () => {
-  const fallbackImages = [
-    "https://tinhocanhphat.vn/media/lib/28-02-2023/may-tinh-do-hoa.jpg",
-    "https://no1computer.vn/upload_images/images/CPU/Chip%20hi%E1%BB%87u%20n%C4%83ng%20cao/i9/i9-13900HX/core-i9-13900HX.jpg",
-    "https://file.hstatic.net/200000053304/article/file_psd_banner_fb__6000018b277c40ec82da58cedf0ee4ea.png",
-    "https://kimlongcenter.com/upload/news/huong-dan-build-cau-hinh-pc-choi-game-cho-sinh-vien-2024_4.jpg"
-  ];
+  // const fallbackImages = [
+  //   "https://tinhocanhphat.vn/media/lib/28-02-2023/may-tinh-do-hoa.jpg",
+  //   "https://no1computer.vn/upload_images/images/CPU/Chip%20hi%E1%BB%87u%20n%C4%83ng%20cao/i9/i9-13900HX/core-i9-13900HX.jpg",
+  //   "https://file.hstatic.net/200000053304/article/file_psd_banner_fb__6000018b277c40ec82da58cedf0ee4ea.png",
+  //   "https://kimlongcenter.com/upload/news/huong-dan-build-cau-hinh-pc-choi-game-cho-sinh-vien-2024_4.jpg"
+  // ];
 
   const [banners, setBanners] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -529,7 +529,7 @@ const AllLinhKien = () => {
         <div className="products-grid">
           {currentItems.length > 0 ? (
             currentItems.map((product, index) => {
-              const originalPrice = product.gia_goc || product.gia * 1.1; // Giả định giá gốc là 10% cao hơn nếu không có
+              const originalPrice = product.gia_goc || product.gia * 1.1;
               const discountPercent = product.khuyen_mai ? parseInt(product.khuyen_mai) : Math.round(((originalPrice - product.gia) / originalPrice) * 100);
 
               return (
