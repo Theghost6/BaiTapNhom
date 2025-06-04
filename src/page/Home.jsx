@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import {
   ArrowRight,
-  Star,
+  Star, 
   MapPin,
   Calendar,
   TrendingUp,
@@ -276,10 +276,6 @@ useEffect(() => {
 
   return (
     <div className="home-container">
-      <div>
-        <Variants />
-      </div>
-
       <div className="hero-slider" id="hero-slider">
         <AnimatePresence mode="wait">
           <motion.div
@@ -709,6 +705,7 @@ useEffect(() => {
               ❯
             </div>
             <Swiper
+              
               modules={[Navigation, Autoplay]}
               onInit={(swiper) => {
                 swiper.params.navigation.prevEl = prevRef.current;
