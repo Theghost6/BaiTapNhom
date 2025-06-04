@@ -110,7 +110,7 @@ const handleSubmit = async (e) => {
         ) : (
           <div className="success-message">
             <p> Cảm ơn bạn đã gửi</p>
-            <p>Chúng tôi sẽ phản hoiof cho bạn sớm nhất</p>
+            <p>Chúng tôi sẽ phản hồi cho bạn sớm nhất</p>
           </div>
         )}
       </div>

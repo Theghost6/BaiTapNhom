@@ -13,7 +13,7 @@
                 "socket": "LGA 1700",
                 "cache": "36MB"
             },
-            "so_luong": "4",
+            "so_luong": 3,
             "mo_ta": "Intel Core i9-13900K là bộ vi xử lý hàng đầu dành cho game thủ, nhà sáng tạo nội dung và chuyên gia cần hiệu năng vượt trội. Với 24 nhân (8 nhân hiệu năng cao, 16 nhân tiết kiệm điện) và 32 luồng, sản phẩm này vượt trội trong đa nhiệm, dựng hình 3D và chơi game nặng. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz giúp xử lý nhanh các ứng dụng như Adobe After Effects, Blender và các tựa game AAA. Socket LGA 1700 tương thích với bo mạch chủ Intel 600\/700-series, hỗ trợ RAM DDR5 và PCIe 5.0, đảm bảo khả năng nâng cấp trong tương lai. Kiến trúc lai tối ưu hiệu suất và tiết kiệm năng lượng, lý tưởng cho ép xung. Công nghệ Intel Turbo Boost Max 3.0 và Thermal Velocity Boost tăng cường hiệu năng khi tải nặng. Dù bạn lắp ráp PC chơi game hay máy trạm dựng phim, i9-13900K mang lại tốc độ và độ tin cậy đỉnh cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -56,7 +56,7 @@
                 "socket": "LGA 1700",
                 "cache": "L2: 32 MB,L3: 36 MB"
             },
-            "so_luong": 45,
+            "so_luong": 44,
             "mo_ta": "Intel Core i9-14900K là bộ vi xử lý cao cấp dành cho máy trạm và PC chơi game đỉnh cao. Với 24 nhân (8 nhân hiệu năng, 16 nhân tiết kiệm) và 32 luồng, sản phẩm xử lý mượt mà các tác vụ nặng như chỉnh sửa video 4K, mô phỏng 3D và đa nhiệm. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz đảm bảo hiệu năng vượt trội cho các game như Cyberpunk 2077 và phần mềm như AutoCAD. Tương thích socket LGA 1700, hỗ trợ DDR5 và PCIe 5.0, CPU này phù hợp với các bo mạch chủ hiện đại. Kiến trúc lai cân bằng sức mạnh và hiệu quả, hỗ trợ ép xung cho người dùng chuyên sâu. Công nghệ Intel Quick Sync Video và Deep Learning Boost tối ưu mã hóa video và tác vụ AI. Đây là lựa chọn lý tưởng cho người dùng cần CPU mạnh mẽ, bền bỉ và sẵn sàng cho tương lai.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -98,7 +98,7 @@
                 "socket": "FCLGA1851",
                 "cache": "36 MB Intel Smart Cache,Tổng Bộ nhớ đệm L2 40 MB"
             },
-            "so_luong": 28,
+            "so_luong": 27,
             "mo_ta": "CPU Intel Core Ultra 9 285K là một trong những đại diện nổi bật trong thế hệ Arrow Lake-S. Với thiết kế 24 nhân 24 luồng cùng khả năng đạt xung nhịp lên đến 5.7 GHz, đây là một lựa chọn đáng giá cho cả game thủ và người dùng cần hiệu suất cao trong các tác vụ đồ họa, xử lý dữ liệu.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-20",
@@ -393,7 +393,7 @@
                 "socket": "AM5",
                 "cache": "104MB"
             },
-            "so_luong": 29,
+            "so_luong": 28,
             "mo_ta": "AMD Ryzen 7 9800X3D là bộ vi xử lý cao cấp thế hệ Zen 5, tích hợp công nghệ 3D V-Cache thế hệ 2 với tổng bộ nhớ đệm lên tới 104MB. Với 8 nhân, 16 luồng và xung nhịp cơ bản 4.7 GHz (tăng tốc tối đa 5.2 GHz), CPU này mang lại hiệu năng vượt trội trong các tựa game AAA và ứng dụng sáng tạo như Premiere Pro, Blender hay DaVinci Resolve. Sử dụng socket AM5, hỗ trợ RAM DDR5 và PCIe 5.0, Ryzen 7 9800X3D tương thích với các công nghệ mới nhất. Đồ họa tích hợp Radeon hỗ trợ hiển thị cơ bản, trong khi khả năng ép xung mở rộng thu hút người dùng chuyên sâu. Với hiệu suất cao và tiết kiệm điện, Ryzen 7 9800X3D là lựa chọn hoàn hảo cho PC chơi game hoặc máy trạm sáng tạo, mang lại tốc độ và độ tin cậy vượt trội.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-03-04",
@@ -619,7 +619,7 @@
                 "maxMemory": "192GB",
                 "pcieSlots": "1 x PCIe 5.0 x16, 1 x PCIe 4.0 x16 (max @x4), 1 x PCIe 3.0 x1"
             },
-            "so_luong": 22,
+            "so_luong": 17,
             "mo_ta": "MSI PRO Z790-S WIFI DDR5 là bo mạch chủ ATX thuộc dòng PRO series, hướng đến người dùng chuyên nghiệp và doanh nghiệp với độ ổn định và hiệu năng cao. Sản phẩm hỗ trợ CPU Intel thế hệ 12, 13 và 14 trên socket LGA1700 cùng RAM DDR5 tối đa 192GB. Trang bị 1 khe PCIe 5.0 x16, 1 khe PCIe 4.0 x16 và các khe mở rộng PCIe 3.0. Bo mạch có 2 khe M.2 PCIe 4.0 với tản nhiệt M.2 Shield Frozr giúp bảo vệ SSD khỏi quá nhiệt. Hệ thống tản nhiệt được tối ưu với heatsink mở rộng và ống dẫn nhiệt. Kết nối hiện đại gồm Wi-Fi 6E, LAN 2.5Gb, USB 3.2 Gen 2x2 Type-C. Đây là lựa chọn lý tưởng cho các hệ thống làm việc chuyên sâu hoặc chơi game đòi hỏi kết nối nhanh và ổn định.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-02-22",
@@ -3916,25 +3916,6 @@
                 "RGB Chroma"
             ],
             "danh_muc": "Peripherals"
-        },
-        {
-            "ten": "Màn ICD",
-            "mo_ta": "xem film 4k",
-            "gia": "1000000",
-            "hang": "unkown",
-            "thong_so": "4k",
-            "so_luong": "2",
-            "trang_thai": "còn hàng",
-            "updatedAt": "20-10-2022",
-            "tags": "tivi",
-            "khuyen_mai": "tặng 100k",
-            "images": "test.jpg",
-            "bao_hanh": "2 năm",
-            "ngay_phat_hanh": "2025-05-30",
-            "thiet_bi_tuong_thich": "remote",
-            "tinh_nang": "màn cong",
-            "danh_muc": "Peripherals",
-            "id": "6839660346d97"
         }
     ]
 }

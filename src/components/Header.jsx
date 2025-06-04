@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   UserCircle,
@@ -24,15 +23,6 @@ import { useCart } from "../page/funtion/useCart";
 
 const allProducts = Object.values(products).flat();
 
-const cities = [
-  "Hồ Chí Minh",
-  "Hà Nội",
-  "Ninh bình",
-  "Bắc Ninh",
-  "Nam Định",
-  "Thái Bình",
-  "Hà Nam",
-];
 
 // Định nghĩa cấu trúc danh mục phân cấp
 const menuCategories = {
@@ -73,16 +63,67 @@ const Header = () => {
   const [selectedCity, setSelectedCity] = useState("Hà Nội");
   const [searchInput, setSearchInput] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
+  const [menuError, setMenuError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const headerRef = useRef(null);
   const userDropdownRef = useRef(null);
   const categoryMenuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const popupRef = useRef(null);
   const { totalQuantity } = useCart();
 
   const USER_KEY = "user";
+
+  // Fetch top_menu items from API
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      setIsLoading(true);
+      setMenuError(null);
+      
+      try {
+        console.log('Fetching menu items...');
+        const response = await fetch('http://localhost/BaiTapNhom/backend/tt_home.php?path=top_menu', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (data.success && Array.isArray(data.data)) {
+          // Filter active items (trang_thai = 1) and sort by thu_tu
+          const activeItems = data.data
+            .filter(item => item.trang_thai == 1) // Use == for loose comparison
+            .sort((a, b) => parseInt(a.thu_tu) - parseInt(b.thu_tu));
+          
+          console.log('Active items:', activeItems);
+          setMenuItems(activeItems);
+        } else {
+          console.error('API returned error:', data);
+          setMenuError(data.error || 'Failed to load menu items');
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        setMenuError('Error fetching menu items: ' + error.message);
+        
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchMenuItems();
+  }, []);
 
   const checkAuthStatus = () => {
     const userData = localStorage.getItem(USER_KEY);
@@ -115,26 +156,25 @@ const Header = () => {
   }, [location]);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        userDropdownRef.current &&
-        !userDropdownRef.current.contains(e.target)
-      ) {
-        setShowUserDropdown(false);
-      }
-
-      if (
-        categoryMenuRef.current &&
-        !categoryMenuRef.current.contains(e.target)
-      ) {
-        setSelectedCategory(null);
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowLocationPopup(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
+    if (showLocationPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showLocationPopup]);
 
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
+
   const handleLogout = () => {
     localStorage.removeItem(USER_KEY);
     setIsLoggedIn(false);
@@ -151,6 +191,15 @@ const Header = () => {
     }
   };
 
+  const handleMenuItemClick = (item) => {
+    // Special handling for "Tư vấn" or equivalent menu item
+    if (item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult") {
+      setShowLocationPopup(!showLocationPopup);
+    } else if (item.url && item.url !== '#') {
+      navigate(item.url);
+    }
+  };
+
   const filteredProducts = allProducts.filter((item) =>
     item.ten.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -160,7 +209,7 @@ const Header = () => {
       <div className="main-header-container">
         <div className="header-items">
           <Link to="/" className="logo-link">
-            <div className="logo-container" >
+            <div className="logo-container">
               <img src="/photos/Logo.png" alt="Logo" className="logo-image" />
               <span className="logo-text">NANOCORE4</span>
             </div>
@@ -181,7 +230,6 @@ const Header = () => {
                     {category}
                     <span className="category-arrow">›</span>
                   </div>
-
                   {selectedCategory === category && (
                     <div className="subcategory-panel">
                       <h4 className="subcategory-title">{category}</h4>
@@ -214,7 +262,6 @@ const Header = () => {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
-
             {searchInput && (
               <div className="search-suggestions">
                 {filteredProducts.slice(0, 5).map((item) => (
@@ -238,72 +285,106 @@ const Header = () => {
             )}
           </div>
 
-          <Link to="/contact" className="contact-button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="none"
-              stroke="black"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
+          {/* Menu Loading/Error State */}
+          {isLoading && (
+            <div className="menu-loading" style={{ color: '#666', marginLeft: '10px' }}>
+              Đang tải menu...
+            </div>
+          )}
+
+          {menuError && (
+            <div className="menu-error" style={{ color: 'red', marginLeft: '10px', fontSize: '12px' }}>
+              {menuError}
+            </div>
+          )}
+
+          {/* Dynamic Menu Items */}
+          {!isLoading && menuItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => handleMenuItemClick(item)}
+              className={
+                item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult"
+                  ? "consult-selector"
+                  : item.ten.toLowerCase() === "nhà phát triển" || item.ten.toLowerCase() === "developer"
+                  ? "developer-button"
+                  : item.ten.toLowerCase() === "liên hệ" || item.ten.toLowerCase() === "contact"
+                  ? "contact-button"
+                  : "menu-button"
+              }
             >
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .56 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.6-.6a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.56A2 2 0 0 1 22 16.92z"></path>
-            </svg>
-            <span>Liên hệ</span>
-          </Link>
-
-          <Link to="/developer" className="developer-button">
-            <Code size={24} />
-            <span>Nhà phát triển</span>
-          </Link>
-
-          <Link to="/blog" className="discount-button">
-            <FaBlogger size={24} />
-            <span>Tin tức</span>
-          </Link>
-
-          <div className="consult-selector">
-            <button onClick={() => setShowLocationPopup(!showLocationPopup)}>
-              <MessageCircle size={24} /> Tư vấn
-            </button>
-            {showLocationPopup && (
-              <div className="consult-popup">
-                <div className="popup-header flex justify-between items-start">
-                  <div className="consult-info space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <PhoneCall size={20} strokeWidth={2} />
-                      <span>0123 456 789</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Facebook size={20} strokeWidth={2} />
-                      <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
-                        Facebook
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Instagram size={20} strokeWidth={2} />
-                      <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
-                        Instagram
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Linkedin size={20} strokeWidth={2} />
-                      <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-                        LinkedIn
-                      </a>
-                    </div>
-                  </div>
-                  <span
-                    className="close-btn cursor-pointer text-lg font-bold"
-                    onClick={() => setShowLocationPopup(false)}
+              {item.ten.toLowerCase() === "liên hệ" || item.ten.toLowerCase() === "contact" ? (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="black"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
                   >
-                    ×
-                  </span>
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .56 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.6-.6a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.56A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  <span>{item.ten}</span>
+                </>
+              ) : item.ten.toLowerCase() === "nhà phát triển" || item.ten.toLowerCase() === "developer" ? (
+                <>
+                  <Code size={24} />
+                  <span>{item.ten}</span>
+                </>
+              ) : item.ten.toLowerCase() === "tin tức" || item.ten.toLowerCase() === "blog" ? (
+                <>
+                  <FaBlogger size={24} />
+                  <span>{item.ten}</span>
+                </>
+              ) : item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult" ? (
+                <>
+                  <MessageCircle size={24} />
+                  <span>{item.ten}</span>
+                </>
+              ) : (
+                <span>{item.ten}</span>
+              )}
+            </button>
+          ))}
+
+          {showLocationPopup && (
+            <div className="consult-popup" ref={popupRef}>
+              <div className="popup-header flex justify-between items-start">
+                <div className="consult-info space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <PhoneCall size={20} strokeWidth={2} />
+                    <span>0123 456 789</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Facebook size={20} strokeWidth={2} />
+                    <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer">
+                      Facebook
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Instagram size={20} strokeWidth={2} />
+                    <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer">
+                      Instagram
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Linkedin size={20} strokeWidth={2} />
+                    <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer">
+                      LinkedIn
+                    </a>
+                  </div>
                 </div>
+                <span
+                  className="close-btn cursor-pointer text-lg font-bold"
+                  onClick={() => setShowLocationPopup(false)}
+                >
+                  ×
+                </span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <div className="header-actions">
             {isLoggedIn ? (
@@ -315,7 +396,6 @@ const Header = () => {
                       alt="Avatar"
                       className="header-avatar"
                       onError={(e) => {
-                        // Fallback khi ảnh lỗi
                         e.target.onerror = null;
                         e.target.src = "/photos/default-avatar.png";
                       }}
@@ -379,7 +459,7 @@ const Header = () => {
               </div>
             ) : (
               <div className="user-actions">
-                <span className="separator">|</span>
+                <span className =" Separator">|</span>
                 <Link to="/register">
                   <User size={24} />
                 </Link>
@@ -391,4 +471,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;

@@ -6,6 +6,10 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #666;
   max-width: 1400px;
+
+  display: flex;
+  flex-direction: column;
+  /* min-height: 100vh; */
 }
  
 .footer-container {
@@ -54,10 +58,15 @@
 }
 
 .footer-description {
-  margin: 10px 0 20px;
-  font-size: 0.95rem;
-  color: #333;
+  font-size: 14px;
+  color: #444;              /* Màu chữ trung tính, dễ đọc */
+  line-height: 1.8;         /* Tăng khoảng cách dòng cho thoáng */
+  margin: 16px 0px 0;      /* Căn giữa và cách nội dung phía trên */
+  max-width: 270px;         /* Giới hạn chiều rộng để dễ đọc */
+  white-space: pre-line;    /* Hỗ trợ xuống dòng bằng \n */
+  text-align: left;         /* Căn trái văn bản */
 }
+
 
 .column-title {
   font-weight: bold;

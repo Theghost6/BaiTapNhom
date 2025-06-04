@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Phone, Mail, Clock } from "lucide-react";
 import "../style/footer.css";
@@ -14,9 +14,64 @@ import {
   SiAmericanexpress,
 } from "react-icons/si";
 
-
-
 const Footer = () => {
+  const [footerData, setFooterData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [footerError, setFooterError] = useState(null);
+
+
+  // Fetch footer data from API
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      setIsLoading(true);
+      setFooterError(null);
+
+      try {
+        console.log('Fetching footer data...');
+        const response = await fetch('http://localhost/BaiTapNhom/backend/tt_home.php?path=footer', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Response data:', data);
+
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          // Get the most recent active footer record (trang_thai = 1)
+          const activeFooter = data.data
+            .filter(item => item.trang_thai == 1) // Use == for loose comparison
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+
+          if (activeFooter) {
+            console.log('Active footer:', activeFooter);
+            setFooterData(activeFooter);
+          } else {
+            console.error('No active footer found');
+            setFooterError('No active footer data available');
+          }
+        } else {
+          console.error('API returned error:', data);
+          setFooterError(data.error || 'Failed to load footer data');
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        setFooterError('Error fetching footer data: ' + error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFooterData();
+  }, []);
+
   return (
     <footer className="site-footer">
       <div className="footer-top">
@@ -28,20 +83,21 @@ const Footer = () => {
                 <span className="footer-logo-text">NANOCORE4</span>
               </div>
             </div>
-            <p className="footer-description">
-              <span>Nhóm 11: Đề tài xây dựng web bán linh kiện máy tính</span>
-            </p>
-            <div className="social-icons">
-              <h4 className="social-title">Follow us</h4>
-              <div className="social-links-vertical">
-                <a href="#" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
-                <a href="#" className="social-link" aria-label="Twitter"><Twitter size={20} /></a>
-                <a href="#" className="social-link" aria-label="Instagram"><Instagram size={20} /></a>
-                <a href="#" className="social-link" aria-label="LinkedIn"><Linkedin size={20} /></a>
-                <a href="#" className="social-link" aria-label="YouTube"><YoutubeIcon size={20} /></a>
-              </div>
-
-            </div>
+            {isLoading ? (
+              <p className="footer-description">Đang tải thông tin...</p>
+            ) : footerError ? (
+              <p className="footer-description" style={{ color: 'red' }}>
+                {footerError}
+              </p>
+            ) : (
+              <p className="footer-description">
+                <span>• {footerData.noi_dung}</span><br />
+                <span>• Trường: {footerData.ten_truong}</span><br />
+                <span>• Lớp: {footerData.ten_lop}</span><br />
+                <span>• Thiết kế bởi: {footerData.tac_gia}</span><br />
+                <span>• Địa điểm: {footerData.dia_diem}</span><br />
+              </p>
+            )}
           </div>
 
           <div className="footer-column links-column">
@@ -60,7 +116,7 @@ const Footer = () => {
                 <Link to="/member">Xem ưu đãi hội viên</Link>
               </li>
               <li>
-                <Link to="/center">Trung tâm bảo hành chĩnh hãng</Link>
+                <Link to="#">Trung tâm bảo hành chính hãng</Link>
               </li>
               <li>
                 <Link to="/search">Tra cứu hóa đơn điện tử</Link>
@@ -114,6 +170,17 @@ const Footer = () => {
                 <span>Giờ làm việc: 8:00-18:00(Thứ 2-Chủ nhật)</span>
               </li>
             </ul>
+
+            <div className="social-icons">
+              <h4 className="social-title">Follow us</h4>
+              <div className="social-links-vertical">
+                <a href="#" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
+                <a href="#" className="social-link" aria-label="Twitter"><Twitter size={20} /></a>
+                <a href="#" className="social-link" aria-label="Instagram"><Instagram size={20} /></a>
+                <a href="#" className="social-link" aria-label="LinkedIn"><Linkedin size={20} /></a>
+                <a href="#" className="social-link" aria-label="YouTube"><YoutubeIcon size={20} /></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

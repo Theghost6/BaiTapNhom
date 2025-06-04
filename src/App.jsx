@@ -13,6 +13,21 @@ import "./style/app.css";
 import ScrollToTop from "./page/funtion/ScrollToTop";
 import { createGlobalStyle } from "styled-components";
 
+import styled from 'styled-components';
+
+const ResponsiveDiv = styled.div`
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px;
+  }
+`;
+
+
 // Lazy load components
 const Contact = lazy(() => import("./page/Contact"));
 const Home = lazy(() => import("./page/Home"));

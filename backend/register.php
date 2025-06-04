@@ -103,8 +103,11 @@ try {
             exit();
         }
 
+        // Hash the password using MD5
+        $hashedPassword = md5($password);
+
         // Insert new user (vulnerable to SQLi)
-        $sqlInsert = "INSERT INTO dang_ky (user, phone, email, pass, role, is_active) VALUES ('$username', '$phone', '$email', '$password', 'user', 1)";
+        $sqlInsert = "INSERT INTO dang_ky (user, phone, email, pass, role, is_active) VALUES ('$username', '$phone', '$email', '$hashedPassword', 'user', 1)";
         if ($conn->query($sqlInsert) === TRUE) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Success: Registered user: $username\n", FILE_APPEND);
             echo json_encode(['success' => true, 'message' => 'Đăng ký thành công']);
@@ -143,9 +146,11 @@ try {
         if (!$result || $result->num_rows === 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Account not found or disabled\n", FILE_APPEND);
             echo json_encode(['success' => false, 'message' => 'Tài khoản không tồn tại hoặc đã bị vô hiệu hóa']);
+            echo json_encode(['success' => false, 'message' => $email ?? $phone]); // Phản ánh payload
+
         } else {
             $user = $result->fetch_assoc();
-            if ($user['pass'] === $password) {
+            if (md5($password) === $user['pass']) {
                 file_put_contents($logFile, date('Y-m-d H:i:s') . " - Success: Logged in user: " . $user['user'] . "\n", FILE_APPEND);
                 echo json_encode([
                     'success' => true,
@@ -154,7 +159,6 @@ try {
                         'id' => $user['id'],
                         'username' => $user['user'],
                         'email' => $user['email'],
-                        'phone' => $user['phone'],
                         'role' => $user['role'],
                         'is_active' => $user['is_active']
                     ]

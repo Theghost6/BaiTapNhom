@@ -356,6 +356,288 @@ function EditLinhKienModal({ isOpen, onClose, linhKien, loai, onSave, loaiLinhKi
   );
 }
 
+// New HomeManager Component
+function HomeManager({ handleDelete }) {
+  const [activeTab, setActiveTab] = useState('banner');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [newItem, setNewItem] = useState({});
+  const [editingId, setEditingId] = useState(null);
+  const [editItem, setEditItem] = useState({});
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    itemId: null,
+    itemType: "",
+    onConfirm: () => {},
+  });
+
+  const apiUrl = 'http://localhost/BaiTapNhom/backend/tt_home.php';
+
+  const tables = {
+    banner: ['hinh_anh', 'thu_tu', 'is_active'],
+    footer: ['noi_dung', 'tac_gia', 'ban_quyen', 'dia_diem', 'ten_lop', 'ten_truong', 'trang_thai'],
+    top_menu: ['ten', 'url', 'thu_tu', 'trang_thai'],
+    chu_chay: ['noi_dung', 'toc_do', 'trang_thai']
+  };
+
+  const tableLabels = {
+    banner: { hinh_anh: 'Hình ảnh (URL)', thu_tu: 'Thứ tự', is_active: 'Kích hoạt' },
+    footer: {
+      noi_dung: 'Nội dung', tac_gia: 'Tác giả', ban_quyen: 'Bản quyền',
+      dia_diem: 'Địa điểm', ten_lop: 'Tên lớp', ten_truong: 'Tên trường', trang_thai: 'Trạng thái'
+    },
+    top_menu: { ten: 'Tên', url: 'URL', thu_tu: 'Thứ tự', trang_thai: 'Trạng thái' },
+    chu_chay: { noi_dung: 'Nội dung', toc_do: 'Tốc độ', trang_thai: 'Trạng thái' }
+  };
+
+  const fetchData = async (table) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${apiUrl}?path=${table}`);
+      setData(response.data.data || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(activeTab);
+    setNewItem({});
+    setEditingId(null);
+    setEditItem({});
+  }, [activeTab]);
+
+  const handleAdd = async () => {
+    try {
+      const response = await axios.post(`${apiUrl}?path=${activeTab}`, newItem);
+      if (response.data.success) {
+        fetchData(activeTab);
+        setNewItem({});
+      }
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
+  };
+
+  const handleEdit = (item) => {
+    setEditingId(item.id);
+    setEditItem(item);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(`${apiUrl}?path=${activeTab}/${editingId}`, editItem);
+      if (response.data.success) {
+        fetchData(activeTab);
+        setEditingId(null);
+        setEditItem({});
+      }
+    } catch (error) {
+      console.error('Error updating item:', error);
+    }
+  };
+
+  const openDeleteModal = (itemId, itemType) => {
+    setDeleteModal({
+      isOpen: true,
+      itemId,
+      itemType,
+      onConfirm: async () => {
+        try {
+          const response = await axios.delete(`${apiUrl}?path=${activeTab}/${itemId}`);
+          if (response.data.success) {
+            fetchData(activeTab);
+            setDeleteModal({ isOpen: false, itemId: null, itemType: "", onConfirm: () => {} });
+          }
+        } catch (error) {
+          console.error('Error deleting item:', error);
+        }
+      },
+    });
+  };
+
+  const cancelDelete = () => {
+    setDeleteModal({ isOpen: false, itemId: null, itemType: "", onConfirm: () => {} });
+  };
+
+  const renderInput = (field, value, setValue, isEditing = false) => {
+    if (field === 'is_active') {
+      return (
+        <input
+          type="checkbox"
+          checked={value || false}
+          onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.checked })}
+        />
+      );
+    }
+    if (field === 'thu_tu' || field === 'toc_do') {
+      return (
+        <input
+          type="number"
+          value={value || ''}
+          onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
+          min="0"
+        />
+      );
+    }
+    if (field === 'trang_thai') {
+      return (
+        <select
+          value={value || ''}
+          onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
+        >
+          <option value="">Chọn trạng thái</option>
+          <option value="active">Kích hoạt</option>
+          <option value="inactive">Không kích hoạt</option>
+        </select>
+      );
+    }
+    if (field === 'noi_dung') {
+      return (
+        <textarea
+          value={value || ''}
+          onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
+        />
+      );
+    }
+    return (
+      <input
+        type="text"
+        value={value || ''}
+        onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
+      />
+    );
+  };
+
+  return (
+    <div className="linh-kien-manager">
+      <div className="linh-kien-header">
+        <h2>Quản lý Trang chủ</h2>
+      </div>
+      <div className="category-tabs">
+        {Object.keys(tables).map((table) => (
+          <button
+            key={table}
+            className={`category-tab ${activeTab === table ? 'active' : ''}`}
+            onClick={() => setActiveTab(table)}
+          >
+            <i className={`fas fa-${table === 'banner' ? 'image' : table === 'footer' ? 'shoe-prints' : table === 'top_menu' ? 'bars' : 'running'}`}></i>
+            {table.charAt(0).toUpperCase() + table.slice(1).replace('_', ' ')}
+          </button>
+        ))}
+      </div>
+      <div className="add-component-card">
+        <div className="card-header">
+          <h3>Thêm mới</h3>
+        </div>
+        <div className="add-form">
+          {tables[activeTab].map((field) => (
+            <div className="form-group" key={field}>
+              <label>{tableLabels[activeTab][field]}</label>
+              {renderInput(field, newItem[field], setNewItem)}
+            </div>
+          ))}
+          <button className="add-button" onClick={handleAdd}>
+            <i className="fas fa-plus"></i> Thêm
+          </button>
+        </div>
+      </div>
+      <div className="component-table-container">
+        <div className="table-header">
+          <h3>Danh sách {activeTab.replace('_', ' ')}</h3>
+        </div>
+        {loading ? (
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            <p>Đang tải...</p>
+          </div>
+        ) : data.length === 0 ? (
+          <div className="empty-table-container">
+            <div className="empty-table-message">
+              <i className="fas fa-exclamation-circle"></i>
+              <p>Không có dữ liệu</p>
+              <button className="add-first-button" onClick={() => setNewItem({})}>
+                <i className="fas fa-plus"></i> Thêm mới
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="table-responsive">
+            <table className="components-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  {tables[activeTab].map((field) => (
+                    <th key={field}>{tableLabels[activeTab][field]}</th>
+                  ))}
+                  <th className="action-column">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item) => (
+                  <tr key={item.id} className={editingId === item.id ? 'editing-row' : ''}>
+                    <td>{item.id}</td>
+                    {tables[activeTab].map((field) => (
+                      <td key={field}>
+                        {editingId === item.id ? (
+                          renderInput(field, editItem[field], setEditItem, true)
+                        ) : field === 'hinh_anh' ? (
+                          <img src={item[field]} alt="Banner" style={{ width: '50px', height: 'auto' }} />
+                        ) : field === 'is_active' ? (
+                          item[field] ? 'Có' : 'Không'
+                        ) : field === 'trang_thai' ? (
+                          item[field] === 'active' ? 'Kích hoạt' : 'Không kích hoạt'
+                        ) : (
+                          item[field]
+                        )}
+                      </td>
+                    ))}
+                    <td className="action-column">
+                      <div className="action-buttons">
+                        {editingId === item.id ? (
+                          <>
+                            <button className="save-button" onClick={handleUpdate}>
+                              <i className="fas fa-save"></i>
+                            </button>
+                            <button className="cancel-button" onClick={() => setEditingId(null)}>
+                              <i className="fas fa-times"></i>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button className="edit-button" onClick={() => handleEdit(item)}>
+                              <i className="fas fa-edit"></i>
+                            </button>
+                            <button
+                              className="delete-button"
+                              onClick={() => openDeleteModal(item.id, activeTab.replace('_', ' '))}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      <DeleteModal
+        isOpen={deleteModal.isOpen}
+        onCancel={cancelDelete}
+        onConfirm={deleteModal.onConfirm}
+        itemId={deleteModal.itemId}
+        itemType={deleteModal.itemType}
+      />
+    </div>
+  );
+}
+
 function Admin() {
   const [view, setView] = useState("dashboard");
   const [contacts, setContacts] = useState([]);
@@ -397,7 +679,7 @@ function Admin() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [isAddFormVisible, setIsAddFormVisible] = useState(false); // New state for toggling add form
+  const [isAddFormVisible, setIsAddFormVisible] = useState(false);
 
   const getCategoryIcon = (loai) => {
     const iconMap = {
@@ -674,7 +956,7 @@ function Admin() {
             ],
           }));
           setNewLinhKien((lk) => ({ ...lk, ten: "", mo_ta: "", gia: "" }));
-          setIsAddFormVisible(false); // Hide form after adding
+          setIsAddFormVisible(false);
         } else {
           alert("Thêm thất bại: " + (res.data.error || "Lỗi không xác định"));
         }
@@ -952,21 +1234,14 @@ function Admin() {
           axios.get("http://localhost/BaiTapNhom/backend/api.php?action=get_users"),
         ])
           .then(([metricsRes, statsRes, reviewsRes, ordersRes, usersRes]) => {
-            // Handle dashboard metrics
             setDashboardMetrics(metricsRes.data);
-
-            // Handle statistics
             setStatistics(statsRes.data);
-
-            // Handle reviews
             if (Array.isArray(reviewsRes.data)) {
               setReviews(reviewsRes.data);
             } else {
               console.error("API get_reviews did not return an array:", reviewsRes.data);
               setReviews([]);
             }
-
-            // Handle users
             if (Array.isArray(usersRes.data)) {
               const usersData = usersRes.data.map((user) => ({
                 ...user,
@@ -977,8 +1252,6 @@ function Admin() {
               console.error("API get_users did not return an array:", usersRes.data);
               setUsers([]);
             }
-
-            // Handle orders
             if (Array.isArray(ordersRes.data)) {
               setOrders(ordersRes.data);
             } else {
@@ -989,90 +1262,92 @@ function Admin() {
           .catch((err) => {
             console.error("Error fetching dashboard data:", err);
             setDashboardMetrics(null);
-            setStatistics(null);
+            setStatistics([]);
             setReviews([]);
             setOrders([]);
             setUsers([]);
           });
         break;
-      case "linh_kien":
-        axios
-          .get("http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all")
-          .then((res) => {
-            console.log("API response:", res.data);
-            if (res.data && typeof res.data === "object" && !Array.isArray(res.data)) {
-              setLinhKien(res.data);
-              setLoaiLinhKienList(Object.keys(res.data));
-              if (!Object.keys(res.data).includes(newLinhKien.loai)) {
-                setNewLinhKien((lk) => ({
-                  ...lk,
-                  loai: Object.keys(res.data)[0] || "",
-                }));
-              }
-            } else {
-              console.error("API get_all linh_kien did not return an object:", res.data);
-              setLinhKien({});
-              setLoaiLinhKienList([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching linh_kien:", err);
-            setLinhKien({});
-            setLoaiLinhKienList([]);
-          });
-        break;
-      case "contacts":
-        axios
-          .get("http://localhost/BaiTapNhom/backend/api.php?action=get_contacts")
-          .then((res) => {
-            if (Array.isArray(res.data)) {
-              setContacts(res.data);
-            } else {
-              console.error("API get_contacts did not return an array:", res.data);
-              setContacts([]);
-            }
-          })
-          .catch((err) => {
-            console.error("Error fetching contacts:", err);
-            setContacts([]);
-          });
-        break;
+    // Sửa thành:
+case "linh_kien":
+  axios
+    .get("http://localhost/BaiTapNhom/backend/manage_linh_kien.php?action=get_all")
+    .then((res) => {
+      if (res.data && typeof res.data === "object" && !Array.isArray(res.data)) {
+        setLinhKien(res.data);
+        setLoaiLinhKienList(Object.keys(res.data));
+        if (!Object.keys(res.data).includes(newLinhKien.loai)) {
+          setNewLinhKien(prev => ({
+            ...prev,
+            loai: Object.keys(res.data)[0] || "cpu"
+          }));
+        }
+      } else {
+        console.error("Invalid data format from API");
+        setLinhKien({});
+        setLoaiLinhKienList([]);
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching linh_kien:", err);
+      setLinhKien({});
+      setLoaiLinhKienList([]);
+    });
+  break;
+     case "contacts":
+  axios
+    .get("http://localhost/BaiTapNhom/backend/api.php?action=get_contacts")
+    .then((res) => {
+      if (Array.isArray(res.data)) {
+        setContacts(res.data);
+      } else {
+        console.error("API get_contacts did not return an array:", res.data);
+        setContacts([]);
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching contacts:", err);
+      setContacts([]);
+    });
+  break;
       default:
         break;
     }
   }, [view, selectedMonth, selectedYear]);
 
-  // Calculate percentages for dashboard cards
-  const targetRevenue = 100000000; // Example target revenue (100 million VNĐ)
+  const targetRevenue = 100000000;
   const revenuePercentage = statistics?.tong_doanh_thu
     ? (statistics.tong_doanh_thu / targetRevenue) * 100
     : 0;
 
   const completedOrders = orders.filter((order) => order.trang_thai === "Đã thanh toán").length;
-  const orderCompletionPercentage = orders.length > 0 ? (completedOrders / orders.length) * 100 : 0;
+const orderCompletionPercentage = orders.length
+  ? (completedOrders / orders.length) * 100
+  : 0;
 
   const activeUsers = users.filter((user) => user.is_active === 1).length;
   const userActivePercentage = users.length > 0 ? (activeUsers / users.length) * 100 : 0;
 
-  const positiveReviews = reviews.filter((review) => review.so_sao >= 3).length;
-  const positiveReviewPercentage = reviews.length > 0 ? (positiveReviews / reviews.length) * 100 : 0;
+  const positiveReviews = reviews.filter((review) => review.so_so_sao >= 3).length;
+const positiveReviewPercentage = reviews.length === 0 
+  ? 0 
+  : (positiveReviews / reviews.length) * 100;
 
-  const deleteContact = (id) => {
-    axios
-      .get(`http://localhost/BaiTapNhom/backend/api.php?action=delete_contact&id=${id}`)
-      .then(() => {
-        setContacts(contacts.filter((c) => c.id !== id));
-        cancelDelete();
-      })
-      .catch((err) => console.error("Error deleting contact:", err));
-  };
-
+const deleteContact = (id) => {
+  axios
+    .get(`http://localhost/BaiTapNhom/backend/api.php?action=delete_contact&id=${id}`)
+    .then(() => {
+      setContacts(contacts.filter((c) => c.id !== id));
+      cancelDelete();
+    })
+    .catch((err) => console.error("Error deleting contact:", err));
+};
   const renderContent = () => {
     switch (view) {
       case "dashboard":
         return (
           <div className="dashboard-container">
-            <h2 className="dashboard-title"> Thông tin chung</h2>
+            <h2 className="dashboard-title">Thông tin chung</h2>
             <div className="date-selector">
               <div className="date-picker">
                 <label>Chọn tháng: </label>
@@ -1211,6 +1486,8 @@ function Admin() {
             )}
           </div>
         );
+      case "home":
+        return <HomeManager handleDelete={handleDelete} />;
       case "orders":
         return (
           <div>
@@ -1738,231 +2015,164 @@ function Admin() {
                       ))}
                     </select>
                   </div>
-                  {getSampleKeys(linhKien, newLinhKien.loai).map((key) => (
-                    <div className="form-group" key={key}>
-                      <label htmlFor={`new-${key}`}>{getFieldLabel(key)}:</label>
-                      {key === "mo_ta" ? (
-                        <textarea
-                          id={`new-${key}`}
-                          placeholder={getFieldPlaceholder(key)}
-                          value={newLinhKien[key] || ""}
-                          onChange={(e) =>
-                            setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
-                          }
-                        />
-                      ) : key === "gia" ? (
-                        <div className="price-input">
-                          <input
-                            id={`new-${key}`}
-                            type="number"
-                            placeholder={getFieldPlaceholder(key)}
-                            value={newLinhKien[key] || ""}
-                            onChange={(e) =>
-                              setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
-                            }
-                          />
-                          <span className="price-suffix">VNĐ</span>
-                        </div>
-                      ) : (
-                        <input
-                          id={`new-${key}`}
-                          type={getInputType(key)}
-                          placeholder={getFieldPlaceholder(key)}
-                          value={newLinhKien[key] || ""}
-                          onChange={(e) =>
-                            setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
-                          }
-                        />
-                      )}
-                    </div>
-                  ))}
-                  <button className="add-button" onClick={handleAddLinhKien}>
-                    <i className="fas fa-plus-circle"></i> Thêm linh kiện
-                  </button>
-                </div>
-              )}
-            </div>
-            {loaiLinhKienList.map((loai) => {
-              if (loai !== selectedLoaiTable) return null;
-              const items = Array.isArray(linhKien[loai])
-                ? linhKien[loai].filter((item) => {
-                    const keyword = searchKeyword.trim().toLowerCase();
-                    if (!keyword) return true;
-                    const normalizeText = (text) =>
-                      text
-                        ? text
-                            .normalize("NFD")
-                            .replace(/\p{Diacritic}/gu, "")
-                            .toLowerCase()
-                        : "";
-                    return Object.values(item).some((value) => {
-                      if (value === null || value === undefined) return false;
-                      return normalizeText(String(value)).includes(normalizeText(keyword));
-                    });
-                  })
-                : [];
-              if (items.length === 0) {
-                return (
-                  <div key={loai} className="empty-table-container">
-                    <div className="empty-table-message">
-                      <i className="fas fa-box-open"></i>
-                      <p>Không có linh kiện {loai.toUpperCase()} nào trong danh sách</p>
+{getSampleKeys(linhKien, newLinhKien.loai).map((key) => (
+  <div className="form-group" key={key}>
+    <label htmlFor={`add-${key}`}>{getFieldLabel(key)}:</label>
+    {key === "mo_ta" ? (
+      <textarea
+        id={`add-${key}`}
+        placeholder={getFieldPlaceholder(key)}
+        value={newLinhKien[key] || ""}
+        onChange={(e) =>
+          setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
+        }
+      />
+    ) : key === "gia" ? (
+      <div className="price-input">
+        <input
+          id={`add-${key}`}
+          type="number"
+          placeholder={getFieldPlaceholder(key)}
+          value={newLinhKien[key] || ""}
+          onChange={(e) =>
+            setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
+          }
+        />
+        <span className="price-suffix">VNĐ</span>
+      </div>
+    ) : (
+      <input
+        id={`add-${key}`}
+        type={getInputType(key)}
+        placeholder={getFieldPlaceholder(key)}
+        value={newLinhKien[key] || ""}
+        onChange={(e) =>
+          setNewLinhKien({ ...newLinhKien, [key]: e.target.value })
+        }
+      />
+    )}
+  </div>
+))}
+<div className="form-actions">
+  <button className="cancel-button" onClick={() => setIsAddFormVisible(false)}>
+    <i className="fas fa-times"></i> Hủy
+  </button>
+  <button className="add-button" onClick={handleAddLinhKien}>
+    <i className="fas fa-plus"></i> Thêm
+  </button>
+</div>
+</div>
+)}
+</div>
+{selectedLoaiTable && (
+  <div className="component-table-container" ref={loaiRefs.current[selectedLoaiTable]}>
+    <div className="table-header">
+      <h3>
+        Danh sách {selectedLoaiTable.charAt(0).toUpperCase() + selectedLoaiTable.slice(1)}
+      </h3>
+      <div className="table-actions">
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder={`Tìm kiếm ${selectedLoaiTable}...`}
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            className="search-input"
+          />
+          <i className="fas fa-search search-icon"></i>
+        </div>
+      </div>
+    </div>
+    {linhKien[selectedLoaiTable] && linhKien[selectedLoaiTable].length > 0 ? (
+      <div className="table-responsive">
+        <table className="components-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              {getSampleKeys(linhKien, selectedLoaiTable).map((key) => (
+                <th key={key}>{getFieldLabel(key)}</th>
+              ))}
+              <th className="action-column">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {linhKien[selectedLoaiTable]
+              .filter((item) =>
+                Object.values(item).some((value) =>
+                  value
+                    ?.toString()
+                    .toLowerCase()
+                    .includes(searchKeyword.toLowerCase())
+                )
+              )
+              .map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+               {getSampleKeys(linhKien, selectedLoaiTable).map((key) => (
+  <td key={key}>
+    {typeof item[key] === 'object' && item[key] !== null ? (
+      // Handle object case
+      <div className="object-values">
+        {Object.entries(item[key]).map(([subKey, value]) => (
+          <div key={subKey}>{subKey}: {value}</div>
+        ))}
+      </div>
+    ) : (
+      // Handle normal case
+      key === "gia"
+        ? formatPrice(item[key])
+        : key === "so_luong"
+        ? `${item[key]} cái`
+        : item[key] || "N/A"
+    )}
+  </td>
+))}
+                  <td className="action-column">
+                    <div className="action-buttons">
                       <button
-                        className="add-first-button"
+                        className="edit-button"
                         onClick={() => {
-                          setNewLinhKien({ ...newLinhKien, loai: loai });
-                          setIsAddFormVisible(true); // Show form when adding first component
-                          document
-                            .querySelector(".add-component-card")
-                            ?.scrollIntoView({ behavior: "smooth" });
+                          setEditLinhKien({ ...item, loai: selectedLoaiTable });
+                          setIsEditModalOpen(true);
                         }}
                       >
-                        <i className="fas fa-plus"></i> Thêm {loai.toUpperCase()} đầu tiên
+                        <i className="fas fa-edit"></i>
                       </button>
-                    </div>
-                  </div>
-                );
-              }
-              const displayKeys = ["id", "ten", "gia", "so_luong"];
-              return (
-                <div key={loai} className="component-table-container">
-                  <div className="table-header">
-                    <h3>
-                      <i className={`fas fa-${getCategoryIcon(loai)}`}></i>
-                      Danh sách {loai.toUpperCase()}
-                    </h3>
-                    <div className="table-actions">
-                      <div className="search-box">
-                        <input
-                          type="text"
-                          placeholder={`Tìm kiếm ${loai}...`}
-                          value={searchKeyword}
-                          onChange={(e) => setSearchKeyword(e.target.value)}
-                        />
-                        <i className="fas fa-search"></i>
-                      </div>
                       <button
-                        className="export-button"
-                        onClick={() => alert(`Xuất danh sách ${loai} sẽ được phát triển sau`)}
+                        className="delete-button"
+                        onClick={() =>
+                          handleDelete(item.id, `${selectedLoaiTable}`, () =>
+                            handleDeleteLinhKien(item.id, selectedLoaiTable)
+                          )
+                        }
                       >
-                        <i className="fas fa-file-export"></i> Xuất
+                        <i className="fas fa-trash"></i>
                       </button>
                     </div>
-                  </div>
-                  <div className="table-responsive">
-                    <table className="components-table">
-                      <thead>
-                        <tr>
-                          {displayKeys.map((key) => (
-                            <th key={key}>{getFieldLabel(key)}</th>
-                          ))}
-                          <th className="action-column">Thao tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {items.map((lk) => (
-                          <tr key={lk.id}>
-                            {displayKeys.map((key) => (
-                              <td
-                                key={key}
-                                className={key === "gia" ? "price-column" : ""}
-                              >
-                                {key === "gia" ? (
-                                  formatPrice(lk[key])
-                                ) : (
-                                  lk[key] || ""
-                                )}
-                              </td>
-                            ))}
-                            <td className="action-column">
-                              <div className="action-buttons">
-                                <button
-                                  className="edit-button"
-                                  onClick={() => {
-                                    setEditLinhKien({ ...lk, loai });
-                                    setIsEditModalOpen(true);
-                                  }}
-                                  title="Chỉnh sửa"
-                                >
-                                  <i className="fas fa-edit"></i>
-                                </button>
-                                <button
-                                  className="delete-button"
-                                  onClick={() => handleDeleteConfirm(lk.id, loai)}
-                                  title="Xóa"
-                                >
-                                  <i className="fas fa-trash-alt"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              );
-            })}
-            {deleteConfirmation.show && (
-              <div className="delete-confirmation-modal">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <i className="fas fa-exclamation-triangle"></i>
-                    <h3>Xác nhận xóa</h3>
-                  </div>
-                  <div className="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa linh kiện này?</p>
-                    <p>Hành động này không thể hoàn tác.</p>
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      className="cancel-button"
-                      onClick={() =>
-                        setDeleteConfirmation({
-                          show: false,
-                          id: null,
-                          loai: null,
-                        })
-                      }
-                    >
-                      <i className="fas fa-times"></i> Hủy
-                    </button>
-                    <button
-                      className="confirm-button"
-                      onClick={() => {
-                        handleDeleteLinhKien(
-                          deleteConfirmation.id,
-                          deleteConfirmation.loai
-                        );
-                        setDeleteConfirmation({
-                          show: false,
-                          id: null,
-                          loai: null,
-                        });
-                      }}
-                    >
-                      <i className="fas fa-check"></i> Xác nhận
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-            <EditLinhKienModal
-              isOpen={isEditModalOpen}
-              onClose={() => {
-                setIsEditModalOpen(false);
-                setEditLinhKien(null);
-              }}
-              linhKien={editLinhKien}
-              loai={selectedLoaiTable}
-              onSave={handleUpdateLinhKien}
-              loaiLinhKienList={loaiLinhKienList}
-              getFieldLabel={getFieldLabel}
-              getFieldPlaceholder={getFieldPlaceholder}
-              getInputType={getInputType}
-            />
-          </div>
-        );
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <div className="empty-table-container">
+        <div className="empty-table-message">
+          <i className="fas fa-exclamation-circle"></i>
+          <p>Không có linh kiện nào trong danh mục này</p>
+          <button
+            className="add-first-button"
+            onClick={() => setIsAddFormVisible(true)}
+          >
+            <i className="fas fa-plus"></i> Thêm linh kiện đầu tiên
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+</div>
+);
       case "contacts":
         return (
           <div>
@@ -1971,11 +2181,11 @@ function Admin() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tên</th>
+                  <th>Họ tên</th>
                   <th>Email</th>
                   <th>Số điện thoại</th>
                   <th>Nội dung</th>
-                  <th>Thời gian gửi</th>
+                  <th>Ngày gửi</th>
                   <th>Hành động</th>
                 </tr>
               </thead>
@@ -1990,22 +2200,11 @@ function Admin() {
                   contacts.map((contact) => (
                     <tr key={contact.id}>
                       <td>{contact.id}</td>
-                      <td>{contact.ten}</td>
+                      <td>{contact.ho_ten}</td>
                       <td>{contact.email}</td>
-                      <td>{contact.sdt || "N/A"}</td>
-                      <td>
-                        <div className="description-cell">
-                          <span className="description-text">
-                            {contact.noi_dung && contact.noi_dung.length > 60
-                              ? contact.noi_dung.slice(0, 60) + "..."
-                              : contact.noi_dung || ""}
-                          </span>
-                          {contact.noi_dung && contact.noi_dung.length > 60 && (
-                            <div className="tooltip-content">{contact.noi_dung}</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>{new Date(contact.thoi_gian_gui).toLocaleString("vi-VN")}</td>
+                      <td>{contact.so_dien_thoai}</td>
+                      <td>{contact.noi_dung}</td>
+                      <td>{contact.ngay_gui}</td>
                       <td>
                         <button
                           onClick={() =>
@@ -2025,78 +2224,120 @@ function Admin() {
             </table>
           </div>
         );
+      default:
+        return <div>Chọn một mục từ menu để xem nội dung</div>;
     }
   };
 
   return (
     <div className="admin-container">
-      <h1>Quản trị Hệ thống Bán Linh kiện</h1>
-      <div className="nav-menu">
-        <button
-          onClick={() => setView("dashboard")}
-          className={`nav-button ${view === "dashboard" ? "active" : ""}`}
-        >
-          Trang chủ
-        </button>
-        <button
-          onClick={() => setView("users")}
-          className={`nav-button ${view === "users" ? "active" : ""}`}
-        >
-          Tài khoản
-        </button>
-        <button
-          onClick={() => setView("linh_kien")}
-          className={`nav-button ${view === "linh_kien" ? "active" : ""}`}
-        >
-          Sản phẩm
-        </button>
-        <button
-          onClick={() => setView("orders")}
-          trang_thai="Đã thanh toán"
-          className={`nav-button ${view === "orders" ? "active" : ""}`}
-        >
-          Đơn hàng
-        </button>
-        <button
-          onClick={() => setView("reviews")}
-          className={`nav-button ${view === "reviews" ? "active" : ""}`}
-        >
-          Đánh giá
-        </button>
-        <button
-          onClick={() => setView("payments")}
-          className={`nav-button ${view === "payments" ? "active" : ""}`}
-        >
-          Thanh toán
-        </button>
-        <button
-          onClick={() => setView("total_payment")}
-          className={`nav-button ${view === "total_payment" ? "active" : ""}`}
-        >
-          Thống kê
-        </button>
-        <button
-          onClick={() => setView("contacts")}
-          className={`nav-button ${view === "contacts" ? "active" : ""}`}
-        >
-          Liên hệ
-        </button>
+      <div className="sidebar">
+        <div className="sidebar-header">
+          <h2>Admin Panel</h2>
+        </div>
+        <ul className="sidebar-menu">
+          <li>
+            <button
+              className={`sidebar-button ${view === "dashboard" ? "active" : ""}`}
+              onClick={() => setView("dashboard")}
+            >
+              <i className="fas fa-tachometer-alt"></i> Dashboard
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "home" ? "active" : ""}`}
+              onClick={() => setView("home")}
+            >
+              <i className="fas fa-home"></i> Quản lý Trang chủ
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "linh_kien" ? "active" : ""}`}
+              onClick={() => setView("linh_kien")}
+            >
+              <i className="fas fa-microchip"></i> Quản lý Sản phẩm
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "orders" ? "active" : ""}`}
+              onClick={() => setView("orders")}
+            >
+              <i className="fas fa-shopping-cart"></i> Quản lý Đơn hàng
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "users" ? "active" : ""}`}
+              onClick={() => setView("users")}
+            >
+              <i className="fas fa-users"></i> Quản lý Tài khoản
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "reviews" ? "active" : ""}`}
+              onClick={() => setView("reviews")}
+            >
+              <i className="fas fa-star"></i> Quản lý Đánh giá
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "payments" ? "active" : ""}`}
+              onClick={() => setView("payments")}
+            >
+              <i className="fas fa-credit-card"></i> Quản lý Thanh toán
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "total_payment" ? "active" : ""}`}
+              onClick={() => setView("total_payment")}
+            >
+              <i className="fas fa-chart-bar"></i> Thống kê Doanh thu
+            </button>
+          </li>
+          <li>
+            <button
+              className={`sidebar-button ${view === "contacts" ? "active" : ""}`}
+              onClick={() => setView("contacts")}
+            >
+              <i className="fas fa-envelope"></i> Quản lý Liên hệ
+            </button>
+          </li>
+        </ul>
       </div>
-      <div className="content-box">{renderContent()}</div>
-      <DeleteModal
-        isOpen={deleteModal.isOpen}
-        onCancel={cancelDelete}
-        onConfirm={deleteModal.onConfirm}
-        itemId={deleteModal.itemId}
-        itemType={deleteModal.itemType}
-      />
-      <OrderDetailsModal
-        isOpen={isOrderModalOpen}
-        onClose={closeOrderModal}
-        orderId={selectedOrder}
-        orderItems={orderItems}
-        orderAddress={orderAddress}
-      />
+      <div className="main-content">
+        {renderContent()}
+        <OrderDetailsModal
+          isOpen={isOrderModalOpen}
+          onClose={closeOrderModal}
+          orderId={selectedOrder}
+          orderItems={orderItems}
+          orderAddress={orderAddress}
+        />
+        <EditLinhKienModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          linhKien={editLinhKien}
+          loai={editLinhKien?.loai}
+          onSave={handleUpdateLinhKien}
+          loaiLinhKienList={loaiLinhKienList}
+          getFieldLabel={getFieldLabel}
+          getFieldPlaceholder={getFieldPlaceholder}
+          getInputType={getInputType}
+        />
+        <DeleteModal
+          isOpen={deleteModal.isOpen}
+          onCancel={cancelDelete}
+          onConfirm={deleteModal.onConfirm}
+          itemId={deleteModal.itemId}
+          itemType={deleteModal.itemType}
+        />
+      </div>
     </div>
   );
 }

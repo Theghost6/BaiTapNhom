@@ -135,7 +135,7 @@ try {
     if (!empty($password)) {
         $updateQuery .= ", pass = ?";
         $paramTypes .= "s";
-        $params[] = $password;
+        $params[] = md5($password); // Hash password using MD5
     }
 
     $updateQuery .= " WHERE " . ($currentType === "phone" ? "phone" : "email") . " = ?";

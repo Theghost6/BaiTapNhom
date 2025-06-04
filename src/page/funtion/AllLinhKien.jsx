@@ -27,11 +27,9 @@ const SelectedOptions = React.memo(({ selectedOptions, sortOrder, toggleOption, 
   <div className="selected-options">
     <span className="selected-label">Đã chọn:</span>
     {selectedOptions.map((option) => (
-      <div key={option} className="selected-item">
+      <div key={option} className="selected-item" onClick={() => toggleOption(option)}>
         {option}
-        <button onClick={() => toggleOption(option)}>
-          <FaTimes className="remove-icon" />
-        </button>
+        {selectedOptions.includes(option) && <FaTimes className="remove-icon" />}
       </div>
     ))}
     {sortOrder === "lowToHigh" && (
@@ -54,43 +52,105 @@ const SelectedOptions = React.memo(({ selectedOptions, sortOrder, toggleOption, 
 ));
 
 const BannerAd = () => {
-  const images = [
-    "https://tinhocanhphat.vn/media/lib/28-02-2023/may-tinh-do-hoa.jpg",
-    "https://no1computer.vn/upload_images/images/CPU/Chip%20hi%E1%BB%87u%20n%C4%83ng%20cao/i9/i9-13900HX/core-i9-13900HX.jpg",
-    "https://file.hstatic.net/200000053304/article/file_psd_banner_fb__6000018b277c40ec82da58cedf0ee4ea.png",
-    "https://kimlongcenter.com/upload/news/huong-dan-build-cau-hinh-pc-choi-game-cho-sinh-vien-2024_4.jpg"
-  ];
+  // const fallbackImages = [
+  //   "https://tinhocanhphat.vn/media/lib/28-02-2023/may-tinh-do-hoa.jpg",
+  //   "https://no1computer.vn/upload_images/images/CPU/Chip%20hi%E1%BB%87u%20n%C4%83ng%20cao/i9/i9-13900HX/core-i9-13900HX.jpg",
+  //   "https://file.hstatic.net/200000053304/article/file_psd_banner_fb__6000018b277c40ec82da58cedf0ee4ea.png",
+  //   "https://kimlongcenter.com/upload/news/huong-dan-build-cau-hinh-pc-choi-game-cho-sinh-vien-2024_4.jpg"
+  // ];
 
+  const [banners, setBanners] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [bannerError, setBannerError] = useState(null);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      setIsLoading(true);
+      setBannerError(null);
+
+      try {
+        console.log('Fetching bmanners...');
+        const response = await fetch('http://localhost/BaiTapNhom/backend/tt_home.php?path=banner', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Response data:', data);
+
+        if (data.success && Array.isArray(data.data)) {
+          const activeBanners = data.data
+            .filter(item => item.trang_thai == 1) // Use == for loose comparison
+            .sort((a, b) => parseInt(a.thu_tu) - parseInt(b.thu_tu))
+            .map(item => item.hinh_anh);
+
+          console.log('Active banners:', activeBanners);
+          setBanners(activeBanners.length > 0 ? activeBanners : []);
+        } else {
+          console.error('API returned error:', data);
+          setBannerError(data.error || 'Failed to load banners');
+          // setBanners(fallbackImages);
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        setBannerError('Error fetching banners: ' + error.message);
+        // setBanners(fallbackImages);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBanners();
+  }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + banners.length) % banners.length);
   };
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [banners.length]);
 
   return (
     <div className="banner-ad">
-      <div className="slider-container">
-        <button className="prev-btn" onClick={prevSlide}>❮</button>
-        <div className="slider-wrapper" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-          {images.map((src, index) => (
-            <img key={index} src={src} alt={`Slide ${index + 1}`} className="slider-image" />
-          ))}
+      {isLoading ? (
+        <div className="banner-loading" style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+          Đang tải banner...
         </div>
-        <button className="next-btn" onClick={nextSlide}>❯</button>
-      </div>
+      ) : bannerError ? (
+        <div className="banner-error" style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
+          {bannerError}
+        </div>
+      ) : (
+        <div className="slider-container">
+          <button className="prev-btn" onClick={prevSlide}>❮</button>
+          <div className="slider-wrapper" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+            {banners.map((src, index) => (
+              <img key={index} src={src} alt={`Banner ${index + 1}`} className="slider-image" />
+            ))}
+          </div>
+          <button className="next-btn" onClick={nextSlide}>❯</button>
+        </div>
+      )}
     </div>
   );
 };
 
+// Rest of the AllLinhKien component remains unchanged
 const AllLinhKien = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -373,7 +433,6 @@ const AllLinhKien = () => {
         {activeFilter && (
           <div className="filter-right">
             <div className="filter-header">
-              <span>Chọn {activeFilter.toLowerCase()}</span>
               <button onClick={() => setActiveFilter(null)}>
                 <FaTimes />
               </button>
@@ -470,7 +529,7 @@ const AllLinhKien = () => {
         <div className="products-grid">
           {currentItems.length > 0 ? (
             currentItems.map((product, index) => {
-              const originalPrice = product.gia_goc || product.gia * 1.1; // Giả định giá gốc là 10% cao hơn nếu không có
+              const originalPrice = product.gia_goc || product.gia * 1.1;
               const discountPercent = product.khuyen_mai ? parseInt(product.khuyen_mai) : Math.round(((originalPrice - product.gia) / originalPrice) * 100);
 
               return (
