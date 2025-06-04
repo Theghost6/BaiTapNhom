@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { Autoplay, Navigation, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import {
   ArrowRight,
-  Star, 
+  Star,
   MapPin,
   Calendar,
   TrendingUp,
@@ -17,6 +17,7 @@ import "../style/all_linh_kien.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGift } from "react-icons/fa";
 import { Variants } from "./funtion/Menu";
+import 'swiper/css/effect-coverflow';
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -25,72 +26,72 @@ const Home = () => {
   const [openedIndex, setOpenedIndex] = useState(null);
   const [showUrl, setShowUrl] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-const [marqueeText, setMarqueeText] = useState(0);
-const [messages, setMessages] = useState([]);
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState(null);
+  const [marqueeText, setMarqueeText] = useState(0);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-// Fetch messages from backend
-useEffect(() => {
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost/BaiTapNhom/backend/tt_home.php?path=chu_chay"
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch messages");
-      }
-      const data = await response.json();
-      if (data.success) {
-        const activeMessages = data.data
-          .filter((msg) => msg.trang_thai === "1" || msg.trang_thai === 1)
-          .map((msg) => ({
-            ...msg,
-            toc_do: parseFloat(msg.toc_do) || 15, // Ensure toc_do is a number
-          }));
-        setMessages(activeMessages);
+  // Fetch messages from backend
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost/BaiTapNhom/backend/tt_home.php?path=chu_chay"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch messages");
+        }
+        const data = await response.json();
+        if (data.success) {
+          const activeMessages = data.data
+            .filter((msg) => msg.trang_thai === "1" || msg.trang_thai === 1)
+            .map((msg) => ({
+              ...msg,
+              toc_do: parseFloat(msg.toc_do) || 15, // Ensure toc_do is a number
+            }));
+          setMessages(activeMessages);
           console.log("Fetched messages:", activeMessages);
-      } else {
-        throw new Error(data.error || "API error");
+        } else {
+          throw new Error(data.error || "API error");
+        }
+      } catch (err) {
+        setError(err.message);
+        setMessages([
+          {
+            noi_dung:
+              "🔥 Flash Sale: Giảm đến 30% cho tất cả linh kiện PC! Nhanh tay đặt hàng ngay hôm nay! 🔥",
+            toc_do: 15,
+            trang_thai: 1,
+          },
+          {
+            noi_dung: "🎁 Mua combo linh kiện, nhận quà tặng đặc biệt!",
+            toc_do: 15,
+            trang_thai: 1,
+          },
+          {
+            noi_dung: "🚚 Miễn phí vận chuyển cho đơn hàng trên 5 triệu!",
+            toc_do: 15,
+            trang_thai: 1,
+          },
+        ]);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError(err.message);
-      setMessages([
-        {
-          noi_dung:
-            "🔥 Flash Sale: Giảm đến 30% cho tất cả linh kiện PC! Nhanh tay đặt hàng ngay hôm nay! 🔥",
-          toc_do: 15,
-          trang_thai: 1,
-        },
-        {
-          noi_dung: "🎁 Mua combo linh kiện, nhận quà tặng đặc biệt!",
-          toc_do: 15,
-          trang_thai: 1,
-        },
-        {
-          noi_dung: "🚚 Miễn phí vận chuyển cho đơn hàng trên 5 triệu!",
-          toc_do: 15,
-          trang_thai: 1,
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  fetchMessages();
-}, []);
+    fetchMessages();
+  }, []);
 
-// Cycle through messages based on toc_do
-useEffect(() => {
-  if (messages.length === 0 || loading || error) return;
+  // Cycle through messages based on toc_do
+  useEffect(() => {
+    if (messages.length === 0 || loading || error) return;
 
-  const interval = setInterval(() => {
-    setMarqueeText((prev) => (prev + 1) % messages.length);
-  }, (messages[marqueeText]?.toc_do * 1000 || 15000) - 900); // Reduce delay by 500ms
+    const interval = setInterval(() => {
+      setMarqueeText((prev) => (prev + 1) % messages.length);
+    }, (messages[marqueeText]?.toc_do * 1000 || 15000) - 900); // Reduce delay by 500ms
 
-  return () => clearInterval(interval);
-}, [messages, marqueeText, loading, error]);
+    return () => clearInterval(interval);
+  }, [messages, marqueeText, loading, error]);
 
   const [timeLeft, setTimeLeft] = useState({
     days: 2,
@@ -512,7 +513,7 @@ useEffect(() => {
             <div
               className="marquee-inner"
               style={{ whiteSpace: "nowrap", animationDuration: "20s" }}
-                  >
+            >
               {messages.map((message, index) => (
                 <span
                   key={index}
@@ -705,37 +706,57 @@ useEffect(() => {
               ❯
             </div>
             <Swiper
-              
-              modules={[Navigation, Autoplay]}
-              onInit={(swiper) => {
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-                swiper.navigation.init();
-                swiper.navigation.update();
+              modules={[Navigation, Autoplay, EffectCoverflow]}
+              effect="coverflow"
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={3} // Hiển thị 3 slide (1 lớn ở giữa, 2 nhỏ ở hai bên)
+              coverflowEffect={{
+                rotate: 0, // Không xoay slide
+                stretch: -20, // Kéo các slide gần nhau hơn để tăng hiệu ứng
+                depth: 100, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
+                modifier: 3, // Tăng modifier để phóng đại hiệu ứng
+                slideShadows: false, // Tắt bóng để giao diện sạch
               }}
-              spaceBetween={20}
-              slidesPerView={4}
-              loop
+              spaceBetween={10} // Giảm khoảng cách giữa các slide
+              loop={true}
               navigation={{
                 prevEl: prevRef.current,
                 nextEl: nextRef.current,
               }}
               autoplay={{
-                delay: 3000,
+                delay: 5000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
               }}
               breakpoints={{
                 0: {
-                  slidesPerView: 1.2,
+                  slidesPerView: 1, // Chỉ 1 slide trên mobile
+                  coverflowEffect: {
+                    depth: 0, // Tắt hiệu ứng coverflow trên mobile
+                    modifier: 0,
+                  },
                 },
                 480: {
                   slidesPerView: 2,
+                  coverflowEffect: {
+                    depth: 100, // Hiệu ứng nhẹ trên màn hình nhỏ
+                    modifier: 1.5,
+                  },
                 },
                 768: {
                   slidesPerView: 3,
+                  coverflowEffect: {
+                    depth: 150, // Hiệu ứng vừa phải trên tablet
+                    modifier: 2,
+                  },
                 },
                 1024: {
-                  slidesPerView: 4,
+                  slidesPerView: 3,
+                  coverflowEffect: {
+                    depth: 200, // Hiệu ứng mạnh trên desktop
+                    modifier: 3,
+                  },
                 },
               }}
             >
@@ -758,6 +779,7 @@ useEffect(() => {
               ))}
             </Swiper>
           </div>
+          ```
         </div>
 
         <div className="section services-section" id="dich-vu">
