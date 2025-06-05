@@ -132,6 +132,7 @@ body {
   display: none;
   padding: 8px 0;
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  top: 40px;
 }
 
 @keyframes slideDown {
@@ -411,8 +412,8 @@ body {
 /* Consult Popup - Vuông vắn */
 .consult-popup {
   position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
+  top: calc(100% + -10px);
+  right: 300px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(64, 196, 255, 0.3);
