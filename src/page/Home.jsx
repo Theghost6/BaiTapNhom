@@ -156,7 +156,7 @@ const Home = () => {
       ten: "CPU Intel Core Ultra 9 285K",
       hang: "INTEL",
       gia: 17290000,
-      images: ["/photos/intel ultra.jpg"],
+      images: ["/photos/intel.jpg"],
     },
     {
       id: "cool001",
@@ -714,7 +714,7 @@ const Home = () => {
               coverflowEffect={{
                 rotate: 0, // Không xoay slide
                 stretch: -20, // Kéo các slide gần nhau hơn để tăng hiệu ứng
-                depth: 100, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
+                depth: 10, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
                 modifier: 3, // Tăng modifier để phóng đại hiệu ứng
                 slideShadows: false, // Tắt bóng để giao diện sạch
               }}
@@ -725,7 +725,7 @@ const Home = () => {
                 nextEl: nextRef.current,
               }}
               autoplay={{
-                delay: 5000,
+                delay: 2000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }}
