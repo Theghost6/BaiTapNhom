@@ -397,6 +397,7 @@ function HomeManager({ handleDelete }) {
       setData(response.data.data || []);
     } catch (error) {
       console.error('Error fetching data:', error);
+      alert(`Lỗi tải dữ liệu: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -410,49 +411,67 @@ function HomeManager({ handleDelete }) {
   }, [activeTab]);
 
   const normalizeItem = (item) => {
-  const copy = { ...item };
-  if (copy.trang_thai === "active") copy.trang_thai = 1;
-  else if (copy.trang_thai === "inactive") copy.trang_thai = 0;
-  return copy;
-};
+    const copy = { ...item };
+    // Normalize trang_thai to 0 or 1
+    if (copy.trang_thai === true || copy.trang_thai === 'active') {
+      copy.trang_thai = 1;
+    } else if (copy.trang_thai === false || copy.trang_thai === 'inactive') {
+      copy.trang_thai = 0;
+    }
+    // Ensure numeric fields are numbers
+    if (copy.thu_tu) copy.thu_tu = Number(copy.thu_tu);
+    if (copy.toc_do) copy.toc_do = Number(copy.toc_do);
+    return copy;
+  };
 
   const handleAdd = async () => {
-  try {
-    // Validate required fields
-    if (activeTab === 'chu_chay' && !newItem.noi_dung) {
-      alert('Nội dung là bắt buộc');
-      return;
+    try {
+      // Validate required fields
+      if (activeTab === 'chu_chay' && !newItem.noi_dung) {
+        alert('Nội dung là bắt buộc');
+        return;
+      }
+      const normalized = normalizeItem(newItem);
+      console.log('Adding item:', normalized); // Debug payload
+      const response = await axios.post(`${apiUrl}?path=${activeTab}`, normalized);
+      if (response.data.success) {
+        fetchData(activeTab);
+        setNewItem({});
+        alert('Thêm thành công!');
+      } else {
+        alert(response.data.error || 'Có lỗi xảy ra khi thêm');
+      }
+    } catch (error) {
+      console.error('Error adding item:', error);
+      alert(`Lỗi: ${error.response?.data?.error || error.message}`);
     }
-const normalized = normalizeItem(newItem);
-    const response = await axios.post(`${apiUrl}?path=${activeTab}`, normalized);
-    if (response.data.success) {
-      fetchData(activeTab);
-      setNewItem({});
-      alert('Thêm thành công!');
-    } else {
-      alert(response.data.error || 'Có lỗi xảy ra khi thêm');
-    }
-  } catch (error) {
-    console.error('Error adding item:', error);
-    alert(`Lỗi: ${error.response?.data?.error || error.message}`);
-  }
-};
+  };
+
   const handleEdit = (item) => {
     setEditingId(item.id);
-    setEditItem(item);
+    // Convert trang_thai to boolean for checkbox
+    setEditItem({
+      ...item,
+      trang_thai: item.trang_thai === 1 || item.trang_thai === 'active'
+    });
   };
 
   const handleUpdate = async () => {
     try {
       const normalized = normalizeItem(editItem);
+      console.log('Updating item:', normalized); // Debug payload
       const response = await axios.put(`${apiUrl}?path=${activeTab}/${editingId}`, normalized);
       if (response.data.success) {
         fetchData(activeTab);
         setEditingId(null);
         setEditItem({});
+        alert('Cập nhật thành công!');
+      } else {
+        alert(response.data.error || 'Có lỗi xảy ra khi cập nhật');
       }
     } catch (error) {
       console.error('Error updating item:', error);
+      alert(`Lỗi cập nhật: ${error.response?.data?.error || error.message}`);
     }
   };
 
@@ -467,9 +486,13 @@ const normalized = normalizeItem(newItem);
           if (response.data.success) {
             fetchData(activeTab);
             setDeleteModal({ isOpen: false, itemId: null, itemType: "", onConfirm: () => {} });
+            alert('Xóa thành công!');
+          } else {
+            alert(response.data.error || 'Có lỗi xảy ra khi xóa');
           }
         } catch (error) {
           console.error('Error deleting item:', error);
+          alert(`Lỗi xóa: ${error.response?.data?.error || error.message}`);
         }
       },
     });
@@ -484,7 +507,7 @@ const normalized = normalizeItem(newItem);
       return (
         <input
           type="checkbox"
-          checked={value || false}
+          checked={!!value} // Ensure boolean for checkbox
           onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.checked })}
         />
       );
@@ -497,18 +520,6 @@ const normalized = normalizeItem(newItem);
           onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
           min="0"
         />
-      );
-    }
-    if (field === 'trang_thai') {
-      return (
-        <select
-          value={value || ''}
-          onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
-        >
-          <option value="">Chọn trạng thái</option>
-          <option value="active">Kích hoạt</option>
-          <option value="inactive">Không kích hoạt</option>
-        </select>
       );
     }
     if (field === 'noi_dung') {
@@ -561,7 +572,7 @@ const normalized = normalizeItem(newItem);
           </button>
         </div>
       </div>
-      <div className="component-table-container">
+      <div className="table-container">
         <div className="table-header">
           <h3>Danh sách {activeTab.replace('_', ' ')}</h3>
         </div>
@@ -594,51 +605,49 @@ const normalized = normalizeItem(newItem);
               </thead>
               <tbody>
                 {data.map((item) => (
-                  <tr key={item.id} className={editingId === item.id ? 'editing-row' : ''}>
-                    <td>{item.id}</td>
-                    {tables[activeTab].map((field) => (
-                      <td key={field}>
-                        {editingId === item.id ? (
-                          renderInput(field, editItem[field], setEditItem, true)
-                        ) : field === 'hinh_anh' ? (
-                          <img src={item[field]} alt="Banner" style={{ width: '50px', height: 'auto' }} />
-                        ) : field === 'trang_thai' ? (
-                          item[field] ? 'Có' : 'Không'
-                        ) : field === 'trang_thai' ? (
-                          item[field] === 'active' ? 'Kích hoạt' : ' không kích hoạt'
-                        ) : (
-                          item[field]
-                        )}
+                    <tr key={item.id} className={editingId === item.id ? 'editing-row' : ''}>
+                      <td>{item.id}</td>
+                      {tables[activeTab].map((field) => (
+                          <td key={field}>
+                            {editingId === item.id ? (
+                              renderInput(field, editItem[field], setEditItem, true) // Fix: Changed setEditItem刚才 to setEditItem
+                            ) : field === 'hinh_anh' ? (
+                              <img src={item[field]} alt="Banner" style={{ width: '200px', height: 'auto' }} />
+                            ) : field === 'trang_thai' ? (
+                              item[field] === 1 || item[field] === 'active' ? 'Có' : 'Không'
+                            ) : (
+                              item[field]
+                            )}
+                          </td>
+                        ))}
+                      <td className="action-column">
+                        <div className="action-buttons">
+                          {editingId === item.id ? (
+                            <>
+                              <button className="save-button" onClick={handleUpdate}>
+                                <i className="fas fa-save"></i>
+                              </button>
+                              <button className="cancel-button" onClick={() => setEditingId(null)}>
+                                <i className="fas fa-times"></i>
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button className="edit-button" onClick={() => handleEdit(item)}>
+                                <i className="fas fa-edit"></i>
+                              </button>
+                              <button
+                                className="delete-button"
+                                onClick={() => openDeleteModal(item.id, activeTab.replace('_', ' '))}
+                              >
+                                <i className="fas fa-trash"></i>
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </td>
-                    ))}
-                    <td className="action-column">
-                      <div className="action-buttons">
-                        {editingId === item.id ? (
-                          <>
-                            <button className="save-button" onClick={handleUpdate}>
-                              <i className="fas fa-save"></i>
-                            </button>
-                            <button className="cancel-button" onClick={() => setEditingId(null)}>
-                              <i className="fas fa-times"></i>
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button className="edit-button" onClick={() => handleEdit(item)}>
-                              <i className="fas fa-edit"></i>
-                            </button>
-                            <button
-                              className="delete-button"
-                              onClick={() => openDeleteModal(item.id, activeTab.replace('_', ' '))}
-                            >
-                              <i className="fas fa-trash"></i>
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -654,6 +663,10 @@ const normalized = normalizeItem(newItem);
     </div>
   );
 }
+
+
+
+
 
 function Admin() {
   const [view, setView] = useState("dashboard");
