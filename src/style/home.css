@@ -551,11 +551,6 @@
   border-left: 2px solid #1E4D7A; /* Viền xanh đậm */
 }
 
-.products-card:hover .products-details {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .products-name {
   font-size: 20px;
   font-weight: bold;
@@ -971,7 +966,6 @@
   margin-right: 0.75rem;
   text-shadow: 0 0 2px rgba(30, 77, 122, 0.3);
 }
-
 .deal-trend {
   display: flex;
   align-items: center;

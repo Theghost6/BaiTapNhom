@@ -110,6 +110,13 @@ function handlePost($pdo, $table) {
         
         foreach ($fields as $field) {
             if (isset($input[$field])) {
+                // Validate required fields
+                if (($field === 'noi_dung' || $field === 'toc_do') && empty($input[$field])) {
+                    http_response_code(400);
+                    echo json_encode(['error' => "Field $field is required"]);
+                    return;
+                }
+                
                 $data[$field] = $input[$field];
                 $placeholders[] = '?';
             }
@@ -140,7 +147,6 @@ function handlePost($pdo, $table) {
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
 }
-
 // PUT - Update existing record
 function handlePut($pdo, $table, $id) {
     if (!$id) {

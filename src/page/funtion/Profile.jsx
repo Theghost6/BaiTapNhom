@@ -23,29 +23,72 @@ const Profile = () => {
 
   const USER_KEY = "user";
 
-  useEffect(() => {
+useEffect(() => {
+  const fetchUserProfile = async () => {
     const userData = localStorage.getItem(USER_KEY);
-    if (userData) {
-      const parsedUser = JSON.parse(userData);
-      setUser(parsedUser);
+    if (!userData) {
+      navigate("/");
+      return;
+    }
 
-      // Set avatar preview if exists in user data
-      if (parsedUser.avatar) {
-        setAvatarPreview(parsedUser.avatar);
+    const parsedUser = JSON.parse(userData);
+    setUser(parsedUser);
+    setAvatarPreview(parsedUser.avatar || "");
+    setFormData({
+      username: parsedUser.username || "",
+      phone: parsedUser.type === "phone" ? parsedUser.identifier : "",
+      email: parsedUser.type === "email" ? parsedUser.identifier : "",
+      password: "",
+      confirmPassword: "",
+    });
+
+    try {
+      const response = await fetch(
+        `http://localhost/BaiTapNhom/backend/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}, body: ${await response.text()}`);
       }
 
-      setFormData({
-        username: parsedUser.username || "",
-        phone: parsedUser.type === "phone" ? parsedUser.identifier : "",
-        email: parsedUser.type === "email" ? parsedUser.identifier : "",
-        password: "", 
-        confirmPassword: "",
-      });
-    } else {
-      navigate("/");
-    }
-  }, [navigate]);
+      const result = await response.json();
+      if (result.success) {
+        const newUserData = {
+          ...parsedUser,
+          username: result.data.user,
+          identifier: parsedUser.type === "phone" ? result.data.phone : result.data.email,
+          type: parsedUser.type,
+          avatar: result.data.avatarUrl,
+        };
 
+        setUser(newUserData);
+        setAvatarPreview(result.data.avatarUrl || "");
+        setFormData({
+          username: result.data.user || "",
+          phone: result.data.phone || "",
+          email: result.data.email || "",
+          password: "",
+          confirmPassword: "",
+        });
+
+        localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
+      } else {
+        console.error("API error:", result.message);
+        toast.error("Không thể tải thông tin người dùng: " + result.message);
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      toast.error("Lỗi khi tải thông tin người dùng: " + error.message);
+      // Fallback to localStorage data
+    }
+  };
+
+  fetchUserProfile();
+}, [navigate]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -78,93 +121,92 @@ const Profile = () => {
     return true;
   };
   
-  const handleSave = async () => {
-    try {
-      if (formData.password && !validatePassword()) {
-        return;
-      }
+const handleSave = async () => {
+  try {
+    if (formData.password && !validatePassword()) {
+      return;
+    }
 
-      const formDataToSend = new FormData();
-      formDataToSend.append("username", formData.username);
-      formDataToSend.append("phone", formData.phone);
-      formDataToSend.append("email", formData.email);
+    const formDataToSend = new FormData();
+    formDataToSend.append("username", formData.username);
+    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("email", formData.email);
+    
+    if (formData.password) {
+      formDataToSend.append("password", formData.password);
+      formDataToSend.append("confirmPassword", formData.confirmPassword);
+    }
+    
+    formDataToSend.append("currentIdentifier", user.identifier);
+    formDataToSend.append("currentType", user.type);
+
+    if (avatar) {
+      formDataToSend.append("avatar", avatar);
+    }
+    
+    console.log("Sending form data:", Object.fromEntries(formDataToSend));
+    
+    const response = await fetch(
+      "http://localhost/BaiTapNhom/backend/update-profile.php",
+      {
+        method: "POST",
+        body: formDataToSend,
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+    }
+
+    const result = await response.json();
+    console.log("Response from server:", result);
+
+    if (result.success) {
+      // Giữ avatar cũ nếu không có avatar mới từ server
+      let newAvatarUrl = user.avatar; // Mặc định là avatar hiện tại
+      
+      if (result.avatarUrl) {
+        newAvatarUrl = result.avatarUrl;
+        setAvatarPreview(result.avatarUrl);
+      } else {
+        // Nếu không upload avatar mới, lấy avatar hiện tại từ server
+        const avatarPattern = `http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_${user.identifier}.*`;
+        newAvatarUrl = newAvatarUrl || null; // Giữ null nếu không có avatar
+      }
+      
+      // Tạo dữ liệu user mới
+      const newUserData = {
+        ...user,
+        username: formData.username,
+        identifier: user.type === "phone" ? formData.phone : formData.email,
+        type: user.type,
+        avatar: newAvatarUrl, // Cập nhật avatar
+      };
       
       if (formData.password) {
-        formDataToSend.append("password", formData.password);
-        formDataToSend.append("confirmPassword", formData.confirmPassword);
+        newUserData.password = formData.password;
       }
+
+      console.log("Updating user data in localStorage:", newUserData);
       
-      formDataToSend.append("currentIdentifier", user.identifier);
-      formDataToSend.append("currentType", user.type);
-
-      if (avatar) {
-        formDataToSend.append("avatar", avatar);
-      }
+      localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
+      setUser(newUserData);
+      setIsEditing(false);
       
-      console.log("Sending form data:", Object.fromEntries(formDataToSend));
-      
-      const response = await fetch(
-        "http://localhost/BaiTapNhom/backend/update-profile.php",
-        {
-          method: "POST",
-          body: formDataToSend,
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
-      }
-
-      const result = await response.json();
-      console.log("Response from server:", result);
-
-      if (result.success) {
-        // Nếu có avatar mới từ server
-        let newAvatarUrl = user.avatar; // Giữ nguyên avatar hiện tại nếu không có mới
-        
-        if (result.avatarUrl) {
-          // Nếu server trả về URL avatar mới
-          newAvatarUrl = result.avatarUrl;
-          setAvatarPreview(result.avatarUrl);
-        }
-        
-        // Tạo dữ liệu user mới để lưu vào localStorage
-        const newUserData = {
-          ...user,
-          username: formData.username,
-          identifier: user.type === "phone" ? formData.phone : formData.email,
-          type: user.type,
-          avatar: newAvatarUrl, // Cập nhật avatar nếu có
-        };
-        
-        // Nếu có mật khẩu mới, cập nhật
-        if (formData.password) {
-          newUserData.password = formData.password;
-        }
-
-        console.log("Updating user data in localStorage:", newUserData);
-        
-        // Lưu dữ liệu người dùng mới vào localStorage
-        localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
-        
-        // Cập nhật state
-        setUser(newUserData);
-        setIsEditing(false);
-        
-        toast.success("Cập nhật thông tin thành công!");
-      } else {
-        throw new Error(result.message || "Cập nhật thất bại");
-      }
-    } catch (error) {
-      console.error("Lỗi khi cập nhật profile:", error);
-      toast.error(
-        "Cập nhật thông tin thất bại. Vui lòng thử lại! Chi tiết: " +
-          error.message
-      );
+      toast.success("Cập nhật thông tin thành công!");
+    } else {
+      throw new Error(result.message || "Cập nhật thất bại");
     }
-  };
+  } catch (error) {
+    console.error("Lỗi khi cập nhật profile:", error);
+    toast.error(
+      "Cập nhật thông tin thất bại. Vui lòng thử lại! Chi tiết: " +
+        error.message
+    );
+  }
+};
 
   if (!user) return <div>Đang tải...</div>;
 
@@ -174,18 +216,15 @@ const Profile = () => {
 
       <div className="profile-info">
         <div className="profile-avatar-section">
-          <div className="avatar-container">
-            {avatarPreview ? (
-              <img src={avatarPreview} alt="Avatar" />
-            ) : user.avatar ? (
-              <img src={user.avatar} alt="Avatar" />
-            ) : (
-              <div className="default-avatar">
-                <User size={141} color="#7f8c8d" />
-              </div>
-            )}
-          </div>
-
+<div className="avatar-container">
+  {avatarPreview ? (
+    <img src={avatarPreview} alt="Avatar" onError={() => setAvatarPreview("")} />
+  ) : user.avatar ? (
+    <img src={user.avatar} alt="Avatar" onError={() => setAvatarPreview("")} />
+  ) : (
+    <img src="/path/to/default-avatar.png" alt="Default Avatar" />
+  )}
+</div>
           {isEditing && (
             <div className="avatar-upload">
               <label htmlFor="avatar-upload">
@@ -197,16 +236,17 @@ const Profile = () => {
                 accept="image/*"
                 onChange={handleAvatarChange}
               />
-              <button
-                type="button"
-                className="remove-avatar-button"
-                onClick={() => {
-                  setAvatar(null);
-                  setAvatarPreview("");
-                }}
-              >
-                Xóa ảnh đại diện
-              </button>
+<button
+  type="button"
+  className="remove-avatar-button"
+  onClick={() => {
+    setAvatar(null);
+    setAvatarPreview("");
+  }}
+>
+  Xóa ảnh đại diện
+</button>
+
             </div>
           )}
         </div>

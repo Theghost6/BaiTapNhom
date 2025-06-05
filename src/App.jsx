@@ -50,6 +50,7 @@ const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
 const Blog = lazy(() => import("./page/funtion/Blog"));
 const Invoice = lazy(() => import("./page/funtion/Invoice"));
+const Wishlist = lazy(() => import("./page/funtion/Wishlist"));
 
 // NotFound component
 const NotFound = () => (
@@ -61,7 +62,7 @@ const NotFound = () => (
     transition={{ duration: 0.5 }}
   >
     <h2>404 - Trang không tìm thấy</h2>
-    <p>Xin lỗi, trang bạn đang tìm không tồn tại.</p>
+    <p>Xin lỗi, trang bạn đang tìm không tồn tại!</p>
     <button onClick={() => (window.location.href = "/")}>
       Quay về trang chủ
     </button>
@@ -295,6 +296,20 @@ const App = () => {
                           transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
                           <LichSuDonHang />
+                        </motion.div>
+                      }
+                    />
+                    <Route
+                      path="/wishlist"
+                      element={
+                        <motion.div
+                          key="wishlist"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.5, ease: "easeInOut" }}
+                        >
+                          <Wishlist />
                         </motion.div>
                       }
                     />
