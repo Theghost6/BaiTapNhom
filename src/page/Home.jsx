@@ -156,7 +156,7 @@ const Home = () => {
       ten: "CPU Intel Core Ultra 9 285K",
       hang: "INTEL",
       gia: 17290000,
-      images: ["/photos/intel.jpg"],
+      images: ["/photos/e.jpg"],
     },
     {
       id: "cool001",

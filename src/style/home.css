@@ -542,13 +542,19 @@
   left: 0;
   width: 100%;
   padding: 14px 16px;
-  color: #FFFFFF; /* Chữ trắng */
+  color: #FFFFFF;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); /* Gradient đen nhẹ */
   opacity: 0;
   transform: translateY(100%);
   transition: all 0.3s ease;
   z-index: 2;
-  border-left: 2px solid #1E4D7A; /* Viền xanh đậm */
+  border-left: 2px solid #1E4D7A;
+}
+
+.products-card:hover .products-details {
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 0 6px rgba(30, 77, 122, 0.3);
 }
 
 .products-name {

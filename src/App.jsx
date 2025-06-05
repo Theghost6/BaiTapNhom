@@ -50,7 +50,7 @@ const LichSuDonHang = lazy(() => import("./page/funtion/Lich_Su_DH"));
 const Developer = lazy(() => import("./page/funtion/Developer"));
 const Blog = lazy(() => import("./page/funtion/Blog"));
 const Invoice = lazy(() => import("./page/funtion/Invoice"));
-const Wishlist = lazy(() => import("./page/funtion/Wishlist")); // Fixed case
+const Wishlist = lazy(() => import("./page/funtion/Wishlist"));
 
 // NotFound component
 const NotFound = () => (
