@@ -397,6 +397,7 @@ function HomeManager({ handleDelete }) {
       setData(response.data.data || []);
     } catch (error) {
       console.error('Error fetching data:', error);
+      alert(`Lỗi tải dữ liệu: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -439,7 +440,11 @@ const normalized = normalizeItem(newItem);
 };
   const handleEdit = (item) => {
     setEditingId(item.id);
-    setEditItem(item);
+    // Convert trang_thai to boolean for checkbox
+    setEditItem({
+      ...item,
+      trang_thai: item.trang_thai === 1 || item.trang_thai === 'active'
+    });
   };
 
   const handleUpdate = async () => {
@@ -450,9 +455,13 @@ const normalized = normalizeItem(newItem);
         fetchData(activeTab);
         setEditingId(null);
         setEditItem({});
+        alert('Cập nhật thành công!');
+      } else {
+        alert(response.data.error || 'Có lỗi xảy ra khi cập nhật');
       }
     } catch (error) {
       console.error('Error updating item:', error);
+      alert(`Lỗi cập nhật: ${error.response?.data?.error || error.message}`);
     }
   };
 
@@ -467,9 +476,13 @@ const normalized = normalizeItem(newItem);
           if (response.data.success) {
             fetchData(activeTab);
             setDeleteModal({ isOpen: false, itemId: null, itemType: "", onConfirm: () => {} });
+            alert('Xóa thành công!');
+          } else {
+            alert(response.data.error || 'Có lỗi xảy ra khi xóa');
           }
         } catch (error) {
           console.error('Error deleting item:', error);
+          alert(`Lỗi xóa: ${error.response?.data?.error || error.message}`);
         }
       },
     });
@@ -484,7 +497,7 @@ const normalized = normalizeItem(newItem);
       return (
         <input
           type="checkbox"
-          checked={value || false}
+          checked={!!value} // Ensure boolean for checkbox
           onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.checked })}
         />
       );
@@ -497,18 +510,6 @@ const normalized = normalizeItem(newItem);
           onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
           min="0"
         />
-      );
-    }
-    if (field === 'trang_thai') {
-      return (
-        <select
-          value={value || ''}
-          onChange={(e) => setValue({ ...isEditing ? editItem : newItem, [field]: e.target.value })}
-        >
-          <option value="">Chọn trạng thái</option>
-          <option value="active">Kích hoạt</option>
-          <option value="inactive">Không kích hoạt</option>
-        </select>
       );
     }
     if (field === 'noi_dung') {
@@ -561,7 +562,7 @@ const normalized = normalizeItem(newItem);
           </button>
         </div>
       </div>
-      <div className="component-table-container">
+      <div className="table-container">
         <div className="table-header">
           <h3>Danh sách {activeTab.replace('_', ' ')}</h3>
         </div>
@@ -610,35 +611,8 @@ const normalized = normalizeItem(newItem);
                           item[field]
                         )}
                       </td>
-                    ))}
-                    <td className="action-column">
-                      <div className="action-buttons">
-                        {editingId === item.id ? (
-                          <>
-                            <button className="save-button" onClick={handleUpdate}>
-                              <i className="fas fa-save"></i>
-                            </button>
-                            <button className="cancel-button" onClick={() => setEditingId(null)}>
-                              <i className="fas fa-times"></i>
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button className="edit-button" onClick={() => handleEdit(item)}>
-                              <i className="fas fa-edit"></i>
-                            </button>
-                            <button
-                              className="delete-button"
-                              onClick={() => openDeleteModal(item.id, activeTab.replace('_', ' '))}
-                            >
-                              <i className="fas fa-trash"></i>
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -654,6 +628,8 @@ const normalized = normalizeItem(newItem);
     </div>
   );
 }
+
+
 
 function Admin() {
   const [view, setView] = useState("dashboard");
@@ -1345,7 +1321,7 @@ const orderCompletionPercentage = orders.length
   const activeUsers = users.filter((user) => user.is_active === 1).length;
   const userActivePercentage = users.length > 0 ? (activeUsers / users.length) * 100 : 0;
 
-  const positiveReviews = reviews.filter((review) => review.so_so_sao >= 3).length;
+  const positiveReviews = reviews.filter((review) => review.so_sao >= 4).length;
 const positiveReviewPercentage = reviews.length === 0 
   ? 0 
   : (positiveReviews / reviews.length) * 100;
@@ -2204,11 +2180,11 @@ const deleteContact = (id) => {
                   contacts.map((contact) => (
                     <tr key={contact.id}>
                       <td>{contact.id}</td>
-                      <td>{contact.ho_ten}</td>
+                      <td>{contact.ten}</td>
                       <td>{contact.email}</td>
-                      <td>{contact.so_dien_thoai}</td>
+                      <td>{contact.sdt}</td>
                       <td>{contact.noi_dung}</td>
-                      <td>{contact.ngay_gui}</td>
+                      <td>{contact.thoi_gian_gui}</td>
                       <td>
                         <button
                           onClick={() =>

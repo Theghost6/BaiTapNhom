@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
@@ -165,7 +165,7 @@ function handlePut($pdo, $table, $id) {
     
     try {
         // Check if record exists
-        $stmt = $pdo->prepare("SELECT id FROM $table WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id FROM `$table` WHERE id = ?");
         $stmt->execute([$id]);
         if (!$stmt->fetch()) {
             http_response_code(404);
@@ -178,9 +178,9 @@ function handlePut($pdo, $table, $id) {
         $setParts = [];
         
         foreach ($fields as $field) {
-            if (isset($input[$field])) {
+            if (array_key_exists($field, $input)) {
                 $data[] = $input[$field];
-                $setParts[] = "$field = ?";
+                $setParts[] = "`$field` = ?";
             }
         }
         
@@ -193,7 +193,7 @@ function handlePut($pdo, $table, $id) {
         $data[] = $id; // Add ID for WHERE clause
         $setStr = implode(', ', $setParts);
         
-        $stmt = $pdo->prepare("UPDATE $table SET $setStr WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE `$table` SET $setStr WHERE id = ?");
         $stmt->execute($data);
         
         echo json_encode([
@@ -203,10 +203,11 @@ function handlePut($pdo, $table, $id) {
         
     } catch(PDOException $e) {
         http_response_code(500);
+        // Log detailed error for debugging
+        error_log(date('Y-m-d H:i:s') . " - PUT Error on $table/$id: " . $e->getMessage());
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
 }
-
 // DELETE - Delete record
 function handleDelete($pdo, $table, $id) {
     if (!$id) {
