@@ -130,6 +130,18 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                         <img src="./photos/seagate-c.webp" alt="Seagate" className="partner-logo" />
                         <span className="partner-name">Seagate</span>
                       </a>
+                      <a href="https://www.shopee.vn" target="_blank" rel="noopener noreferrer" className="partner-item">
+                        <img src="./photos/shopee-c.webp" alt="Shopee" className="partner-logo" />
+                        <span className="partner-name">Shopee</span>
+                      </a>
+                      <a href="https://cellphones.com.vn" target="_blank" rel="noopener noreferrer" className="partner-item">
+                        <img src="./photos/CellphoneS-c.jpg" alt="CellphoneS" className="partner-logo" />
+                        <span className="partner-name">CellphoneS</span>
+                      </a>
+                      <a href="https://www.thegioididong.com" target="_blank" rel="noopener noreferrer" className="partner-item">
+                        <img src="./photos/thegioididong.jpg" alt="MobileWorld" className="partner-logo" />
+                        <span className="partner-name">Thế giới di động</span>
+                      </a>
                     </div>
                   </motion.div>
                 )}
