@@ -5,9 +5,22 @@ import urllib.parse
 import html
 from flask_cors import CORS
 import datetime
+from flask_limiter.errors import RateLimitExceeded
+
 
 app = Flask(__name__)
 CORS(app)
+
+@app.errorhandler(RateLimitExceeded)
+def handle_rate_limit(e):
+    ip = request.remote_addr
+    path = request.path
+    reason = "DOS - Rate limit exceeded"
+    data = {}
+    log_blocked(ip, path, reason, data)
+    return jsonify({"success": False, "message": "Too many requests, please slow down"}), 429
+
+
 
 # SQLi pattern bổ sung (nếu muốn)
 SQLI_PATTERNS = [
@@ -29,8 +42,13 @@ DANGEROUS_CHARS = ["'", '"', ";", "--", "/*", "*/", "#", "\\", "%00", "%", "=", 
 
 # Hàm log lại request bị chặn
 def log_blocked(ip, path, reason, data):
-    with open("waf_log.txt", "a") as f:
-        f.write(f"[{datetime.datetime.now()}] BLOCKED {ip} {path} - Reason: {reason} - Data: {data}\n")
+    try:
+        with open("waf_log.txt", "a", encoding="utf-8") as f:
+            f.write(f"[{datetime.datetime.now()}] BLOCKED {ip} {path} - Reason: {reason} - Data: {data}\n")
+        print(f"Logged block: {ip} {path} {reason}")
+    except Exception as e:
+        print(f"Error writing log: {e}")
+
 
 # Hàm normalize: decode nhiều lớp + xóa comment + chuẩn hóa khoảng trắng
 def normalize(text):

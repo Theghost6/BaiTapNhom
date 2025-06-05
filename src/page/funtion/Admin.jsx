@@ -374,14 +374,14 @@ function HomeManager({ handleDelete }) {
   const apiUrl = 'http://localhost/BaiTapNhom/backend/tt_home.php';
 
   const tables = {
-    banner: ['hinh_anh', 'thu_tu', 'is_active'],
+    banner: ['hinh_anh', 'thu_tu', 'trang_thai'],
     footer: ['noi_dung', 'tac_gia', 'ban_quyen', 'dia_diem', 'ten_lop', 'ten_truong', 'trang_thai'],
     top_menu: ['ten', 'url', 'thu_tu', 'trang_thai'],
     chu_chay: ['noi_dung', 'toc_do', 'trang_thai']
   };
 
   const tableLabels = {
-    banner: { hinh_anh: 'Hình ảnh (URL)', thu_tu: 'Thứ tự', is_active: 'Kích hoạt' },
+    banner: { hinh_anh: 'Hình ảnh (URL)', thu_tu: 'Thứ tự', trang_thai: 'Kích hoạt' },
     footer: {
       noi_dung: 'Nội dung', tac_gia: 'Tác giả', ban_quyen: 'Bản quyền',
       dia_diem: 'Địa điểm', ten_lop: 'Tên lớp', ten_truong: 'Tên trường', trang_thai: 'Trạng thái'
@@ -409,18 +409,34 @@ function HomeManager({ handleDelete }) {
     setEditItem({});
   }, [activeTab]);
 
-  const handleAdd = async () => {
-    try {
-      const response = await axios.post(`${apiUrl}?path=${activeTab}`, newItem);
-      if (response.data.success) {
-        fetchData(activeTab);
-        setNewItem({});
-      }
-    } catch (error) {
-      console.error('Error adding item:', error);
-    }
-  };
+  const normalizeItem = (item) => {
+  const copy = { ...item };
+  if (copy.trang_thai === "active") copy.trang_thai = 1;
+  else if (copy.trang_thai === "inactive") copy.trang_thai = 0;
+  return copy;
+};
 
+  const handleAdd = async () => {
+  try {
+    // Validate required fields
+    if (activeTab === 'chu_chay' && !newItem.noi_dung) {
+      alert('Nội dung là bắt buộc');
+      return;
+    }
+const normalized = normalizeItem(newItem);
+    const response = await axios.post(`${apiUrl}?path=${activeTab}`, normalized);
+    if (response.data.success) {
+      fetchData(activeTab);
+      setNewItem({});
+      alert('Thêm thành công!');
+    } else {
+      alert(response.data.error || 'Có lỗi xảy ra khi thêm');
+    }
+  } catch (error) {
+    console.error('Error adding item:', error);
+    alert(`Lỗi: ${error.response?.data?.error || error.message}`);
+  }
+};
   const handleEdit = (item) => {
     setEditingId(item.id);
     setEditItem(item);
@@ -428,7 +444,8 @@ function HomeManager({ handleDelete }) {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(`${apiUrl}?path=${activeTab}/${editingId}`, editItem);
+      const normalized = normalizeItem(editItem);
+      const response = await axios.put(`${apiUrl}?path=${activeTab}/${editingId}`, normalized);
       if (response.data.success) {
         fetchData(activeTab);
         setEditingId(null);
@@ -463,7 +480,7 @@ function HomeManager({ handleDelete }) {
   };
 
   const renderInput = (field, value, setValue, isEditing = false) => {
-    if (field === 'is_active') {
+    if (field === 'trang_thai') {
       return (
         <input
           type="checkbox"
@@ -514,7 +531,7 @@ function HomeManager({ handleDelete }) {
   return (
     <div className="linh-kien-manager">
       <div className="linh-kien-header">
-        <h2>Quản lý Trang chủ</h2>
+        <h2>Quản lý Giao Diện</h2>
       </div>
       <div className="category-tabs">
         {Object.keys(tables).map((table) => (
@@ -585,10 +602,10 @@ function HomeManager({ handleDelete }) {
                           renderInput(field, editItem[field], setEditItem, true)
                         ) : field === 'hinh_anh' ? (
                           <img src={item[field]} alt="Banner" style={{ width: '50px', height: 'auto' }} />
-                        ) : field === 'is_active' ? (
+                        ) : field === 'trang_thai' ? (
                           item[field] ? 'Có' : 'Không'
                         ) : field === 'trang_thai' ? (
-                          item[field] === 'active' ? 'Kích hoạt' : 'Không kích hoạt'
+                          item[field] === 'active' ? 'Kích hoạt' : ' không kích hoạt'
                         ) : (
                           item[field]
                         )}
@@ -1610,7 +1627,7 @@ const deleteContact = (id) => {
                             }
                             style={{ marginRight: 10 }}
                           >
-                            {user.is_active === 1 ? "Vô hiệu hóa" : "Kích hoạt"}
+                            {user.is_active === 1 ? "Kích hoạt" : "Vô hiệu hóa"}
                           </button>
                           <button
                             onClick={() =>
@@ -2064,6 +2081,7 @@ const deleteContact = (id) => {
 </div>
 )}
 </div>
+
 {selectedLoaiTable && (
   <div className="component-table-container" ref={loaiRefs.current[selectedLoaiTable]}>
     <div className="table-header">
@@ -2089,9 +2107,10 @@ const deleteContact = (id) => {
           <thead>
             <tr>
               <th>ID</th>
-              {getSampleKeys(linhKien, selectedLoaiTable).map((key) => (
-                <th key={key}>{getFieldLabel(key)}</th>
-              ))}
+              <th>Tên sản phẩm</th>
+              <th>Hãng</th>
+              <th>Giá bán</th>
+              <th>Tồn kho</th>
               <th className="action-column">Hành động</th>
             </tr>
           </thead>
@@ -2108,25 +2127,10 @@ const deleteContact = (id) => {
               .map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
-               {getSampleKeys(linhKien, selectedLoaiTable).map((key) => (
-  <td key={key}>
-    {typeof item[key] === 'object' && item[key] !== null ? (
-      // Handle object case
-      <div className="object-values">
-        {Object.entries(item[key]).map(([subKey, value]) => (
-          <div key={subKey}>{subKey}: {value}</div>
-        ))}
-      </div>
-    ) : (
-      // Handle normal case
-      key === "gia"
-        ? formatPrice(item[key])
-        : key === "so_luong"
-        ? `${item[key]} cái`
-        : item[key] || "N/A"
-    )}
-  </td>
-))}
+                  <td>{item.ten || "N/A"}</td>
+                  <td>{item.hang || "N/A"}</td>
+                  <td>{formatPrice(item.gia)}</td>
+                  <td>{item.so_luong ? `${item.so_luong} cái` : "N/A"}</td>
                   <td className="action-column">
                     <div className="action-buttons">
                       <button
@@ -2241,7 +2245,7 @@ const deleteContact = (id) => {
               className={`sidebar-button ${view === "dashboard" ? "active" : ""}`}
               onClick={() => setView("dashboard")}
             >
-              <i className="fas fa-tachometer-alt"></i> Dashboard
+              <i className="fas fa-tachometer-alt"></i> Trang chủ
             </button>
           </li>
           <li>
@@ -2249,7 +2253,7 @@ const deleteContact = (id) => {
               className={`sidebar-button ${view === "home" ? "active" : ""}`}
               onClick={() => setView("home")}
             >
-              <i className="fas fa-home"></i> Quản lý Trang chủ
+              <i className="fas fa-home"></i> Quản lý Giao Diện
             </button>
           </li>
           <li>

@@ -18,3 +18,7 @@ Content-Type: application/json
 Content-Type: application/json
 {"id_product":"peripheral004","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"good","ngay":"2025-06-04"}
 Content-Type: application/json
+{"id_product":"storage004","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"chưa đặt hàng nhưng vẫn cho 5*","ngay":"2025-06-04"}
+Content-Type: application/json
+{"id_product":"psu003","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"welcome","ngay":"2025-06-04"}
+Content-Type: application/json
