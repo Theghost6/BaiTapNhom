@@ -20,3 +20,5 @@ Review inserted: id_product=peripheral004, time=2025-06-04 03:40:44
 Review inserted: id_product=storage004, time=2025-06-04 07:44:36
 Reply inserted: id_danh_gia=14, time=2025-06-04 07:45:03
 Review inserted: id_product=psu003, time=2025-06-04 07:46:35
+Reply inserted: id_danh_gia=7, time=2025-06-05 06:42:54
+Review inserted: id_product=cpu001, time=2025-06-05 06:47:08

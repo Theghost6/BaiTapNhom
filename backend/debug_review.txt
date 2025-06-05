@@ -22,3 +22,5 @@ Content-Type: application/json
 Content-Type: application/json
 {"id_product":"psu003","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"welcome","ngay":"2025-06-04"}
 Content-Type: application/json
+{"id_product":"cpu001","ten_nguoi_dung":"Admin","so_sao":4,"binh_luan":"sản phẩm ok","ngay":"2025-06-05"}
+Content-Type: application/json

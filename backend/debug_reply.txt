@@ -9,3 +9,4 @@
 {"id_danh_gia":4,"ten_nguoi_tra_loi":"Admin","noi_dung":"ok thanks","ngay":"2025-05-29"}
 {"id_danh_gia":10,"ten_nguoi_tra_loi":"Admin","noi_dung":"seo","ngay":"2025-05-30"}
 {"id_danh_gia":14,"ten_nguoi_tra_loi":"test","noi_dung":"ok thanks","ngay":"2025-06-04"}
+{"id_danh_gia":7,"ten_nguoi_tra_loi":"Admin","noi_dung":"dô lô","ngay":"2025-06-05"}

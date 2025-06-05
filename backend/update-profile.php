@@ -37,7 +37,7 @@ try {
     }
 
     // Xử lý cho cả dữ liệu JSON và form data
-    if ($_SERVER['CONTENT_TYPE'] && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+    if (isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
         $rawData = file_get_contents("php://input");
         file_put_contents($logFile, date('Y-m-d H:i:s') . " - Update Profile Request (JSON): " . $rawData . PHP_EOL, FILE_APPEND);
         $data = json_decode($rawData, true);
@@ -92,6 +92,7 @@ try {
 
     // Xử lý upload ảnh đại diện
     $avatarUrl = null;
+    
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = __DIR__ . '/uploads/avatars/';
         
@@ -100,8 +101,21 @@ try {
             mkdir($uploadDir, 0777, true);
         }
         
-        // Tạo tên file duy nhất
-        $fileName = uniqid('avatar_') . '_' . basename($_FILES['avatar']['name']);
+        // Xóa avatar cũ của user này (nếu có)
+        $oldAvatarPattern = $uploadDir . 'avatar_' . $currentIdentifier . '.*';
+        $oldFiles = glob($oldAvatarPattern);
+        foreach ($oldFiles as $oldFile) {
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
+                file_put_contents($logFile, date('Y-m-d H:i:s') . " - Deleted old avatar: " . $oldFile . PHP_EOL, FILE_APPEND);
+            }
+        }
+        
+        // Lấy extension của file
+        $fileExtension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+        
+        // Tạo tên file theo identifier của user
+        $fileName = 'avatar_' . $currentIdentifier . '.' . $fileExtension;
         $uploadFile = $uploadDir . $fileName;
         
         // Kiểm tra loại file
@@ -118,7 +132,7 @@ try {
         }
         
         if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
-            // Sửa URL để truy cập ảnh - đảm bảo đường dẫn đầy đủ và chính xác
+            // Tạo URL để truy cập ảnh
             $avatarUrl = 'http://localhost/BaiTapNhom/backend/uploads/avatars/' . $fileName;
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Uploaded avatar: " . $avatarUrl . PHP_EOL, FILE_APPEND);
         } else {
@@ -126,7 +140,7 @@ try {
         }
     }
 
-    // Cập nhật thông tin trong cơ sở dữ liệu
+    // Cập nhật thông tin trong cơ sở dữ liệu (KHÔNG bao gồm avatar)
     $updateQuery = "UPDATE dang_ky SET user = ?, phone = ?, email = ?";
     $paramTypes = "sss";
     $params = [$username, $phone, $email];
@@ -148,9 +162,19 @@ try {
     if ($stmt->execute()) {
         $response = ['success' => true, 'message' => 'Cập nhật thông tin thành công'];
         
-        // Trả về URL avatar nếu có
+        // Trả về URL avatar nếu có upload mới
         if ($avatarUrl) {
             $response['avatarUrl'] = $avatarUrl;
+        } else {
+            // Kiểm tra xem có avatar cũ không
+            $avatarDir = __DIR__ . '/uploads/avatars/';
+            $avatarPattern = $avatarDir . 'avatar_' . $currentIdentifier . '.*';
+            $existingAvatars = glob($avatarPattern);
+            
+            if (!empty($existingAvatars)) {
+                $existingAvatar = basename($existingAvatars[0]);
+                $response['avatarUrl'] = 'http://localhost/BaiTapNhom/backend/uploads/avatars/' . $existingAvatar;
+            }
         }
         
         echo json_encode($response);
@@ -166,5 +190,68 @@ try {
     echo json_encode(['success' => false, 'message' => $errorMessage]);
 } finally {
     ob_end_flush();
+}
+
+// Function để lấy avatar của user
+function getUserAvatar($identifier) {
+    $avatarDir = __DIR__ . '/uploads/avatars/';
+    $avatarPattern = $avatarDir . 'avatar_' . $identifier . '.*';
+    $existingAvatars = glob($avatarPattern);
+    
+    if (!empty($existingAvatars)) {
+        $existingAvatar = basename($existingAvatars[0]);
+        return 'http://localhost/BaiTapNhom/backend/uploads/avatars/' . $existingAvatar;
+    }
+    
+    return null;
+}
+// Trong phần xử lý dữ liệu đầu vào
+$removeAvatar = isset($data['removeAvatar']) && $data['removeAvatar'] === 'true';
+
+// Xử lý upload ảnh đại diện
+$avatarUrl = null;
+
+if ($removeAvatar) {
+    // Xóa avatar cũ
+    $avatarDir = __DIR__ . '/uploads/avatars/';
+    $avatarPattern = $avatarDir . 'avatar_' . $currentIdentifier . '.*';
+    $existingAvatars = glob($avatarPattern);
+    foreach ($existingAvatars as $oldFile) {
+        if (file_exists($oldFile)) {
+            unlink($oldFile);
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Deleted avatar: " . $oldFile . PHP_EOL, FILE_APPEND);
+        }
+    }
+} elseif (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+    // Xử lý upload ảnh mới (giữ nguyên code hiện tại)
+    $uploadDir = __DIR__ . '/uploads/avatars/';
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    $oldAvatarPattern = $uploadDir . 'avatar_' . $currentIdentifier . '.*';
+    $oldFiles = glob($oldAvatarPattern);
+    foreach ($oldFiles as $oldFile) {
+        if (file_exists($oldFile)) {
+            unlink($oldFile);
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Deleted old avatar: " . $oldFile . PHP_EOL, FILE_APPEND);
+        }
+    }
+    $fileExtension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+    $fileName = 'avatar_' . $currentIdentifier . '.' . $fileExtension;
+    $uploadFile = $uploadDir . $fileName;
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    $fileType = $_FILES['avatar']['type'];
+    if (!in_array($fileType, $allowedTypes)) {
+        throw new Exception("Loại file không được hỗ trợ. Chỉ chấp nhận JPG, PNG và GIF.");
+    }
+    if ($_FILES['avatar']['size'] > 5 * 1024 * 1024) {
+        throw new Exception("Kích thước file quá lớn (tối đa 5MB).");
+    }
+    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
+        $avatarUrl = 'http://localhost/BaiTapNhom/backend/uploads/avatars/' . $fileName;
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Uploaded avatar: " . $avatarUrl . PHP_EOL, FILE_APPEND);
+    } else {
+        throw new Exception("Không thể tải lên ảnh đại diện.");
+    }
 }
 ?>

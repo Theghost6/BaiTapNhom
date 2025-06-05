@@ -12,6 +12,7 @@ import {
   Instagram,
   Linkedin,
   PhoneCall,
+  Heart,
 } from "lucide-react";
 import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -20,31 +21,33 @@ import { FaBars, FaBlogger } from "react-icons/fa";
 import "../style/header.css";
 import products from "../page/funtion/Linh_kien.json";
 import { useCart } from "../page/funtion/useCart";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const allProducts = Object.values(products).flat();
 
-
 // Định nghĩa cấu trúc danh mục phân cấp
 const menuCategories = {
-  "CPU": {
+  CPU: {
     items: allProducts.filter(item => item.danh_muc === "CPU")
   },
-  "Mainboard": {
+  Mainboard: {
     items: allProducts.filter(item => item.danh_muc === "Mainboard")
   },
-  "RAM": {
+  RAM: {
     items: allProducts.filter(item => item.danh_muc === "RAM")
   },
   "Ổ cứng": {
     items: allProducts.filter(item => item.danh_muc === "Storage")
   },
-  "VGA": {
+  VGA: {
     items: allProducts.filter(item => item.danh_muc === "GPU")
   },
-  "PSU": {
+  PSU: {
     items: allProducts.filter(item => item.danh_muc === "PSU")
   },
-  "Case": {
+  Case: {
     items: allProducts.filter(item => item.danh_muc === "Case")
   },
   "Tản nhiệt": {
@@ -66,6 +69,8 @@ const Header = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [menuError, setMenuError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [wishlistError, setWishlistError] = useState(null);
 
   const headerRef = useRef(null);
   const userDropdownRef = useRef(null);
@@ -77,74 +82,62 @@ const Header = () => {
 
   const USER_KEY = "user";
 
-  // Fetch top_menu items from API
+  // Check auth status and fetch user profile
   useEffect(() => {
-    const fetchMenuItems = async () => {
-      setIsLoading(true);
-      setMenuError(null);
-      
-      try {
-        console.log('Fetching menu items...');
-        const response = await fetch('http://localhost/BaiTapNhom/backend/tt_home.php?path=top_menu', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        
-        console.log('Response status:', response.status);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('Response data:', data);
-        
-        if (data.success && Array.isArray(data.data)) {
-          // Filter active items (trang_thai = 1) and sort by thu_tu
-          const activeItems = data.data
-            .filter(item => item.trang_thai == 1) // Use == for loose comparison
-            .sort((a, b) => parseInt(a.thu_tu) - parseInt(b.thu_tu));
-          
-          console.log('Active items:', activeItems);
-          setMenuItems(activeItems);
-        } else {
-          console.error('API returned error:', data);
-          setMenuError(data.error || 'Failed to load menu items');
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        setMenuError('Error fetching menu items: ' + error.message);
-        
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchMenuItems();
-  }, []);
+    const checkAuthStatus = async () => {
+      const userData = localStorage.getItem(USER_KEY);
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          parsedUser.role = parsedUser.role || "user";
+          setIsLoggedIn(true);
+          setUser(parsedUser);
 
-  const checkAuthStatus = () => {
-    const userData = localStorage.getItem(USER_KEY);
-    if (userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        parsedUser.role = parsedUser.role || "user";
-        setIsLoggedIn(true);
-        setUser(parsedUser);
-      } catch {
-        localStorage.removeItem(USER_KEY);
+          // Fetch latest user data from server
+          try {
+            const response = await fetch(
+              `http://localhost/BaiTapNhom/backend/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
+              {
+                method: "GET",
+                credentials: "include",
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}, body: ${await response.text()}`);
+            }
+
+            const result = await response.json();
+            if (result.success) {
+              const newUserData = {
+                ...parsedUser,
+                username: result.data.user,
+                identifier: parsedUser.type === "phone" ? result.data.phone : result.data.email,
+                type: parsedUser.type,
+                avatar: result.data.avatarUrl,
+              };
+
+              setUser(newUserData);
+              localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
+            } else {
+              console.error("API error:", result.message);
+              toast.error("Không thể tải thông tin người dùng '" + result.message + "'");
+            }
+          } catch (error) {
+            console.error("Error fetching user profile:", error);
+            toast.error("Lỗi khi tải thông tin người dùng: " + error.message);
+          }
+        } catch {
+          localStorage.removeItem(USER_KEY);
+          setIsLoggedIn(false);
+          setUser(null);
+        }
+      } else {
         setIsLoggedIn(false);
         setUser(null);
       }
-    } else {
-      setIsLoggedIn(false);
-      setUser(null);
-    }
-  };
+    };
 
-  useEffect(() => {
     checkAuthStatus();
     const handleStorageChange = (event) => {
       if (event.key === USER_KEY) {
@@ -155,23 +148,102 @@ const Header = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, [location]);
 
+  // Fetch top_menu items from API
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      setIsLoading(true);
+      setMenuError(null);
+      
+      try {
+        const response = await fetch('http://localhost/BaiTapNhom/backend/tt_home.php?path=top_menu', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success && Array.isArray(data.data)) {
+          const activeItems = data.data
+            .filter(item => item.trang_thai == 1)
+            .sort((a, b) => parseInt(a.thu_tu) - parseInt(b.thu_tu));
+          
+          setMenuItems(activeItems);
+        } else {
+          setMenuError(data.error || 'Failed to load menu items');
+        }
+      } catch (error) {
+        setMenuError('Error fetching menu items: ' + error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchMenuItems();
+  }, []);
+
+  // Fetch wishlist items from API
+  useEffect(() => {
+    if (!isLoggedIn || !user?.id) return;
+
+    const fetchWishlistItems = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost/BaiTapNhom/backend/wishlist.php?ma_nguoi_dung=${user.id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success && Array.isArray(data.items)) {
+          const wishlistProducts = data.items.map(item => {
+            const product = allProducts.find(p => p.id === item.id_product);
+            return product ? { ...product, wishlistId: item.id } : null;
+          }).filter(item => item !== null);
+          setWishlistItems(wishlistProducts);
+        } else {
+          setWishlistError(data.message || 'Không thể tải danh sách yêu thích');
+        }
+      } catch (error) {
+        setWishlistError('Lỗi khi tải danh sách yêu thích: ' + error.message);
+      }
+    };
+
+    fetchWishlistItems();
+  }, [isLoggedIn, user?.id]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
+      }
+      
+      if (categoryMenuRef.current && !categoryMenuRef.current.contains(event.target)) {
+        setSelectedCategory(null);
+      }
+      
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setShowLocationPopup(false);
       }
     };
 
-    if (showLocationPopup) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showLocationPopup]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
 
@@ -180,6 +252,7 @@ const Header = () => {
     setIsLoggedIn(false);
     setUser(null);
     setShowUserDropdown(false);
+    setWishlistItems([]);
     navigate("/");
   };
 
@@ -192,7 +265,6 @@ const Header = () => {
   };
 
   const handleMenuItemClick = (item) => {
-    // Special handling for "Tư vấn" or equivalent menu item
     if (item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult") {
       setShowLocationPopup(!showLocationPopup);
     } else if (item.url && item.url !== '#') {
@@ -285,7 +357,6 @@ const Header = () => {
             )}
           </div>
 
-          {/* Menu Loading/Error State */}
           {isLoading && (
             <div className="menu-loading" style={{ color: '#666', marginLeft: '10px' }}>
               Đang tải menu...
@@ -298,14 +369,13 @@ const Header = () => {
             </div>
           )}
 
-          {/* Dynamic Menu Items */}
           {!isLoading && menuItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleMenuItemClick(item)}
               className={
                 item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult"
-                  ? "consult-selector"
+                  ? "consult-selector-btn"
                   : item.ten.toLowerCase() === "nhà phát triển" || item.ten.toLowerCase() === "developer"
                   ? "developer-button"
                   : item.ten.toLowerCase() === "liên hệ" || item.ten.toLowerCase() === "contact"
@@ -324,7 +394,7 @@ const Header = () => {
                     strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .56 2.57 2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.6-.6a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.57.56A2 2 0 0 1 22 16.92z"></path>
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.09 5.62A2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 11.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
                   <span>{item.ten}</span>
                 </>
@@ -409,42 +479,45 @@ const Header = () => {
                 </button>
                 {showUserDropdown && (
                   <div className="user-dropdown">
-                    <Link to="/Profile" className="dropdown-item">
-                      <UserCircle size={16} /> Thông tin cá nhân
+                    <Link to="/Profile" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                      <UserCircle size={16} /> 
+                      <span>Thông tin cá nhân</span>
                     </Link>
-                    <Link to="/cart" className="dropdown-item">
+                    <Link to="/cart" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
                       <div style={{ position: "relative", display: "inline-block" }}>
                         <ShoppingBag size={16} />
                         {totalQuantity > 0 && (
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: "-8px",
-                              right: "-10px",
-                              backgroundColor: "red",
-                              color: "white",
-                              borderRadius: "50%",
-                              padding: "1px 5px",
-                              fontSize: "9px",
-                              fontWeight: "bold",
-                            }}
-                          >
+                          <span className="badge">
                             {totalQuantity}
                           </span>
                         )}
                       </div>
-                      Đơn hàng của tôi
+                      <span>Đơn hàng của tôi</span>
                     </Link>
-                    <Link to="/lich_su_don_hang" className="dropdown-item">
-                      <History size={16} /> Lịch sử đơn hàng
+                    <Link to="/lich_su_don_hang" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                      <History size={16} /> 
+                      <span>Lịch sử đơn hàng</span>
+                    </Link>
+                    <Link to="/wishlist" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                      <div style={{ position: "relative", display: "inline-block" }}>
+                        <Heart size={16} />
+                        {wishlistItems.length > 0 && (
+                          <span className="badge">
+                            {wishlistItems.length}
+                          </span>
+                        )}
+                      </div>
+                      <span>Yêu thích</span>
                     </Link>
                     {user?.role === "admin" && (
                       <>
-                        <Link to="/admin" className="dropdown-item">
-                          <User size={16} /> Quản trị viên
+                        <Link to="/admin" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                          <User size={16} /> 
+                          <span>Quản trị viên</span>
                         </Link>
-                        <Link to="/tracuu" className="dropdown-item">
-                          <FiPackage size={16} /> Tra cứu đơn hàng
+                        <Link to="/tracuu" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                          <FiPackage size={16} /> 
+                          <span>Tra cứu đơn hàng</span>
                         </Link>
                       </>
                     )}
@@ -452,14 +525,15 @@ const Header = () => {
                       onClick={handleLogout}
                       className="dropdown-item logout-button"
                     >
-                      <LogOut size={16} /> Đăng xuất
+                      <LogOut size={16} /> 
+                      <span>Đăng xuất</span>
                     </button>
                   </div>
                 )}
               </div>
             ) : (
               <div className="user-actions">
-                <span className =" Separator">|</span>
+                <span className="Separator">|</span>
                 <Link to="/register">
                   <User size={24} />
                 </Link>
@@ -468,6 +542,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </header>
   );
 };
