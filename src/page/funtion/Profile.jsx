@@ -47,7 +47,6 @@ useEffect(() => {
         `http://localhost/BaiTapNhom/backend/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
         {
           method: "GET",
-          credentials: "include",
         }
       );
 
@@ -151,7 +150,6 @@ const handleSave = async () => {
       {
         method: "POST",
         body: formDataToSend,
-        credentials: "include",
       }
     );
 
