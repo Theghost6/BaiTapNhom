@@ -128,7 +128,7 @@
 
 .slide-description {
   font-size: 1.25rem;
-  color: #000000; /* Chữ đen */
+  color: #B0E0E6; /* Chữ đen */
   margin-bottom: 2rem;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
 }
@@ -158,10 +158,10 @@
 .secondary-button {
   padding: 0.75rem 1.5rem;
   background-color: transparent;
-  border: 2px solid #000000; /* Viền đen */
+  border: 2px solid #B0E0E6; /* Viền đen */
   font-size: 1.125rem;
   font-weight: 600;
-  color: #000000; /* Chữ đen */
+  color: #B0E0E6; /* Chữ đen */
   transition: all 0.3s;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
   text-transform: uppercase;
@@ -171,8 +171,8 @@
 
 .secondary-button:hover {
   background-color: rgba(128, 0, 255, 0.1); /* Nền tím neon nhạt khi hover */
-  border-color: #8000FF; /* Viền tím neon */
-  color: #8000FF; /* Chữ tím neon */
+  border-color: #B0E0E6; /* Viền tím neon */
+  color: #B0E0E6; /* Chữ tím neon */
   transform: scale(1.05);
   box-shadow: 0 0 6px rgba(128, 0, 255, 0.3), 0 0 12px rgba(128, 0, 255, 0.15);
 }
@@ -206,7 +206,7 @@
 }
 
 .active-indicator {
-  background-color: #8000FF; /* Điểm active tím neon */
+  background-color: #B0E0E6; /* Điểm active tím neon */
   box-shadow: 0 0 5px rgba(128, 0, 255, 0.5);
 }
 
@@ -303,7 +303,7 @@
 }
 
 .brandBanner-subtitle span {
-  color: #8000FF; /* Chữ tím neon */
+  color: #B0E0E6; /* Chữ tím neon */
   font-weight: bold;
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
 }
@@ -311,7 +311,7 @@
 .brandBanner-text {
   font-size: 14px;
   font-weight: 700;
-  color: #8000FF; /* Chữ tím neon */
+  color: #B0E0E6; /* Chữ tím neon */
   margin-bottom: 10px;
   line-height: 1.2;
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
@@ -547,7 +547,7 @@
   transform: translateY(100%);
   transition: all 0.3s ease;
   z-index: 2;
-  border-left: 2px solid #8000FF;
+  border-left: 2px solid #B0E0E6;
 }
 
 .products-card:hover .products-details {
@@ -560,7 +560,7 @@
   font-size: 20px;
   font-weight: bold;
   margin: 0;
-  color: #8000FF; /* Tím neon */
+  color: #B0E0E6; /* Tím neon */
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -642,7 +642,7 @@
   .products-details {
     padding: 10px 12px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    border-left: 1px solid #8000FF;
+    border-left: 1px solid #B0E0E6;
   }
 
   .products-name {
@@ -716,7 +716,7 @@
   .products-details {
     padding: 12px 14px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
-    border-left: 1.5px solid #8000FF;
+    border-left: 1.5px solid #B0E0E6;
   }
 
   .products-name {
@@ -751,7 +751,7 @@
   margin: 20px;
   box-shadow: 0 0 6px rgba(128, 0, 255, 0.1);
   border: 1px solid rgba(128, 0, 255, 0.1);
-  border-left: 3px solid #8000FF; /* Viền tím neon */
+  border-left: 3px solid #B0E0E6; /* Viền tím neon */
   position: relative;
 }
 
@@ -898,7 +898,7 @@
   width: 100%;
   max-width: 24rem;
   border: 1px solid rgba(128, 0, 255, 0.15);
-  border-left: 2px solid #8000FF; /* Viền tím neon */
+  border-left: 2px solid #B0E0E6; /* Viền tím neon */
 }
 
 .deals-header {
@@ -948,13 +948,12 @@
   padding: 0.75rem;
   border-radius: 4px;
   transition: background-color 0.3s;
-  border-bottom: 1px solid rgba(128, 0, 255, 0.1);
+  border-bottom: 1px solid #B0E0E6;
 }
 
 .deal-item:hover {
-  background-color: rgba(128, 0, 255, 0.1); /* Nền tím neon nhạt khi hover */
+  background-color: #B0E0E6; /* Nền tím neon nhạt khi hover */
 }
-
 .deal-name {
   font-weight: 500;
   color: #FFFFFF; /* Chữ trắng */
@@ -988,6 +987,73 @@
   font-size: 0.875rem;
 }
 
+@media (max-width: 480px) {
+  .promotion-section {
+    padding: 2rem 1rem;
+    margin: 10px;
+  }
+
+  .promotion-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .promotion-text {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .promotion-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .promotion-description {
+    font-size: 1rem;
+  }
+
+  .promotion-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .promotion-primary-button,
+  .promotion-secondary-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  .promotion-deals {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .deals-card {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .deals-title {
+    font-size: 1.25rem;
+  }
+
+  .deal-name {
+    font-size: 0.875rem;
+  }
+
+  .deal-price {
+    font-size: 0.875rem;
+  }
+
+  .trend-value {
+    font-size: 0.75rem;
+  }
+}
+
+
 /* Services */
 .services-section {
   padding-top: 4rem;
@@ -1007,13 +1073,12 @@
 }
 
 .service-card {
-  background-color: rgba(0, 0, 0, 0.7); /* Nền đen mờ */
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.5)); /* Gradient đen và trắng nhẹ */
   border-radius: 4px;
   padding: 2rem;
   box-shadow: 0 0 5px rgba(128, 0, 255, 0.15);
   text-align: center;
-  border: 1px solid rgba(128, 0, 255, 0.15);
-  border-top: 2px solid #8000FF; /* Viền tím neon */
+  /* border-top: 2px solid #B0E0E6; */
 }
 
 .service-icon {
@@ -1048,7 +1113,7 @@
     padding: 1.5rem;
     box-shadow: 0 0 4px rgba(128, 0, 255, 0.1);
     border: 1px solid rgba(128, 0, 255, 0.1);
-    border-top: 1.5px solid #8000FF;
+    border-top: 1.5px solid #B0E0E6;
   }
 
   .service-icon {
@@ -1090,7 +1155,7 @@
   display: block;
   margin: 40px auto 40px;
   font-size: 16px;
-  color: #8000FF; /* Phụ đề tím neon */
+  color: #B0E0E6; /* Phụ đề tím neon */
   text-decoration: none;
   font-weight: 500;
   position: relative;
@@ -1164,7 +1229,7 @@
 .news-category {
   font-size: 12px;
   text-transform: uppercase;
-  color: #8000FF; /* Danh mục tím neon */
+  color: #B0E0E6; /* Danh mục tím neon */
 }
 
 .news-title {
@@ -1623,6 +1688,19 @@
   text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
+@media (max-width: 480px) {
+  .background-text {
+    font-size: 50px;
+    top: 45%;
+  }
+
+  .content h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+}
+
+
 .view-all {
   display: inline-block;
   margin-top: 5px;
@@ -1757,7 +1835,7 @@
 }
 
 .uudai-stars {
-  color: #FFFFFF; /* Sao trắng */
+  color: #333333; /* Sao trắng */
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -1851,6 +1929,77 @@
   object-fit: cover;
   border-radius: 4px;
 }
+
+@media (max-width: 480px) {
+  .uudai {
+    padding: 0 0.5rem;
+    margin-top: 60px;
+  }
+
+  .uudai-title {
+    font-size: 24px;
+  }
+
+  .background-text-deal {
+    font-size: 50px;
+  }
+
+  .uudai-wrapper {
+    flex-direction: column;
+  }
+
+  .uudai-left,
+  .uudai-right {
+    width: 100%;
+  }
+
+  .uudai-right {
+    grid-template-columns: 1fr;
+  }
+
+  .uudai-main-image {
+    height: 160px;
+  }
+
+  .uudai-product-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .uudai-name {
+    font-size: 13px;
+    height: auto;
+    -webkit-line-clamp: 3;
+  }
+
+  .uudai-desc {
+    font-size: 13px;
+  }
+
+  .uudai-price,
+  .uudai-old-price {
+    font-size: 13px;
+  }
+
+  .countdown-box {
+    padding: 6px 8px;
+    min-width: 50px;
+  }
+
+  .countdown-value {
+    font-size: 16px;
+  }
+
+  .countdown-label {
+    font-size: 10px;
+  }
+
+  .countdown-separator {
+    font-size: 18px;
+    margin: 0 3px;
+  }
+}
+
 
 @media (max-width: 768px) {
   .uudai-wrapper {
@@ -2093,7 +2242,7 @@
 .slider-title {
   font-size: 20px;
   font-weight: bold;
-  color: #CCCCCC; /* Tiêu đề xám nhạt */
+  color: #B0E0E6; /* Tiêu đề xám nhạt */
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 1px;

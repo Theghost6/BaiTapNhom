@@ -836,3 +836,34 @@ body {
 .dropdown-item:hover .badge {
   transform: scale(1.1);
 }
+
+
+@media (max-width: 320px) {
+  .category-menu,
+  .contact-button,
+  .consult-selector-btn,
+  .developer-button,
+  .menu-button:not(.product-button) {
+    display: none !important;
+  }
+
+  .product-button {
+    font-size: 13px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 320px) {
+  .search-bar-container {
+    flex: 1;
+    min-width: 10px;
+    margin: 0 4px;
+  }
+
+  .search-bar-container input {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+

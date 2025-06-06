@@ -713,9 +713,9 @@ const Home = () => {
               slidesPerView={3} // Hiển thị 3 slide (1 lớn ở giữa, 2 nhỏ ở hai bên)
               coverflowEffect={{
                 rotate: 0, // Không xoay slide
-                stretch: -20, // Kéo các slide gần nhau hơn để tăng hiệu ứng
-                depth: 10, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
-                modifier: 3, // Tăng modifier để phóng đại hiệu ứng
+                stretch: 30, // Kéo các slide gần nhau hơn để tăng hiệu ứng
+                depth: 5, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
+                modifier: 4, // Tăng modifier để phóng đại hiệu ứng
                 slideShadows: false, // Tắt bóng để giao diện sạch
               }}
               spaceBetween={10} // Giảm khoảng cách giữa các slide

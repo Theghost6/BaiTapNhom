@@ -631,13 +631,13 @@
 }
 
 .star-icon {
-  color: #8000FF; /* Neon Purple */
+  color: #f0bf21; /* Neon Purple */
   font-size: 14px;
 }
 
 .half-star {
   position: relative;
-  color: #8000FF; /* Neon Purple */
+  color: #f0bf21; /* Neon Purple */
   font-size: 14px;
 }
 

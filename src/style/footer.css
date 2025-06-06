@@ -54,14 +54,14 @@
 }
 
 .footer-logo-text:hover {
-  color: #8000FF; /* Tím neon khi hover */
+  color: #B0E0E6; /* Tím neon khi hover */
 }
 
 .footer-phone-number a {
   font-family: 'Jost', sans-serif;
   font-weight: bold;
   font-size: 19px;
-  color: #8000FF; /* Link tím neon */
+  color: #B0E0E6; /* Link tím neon */
   line-height: 24px;
   margin-top: -10px;
   text-decoration: none;
@@ -98,7 +98,7 @@
   left: 0;
   width: 30px;
   height: 2px;
-  background: linear-gradient(90deg, #FF0000, #8000FF);
+  background: linear-gradient(90deg, #FF0000, #B0E0E6);
   transition: width 0.3s ease;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .footer-links li a:hover {
-  color: #8000FF; /* Link tím neon khi hover */
+  color: #B0E0E6; /* Link tím neon khi hover */
   transform: translateX(4px);
 }
 
@@ -181,7 +181,7 @@
 }
 
 .terms-links a:hover {
-  color: #8000FF; /* Link tím neon khi hover */
+  color: #B0E0E6; /* Link tím neon khi hover */
   transform: translateY(-2px);
 }
 
@@ -211,7 +211,7 @@
 }
 
 .social-icons a:hover {
-  background-color: #8000FF; /* Nền tím neon khi hover */
+  background-color: #B0E0E6; /* Nền tím neon khi hover */
   color: #FFFFFF; /* Icon trắng */
   transform: scale(1.1);
 }
@@ -231,7 +231,7 @@
   left: 0;
   width: 30px;
   height: 2px;
-  background: linear-gradient(90deg, #FF0000, #8000FF);
+  background: linear-gradient(90deg, #FF0000, #B0E0E6);
   transition: width 0.3s ease;
 }
 
@@ -289,7 +289,7 @@
 }
 
 .fixed-social-icons a:hover {
-  background-color: #8000FF; /* Nền tím neon khi hover */
+  background-color: #B0E0E6; /* Nền tím neon khi hover */
   color: #FFFFFF; /* Icon trắng */
   transform: scale(1.1);
 }
