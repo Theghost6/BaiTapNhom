@@ -10,3 +10,4 @@
 {"id_danh_gia":10,"ten_nguoi_tra_loi":"Admin","noi_dung":"seo","ngay":"2025-05-30"}
 {"id_danh_gia":14,"ten_nguoi_tra_loi":"test","noi_dung":"ok thanks","ngay":"2025-06-04"}
 {"id_danh_gia":7,"ten_nguoi_tra_loi":"Admin","noi_dung":"dô lô","ngay":"2025-06-05"}
+{"id_danh_gia":1,"ten_nguoi_tra_loi":"unkown","noi_dung":"hoad đình\n","ngay":"2025-06-06"}

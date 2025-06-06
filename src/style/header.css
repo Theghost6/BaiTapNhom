@@ -10,8 +10,7 @@ body {
 }
 
 .main-header {
-  background: #FFFFFF; /* Nền trắng */
-  color: #000000; /* Chữ đen để tương phản trên nền trắng */
+background: linear-gradient(135deg, #E3F2FD, #F3E7FD);  color: #000000; /* Chữ đen để tương phản trên nền trắng */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: fixed;
   top: 0;
@@ -100,6 +99,7 @@ body {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 10px 14px;
   border-radius: 6px;
+  background-color: transparent;
 }
 
 .category-button:hover {
@@ -374,6 +374,7 @@ body {
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+  background-color: transparent;
 }
 
 .menu-button::before,

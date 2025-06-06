@@ -13,7 +13,7 @@
                 "socket": "LGA 1700",
                 "cache": "36MB"
             },
-            "so_luong": 2,
+            "so_luong": "10",
             "mo_ta": "Intel Core i9-13900K là bộ vi xử lý hàng đầu dành cho game thủ, nhà sáng tạo nội dung và chuyên gia cần hiệu năng vượt trội. Với 24 nhân (8 nhân hiệu năng cao, 16 nhân tiết kiệm điện) và 32 luồng, sản phẩm này vượt trội trong đa nhiệm, dựng hình 3D và chơi game nặng. Tốc độ cơ bản 3.0 GHz và tăng tốc tối đa 5.8 GHz giúp xử lý nhanh các ứng dụng như Adobe After Effects, Blender và các tựa game AAA. Socket LGA 1700 tương thích với bo mạch chủ Intel 600\/700-series, hỗ trợ RAM DDR5 và PCIe 5.0, đảm bảo khả năng nâng cấp trong tương lai. Kiến trúc lai tối ưu hiệu suất và tiết kiệm năng lượng, lý tưởng cho ép xung. Công nghệ Intel Turbo Boost Max 3.0 và Thermal Velocity Boost tăng cường hiệu năng khi tải nặng. Dù bạn lắp ráp PC chơi game hay máy trạm dựng phim, i9-13900K mang lại tốc độ và độ tin cậy đỉnh cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -98,7 +98,7 @@
                 "socket": "FCLGA1851",
                 "cache": "36 MB Intel Smart Cache,Tổng Bộ nhớ đệm L2 40 MB"
             },
-            "so_luong": 27,
+            "so_luong": 26,
             "mo_ta": "CPU Intel Core Ultra 9 285K là một trong những đại diện nổi bật trong thế hệ Arrow Lake-S. Với thiết kế 24 nhân 24 luồng cùng khả năng đạt xung nhịp lên đến 5.7 GHz, đây là một lựa chọn đáng giá cho cả game thủ và người dùng cần hiệu suất cao trong các tác vụ đồ họa, xử lý dữ liệu.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-20",
@@ -1240,7 +1240,7 @@
                 "latency": "CL16",
                 "voltage": "1.35V"
             },
-            "so_luong": 38,
+            "so_luong": 37,
             "mo_ta": "ADATA XPG D50 RGB DDR4 3200MHz 16GB là lựa chọn lý tưởng cho game thủ và người dùng cần nâng cấp hiệu năng hệ thống với thiết kế mạnh mẽ và hiện đại. RAM có dung lượng 16GB, tốc độ 3200MHz, độ trễ CL16 và điện áp 1.35V, đảm bảo hiệu năng ổn định cho các tác vụ đa nhiệm và chơi game. Thiết kế kim loại chắc chắn đi kèm đèn LED RGB có thể tùy chỉnh và đồng bộ với các phần mềm bo mạch chủ như ASUS Aura Sync, Gigabyte RGB Fusion. Tản nhiệt hiệu quả giúp duy trì nhiệt độ ổn định khi hoạt động ở cường độ cao.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-05",
