@@ -41,6 +41,7 @@ const Wishlist = () => {
     setAuthChecked(true);
   }, []);
 
+
   // Fetch wishlist items from API
   useEffect(() => {
     if (!authChecked) return;

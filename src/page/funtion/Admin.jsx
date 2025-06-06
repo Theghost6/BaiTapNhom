@@ -711,6 +711,9 @@ function Admin() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isAddFormVisible, setIsAddFormVisible] = useState(false);
 
+const [favorites, setFavorites] = useState([]);
+const [mostFavorited, setMostFavorited] = useState(null);
+
   const getCategoryIcon = (loai) => {
     const iconMap = {
       cpu: "microchip",
@@ -1340,6 +1343,36 @@ case "linh_kien":
       setContacts([]);
     });
   break;
+        case "favorites":
+  axios
+    .get("http://localhost/BaiTapNhom/backend/wishlist.php?ma_nguoi_dung=0")
+    .then((res) => {
+      if (res.data.success && Array.isArray(res.data.items)) {
+        setFavorites(res.data.items);
+        // Calculate the most favorited product
+        const productCounts = res.data.items.reduce((acc, item) => {
+          acc[item.id_product] = (acc[item.id_product] || 0) + 1;
+          return acc;
+        }, {});
+        const mostFavoritedId = Object.keys(productCounts).reduce((a, b) =>
+          productCounts[a] > productCounts[b] ? a : b, null
+        );
+        const mostFavoritedItem = res.data.items.find(
+          (item) => item.id_product === mostFavoritedId
+        );
+        setMostFavorited(mostFavoritedItem || null);
+      } else {
+        console.error("API get_favorites did not return valid data:", res.data);
+        setFavorites([]);
+        setMostFavorited(null);
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching favorites:", err);
+      setFavorites([]);
+      setMostFavorited(null);
+    });
+  break;
       default:
         break;
     }
@@ -1358,7 +1391,7 @@ const orderCompletionPercentage = orders.length
   const activeUsers = users.filter((user) => user.is_active === 1).length;
   const userActivePercentage = users.length > 0 ? (activeUsers / users.length) * 100 : 0;
 
-  const positiveReviews = reviews.filter((review) => review.so_so_sao >= 3).length;
+  const positiveReviews = reviews.filter((review) => review.so_sao >= 3).length;
 const positiveReviewPercentage = reviews.length === 0 
   ? 0 
   : (positiveReviews / reviews.length) * 100;
@@ -1462,7 +1495,7 @@ const deleteContact = (id) => {
                     <div className="card-content">
                       <h3>Đánh giá</h3>
                       <p className="stats-value">{reviews.length || 0}</p>
-                      <p className="stats-progress" title="Tỷ lệ đánh giá tích cực (≥ 4 sao)">
+                      <p className="stats-progress" title="Tỷ lệ đánh giá tích cực (≥ 3 sao)">
                         <span className="progress-bar" style={{ width: `${positiveReviewPercentage}%` }}></span>
                         <span className="progress-text">{positiveReviewPercentage.toFixed(1)}%</span>
                       </p>
@@ -2243,6 +2276,107 @@ const deleteContact = (id) => {
         );
       default:
         return <div>Chọn một mục từ menu để xem nội dung</div>;
+case "favorites":
+  return (
+    <div>
+      <h2>Quản lý Yêu thích</h2>
+      {mostFavorited && (
+        <div className="most-favorited-card" style={{ marginBottom: "20px", padding: "15px", backgroundColor: "#f9f9f9", borderRadius: "5px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
+          <h3>Sản phẩm được yêu thích nhiều nhất</h3>
+          <p><strong>Tên sản phẩm:</strong> {mostFavorited.ten_san_pham || "Không xác định"}</p>
+          <p><strong>ID Sản phẩm:</strong> {mostFavorited.id_product}</p>
+          <p><strong>Số lần yêu thích:</strong> {favorites.filter(f => f.id_product === mostFavorited.id_product).length}</p>
+        </div>
+      )}
+      {/* Add Chart */}
+      <div className="chart-card" style={{ marginBottom: "20px", padding: "15px", backgroundColor: "#fff", borderRadius: "5px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
+        <h3>Thống kê yêu thích theo người dùng</h3>
+        <div className="chart-container" style={{ height: "300px" }}>
+          {favorites.length > 0 && (
+            <Line // Using Line chart as an example; you can switch to Bar
+              data={{
+                labels: [...new Set(favorites.map((f) => `User ${f.ma_nguoi_dung}`))],
+                datasets: [
+                  {
+                    label: "Số lượng yêu thích",
+                    data: [...new Set(favorites.map((f) => f.ma_nguoi_dung))].map((userId) =>
+                      favorites.filter((f) => f.ma_nguoi_dung === userId).length
+                    ),
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    backgroundColor: "rgba(54, 162, 235, 0.2)",
+                    fill: true,
+                    tension: 0.4,
+                  },
+                ],
+              }}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    position: "top",
+                    labels: {
+                      font: {
+                        size: 14,
+                      },
+                    },
+                  },
+                  title: {
+                    display: true,
+                    text: "Số lượng sản phẩm yêu thích theo người dùng",
+                  },
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    title: {
+                      display: true,
+                      text: "Số lượng",
+                    },
+                  },
+                  x: {
+                    title: {
+                      display: true,
+                      text: "Người dùng",
+                    },
+                  },
+                },
+              }}
+            />
+          )}
+        </div>
+      </div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Ngày thêm</th>
+          </tr>
+        </thead>
+        <tbody>
+          {favorites.length === 0 ? (
+            <tr>
+              <td colSpan="4" style={{ textAlign: "center" }}>
+                Không có sản phẩm yêu thích nào
+              </td>
+            </tr>
+          ) : (
+            favorites.map((favorite) => (
+              <tr key={favorite.id}>
+                <td>{favorite.id}</td>
+                <td>{favorite.id_product}</td>
+                <td>{favorite.ten_san_pham || "Không xác định"}</td>
+                <td>{favorite.ngay_them}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+
     }
   };
 
@@ -2325,6 +2459,14 @@ const deleteContact = (id) => {
               <i className="fas fa-envelope"></i> Quản lý Liên hệ
             </button>
           </li>
+          <li>
+  <button
+    className={`sidebar-button ${view === "favorites" ? "active" : ""}`}
+    onClick={() => setView("favorites")}
+  >
+    <i className="fas fa-heart"></i> Quản lý Yêu thích
+  </button>
+</li>
         </ul>
       </div>
       <div className="main-content">

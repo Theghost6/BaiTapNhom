@@ -288,7 +288,6 @@ const ProductDetail = () => {
 
         addToCart(productToAdd);
         setIsInCart(true);
-        toast.success("Đã thêm vào giỏ hàng!");
 
         await fetch("http://localhost/BaiTapNhom/backend/stock_json.php", {
           method: "POST",
@@ -313,7 +312,6 @@ const ProductDetail = () => {
 
         addToCart(productToAdd);
         setIsInCart(true);
-        toast.success("Đã thêm vào giỏ hàng!");
 
         await fetch("http://localhost/BaiTapNhom/backend/stock_json.php", {
           method: "POST",
@@ -340,7 +338,6 @@ const ProductDetail = () => {
 
       addToCart(productToAdd);
       setIsInCart(true);
-      toast.success("Đã thêm vào giỏ hàng!");
 
       await fetch("http://localhost/BaiTapNhom/backend/stock_json.php", {
         method: "POST",
