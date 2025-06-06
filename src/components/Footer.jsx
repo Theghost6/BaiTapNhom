@@ -79,7 +79,7 @@ const Footer = () => {
           <div className="footer-column about-column">
             <div className="footer-logo">
               <div className="footer-logo-container">
-                <img src="/photos/Logo.png" alt="Logo" className="footer-logo-image" />
+                <img src="/photos/Logo(2).png" alt="Logo" className="footer-logo-image" />
                 <span className="footer-logo-text">NANOCORE4</span>
               </div>
             </div>

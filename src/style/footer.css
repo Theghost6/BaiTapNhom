@@ -1,20 +1,15 @@
 /* footer.css */
-
 .site-footer {
-  background: linear-gradient(135deg, #E3F2FD, #F3E7FD);
+  background: #000000; /* Nền đen */
   padding-top: 40px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #666;
+  color: #CCCCCC; /* Chữ xám nhạt */
   max-width: 1400px;
-
   display: flex;
   flex-direction: column;
-  /* min-height: 100vh; */
 }
- 
+
 .footer-container {
-  /* max-width: 1300px; */
-  /* margin: 0 auto; */
   width: 98.5%;
   padding: 0 20px;
   display: flex;
@@ -32,7 +27,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  }
+}
 
 .footer-logo-image {
   height: 50px;
@@ -43,35 +38,33 @@
 .footer-logo-text {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #000000;
+  color: #FF0000; /* Chữ đỏ */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-.footer-phone-number a{
-  font-family: jost,sans-serif;
+.footer-phone-number a {
+  font-family: jost, sans-serif;
   font-weight: bold;
   font-size: 19px;
-  color: skyblue;
+  color: #8000FF; /* Link tím neon */
   line-height: 24px;
   margin-top: -10px;
 }
 
 .footer-description {
   font-size: 14px;
-  color: #444;              /* Màu chữ trung tính, dễ đọc */
-  line-height: 1.8;         /* Tăng khoảng cách dòng cho thoáng */
-  margin: 16px 0px 0;      /* Căn giữa và cách nội dung phía trên */
-  max-width: 270px;         /* Giới hạn chiều rộng để dễ đọc */
-  white-space: pre-line;    /* Hỗ trợ xuống dòng bằng \n */
-  text-align: left;         /* Căn trái văn bản */
+  color: #CCCCCC; /* Chữ xám nhạt */
+  line-height: 1.8;
+  margin: 16px 0px 0;
+  max-width: 270px;
+  white-space: pre-line;
+  text-align: left;
 }
-
 
 .column-title {
   font-weight: bold;
   margin-bottom: 10px;
-  color: #000;
+  color: #FF0000; /* Tiêu đề đỏ */
   text-transform: uppercase;
   font-size: 14px;
 }
@@ -87,13 +80,13 @@
 
 .footer-links li a {
   text-decoration: none;
-  color: #888;
+  color: #FFFFFF; /* Chữ trắng */
   font-style: italic;
   transition: color 0.3s;
 }
 
 .footer-links li a:hover {
-  color: #000;
+  color: #8000FF; /* Link tím neon khi hover */
 }
 
 .contact-info {
@@ -105,20 +98,20 @@
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-  color: #666;
+  color: #CCCCCC; /* Chữ xám nhạt */
 }
 
 .contact-icon {
   margin-right: 8px;
-  color: #888;
+  color: #FFFFFF; /* Icon trắng */
 }
 
 .footer-bottom {
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #CCCCCC; /* Viền xám nhạt */
   padding: 20px 0;
   text-align: center;
   font-size: 14px;
-  background-color: #fff;
+  background-color: #000000; /* Nền đen */
 }
 
 .terms-links {
@@ -129,17 +122,17 @@
 }
 
 .terms-links a {
-  color: #666;
+  color: #FFFFFF; /* Link trắng */
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .terms-links a:hover {
-  color: #000;
+  color: #8000FF; /* Link tím neon khi hover */
 }
 
 .separator {
-  color: #ccc;
+  color: #CCCCCC; /* Phân cách xám nhạt */
 }
 
 /* icon */
@@ -148,7 +141,6 @@
   display: flex;
   gap: 12px;
   justify-content: left;
-
 }
 
 .social-icons a {
@@ -159,29 +151,29 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #fff;
-  color: #333;
+  background-color: #FFFFFF; /* Nền trắng */
+  color: #000000; /* Icon đen */
   transition: background-color 0.3s, color 0.3s;
 }
 
 .social-icons a:hover {
-  background-color: skyblue;
-  color: #fff;
+  background-color: #8000FF; /* Nền tím neon khi hover */
+  color: #FFFFFF; /* Icon trắng */
 }
 
 .social-title {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #333;
+  color: #FF0000; /* Tiêu đề đỏ */
 }
 
 .scroll-to-top {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #fff;
-  color: #333;
+  background-color: #FFFFFF; /* Nền trắng */
+  color: #000000; /* Icon đen */
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -196,12 +188,12 @@
 }
 
 .scroll-to-top:hover {
-  background-color: skyblue;
+  background-color: #FF0000; /* Nền đỏ khi hover */
 }
 
 .fixed-social-icons {
   position: fixed;
-  bottom: 80px; /* nằm trên nút scroll-to-top một chút */
+  bottom: 80px;
   right: 20px;
   display: flex;
   flex-direction: row;
@@ -213,8 +205,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #f1f1f1;
-  color: #666;
+  background-color: #FFFFFF; /* Nền trắng */
+  color: #CCCCCC; /* Icon xám nhạt */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,8 +215,8 @@
 }
 
 .fixed-social-icons a:hover {
-  background-color: skyblue;
-  color: #fff;
+  background-color: #8000FF; /* Nền tím neon khi hover */
+  color: #FFFFFF; /* Icon trắng */
 }
 
 .payment-icons {
