@@ -10,8 +10,8 @@ body {
 }
 
 .main-header {
-  background: #000000; /* Replaced linear-gradient with solid Black */
-  color: #FFFFFF; /* Changed to White for contrast */
+  background: #FFFFFF; /* Nền trắng */
+  color: #000000; /* Chữ đen để tương phản trên nền trắng */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: fixed;
   top: 0;
@@ -56,14 +56,14 @@ body {
   padding: 8px 12px;
   border-radius: 6px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05); /* Nền đen nhạt để tương phản */
   border: 1px solid transparent;
 }
 
 .logo-container:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #8000FF; /* Changed to Neon Purple for hover */
+  background: rgba(128, 0, 255, 0.1); /* Tím neon nhạt khi hover */
+  border-color: #8000FF; /* Viền tím neon */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -77,7 +77,7 @@ body {
 .logo-text {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #FFFFFF; /* Changed to White for contrast with Black header */
+  color: #000000; /* Chữ đen để tương phản trên nền trắng */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   letter-spacing: -0.3px;
 }
@@ -92,11 +92,10 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
   border: 1px solid transparent;
   font-size: 14px;
   font-weight: 600;
-  color: #FFFFFF; /* Changed to White for contrast */
+  color: #000000; /* Chữ đen để tương phản */
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 10px 14px;
@@ -104,10 +103,10 @@ body {
 }
 
 .category-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #8000FF; /* Changed to Neon Purple for hover */
+  background: rgba(128, 0, 255, 0.1); /* Tím neon nhạt khi hover */
+  border-color: #8000FF; /* Viền tím neon */
   transform: translateY(-1px);
-  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.2); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.2);
 }
 
 .menu-icon {
@@ -125,7 +124,7 @@ body {
   width: 220px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(128, 0, 255, 0.3); /* Adjusted to Neon Purple */
+  border: 1px solid rgba(128, 0, 255, 0.3); /* Viền tím neon */
   border-radius: 8px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   z-index: 1000;
@@ -162,15 +161,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #1A1A2E;
+  color: #000000; /* Chữ đen để tương phản */
   transition: all 0.2s ease;
   border-radius: 4px;
   margin: 2px 6px;
 }
 
 .category-item:hover {
-  background: linear-gradient(135deg, #FF0000, #8000FF); /* Updated to Red and Neon Purple gradient */
-  color: #FFFFFF; /* Changed to White for contrast */
+  background: linear-gradient(135deg, #FF0000, #8000FF); /* Gradient đỏ và tím neon */
+  color: #FFFFFF; /* Chữ trắng khi hover */
   transform: translateX(4px);
 }
 
@@ -191,7 +190,7 @@ body {
   width: 300px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(128, 0, 255, 0.3); /* Adjusted to Neon Purple */
+  border: 1px solid rgba(128, 0, 255, 0.3); /* Viền tím neon */
   border-radius: 8px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   padding: 16px;
@@ -215,8 +214,8 @@ body {
   font-weight: 700;
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 2px solid #8000FF; /* Changed to Neon Purple */
-  color: #8000FF; /* Changed to Neon Purple */
+  border-bottom: 2px solid #8000FF; /* Viền dưới tím neon */
+  color: #8000FF; /* Chữ tím neon */
   position: relative;
 }
 
@@ -227,7 +226,7 @@ body {
   left: 0;
   width: 25px;
   height: 2px;
-  background: #FF0000; /* Changed to Red */
+  background: #FF0000; /* Gạch chân đỏ */
 }
 
 .subcategory-items {
@@ -244,18 +243,18 @@ body {
 }
 
 .subcategory-items::-webkit-scrollbar-track {
-  background: #CCCCCC; /* Changed to Light Gray */
+  background: #CCCCCC; /* Thanh cuộn xám nhạt */
   border-radius: 2px;
 }
 
 .subcategory-items::-webkit-scrollbar-thumb {
-  background: #8000FF; /* Changed to Neon Purple */
+  background: #8000FF; /* Thanh cuộn tím neon */
   border-radius: 2px;
 }
 
 .subcategory-item {
   padding: 8px 10px;
-  color: #1A1A2E;
+  color: #000000; /* Chữ đen để tương phản */
   text-decoration: none;
   border-radius: 4px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -272,7 +271,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent); /* Adjusted to Neon Purple */
+  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent); /* Hiệu ứng tím neon */
   transition: left 0.5s ease;
 }
 
@@ -281,10 +280,10 @@ body {
 }
 
 .subcategory-item:hover {
-  background: linear-gradient(135deg, #FF0000, #8000FF); /* Updated to Red and Neon Purple gradient */
-  color: #FFFFFF; /* Changed to White for contrast */
+  background: linear-gradient(135deg, #FF0000, #8000FF); /* Gradient đỏ và tím neon */
+  color: #FFFFFF; /* Chữ trắng khi hover */
   transform: translateX(6px);
-  box-shadow: 0 2px 6px rgba(128, 0, 255, 0.2); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 2px 6px rgba(128, 0, 255, 0.2);
 }
 
 /* Search Bar - Ưu tiên responsive */
@@ -300,10 +299,10 @@ body {
   width: 100%;
   padding: 11px 18px;
   border-radius: 6px;
-  border: 1px solid rgba(128, 0, 255, 0.3); /* Adjusted to Neon Purple */
+  border: 1px solid rgba(128, 0, 255, 0.3); /* Viền tím neon */
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  color: #1A1A2E;
+  color: #000000; /* Chữ đen để tương phản */
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -312,13 +311,13 @@ body {
 
 .search-bar-container input:focus {
   outline: none;
-  border-color: #8000FF; /* Changed to Neon Purple */
-  box-shadow: 0 0 0 3px rgba(128, 0, 255, 0.2); /* Adjusted to Neon Purple */
+  border-color: #8000FF; /* Viền tím neon khi focus */
+  box-shadow: 0 0 0 3px rgba(128, 0, 255, 0.2);
   transform: translateY(-1px);
 }
 
 .search-bar-container input::placeholder {
-  color: #CCCCCC; /* Changed to Light Gray */
+  color: #CCCCCC; /* Placeholder xám nhạt */
   font-weight: 400;
 }
 
@@ -329,7 +328,7 @@ body {
   right: 0;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(128, 0, 255, 0.3); /* Adjusted to Neon Purple */
+  border: 1px solid rgba(128, 0, 255, 0.3); /* Viền tím neon */
   z-index: 100;
   max-height: 280px;
   overflow-y: auto;
@@ -343,15 +342,15 @@ body {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #1A1A2E;
+  color: #000000; /* Chữ đen để tương phản */
   transition: all 0.2s ease;
   border-radius: 4px;
   margin: 2px 6px;
 }
 
 .search-suggestion-item:hover {
-  background: linear-gradient(135deg, #FF0000, #8000FF); /* Updated to Red and Neon Purple gradient */
-  color: #FFFFFF; /* Changed to White for contrast */
+  background: linear-gradient(135deg, #FF0000, #8000FF); /* Gradient đỏ và tím neon */
+  color: #FFFFFF; /* Chữ trắng khi hover */
   transform: translateX(3px);
 }
 
@@ -364,10 +363,9 @@ body {
   align-items: center;
   gap: 6px;
   padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.1);
   border: 1px solid transparent;
   border-radius: 6px;
-  color: #FFFFFF; /* Changed to White for contrast */
+  color: #000000; /* Chữ đen để tương phản */
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -388,7 +386,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent); /* Adjusted to Neon Purple */
+  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent); /* Hiệu ứng tím neon */
   transition: left 0.5s ease;
 }
 
@@ -403,10 +401,10 @@ body {
 .contact-button:hover,
 .developer-button:hover,
 .consult-selector-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #8000FF; /* Changed to Neon Purple */
+  background: rgba(128, 0, 255, 0.1); /* Tím neon nhạt khi hover */
+  border-color: #8000FF; /* Viền tím neon */
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(128, 0, 255, 0.2); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 4px 15px rgba(128, 0, 255, 0.2);
 }
 
 /* Consult Popup - Vuông vắn */
@@ -416,7 +414,7 @@ body {
   right: 300px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(128, 0, 255, 0.3); /* Adjusted to Neon Purple */
+  border: 1px solid rgba(128, 0, 255, 0.3); /* Viền tím neon */
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
@@ -443,26 +441,26 @@ body {
   gap: 8px;
   font-size: 13px;
   font-weight: 500;
-  color: #1A1A2E;
+  color: #000000; /* Chữ đen để tương phản */
   transition: all 0.2s ease;
   padding: 3px 0;
   border-radius: 4px;
 }
 
 .consult-info div:hover {
-  background: rgba(128, 0, 255, 0.1); /* Adjusted to Neon Purple */
+  background: rgba(128, 0, 255, 0.1); /* Tím neon nhạt khi hover */
   padding-left: 6px;
 }
 
 .consult-info a {
-  color: #8000FF; /* Changed to Neon Purple */
+  color: #8000FF; /* Link tím neon */
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .consult-info a:hover {
-  color: #FF0000; /* Changed to Red */
+  color: #FF0000; /* Link đỏ khi hover */
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -470,7 +468,7 @@ body {
 .close-btn {
   font-size: 20px;
   font-weight: bold;
-  color: #CCCCCC; /* Changed to Light Gray */
+  color: #CCCCCC; /* Xám nhạt */
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 2px;
@@ -483,8 +481,8 @@ body {
 }
 
 .close-btn:hover {
-  color: #000000; /* Changed to Black */
-  background: rgba(255, 0, 0, 0.1); /* Kept Red for consistency with badge */
+  color: #000000; /* Đen khi hover */
+  background: rgba(255, 0, 0, 0.1); /* Nền đỏ nhạt */
   transform: rotate(90deg);
 }
 
@@ -505,10 +503,10 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05); /* Nền đen nhạt để tương phản */
   border: 1px solid transparent;
   border-radius: 6px;
-  color: #FFFFFF; /* Changed to White for contrast */
+  color: #000000; /* Chữ đen để tương phản */
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -516,10 +514,10 @@ body {
 }
 
 .user-profile button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #8000FF; /* Changed to Neon Purple */
+  background: rgba(128, 0, 255, 0.1); /* Tím neon nhạt khi hover */
+  border-color: #8000FF; /* Viền tím neon */
   transform: translateY(-1px);
-  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.2); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.2);
 }
 
 .header-avatar {
@@ -527,22 +525,22 @@ body {
   height: 32px !important;
   border-radius: 4px !important;
   object-fit: cover !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important; /* Viền đen nhạt */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
 .header-avatar:hover {
   transform: scale(1.05) !important;
-  border-color: #8000FF !important; /* Changed to Neon Purple */
-  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.3) !important; /* Adjusted shadow to Neon Purple */
+  border-color: #8000FF !important; /* Viền tím neon khi hover */
+  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.3) !important;
 }
 
 .default-avatar {
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  background: linear-gradient(135deg, #FF0000, #8000FF); /* Updated to Red and Neon Purple gradient */
+  background: linear-gradient(135deg, #FF0000, #8000FF); /* Gradient đỏ và tím neon */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -552,7 +550,7 @@ body {
 
 .default-avatar:hover {
   transform: scale(1.05);
-  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.3); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.3);
 }
 
 /* User Dropdown - Vuông vắn */
@@ -562,7 +560,7 @@ body {
   right: 0;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(128, 0, 255, 0.3); /* Adjusted to Neon Purple */
+  border: 1px solid rgba(128, 0, 255, 0.3); /* Viền tím neon */
   border-radius: 8px;
   padding: 12px 0;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
@@ -580,7 +578,7 @@ body {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  color: #1A1A2E;
+  color: #000000; /* Chữ đen để tương phản */
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 1px 6px;
@@ -596,7 +594,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent); /* Adjusted to Neon Purple */
+  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent); /* Hiệu ứng tím neon */
   transition: left 0.5s ease;
 }
 
@@ -605,21 +603,21 @@ body {
 }
 
 .user-dropdown .dropdown-item:hover {
-  background: linear-gradient(135deg, #FF0000, #8000FF); /* Updated to Red and Neon Purple gradient */
-  color: #FFFFFF; /* Changed to White for contrast */
+  background: linear-gradient(135deg, #FF0000, #8000FF); /* Gradient đỏ và tím neon */
+  color: #FFFFFF; /* Chữ trắng khi hover */
   transform: translateX(3px);
-  box-shadow: 0 2px 6px rgba(128, 0, 255, 0.2); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 2px 6px rgba(128, 0, 255, 0.2);
 }
 
 .logout-button {
-  border-top: 1px solid rgba(128, 0, 255, 0.2); /* Adjusted to Neon Purple */
+  border-top: 1px solid rgba(128, 0, 255, 0.2); /* Viền tím neon */
   margin-top: 6px !important;
   padding-top: 12px !important;
 }
 
 .logout-button:hover {
-  background: linear-gradient(135deg, #FF0000, #FF6666) !important; /* Adjusted to Red gradient */
-  color: #FFFFFF !important; /* Changed to White for contrast */
+  background: linear-gradient(135deg, #FF0000, #FF6666) !important; /* Gradient đỏ */
+  color: #FFFFFF !important; /* Chữ trắng khi hover */
 }
 
 /* User Actions for Non-logged in Users */
@@ -628,32 +626,32 @@ body {
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05); /* Nền đen nhạt để tương phản */
   border: 1px solid transparent;
   border-radius: 6px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .user-actions:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #8000FF; /* Changed to Neon Purple */
+  background: rgba(128, 0, 255, 0.1); /* Tím neon nhạt khi hover */
+  border-color: #8000FF; /* Viền tím neon */
   transform: translateY(-1px);
-  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.2); /* Adjusted shadow to Neon Purple */
+  box-shadow: 0 3px 12px rgba(128, 0, 255, 0.2);
 }
 
 .user-actions a {
-  color: #FFFFFF; /* Changed to White for contrast */
+  color: #000000; /* Chữ đen để tương phản */
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .user-actions a:hover {
-  color: #8000FF; /* Changed to Neon Purple */
+  color: #8000FF; /* Tím neon khi hover */
   transform: scale(1.05);
 }
 
 .Separator {
-  color: rgba(255, 255, 255, 0.3); /* Adjusted to White with opacity */
+  color: rgba(0, 0, 0, 0.3); /* Đen nhạt để tương phản */
   font-weight: 300;
 }
 
@@ -667,14 +665,14 @@ body {
 }
 
 .menu-loading {
-  color: #CCCCCC; /* Changed to Light Gray */
-  background: rgba(255, 255, 255, 0.1);
+  color: #CCCCCC; /* Xám nhạt */
+  background: rgba(0, 0, 0, 0.1); /* Nền đen nhạt */
   animation: pulse 2s infinite;
 }
 
 .menu-error {
-  color: #FF0000; /* Changed to Red */
-  background: rgba(255, 0, 0, 0.1); /* Adjusted to Red */
+  color: #FF0000; /* Đỏ */
+  background: rgba(255, 0, 0, 0.1); /* Nền đỏ nhạt */
 }
 
 @keyframes pulse {
@@ -822,8 +820,8 @@ body {
   position: absolute;
   top: -8px;
   right: -10px;
-  background-color: #FF0000; /* Changed to Red */
-  color: #FFFFFF; /* Changed to White for contrast */
+  background-color: #FF0000; /* Đỏ */
+  color: #FFFFFF; /* Trắng để tương phản */
   border-radius: 50%;
   padding: 1px 5px;
   font-size: 9px;

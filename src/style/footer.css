@@ -1,12 +1,15 @@
 /* footer.css */
 .site-footer {
-  background: #000000; /* Nền đen */
+  background: #FFFFFF; /* Nền trắng */
   padding-top: 40px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #CCCCCC; /* Chữ xám nhạt */
+  color: #000000; /* Chữ đen để tương phản trên nền trắng */
   max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .footer-container {
@@ -15,6 +18,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 0 auto;
 }
 
 .footer-column {
@@ -22,17 +26,23 @@
   margin: 20px 0;
 }
 
-/* logo */
+/* Logo */
 .footer-logo-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-logo-container:hover {
+  transform: scale(1.05);
 }
 
 .footer-logo-image {
   height: 50px;
   width: 50px;
   object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .footer-logo-text {
@@ -40,22 +50,33 @@
   font-weight: 600;
   color: #FF0000; /* Chữ đỏ */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-logo-text:hover {
+  color: #8000FF; /* Tím neon khi hover */
 }
 
 .footer-phone-number a {
-  font-family: jost, sans-serif;
+  font-family: 'Jost', sans-serif;
   font-weight: bold;
   font-size: 19px;
   color: #8000FF; /* Link tím neon */
   line-height: 24px;
   margin-top: -10px;
+  text-decoration: none;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-phone-number a:hover {
+  color: #FF0000; /* Đỏ khi hover */
 }
 
 .footer-description {
   font-size: 14px;
-  color: #CCCCCC; /* Chữ xám nhạt */
+  color: #000000; /* Chữ đen để tương phản trên nền trắng */
   line-height: 1.8;
-  margin: 16px 0px 0;
+  margin: 16px 0;
   max-width: 270px;
   white-space: pre-line;
   text-align: left;
@@ -67,6 +88,22 @@
   color: #FF0000; /* Tiêu đề đỏ */
   text-transform: uppercase;
   font-size: 14px;
+  position: relative;
+}
+
+.column-title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, #FF0000, #8000FF);
+  transition: width 0.3s ease;
+}
+
+.column-title:hover::after {
+  width: 50px;
 }
 
 .footer-links {
@@ -80,13 +117,15 @@
 
 .footer-links li a {
   text-decoration: none;
-  color: #FFFFFF; /* Chữ trắng */
+  color: #000000; /* Chữ đen để tương phản trên nền trắng */
   font-style: italic;
-  transition: color 0.3s;
+  font-size: 14px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s;
 }
 
 .footer-links li a:hover {
   color: #8000FF; /* Link tím neon khi hover */
+  transform: translateX(4px);
 }
 
 .contact-info {
@@ -98,12 +137,24 @@
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-  color: #CCCCCC; /* Chữ xám nhạt */
+  color: #000000; /* Chữ đen để tương phản trên nền trắng */
+  font-size: 14px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-item:hover {
+  transform: translateX(4px);
 }
 
 .contact-icon {
   margin-right: 8px;
-  color: #FFFFFF; /* Icon trắng */
+  color: #000000; /* Icon đen để tương phản trên nền trắng */
+  font-size: 16px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-item:hover .contact-icon {
+  color: #FF0000; /* Icon đỏ khi hover */
 }
 
 .footer-bottom {
@@ -111,7 +162,8 @@
   padding: 20px 0;
   text-align: center;
   font-size: 14px;
-  background-color: #000000; /* Nền đen */
+  background-color: #FFFFFF; /* Nền trắng */
+  position: relative;
 }
 
 .terms-links {
@@ -122,20 +174,22 @@
 }
 
 .terms-links a {
-  color: #FFFFFF; /* Link trắng */
+  color: #000000; /* Link đen để tương phản trên nền trắng */
   text-decoration: none;
-  transition: color 0.3s;
+  font-size: 13px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s;
 }
 
 .terms-links a:hover {
   color: #8000FF; /* Link tím neon khi hover */
+  transform: translateY(-2px);
 }
 
 .separator {
-  color: #CCCCCC; /* Phân cách xám nhạt */
+  color: #000000; /* Phân cách đen để tương phản trên nền trắng */
 }
 
-/* icon */
+/* Icon */
 .social-icons {
   margin-top: 20px;
   display: flex;
@@ -147,18 +201,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 2px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #FFFFFF; /* Nền trắng */
+  background-color: #CCCCCC; /* Nền xám nhạt */
   color: #000000; /* Icon đen */
-  transition: background-color 0.3s, color 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .social-icons a:hover {
   background-color: #8000FF; /* Nền tím neon khi hover */
   color: #FFFFFF; /* Icon trắng */
+  transform: scale(1.1);
 }
 
 .social-title {
@@ -166,13 +221,29 @@
   font-weight: bold;
   margin-bottom: 10px;
   color: #FF0000; /* Tiêu đề đỏ */
+  position: relative;
+}
+
+.social-title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, #FF0000, #8000FF);
+  transition: width 0.3s ease;
+}
+
+.social-title:hover::after {
+  width: 50px;
 }
 
 .scroll-to-top {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #FFFFFF; /* Nền trắng */
+  background-color: #CCCCCC; /* Nền xám nhạt */
   color: #000000; /* Icon đen */
   border: none;
   border-radius: 50%;
@@ -183,12 +254,14 @@
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 999;
 }
 
 .scroll-to-top:hover {
   background-color: #FF0000; /* Nền đỏ khi hover */
+  color: #FFFFFF; /* Icon trắng */
+  transform: scale(1.1);
 }
 
 .fixed-social-icons {
@@ -205,18 +278,20 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #FFFFFF; /* Nền trắng */
-  color: #CCCCCC; /* Icon xám nhạt */
+  background-color: #CCCCCC; /* Nền xám nhạt */
+  color: #000000; /* Icon đen */
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s, color 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-decoration: none;
 }
 
 .fixed-social-icons a:hover {
   background-color: #8000FF; /* Nền tím neon khi hover */
   color: #FFFFFF; /* Icon trắng */
+  transform: scale(1.1);
 }
 
 .payment-icons {
@@ -224,4 +299,89 @@
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
+}
+
+.payment-icons img {
+  width: 40px;
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.payment-icons img:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-column {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .footer-logo-container {
+    justify-content: center;
+  }
+
+  .footer-description {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .social-title::after,
+  .column-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-logo-image {
+    height: 40px;
+    width: 40px;
+  }
+
+  .footer-logo-text {
+    font-size: 1rem;
+  }
+
+  .footer-phone-number a {
+    font-size: 16px;
+  }
+
+  .column-title {
+    font-size: 12px;
+  }
+
+  .footer-links li a,
+  .terms-links a,
+  .contact-item {
+    font-size: 12px;
+  }
+
+  .social-icons a,
+  .fixed-social-icons a {
+    width: 32px;
+    height: 32px;
+  }
+
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+  }
+
+  .payment-icons img {
+    width: 32px;
+    height: 20px;
+  }
 }
