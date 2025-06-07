@@ -14,7 +14,7 @@ import "./style/app.css";
 import ScrollToTop from "./page/funtion/ScrollToTop";
 import { createGlobalStyle } from "styled-components";
 import styled from 'styled-components';
-
+import { ChatProvider } from './page/chat/ChatProvider';
 const ResponsiveDiv = styled.div`
   padding: 20px;
 
@@ -81,6 +81,7 @@ const App = () => {
       <GlobalStyle />
       <AuthProvider>
         <CartProvider>
+          <ChatProvider>
           <Router>
             <ScrollToTop />
             <div className="page-container">
@@ -333,6 +334,7 @@ const App = () => {
               <Footer />
             </div>
           </Router>
+          </ChatProvider>
         </CartProvider>
       </AuthProvider>
     </>

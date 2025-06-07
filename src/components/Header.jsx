@@ -24,7 +24,7 @@ import { useCart } from "../page/funtion/useCart";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useChatContext } from '../page/chat/ChatProvider';
 const allProducts = Object.values(products).flat();
 
 // Định nghĩa cấu trúc danh mục phân cấp
@@ -79,7 +79,7 @@ const Header = () => {
   const location = useLocation();
   const popupRef = useRef(null);
   const { totalQuantity } = useCart();
-
+  const { setShowChat } = useChatContext();
   const USER_KEY = "user";
 
   // Check auth status and fetch user profile
@@ -271,6 +271,7 @@ useEffect(() => {
   const handleMenuItemClick = (item) => {
     if (item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult") {
       setShowLocationPopup(!showLocationPopup);
+            setShowChat(true);
     } else if (item.url && item.url !== '#') {
       navigate(item.url);
     }
@@ -413,10 +414,10 @@ useEffect(() => {
                   <span>{item.ten}</span>
                 </>
               ) : item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult" ? (
-                <>
-                  <MessageCircle size={24} />
-                  <span>{item.ten}</span>
-                </>
+ <>
+      <MessageCircle size={24} />
+      <span>{item.ten}</span>
+    </>
               ) : (
                 <span>{item.ten}</span>
               )}
