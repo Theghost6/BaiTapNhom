@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1749371605176y8r8vjsrb",
+    "content": "ok",
+    "user": {
+      "id": "9",
+      "username": "ldhoa",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T08:33:25.176Z"
+  },
+  {
+    "id": "1749371625056o9n2fpnsp",
+    "content": "ok",
+    "user": {
+      "id": "9",
+      "username": "ldhoa",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T08:33:45.056Z"
+  },
+  {
+    "id": "1749372622662nef0s31pn",
+    "content": "ok đấy",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T08:50:22.662Z"
+  }
+]

@@ -1,338 +1,265 @@
-import { useState, useEffect, useRef } from 'react';
-import useChat from './useChat.js';
+// components/chat/ChatPopup.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  X, 
+  Send, 
+  Minimize2, 
+  Maximize2, 
+  MessageCircle,
+  User,
+  Clock,
+  CheckCircle2
+} from 'lucide-react';
+import { useChat } from '../chat/ChatContext';
+import { useSocket } from '../chat/SocketContext';
+import '../../style/chat.css'; // Import your CSS styles
 
-function ChatPopup({ onClose }) {
-  const { messages, sendMessage, loading, error, customerInfo, isCustomerChat } = useChat();
-  const [newMessage, setNewMessage] = useState('');
-  const [sending, setSending] = useState(false);
+const ChatPopup = ({ user }) => {
+  const [message, setMessage] = useState('');
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  
+  const {
+    showChat,
+    messages,
+    currentRoom,
+    unreadCount,
+    typingUsers,
+    sendMessage,
+    startTyping,
+    stopTyping,
+    closeChat,
+    isConnected
+  } = useChat();
+  
+  const { onlineUsers } = useSocket();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+  // Auto scroll to bottom when new message
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  // Focus input when chat opens
   useEffect(() => {
-    if (inputRef.current && !loading) {
+    if (showChat && !isMinimized && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [loading]);
+  }, [showChat, isMinimized]);
 
-  const formatTimestamp = (timestamp) => {
-    if (!timestamp) return '';
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffInHours = (now - date) / (1000 * 60 * 60);
-    
-    if (diffInHours < 1) {
-      const diffInMinutes = Math.floor((now - date) / (1000 * 60));
-      return diffInMinutes < 1 ? 'Vừa xong' : `${diffInMinutes} phút trước`;
-    } else if (diffInHours < 24) {
-      return date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-    } else {
-      return date.toLocaleString('vi-VN', {
-        hour: '2-digit',
-        minute: '2-digit',
-        day: '2-digit',
-        month: '2-digit'
-      });
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSendMessage = async () => {
-    if (!newMessage.trim() || sending) {
-      return;
-    }
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!message.trim() || !user) return;
 
-    setSending(true);
-    try {
-      await sendMessage(newMessage.trim());
-      setNewMessage('');
-      
-      setTimeout(() => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      }, 100);
-    } catch (error) {
-      console.error('Error sending message:', error);
-    } finally {
-      setSending(false);
+    sendMessage(message, user);
+    setMessage('');
+    
+    // Stop typing when send message
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+      setTypingTimeout(null);
     }
+    stopTyping(user);
+  };
+
+  const handleInputChange = (e) => {
+    setMessage(e.target.value);
+    
+    if (!user) return;
+
+    // Start typing
+    startTyping(user);
+    
+    // Clear previous timeout
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+    
+    // Stop typing after 3 seconds of inactivity
+    const timeout = setTimeout(() => {
+      stopTyping(user);
+      setTypingTimeout(null);
+    }, 3000);
+    
+    setTypingTimeout(timeout);
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage();
+      handleSendMessage(e);
     }
   };
 
-  const clearError = () => {
-    // Có thể thêm hàm clear error từ useChat hook nếu cần
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('vi-VN', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
   };
 
+  const isOwnMessage = (messageUser) => {
+    return user && messageUser.id === user.id;
+  };
+
+  if (!showChat) return null;
+
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      width: '380px',
-      height: '500px',
-      backgroundColor: '#fff',
-      border: '1px solid #ddd',
-      borderRadius: '12px',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
-      display: 'flex',
-      flexDirection: 'column',
-      zIndex: 9999,
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{
-        padding: '16px 20px',
-        borderBottom: '1px solid #eee',
-        backgroundColor: '#007bff',
-        color: 'white',
-        borderRadius: '12px 12px 0 0',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <div>
-          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>
-            💬 Hỗ trợ khách hàng
-          </h3>
-          {customerInfo && (
-            <p style={{ margin: '4px 0 0 0', fontSize: '12px', opacity: 0.9 }}>
-              Xin chào, {customerInfo.name}!
-            </p>
+    <div className={`chat-popup ${isMinimized ? 'minimized' : ''}`}>
+      {/* Header */}
+      <div className="chat-header">
+        <div className="chat-title">
+          <MessageCircle size={20} />
+          <span>Tư vấn trực tuyến</span>
+          {!isConnected && (
+            <span className="connection-status offline">
+              (Đang kết nối...)
+            </span>
+          )}
+          {unreadCount > 0 && isMinimized && (
+            <span className="unread-badge">{unreadCount}</span>
           )}
         </div>
-        <button
-          onClick={onClose}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'white',
-            fontSize: '20px',
-            cursor: 'pointer',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            opacity: 0.8
-          }}
-          onMouseEnter={(e) => e.target.style.opacity = '1'}
-          onMouseLeave={(e) => e.target.style.opacity = '0.8'}
-          title="Đóng chat"
-        >
-          ×
-        </button>
-      </div>
-
-      <div style={{
-        flex: 1,
-        padding: '16px',
-        overflowY: 'auto',
-        backgroundColor: '#f8f9fa',
-        position: 'relative'
-      }}>
-        {error && (
-          <div style={{
-            color: '#dc3545',
-            backgroundColor: '#f8d7da',
-            padding: '10px 12px',
-            borderRadius: '6px',
-            marginBottom: '12px',
-            border: '1px solid #f5c6cb',
-            fontSize: '13px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
-            <span>{error}</span>
-            <button 
-              onClick={clearError}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#dc3545',
-                cursor: 'pointer',
-                fontSize: '16px',
-                padding: '0 4px'
-              }}
-            >
-              ×
-            </button>
-          </div>
-        )}
-
-        {loading ? (
-          <div style={{
-            textAlign: 'center',
-            padding: '40px 20px',
-            color: '#666'
-          }}>
-            <div style={{ fontSize: '20px', marginBottom: '8px' }}>⏳</div>
-            <p style={{ margin: 0, fontSize: '14px' }}>Đang kết nối...</p>
-          </div>
-        ) : (
-          <>
-            {messages.length === 0 ? (
-              <div style={{
-                textAlign: 'center',
-                padding: '30px 20px',
-                color: '#666'
-              }}>
-                <div style={{ fontSize: '24px', marginBottom: '12px' }}>👋</div>
-                <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', color: '#333' }}>
-                  Chào mừng bạn!
-                </h4>
-                <p style={{ margin: 0, fontSize: '13px', lineHeight: '1.4' }}>
-                  Hãy gửi tin nhắn để được hỗ trợ.<br/>
-                  Chúng tôi sẽ phản hồi sớm nhất có thể.
-                </p>
-              </div>
-            ) : (
-              <>
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    style={{
-                      display: 'flex',
-                      justifyContent: msg.isAdmin ? 'flex-start' : 'flex-end',
-                      marginBottom: '12px'
-                    }}
-                  >
-                    <div style={{ maxWidth: '80%' }}>
-                      <div style={{
-                        fontSize: '10px',
-                        color: '#888',
-                        marginBottom: '2px',
-                        textAlign: msg.isAdmin ? 'left' : 'right',
-                        paddingLeft: msg.isAdmin ? '12px' : '0',
-                        paddingRight: msg.isAdmin ? '0' : '12px'
-                      }}>
-                        {msg.senderName} • {formatTimestamp(msg.timestamp)}
-                      </div>
-                      
-                      <div style={{
-                        padding: '10px 14px',
-                        borderRadius: msg.isAdmin ? '16px 16px 16px 4px' : '16px 16px 4px 16px',
-                        backgroundColor: msg.isAdmin ? '#e9ecef' : '#007bff',
-                        color: msg.isAdmin ? '#333' : 'white',
-                        fontSize: '14px',
-                        wordWrap: 'break-word',
-                        lineHeight: '1.4',
-                        boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                        position: 'relative'
-                      }}>
-                        {msg.text}
-                        
-                        {!msg.isAdmin && (
-                          <div style={{
-                            fontSize: '9px',
-                            opacity: 0.8,
-                            marginTop: '4px',
-                            textAlign: 'right'
-                          }}>
-                            ✓
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </>
-            )}
-          </>
-        )}
-      </div>
-
-      <div style={{
-        padding: '12px 16px',
-        borderTop: '1px solid #eee',
-        backgroundColor: '#fff',
-        borderRadius: '0 0 12px 12px'
-      }}>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
-          <div style={{ flex: 1, position: 'relative' }}>
-            <textarea
-              ref={inputRef}
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Nhập tin nhắn..."
-              disabled={sending || loading}
-              style={{
-                width: '100%',
-                minHeight: '36px',
-                maxHeight: '80px',
-                padding: '10px 12px',
-                border: '1px solid #ddd',
-                borderRadius: '18px',
-                fontSize: '14px',
-                resize: 'none',
-                outline: 'none',
-                fontFamily: 'inherit',
-                lineHeight: '1.3',
-                backgroundColor: (sending || loading) ? '#f8f9fa' : '#fff'
-              }}
-              rows="1"
-              onInput={(e) => {
-                e.target.style.height = 'auto';
-                e.target.style.height = Math.min(e.target.scrollHeight, 80) + 'px';
-              }}
-            />
-            {sending && (
-              <div style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#6c757d',
-                fontSize: '11px'
-              }}>
-                ⏳
-              </div>
-            )}
-          </div>
-          
-          <button
-            onClick={handleSendMessage}
-            disabled={!newMessage.trim() || sending || loading}
-            style={{
-              padding: '10px 16px',
-              backgroundColor: (!newMessage.trim() || sending || loading) ? '#6c757d' : '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '18px',
-              cursor: (!newMessage.trim() || sending || loading) ? 'not-allowed' : 'pointer',
-              fontSize: '13px',
-              fontWeight: '500',
-              minWidth: '60px',
-              transition: 'background-color 0.2s ease'
-            }}
-            title={sending ? 'Đang gửi...' : 'Gửi tin nhắn'}
+        
+        <div className="chat-controls">
+          <button 
+            onClick={() => setIsMinimized(!isMinimized)}
+            className="control-btn"
+            title={isMinimized ? "Mở rộng" : "Thu nhỏ"}
           >
-            {sending ? '⏳' : '📤'}
+            {isMinimized ? <Maximize2 size={16} /> : <Minimize2 size={16} />}
+          </button>
+          <button 
+            onClick={closeChat}
+            className="control-btn close-btn"
+            title="Đóng"
+          >
+            <X size={16} />
           </button>
         </div>
-        
-        <div style={{
-          fontSize: '10px',
-          color: '#888',
-          marginTop: '6px',
-          textAlign: 'center'
-        }}>
-          Nhấn Enter để gửi • Shift + Enter để xuống dòng
-        </div>
       </div>
+
+      {/* Chat Body */}
+      {!isMinimized && (
+        <>
+          {/* Online Users */}
+          <div className="online-users">
+            <div className="online-indicator">
+              <div className="green-dot"></div>
+              <span>{onlineUsers.length} người đang online</span>
+            </div>
+          </div>
+
+          {/* Messages */}
+          <div className="chat-messages">
+            {messages.length === 0 ? (
+              <div className="no-messages">
+                <MessageCircle size={48} />
+                <p>Chào mừng bạn đến với dịch vụ tư vấn!</p>
+                <p>Hãy gửi tin nhắn để bắt đầu cuộc trò chuyện.</p>
+              </div>
+            ) : (
+              messages.map((msg, index) => (
+                <div 
+                  key={index} 
+                  className={`message ${isOwnMessage(msg.user) ? 'own' : 'other'}`}
+                >
+                  {!isOwnMessage(msg.user) && (
+                    <div className="message-avatar">
+                      {msg.user.avatar ? (
+                        <img src={msg.user.avatar} alt={msg.user.username} />
+                      ) : (
+                        <User size={20} />
+                      )}
+                    </div>
+                  )}
+                  
+                  <div className="message-content">
+                    {!isOwnMessage(msg.user) && (
+                      <div className="message-sender">
+                        {msg.user.username}
+                        {msg.user.role === 'admin' && (
+                          <span className="admin-badge">Admin</span>
+                        )}
+                      </div>
+                    )}
+                    
+                    <div className="message-bubble">
+                      {msg.content}
+                    </div>
+                    
+                    <div className="message-time">
+                      <Clock size={12} />
+                      {formatTime(msg.timestamp)}
+                      {isOwnMessage(msg.user) && (
+                        <CheckCircle2 size={12} className="message-status" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+            
+            {/* Typing Indicator */}
+            {typingUsers.length > 0 && (
+              <div className="typing-indicator">
+                <div className="typing-animation">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span>
+                  {typingUsers.join(', ')} đang soạn tin...
+                </span>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Message Input */}
+          <form onSubmit={handleSendMessage} className="chat-input-form">
+            <div className="chat-input-container">
+              <textarea
+                ref={inputRef}
+                value={message}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder={
+                  user 
+                    ? "Nhập tin nhắn..." 
+                    : "Vui lòng đăng nhập để gửi tin nhắn"
+                }
+                className="chat-input"
+                disabled={!user || !isConnected}
+                rows={1}
+              />
+              <button 
+                type="submit" 
+                className="send-btn"
+                disabled={!message.trim() || !user || !isConnected}
+                title="Gửi tin nhắn"
+              >
+                <Send size={20} />
+              </button>
+            </div>
+            
+            {!user && (
+              <div className="login-prompt">
+                Bạn cần <a href="/login">đăng nhập</a> để sử dụng tính năng tư vấn
+              </div>
+            )}
+          </form>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default ChatPopup;
