@@ -6,29 +6,29 @@ const developers = [
   {
     name: "Đỗ Hoàng Tùng",
     role: "Developer",
-    description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
-    image: "/photos/tung.jpg",
+    description: "Thiết kế, viết mã và bảo trì phần mềm. Chuyển yêu cầu thành giải pháp kỹ thuật.",
+    image: "https://i.pinimg.com/736x/9c/75/7d/9c757ddd8aaa525c6e8f6eb1ec30157b.jpg",
     borderColor: "black"
   },
   {
     name: "Nguyễn Trường Sinh",
     role: "Project Manager",
-    description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
-    image: "https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/Image%20FP_2024/meme-meo-4.jpg",
+    description: "Lập kế hoạch, điều phối và giám sát dự án, đảm bảo đúng tiến độ và ngân sách.",
+    image: "https://i.pinimg.com/736x/aa/0b/29/aa0b29596cdf5f154d416156a615036a.jpg",
     borderColor: "black"
   },
   {
     name: "Nguyễn Thị Ngát",
     role: "Data Analyst",
-    description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
-    image: "photos/IMG_9373.JPG",
+    description: "Thu thập, xử lý và phân tích dữ liệu để đưa ra quyết định kinh doanh.",
+    image: "https://i.pinimg.com/736x/49/79/42/49794284a4d5095fc99d5543753b5de7.jpg",
     borderColor: "black"
   },
   {
     name: "Lương Tuyết Nhi",
     role: "Designer",
-    description: "There are many variations of passages but the majority have suffered alteration in some form by injected.",
-    image: "photos/IMG_9374.JPG",
+    description: "Tạo giao diện và trải nghiệm người dùng đẹp, dễ dùng, phù hợp thương hiệu.",
+    image: "https://i.pinimg.com/736x/d7/b5/ce/d7b5cef4d6dc42fcf36fb1d31188a05a.jpg",
     borderColor: "black"
   }
 ];

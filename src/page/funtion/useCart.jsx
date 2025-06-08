@@ -122,10 +122,7 @@ export function CartProvider({ children }) {
           setCartItems(
             updatedResponse.data.data.filter((item) => item.id_product)
           );
-          toast.success(`${productName} đã được thêm vào giỏ hàng`, {
-            position: "bottom-right",
-            autoClose: 3000,
-          });
+          toast.success(`${productName} đã được thêm vào giỏ hàng`);
         } else {
           toast.error(updatedResponse.data.message || "Lỗi khi tải giỏ hàng");
         }

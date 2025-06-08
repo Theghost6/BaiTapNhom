@@ -1,3 +1,5 @@
+/* sidebar.css - Updated with new color scheme for cyberpunk aesthetic */
+
 /* Contact Page Styles */
 .contact-wrapper {
   display: flex;
@@ -6,10 +8,10 @@
   max-width: 1100px;
   margin: 3rem auto;
   padding: 2rem;
-  background-color: #FFFFFF; /* White */
+  background-color: #FFFFFF; /* Matches specified background */
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adjusted shadow opacity */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Aligned with product page */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-section {
@@ -19,7 +21,7 @@
 }
 
 .contact-subtitle {
-  color: #8000FF; /* Neon Purple */
+  color: #77CDFF; /* Primary lighter blue for neon effect */
   font-weight: bold;
   margin-bottom: 0.3rem;
 }
@@ -27,18 +29,18 @@
 .contact-title {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #000000; /* Black */
+  color: #0D92F4; /* Primary darker blue for prominence */
   margin-bottom: 0.5rem;
 }
 
 .contact-description {
   font-size: 0.9rem;
-  color: #666; /* Darker gray for contrast */
+  color: #666; /* Retained for readability */
   margin-bottom: 1rem;
 }
 
 .required {
-  color: #FF0000; /* Red */
+  color: #C62E2E; /* Secondary darker red */
 }
 
 .contact-form {
@@ -63,7 +65,7 @@
 input,
 textarea {
   padding: 0.75rem;
-  border: 1px solid #CCCCCC; /* Light Gray */
+  border: 1px solid #CCCCCC; /* Retained for neutral borders */
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
@@ -72,8 +74,8 @@ textarea {
 
 input:focus,
 textarea:focus {
-  border-color: #FF0000; /* Red */
-  outline: 2px solid #FF0000; /* Red for accessibility */
+  border-color: #0D92F4; /* Primary darker blue */
+  outline: 2px solid #77CDFF; /* Primary lighter blue for accessibility */
 }
 
 textarea {
@@ -81,8 +83,8 @@ textarea {
 }
 
 .contact-wrapper-button {
-  background-color: #FF0000; /* Red */
-  color: #FFFFFF; /* White */
+  background-color: #C62E2E; /* Secondary darker red */
+  color: #FFFFFF; /* White for contrast */
   padding: 0.9rem;
   border: none;
   border-radius: 8px;
@@ -92,11 +94,11 @@ textarea {
 }
 
 .contact-wrapper-button:hover {
-  background-color: #CC0000; /* Darker Red */
+  background-color: #F95454; /* Secondary lighter red */
 }
 
 .contact-wrapper-button:disabled {
-  background-color: #CCCCCC; /* Light Gray */
+  background-color: #CCCCCC; /* Retained for disabled state */
   cursor: not-allowed;
 }
 
@@ -117,10 +119,10 @@ textarea {
 
 .success-message {
   padding: 1rem;
-  background-color: #E6E6E6; /* Light grayish for contrast */
-  border: 1px solid #8000FF; /* Neon Purple */
+  background-color: #E6E6E6; /* Retained for contrast */
+  border: 1px solid #0D92F4; /* Primary darker blue */
   border-radius: 10px;
-  color: #000000; /* Black */
+  color: #0D92F4; /* Primary darker blue for text */
   font-size: 1.1rem;
 }
 

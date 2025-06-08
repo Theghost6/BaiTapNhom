@@ -182,7 +182,7 @@
                 "socket": "LGA 1700",
                 "cache": "L2: 20MB, L3: 24MB"
             },
-            "so_luong": 19,
+            "so_luong": 18,
             "mo_ta": "CPU Intel Core i5-14500 là một vi xử lý thế hệ mới nhà Intel. Sở hữu thiết kế có khả năng mang tới hiệu suất ổn định và xử lý đa nhiệm cho máy tính cá nhân chắc chắn rằng khi trang bị sẽ mang tới cho thiết bị của bạn khả năng hoạt động mạnh mẽ, ấn tượng vượt xa những gì mà bạn mong đợi.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2024-12-13",
@@ -896,7 +896,7 @@
                 "latency": "CL36",
                 "voltage": "1.35V"
             },
-            "so_luong": 25,
+            "so_luong": 22,
             "mo_ta": "G.Skill Trident Z5 RGB 32GB là bộ RAM DDR5 hiệu năng cao dành cho chơi game và công việc chuyên nghiệp. Với dung lượng 32GB (2x16GB) và tốc độ DDR5-6000, sản phẩm cung cấp băng thông vượt trội cho đa nhiệm, chỉnh sửa video và chơi game nặng. Độ trễ CL36 và điện áp 1.35V đảm bảo ổn định ngay cả khi tải nặng. Tương thích với nền tảng Intel và AMD, RAM hỗ trợ XMP 3.0 để ép xung dễ dàng. Tấm tản nhiệt nhôm và đèn RGB tùy chỉnh qua phần mềm G.Skill hoặc bo mạch chủ nâng cao tính thẩm mỹ. Phù hợp cho PC cao cấp chạy Adobe Photoshop hoặc game như Starfield, bộ RAM này mang lại tốc độ, độ tin cậy và phong cách. Thiết kế thấp đảm bảo tương thích với tản nhiệt CPU lớn, là lựa chọn lý tưởng cho người dùng muốn hiệu năng và vẻ đẹp.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-04-26",
@@ -2006,7 +2006,7 @@
                 "boostClock": "2.55 GHz",
                 "power": "220W"
             },
-            "so_luong": 25,
+            "so_luong": 24,
             "mo_ta": "ZOTAC RTX 4060 Ti Twin Edge 8GB GDDR6 là card đồ họa tầm trung cao cấp sử dụng kiến trúc Ada Lovelace của NVIDIA, lý tưởng cho chơi game 1440p và sáng tạo nội dung. Với 8GB GDDR6 và 4352 nhân CUDA, card mang lại hiệu suất cao trong các tựa game AAA và phần mềm thiết kế đồ họa. Xung nhịp tăng tốc lên đến 2.55 GHz và hỗ trợ công nghệ Ray Tracing cùng DLSS 3, mang đến hiệu suất chơi game tuyệt vời và chất lượng hình ảnh sống động. Tản nhiệt Twin Edge với hai quạt giúp giảm nhiệt độ, duy trì hiệu suất ổn định. Đây là lựa chọn lý tưởng cho các game thủ và nhà sáng tạo yêu cầu hiệu suất mạnh mẽ với mức giá hợp lý.",
             "trang_thai": "Còn hàng",
             "updatedAt": "2025-05-01",

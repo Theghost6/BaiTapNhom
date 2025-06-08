@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // Thêm useState
 import { useNavigate } from 'react-router-dom';
 import { useCart } from './useCart';
 import '../../style/cart.css';
@@ -7,12 +7,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
-
 const Cart = () => {
-
   const navigate = useNavigate();
   const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart, updateQuantity } = useCart();
   const { isAuthenticated } = useContext(AuthContext) || {};
+
+  // State để lưu trữ các sản phẩm được chọn
+  const [selectedItems, setSelectedItems] = useState(
+    cartItems.map(item => item.id_product) // Mặc định chọn tất cả sản phẩm
+  );
+
   // Create a lookup for product details
   const Products = Object.values(LinhKien).flat();
   const getProductDetails = cartItems
@@ -28,19 +32,51 @@ const Cart = () => {
       };
     });
 
+  // Tính tổng giá trị của các sản phẩm được chọn
+  const selectedTotalAmount = getProductDetails
+    .filter(item => selectedItems.includes(item.id_product))
+    .reduce((total, item) => total + item.gia * item.so_luong, 0);
+
+  // Xử lý khi checkbox thay đổi
+  const handleSelectItem = (itemId) => {
+    setSelectedItems(prev =>
+      prev.includes(itemId)
+        ? prev.filter(id => id !== itemId)
+        : [...prev, itemId]
+    );
+  };
+
+  // Chọn hoặc bỏ chọn tất cả sản phẩm
+  const handleSelectAll = () => {
+    if (selectedItems.length === cartItems.length) {
+      setSelectedItems([]); // Bỏ chọn tất cả
+    } else {
+      setSelectedItems(cartItems.map(item => item.id_product)); // Chọn tất cả
+    }
+  };
+
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
+    setSelectedItems(prev => prev.filter(id => id !== itemId)); // Xóa sản phẩm khỏi danh sách đã chọn
   };
 
   const handleClearCart = () => {
     if (window.confirm('Bạn có chắc chắn muốn xoá tất cả sản phẩm trong giỏ hàng?')) {
       clearCart();
+      setSelectedItems([]); // Xóa danh sách đã chọn
     }
   };
 
-
   const handleCheckout = () => {
-    navigate('/checkout', { state: { products: getProductDetails } });
+    // Chỉ gửi các sản phẩm được chọn
+    const selectedProducts = getProductDetails.filter(item =>
+      selectedItems.includes(item.id_product)
+    );
+    if (selectedProducts.length === 0) {
+      alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
+      return;
+    }
+    navigate('/checkout', { state: { products: selectedProducts } });
   };
 
   const handleContinueShopping = () => {
@@ -64,6 +100,7 @@ const Cart = () => {
   // Debug cartItems and getProductDetails
   console.log('cartItems:', cartItems);
   console.log('getProductDetails:', getProductDetails);
+  console.log('selectedItems:', selectedItems);
 
   if (!isAuthenticated) {
     return (
@@ -100,12 +137,19 @@ const Cart = () => {
       <div className="cart-items-container">
         <div className="cart-summary-header">
           <p>Tổng sản phẩm: <strong>{totalQuantity}</strong></p>
-          <p>Tổng giá trị: <strong>{formatPrice(totalAmount)}</strong></p>
+          <p>Tổng giá trị (đã chọn): <strong>{formatPrice(selectedTotalAmount)}</strong></p>
         </div>
         <div className="cart-table-responsive">
           <table className="cart-table">
             <thead>
               <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.length === cartItems.length}
+                    onChange={handleSelectAll}
+                  />
+                </th>
                 <th>Sản phẩm</th>
                 <th>Loại</th>
                 <th>Giá</th>
@@ -116,6 +160,13 @@ const Cart = () => {
             <tbody>
               {getProductDetails.map((item) => (
                 <tr key={item.id_product} className="cart-item">
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.includes(item.id_product)}
+                      onChange={() => handleSelectItem(item.id_product)}
+                    />
+                  </td>
                   <td>
                     <div className="item-info">
                       <img src={item.images} alt={item.ten} className="item-image" />
@@ -160,14 +211,14 @@ const Cart = () => {
         </div>
         <div className="cart-checkout">
           <div className="cart-total">
-            <h4>Tổng cộng</h4>
+            <h4>Tổng cộng (đã chọn)</h4>
             <div className="total-row">
               <span>Tổng tiền:</span>
-              <span>{formatPrice(totalAmount)}</span>
+              <span>{formatPrice(selectedTotalAmount)}</span>
             </div>
           </div>
           <button onClick={handleCheckout} className="checkout-button">
-            Tiến hành thanh toán
+            Tiến hành thanh toán
           </button>
         </div>
       </div>

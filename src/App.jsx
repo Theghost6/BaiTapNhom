@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -14,7 +15,9 @@ import "./style/app.css";
 import ScrollToTop from "./page/funtion/ScrollToTop";
 import { createGlobalStyle } from "styled-components";
 import styled from 'styled-components';
-
+// Context Providers
+import { SocketProvider } from './page/chat/SocketContext';
+import { ChatProvider } from './page/chat/ChatContext';
 const ResponsiveDiv = styled.div`
   padding: 20px;
 
@@ -52,6 +55,23 @@ const Blog = lazy(() => import("./page/funtion/Blog"));
 const Invoice = lazy(() => import("./page/funtion/Invoice"));
 const Wishlist = lazy(() => import("./page/funtion/Wishlist"));
 
+const RequireAuth = ({ children, allowedRoles }) => {
+  const user = JSON.parse(localStorage.getItem("user")); // hoặc context, redux...
+  const location = useLocation();
+
+  if (!user) {
+    // Chưa đăng nhập
+    return <Navigate to="/register" state={{ from: location }} replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    // Không có quyền
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
+};
+
 // NotFound component
 const NotFound = () => (
   <motion.div
@@ -81,258 +101,264 @@ const App = () => {
       <GlobalStyle />
       <AuthProvider>
         <CartProvider>
-          <Router>
-            <ScrollToTop />
-            <div className="page-container">
-              <Header />
-              <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-              <Suspense fallback={<div className="loading">Đang tải...</div>}>
-                <AnimatePresence mode="wait">
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        <motion.div
-                          key="home"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Home />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/register"
-                      element={
-                        <motion.div
-                          key="register"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Register />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/AllLinhKien"
-                      element={
-                        <motion.div
-                          key="all-linh-kien"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <AllLinhKien />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/Profile"
-                      element={
-                        <motion.div
-                          key="profile"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Profile />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/checkout"
-                      element={
-                        <motion.div
-                          key="checkout"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Checkout />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/invoice"
-                      element={
-                        <motion.div
-                          key="invoice"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Invoice />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/cart"
-                      element={
-                        <motion.div
-                          key="cart"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Cart />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/admin"
-                      element={
-                        <motion.div
-                          key="admin"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Admin />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/thankyou"
-                      element={
-                        <motion.div
-                          key="thankyou"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <ThankYou />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/linh-kien/:id"
-                      element={
-                        <motion.div
-                          key="chi-tiet-linh-kien"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <ChiTietLinhKien />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/contact"
-                      element={
-                        <motion.div
-                          key="contact"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Contact />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/developer"
-                      element={
-                        <motion.div
-                          key="developer"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Developer />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/blog"
-                      element={
-                        <motion.div
-                          key="blog"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Blog />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/tracuu"
-                      element={
-                        <motion.div
-                          key="tracuu"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <TraCuuDonHang />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/lich_su_don_hang"
-                      element={
-                        <motion.div
-                          key="lich-su-don-hang"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <LichSuDonHang />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="/wishlist"
-                      element={
-                        <motion.div
-                          key="wishlist"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <Wishlist />
-                        </motion.div>
-                      }
-                    />
-                    <Route
-                      path="*"
-                      element={
-                        <motion.div
-                          key="not-found"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
-                          <NotFound />
-                        </motion.div>
-                      }
-                    />
-                  </Routes>
-                </AnimatePresence>
-              </Suspense>
-              <Footer />
-            </div>
-          </Router>
+          <SocketProvider>
+            <ChatProvider>
+              <Router>
+                <ScrollToTop />
+                <div className="page-container">
+                  <Header />
+                  <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+                  <Suspense fallback={<div className="loading">Đang tải...</div>}>
+                    <AnimatePresence mode="wait">
+                      <Routes>
+                        <Route
+                          path="/"
+                          element={
+                            <motion.div
+                              key="home"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Home />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/register"
+                          element={
+                            <motion.div
+                              key="register"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Register />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/AllLinhKien"
+                          element={
+                            <motion.div
+                              key="all-linh-kien"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <AllLinhKien />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/Profile"
+                          element={
+                            <motion.div
+                              key="profile"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Profile />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/checkout"
+                          element={
+                            <motion.div
+                              key="checkout"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Checkout />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/invoice"
+                          element={
+                            <motion.div
+                              key="invoice"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Invoice />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/cart"
+                          element={
+                            <motion.div
+                              key="cart"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Cart />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/admin"
+                          element={
+                            <RequireAuth allowedRoles={["admin"]}>
+                              <motion.div
+                                key="admin"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5, ease: "easeInOut" }}
+                              >
+                                <Admin />
+                              </motion.div>
+                            </RequireAuth>
+                          }
+                        />
+                        <Route
+                          path="/thankyou"
+                          element={
+                            <motion.div
+                              key="thankyou"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <ThankYou />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/linh-kien/:id"
+                          element={
+                            <motion.div
+                              key="chi-tiet-linh-kien"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <ChiTietLinhKien />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/contact"
+                          element={
+                            <motion.div
+                              key="contact"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Contact />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/developer"
+                          element={
+                            <motion.div
+                              key="developer"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Developer />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/blog"
+                          element={
+                            <motion.div
+                              key="blog"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Blog />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/tracuu"
+                          element={
+                            <motion.div
+                              key="tracuu"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <TraCuuDonHang />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/lich_su_don_hang"
+                          element={
+                            <motion.div
+                              key="lich-su-don-hang"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <LichSuDonHang />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="/wishlist"
+                          element={
+                            <motion.div
+                              key="wishlist"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <Wishlist />
+                            </motion.div>
+                          }
+                        />
+                        <Route
+                          path="*"
+                          element={
+                            <motion.div
+                              key="not-found"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <NotFound />
+                            </motion.div>
+                          }
+                        />
+                      </Routes>
+                    </AnimatePresence>
+                  </Suspense>
+                  <Footer />
+                </div>
+              </Router>
+            </ChatProvider>
+          </SocketProvider>
         </CartProvider>
       </AuthProvider>
     </>

@@ -15,17 +15,28 @@ $conn->set_charset("utf8mb4");
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Dynamically construct the path to Linh_kien.json
+$base_path = realpath($_SERVER['DOCUMENT_ROOT'] . '/BaiTapNhom');
+$json_file = $base_path . '/src/page/funtion/Linh_kien.json';
+if (!file_exists($json_file)) {
+    echo json_encode(["success" => false, "message" => "JSON file not found at: " . $json_file]);
+    exit();
+}
+$json_data = json_decode(file_get_contents($json_file), true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    echo json_encode(["success" => false, "message" => "Invalid JSON format"]);
+    exit();
+}
+
 if ($method === 'GET') {
     $ma_nguoi_dung = isset($_GET['ma_nguoi_dung']) ? intval($_GET['ma_nguoi_dung']) : 0;
     $id_product = isset($_GET['id_product']) ? $conn->real_escape_string($_GET['id_product']) : '';
 
-    if ($ma_nguoi_dung <= 0) {
-        echo json_encode(["success" => false, "message" => "Thiếu mã người dùng"]);
-        exit();
-    }
-
     if ($id_product) {
-        // Kiểm tra trạng thái yêu thích của một sản phẩm cụ thể
+        if ($ma_nguoi_dung <= 0) {
+            echo json_encode(["success" => false, "message" => "Thiếu mã người dùng cho kiểm tra sản phẩm"]);
+            exit();
+        }
         $sql = "SELECT id FROM yeu_thich WHERE ma_nguoi_dung = ? AND id_product = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("is", $ma_nguoi_dung, $id_product);
@@ -38,16 +49,37 @@ if ($method === 'GET') {
         ]);
         $stmt->close();
     } else {
-        // Lấy toàn bộ danh sách sản phẩm yêu thích
-        $sql = "SELECT id, id_product, ngay_them FROM yeu_thich WHERE ma_nguoi_dung = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $ma_nguoi_dung);
+        if ($ma_nguoi_dung === 0) {
+            $sql = "SELECT id, ma_nguoi_dung, id_product, ngay_them FROM yeu_thich";
+            $stmt = $conn->prepare($sql);
+        } else {
+            $sql = "SELECT id, ma_nguoi_dung, id_product, ngay_them FROM yeu_thich WHERE ma_nguoi_dung = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $ma_nguoi_dung);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
 
         $items = [];
         while ($row = $result->fetch_assoc()) {
-            $items[] = $row;
+            $ten_san_pham = "Không xác định";
+            $id_product = $row['id_product'] ?? '';
+            // Iterate through each category in the JSON data
+            foreach ($json_data as $category => $products) {
+                foreach ($products as $product) {
+                    if (isset($product['id']) && $product['id'] === $id_product) {
+                        $ten_san_pham = $product['ten'] ?? "Không xác định";
+                        break 2; // Exit both loops once a match is found
+                    }
+                }
+            }
+            $items[] = [
+                'id' => $row['id'] ?? null,
+                'ma_nguoi_dung' => $row['ma_nguoi_dung'] ?? null,
+                'id_product' => $id_product,
+                'ngay_them' => $row['ngay_them'] ?? null,
+                'ten_san_pham' => $ten_san_pham
+            ];
         }
 
         echo json_encode([
@@ -57,7 +89,6 @@ if ($method === 'GET') {
         $stmt->close();
     }
 } elseif ($method === 'POST') {
-    // Thêm hoặc xóa khỏi danh sách yêu thích
     $data = json_decode(file_get_contents("php://input"), true);
     $ma_nguoi_dung = isset($data['ma_nguoi_dung']) ? intval($data['ma_nguoi_dung']) : 0;
     $id_product = isset($data['id_product']) ? $conn->real_escape_string($data['id_product']) : '';

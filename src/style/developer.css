@@ -267,3 +267,130 @@
     border-radius: 3px;
   }
 }
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  .developer-page {
+    padding: 20px 10px;
+  }
+
+  .developer-title {
+    font-size: 24px;
+  }
+
+  .developer-subtitle {
+    font-size: 16px;
+    margin-top: 6px;
+  }
+
+  .subtitle-icon {
+    font-size: 1rem;
+    margin-right: 6px;
+  }
+
+  .developer-list {
+    margin-top: 20px;
+    gap: 15px;
+  }
+
+  .developer-card {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+    border: 2px solid #77CDFF; /* Màu chủ đạo nhạt */
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .developer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .developer-img {
+    height: 180px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+  }
+
+  .developer-name {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  .developer-role {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .developer-description {
+    font-size: 13px;
+  }
+}
+
+/* Mobile (max-width: 320px) */
+@media (max-width: 320px) {
+  .developer-page {
+    padding: 15px 8px; /* Giảm padding để tiết kiệm không gian */
+    background-color: #FFFFFF; /* Nền trắng */
+  }
+
+  .developer-title {
+    font-size: 20px; /* Giảm kích thước tiêu đề */
+  }
+
+  .developer-subtitle {
+    font-size: 14px; /* Giảm kích thước phụ đề */
+    margin-top: 5px;
+  }
+
+  .subtitle-icon {
+    font-size: 0.9rem; /* Giảm kích thước icon */
+    margin-right: 5px;
+  }
+
+  .developer-list {
+    margin-top: 15px; /* Giảm khoảng cách trên */
+    gap: 12px; /* Giảm khoảng cách giữa các card */
+  }
+
+  .developer-card {
+    width: 100%;
+    max-width: 280px; /* Thu nhỏ tối đa để vừa màn hình */
+    padding: 12px; /* Giảm padding */
+    border: 1px solid #77CDFF; /* Màu chủ đạo nhạt, giảm độ dày viền */
+    border-radius: 3px; /* Bo góc nhỏ hơn */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* Giảm shadow */
+  }
+
+  .developer-card:hover {
+    transform: translateY(-2px); /* Giảm hiệu ứng nâng */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  .developer-img {
+    height: 160px; /* Giảm chiều cao ảnh */
+    margin-bottom: 10px;
+    border-radius: 3px; /* Bo góc nhỏ hơn */
+  }
+
+  .developer-name {
+    font-size: 16px; /* Giảm kích thước tên */
+    margin-bottom: 2px;
+  }
+
+  .developer-role {
+    font-size: 13px; /* Giảm kích thước vai trò */
+    margin-bottom: 5px;
+    color: #F95454; /* Màu phụ đạo nhạt */
+  }
+
+  .developer-description {
+    font-size: 12px; /* Giảm kích thước mô tả */
+  }
+
+  .developer-card:focus-within {
+    outline: 1px solid #F95454; /* Màu phụ đạo nhạt, giảm độ dày outline */
+    border-radius: 3px;
+  }
+}

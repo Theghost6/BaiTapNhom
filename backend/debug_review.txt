@@ -24,3 +24,9 @@ Content-Type: application/json
 Content-Type: application/json
 {"id_product":"cpu001","ten_nguoi_dung":"Admin","so_sao":4,"binh_luan":"sản phẩm ok","ngay":"2025-06-05"}
 Content-Type: application/json
+{"id_product":"cpu001","ten_nguoi_dung":"Admin","so_sao":5,"binh_luan":"fff","ngay":"2025-06-06"}
+Content-Type: application/json
+{"id_product":"case009","ten_nguoi_dung":"ldhoa","so_sao":5,"binh_luan":"halo\n","ngay":"2025-06-07"}
+Content-Type: application/json
+{"id_product":"cpu005","ten_nguoi_dung":"A","so_sao":5,"binh_luan":"hhh","ngay":"2025-06-08"}
+Content-Type: application/json

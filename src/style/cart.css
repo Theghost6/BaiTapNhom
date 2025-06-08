@@ -51,8 +51,27 @@
   color: #000000; /* Đen */
 }
 
+.cart-table th.checkbox-column,
+.cart-table td.checkbox-column {
+  width: 50px;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+.cart-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #FF0000; /* Đỏ */
+  transition: accent-color 0.3s ease;
+}
+
+.cart-table input[type="checkbox"]:hover {
+  accent-color: #8000FF; /* Tím neon khi hover */
+}
+
 .cart-item:hover {
-  background-color: #FFFFFF; /* Nền trắng */
+  background-color: #F9F9F9; /* Nền xám nhạt khi hover */
 }
 
 .item-info {
@@ -93,33 +112,6 @@ input[type="number"] {
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1); /* Đen nhạt */
   text-align: center;
-}
-
-/*  */
-.item-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.item-image {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.item-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.remove-button {
-  background: transparent;
-  border: none;
-  color: #e74c3c;
-  cursor: pointer;
-  font-weight: bold;
 }
 
 /* cart actions */
@@ -209,6 +201,17 @@ input[type="number"] {
   .cart-table {
     min-width: 100%;
     font-size: 13px;
+  }
+
+  .cart-table th.checkbox-column,
+  .cart-table td.checkbox-column {
+    width: 40px;
+    padding: 8px 4px;
+  }
+
+  .cart-table input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
   }
 
   .item-image {

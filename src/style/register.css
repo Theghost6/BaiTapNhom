@@ -114,7 +114,7 @@ form {
 .btn {
   width: 100%;
   height: 48px;
-  background: #4a90e2;
+  background: #77cdff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: none;
@@ -136,7 +136,7 @@ form {
   left: -250%;
   width: 300%;
   height: 100%;
-  background: #4a90e2;
+  background: #77cdff;
   /* border: 2px solid red; */
   border-radius: 150px;
   z-index: 2;

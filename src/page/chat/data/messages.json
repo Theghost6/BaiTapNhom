@@ -1,0 +1,106 @@
+[
+  {
+    "id": "1749371605176y8r8vjsrb",
+    "content": "ok",
+    "user": {
+      "id": "9",
+      "username": "ldhoa",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T08:33:25.176Z"
+  },
+  {
+    "id": "1749371625056o9n2fpnsp",
+    "content": "ok",
+    "user": {
+      "id": "9",
+      "username": "ldhoa",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T08:33:45.056Z"
+  },
+  {
+    "id": "1749372622662nef0s31pn",
+    "content": "ok đấy",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T08:50:22.662Z"
+  },
+  {
+    "id": "1749374559113eao6txol9",
+    "content": "ok tos gif",
+    "user": {
+      "id": "9",
+      "username": "hòa đình",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1111111119.jpg",
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T09:22:39.114Z"
+  },
+  {
+    "id": "1749374621352as8x9dw8p",
+    "content": "okok",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T09:23:41.352Z"
+  },
+  {
+    "id": "1749392735573ri2sovfhv",
+    "content": "baso",
+    "user": {
+      "id": "9",
+      "username": "hòa đình",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1111111119.jpg",
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T14:25:35.573Z"
+  },
+  {
+    "id": "17493927757074nbux1f3f",
+    "content": "pusy cat",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T14:26:15.708Z"
+  },
+  {
+    "id": "1749397528669az2ymym6i",
+    "content": "cc",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-08T15:45:28.669Z"
+  }
+]
