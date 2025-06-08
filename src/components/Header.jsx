@@ -83,74 +83,69 @@ const Header = () => {
   const USER_KEY = "user";
 
   // Check auth status and fetch user profile
-// Check auth status and fetch user profile
-useEffect(() => {
-  const checkAuthStatus = async () => {
-    const userData = localStorage.getItem(USER_KEY);
-    if (userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        parsedUser.role = parsedUser.role || "user";
-        setIsLoggedIn(true);
-        setUser(parsedUser);
-
-        // Fetch latest user data from server
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const userData = localStorage.getItem(USER_KEY);
+      if (userData) {
         try {
-          const response = await fetch(
-            `http://localhost/BaiTapNhom/backend/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
-            {
-              method: "GET",
+          const parsedUser = JSON.parse(userData);
+          parsedUser.role = parsedUser.role || "user";
+          setIsLoggedIn(true);
+          setUser(parsedUser);
+
+          // Fetch latest user data from server
+          try {
+            const response = await fetch(
+              `http://localhost/BaiTapNhom/backend/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
+              {
+                method: "GET",
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}, body: ${await response.text()}`);
             }
-          );
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}, body: ${await response.text()}`);
+            const result = await response.json();
+            if (result.success) {
+              const newUserData = {
+                ...parsedUser,
+                username: result.data.user,
+                identifier: parsedUser.type === "phone" ? result.data.phone : result.data.email,
+                type: parsedUser.type,
+                avatar: result.data.avatarUrl,
+              };
+
+              setUser(newUserData);
+              localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
+            } else {
+              console.error("API error:", result.message);
+              toast.error("Không thể tải thông tin người dùng '" + result.message + "'");
+            }
+          } catch (error) {
+            console.error("Error fetching user profile:", error);
+            toast.error("Lỗi khi tải thông tin người dùng: " + error.message);
           }
-
-          const result = await response.json();
-          if (result.success) {
-            const newUserData = {
-              ...parsedUser,
-              username: result.data.user,
-              identifier: parsedUser.type === "phone" ? result.data.phone : result.data.email,
-              type: parsedUser.type,
-              avatar: result.data.avatarUrl,
-            };
-
-            setUser(newUserData);
-            localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
-          } else {
-            console.error("API error:", result.message);
-            toast.error("Không thể tải thông tin người dùng '" + result.message + "'");
-          }
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-          toast.error("Lỗi khi tải thông tin người dùng: " + error.message);
+        } catch {
+          localStorage.removeItem(USER_KEY);
+          setIsLoggedIn(false);
+          setUser(null);
         }
-      } catch {
-        localStorage.removeItem(USER_KEY);
+      } else {
         setIsLoggedIn(false);
         setUser(null);
       }
-    } else {
-      setIsLoggedIn(false);
-      setUser(null);
-    }
-  };
+    };
 
-  checkAuthStatus();
-  const handleStorageChange = (event) => {
-    if (event.key === USER_KEY) {
-      checkAuthStatus();
-    }
-  };
-  window.addEventListener("storage", handleStorageChange);
-  return () => window.removeEventListener("storage", handleStorageChange);
-}, [location]);
-
-
-
-
+    checkAuthStatus();
+    const handleStorageChange = (event) => {
+      if (event.key === USER_KEY) {
+        checkAuthStatus();
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [location]);
 
   // Fetch top_menu items from API
   useEffect(() => {
@@ -253,6 +248,7 @@ useEffect(() => {
 
   const handleLogout = () => {
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem('guest_chat_id'); // Xóa guest chat ID khi đăng xuất
     setIsLoggedIn(false);
     setUser(null);
     setShowUserDropdown(false);
@@ -270,8 +266,12 @@ useEffect(() => {
 
   const handleMenuItemClick = (item) => {
     if (item.ten.toLowerCase() === "tư vấn" || item.ten.toLowerCase() === "consult") {
-      setShowLocationPopup(!showLocationPopup);
-            setShowChat(true);
+    // Mở ChatPopup cho tất cả người dùng (bao gồm admin)
+    setShowChat(true);
+  
+    } else if (item.ten.toLowerCase() === "liên hệ" || item.ten.toLowerCase() === "contact") {
+      // Mở popup thông tin liên hệ
+      setShowLocationPopup(true);
     } else if (item.url && item.url !== '#') {
       navigate(item.url);
     }
