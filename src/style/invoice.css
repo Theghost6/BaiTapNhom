@@ -4,11 +4,12 @@
   margin: 0 auto;
   padding: 20px;
   color: #333;
+  background-color: #FFFFFF; /* Nền trắng */
 }
 
 .invoice-container {
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color: #FFFFFF; /* Nền trắng */
+  border: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
   padding: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -16,12 +17,12 @@
 .invoice-header {
   text-align: center;
   margin-bottom: 30px;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid #77CDFF; /* Màu chủ đạo nhạt */
   padding-bottom: 20px;
 }
 
 .invoice-header h1 {
-  color: #2c3e50;
+  color: #0D92F4; /* Màu chủ đạo đậm */
   margin-bottom: 10px;
 }
 
@@ -36,13 +37,14 @@
 }
 
 .invoice-section h2 {
-  color: #2c3e50;
+  color: #0D92F4; /* Màu chủ đạo đậm */
   padding-bottom: 5px;
   font-size: 18px;
 }
 
 .customer-info p {
   margin: 20px 0;
+  color: #333;
 }
 
 .invoice-items {
@@ -52,20 +54,21 @@
 }
 
 .invoice-items th {
-  background-color: #f8f9fa;
+  background-color: #77CDFF; /* Màu chủ đạo nhạt */
   padding: 10px;
   text-align: left;
-  border: 1px solid #ddd;
+  border: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
+  color: #FFFFFF; /* Trắng để tương phản */
 }
 
 .invoice-items td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
+  color: #333;
 }
 
 .invoice-totals {
-    margin-top: -50px;
-  margin: 20px 0;
+  margin: 20px 0; /* Xóa margin-top âm để tránh chồng lấn */
   float: right;
   width: 300px;
 }
@@ -74,13 +77,15 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  color: #333;
 }
 
 .grand-total {
   font-weight: bold;
   font-size: 18px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
   padding-top: 10px;
+  color: #C62E2E; /* Màu phụ đạo đậm */
 }
 
 .invoice-footer {
@@ -92,10 +97,12 @@
 
 .thank-you {
   font-style: italic;
+  color: #333;
 }
 
 .signature {
   text-align: center;
+  color: #0D92F4; /* Màu chủ đạo đậm */
 }
 
 .invoice-actions {
@@ -104,8 +111,8 @@
 }
 
 .print-button {
-  background-color: #3498db;
-  color: white;
+  background-color: #0D92F4; /* Màu chủ đạo đậm */
+  color: #FFFFFF; /* Trắng */
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
@@ -114,29 +121,12 @@
 }
 
 .print-button:hover {
-  background-color: #2980b9;
+  background-color: #77CDFF; /* Màu chủ đạo nhạt khi hover */
 }
-
-@media print {
-  .invoice-actions {
-    display: none;
-  }
-  
-  body {
-    background-color: white;
-  }
-  
-  .invoice-container {
-    box-shadow: none;
-    border: none;
-    padding: 0;
-  }
-}
-
 
 .invoice-thanks {
-  background-color: #10b981; 
-  color: white;
+  background-color: #C62E2E; /* Màu phụ đạo đậm */
+  color: #FFFFFF; /* Trắng */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -144,14 +134,120 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-left: 10px; 
+  margin-left: 10px;
 }
 
 .invoice-thanks:hover {
-  background-color: #059669;
+  background-color: #F95454; /* Màu phụ đạo nhạt khi hover */
 }
 
 .invoice-thanks:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 0 3px rgba(198, 46, 46, 0.3); /* Màu phụ đạo đậm với opacity */
+}
+
+/* Print styles */
+@media print {
+  .invoice-actions {
+    display: none;
+  }
+
+  body {
+    background-color: #FFFFFF; /* Nền trắng */
+  }
+
+  .invoice-container {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+/* Responsive styles for 320px */
+@media (max-width: 320px) {
+  .invoice-page {
+    padding: 10px; /* Giảm padding */
+    background-color: #FFFFFF; /* Nền trắng */
+  }
+
+  .invoice-container {
+    padding: 15px; /* Giảm padding */
+    border: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Giảm shadow */
+  }
+
+  .invoice-header {
+    margin-bottom: 20px; /* Giảm margin */
+    padding-bottom: 15px;
+    border-bottom: 1px solid #77CDFF; /* Màu chủ đạo nhạt, giảm độ dày */
+  }
+
+  .invoice-header h1 {
+    font-size: 24px; /* Giảm kích thước tiêu đề */
+  }
+
+  .invoice-meta {
+    flex-direction: column; /* Chuyển sang cột để tránh tràn */
+    gap: 10px;
+    font-size: 14px; /* Giảm kích thước chữ */
+  }
+
+  .invoice-section {
+    margin-bottom: 20px; /* Giảm margin */
+  }
+
+  .invoice-section h2 {
+    font-size: 16px; /* Giảm kích thước tiêu đề */
+  }
+
+  .customer-info p {
+    margin: 15px 0; /* Giảm margin */
+    font-size: 14px; /* Giảm kích thước chữ */
+  }
+
+  .invoice-items th,
+  .invoice-items td {
+    padding: 8px; /* Giảm padding */
+    font-size: 13px; /* Giảm kích thước chữ */
+    border: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
+  }
+
+  .invoice-totals {
+    width: 100%; /* Toàn bộ chiều rộng */
+    float: none; /* Xóa float */
+    margin: 15px 0; /* Giảm margin */
+  }
+
+  .grand-total {
+    font-size: 16px; /* Giảm kích thước chữ */
+    border-top: 1px solid #77CDFF; /* Màu chủ đạo nhạt */
+  }
+
+  .invoice-footer {
+    flex-direction: column; /* Chuyển sang cột */
+    margin-top: 30px; /* Giảm margin */
+    padding-top: 15px;
+    gap: 15px;
+    font-size: 14px; /* Giảm kích thước chữ */
+  }
+
+  .invoice-actions {
+    margin-top: 20px; /* Giảm margin */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Thêm khoảng cách giữa các nút */
+    justify-content: center;
+  }
+
+  .print-button,
+  .invoice-thanks {
+    padding: 8px 15px; /* Giảm padding */
+    font-size: 14px; /* Giảm kích thước chữ */
+    border-radius: 3px; /* Bo góc nhỏ hơn */
+    margin-left: 0; /* Xóa margin-left cho .invoice-thanks */
+  }
+
+  .invoice-thanks:focus {
+    box-shadow: 0 0 0 2px rgba(198, 46, 46, 0.3); /* Giảm độ dày outline */
+  }
 }
