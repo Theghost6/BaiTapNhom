@@ -22,6 +22,4 @@ Reply inserted: id_danh_gia=14, time=2025-06-04 07:45:03
 Review inserted: id_product=psu003, time=2025-06-04 07:46:35
 Reply inserted: id_danh_gia=7, time=2025-06-05 06:42:54
 Review inserted: id_product=cpu001, time=2025-06-05 06:47:08
-Review inserted: id_product=cpu001, time=2025-06-06 07:21:18
-Reply inserted: id_danh_gia=20, time=2025-06-06 07:21:24
-Review inserted: id_product=case009, time=2025-06-07 14:20:34
+Reply inserted: id_danh_gia=1, time=2025-06-06 12:06:04

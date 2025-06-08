@@ -11,6 +11,9 @@ import {
   Calendar,
   TrendingUp,
   ChevronDown,
+  Fan,
+  Mouse,
+  Keyboard,
 } from "lucide-react";
 import "../style/home.css";
 import "../style/all_linh_kien.css";
@@ -181,6 +184,33 @@ const Home = () => {
     },
   ];
 
+  const hotItems = [
+    {
+      id: "cpu001",
+      name: "CPU Intel Core i9-13900K",
+      price: "13,999,000đ",
+      trend: "+15%",
+      icon: <Keyboard className="w-5 h-5" />,
+      trendColor: "text-green-500",
+    },
+    {
+      id: "cpu006",
+      name: "AMD Ryzen 9 7950X3D",
+      price: "15,999,000đ",
+      trend: "+23%",
+      icon: <Mouse className="w-5 h-5" />,
+      trendColor: "text-red-500",
+    },
+    {
+      id: "mb001",
+      name: "ASUS ROG Strix Z790-E Gaming",
+      price: "10,000,000đ",
+      trend: "+18%",
+      icon: <Fan className="w-5 h-5" />,
+      trendColor: "text-red-500",
+    },
+  ];
+
   const promoSlides = [
     {
       id: "psu002",
@@ -271,7 +301,7 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 2000);
+    }, 3500);
     return () => clearInterval(interval);
   }, [slides.length]);
 
@@ -433,66 +463,40 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="promotion-section" id="uudai">
+      <section className="promotion-section">
         <div className="promotion-container">
-          <div className="promotion-content">
-            <div className="promotion-text">
-              <h2 className="promotion-title" id="discount">
-                Ưu đãi linh kiện 2025
-              </h2>
-              <p className="promotion-description">
-                Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để nhận thêm quà tặng đặc biệt!
-              </p>
+          <div className="promotion-left">
+            <h2>Ưu đãi linh kiện 2025</h2>
+            <p>
+              Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để nhận thêm quà tặng đặc biệt!
+            </p>
+          </div>
+          <div className="promotion-right">
+            <div className="promotion-header">
+              <Calendar className="icon" />
+              <h3>Linh kiện hot trong tháng</h3>
             </div>
-            <div className="promotion-deals">
-              <div className="deals-card">
-                <div className="deals-header">
-                  <Calendar className="deals-icon" />
-                  <h3 className="deals-title">Linh kiện hot trong tháng</h3>
-                </div>
-                <ul className="deals-list">
-                  {[
-                    {
-                      id: "cpu001",
-                      name: "CPU Intel Core i9-13900K",
-                      price: "13,999,000đ",
-                      trend: "+15%",
-                    },
-                    {
-                      id: "cpu006",
-                      name: "AMD Ryzen 9 7950X3D",
-                      price: "15,999,000đ",
-                      trend: "+23%",
-                    },
-                    {
-                      id: "mb001",
-                      name: "ASUS ROG Strix Z790-E Gaming",
-                      price: "10,000,000đ",
-                      trend: "+18%",
-                    },
-                  ].map((tour, idx) => (
-                    <li
-                      key={idx}
-                      className="deal-item"
-                      onClick={() => navigate(`/linh-kien/${tour.id}`)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <span className="deal-name">{tour.name}</span>
-                      <div className="deal-info">
-                        <span className="deal-price">{tour.price}</span>
-                        <div className="deal-trend">
-                          <TrendingUp className="trend-icon" />
-                          <span className="trend-value">{tour.trend}</span>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <ul className="promotion-list">
+              {hotItems.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="promotion-item"
+                  onClick={() => navigate(`/linh-kien/${item.id}`)}
+                >
+                  <div className="item-left">
+                    <span className="icon">{item.icon}</span>
+                    <span className="item-name">{item.name}</span>
+                  </div>
+                  <div className="item-right">
+                    <div className="item-price">{item.price}</div>
+                    <div className={`item-trend ${item.color}`}>{item.trend}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </div>
+      </section>
 
       <div className="uudai">
         <section className="recommended-section">
@@ -597,7 +601,7 @@ const Home = () => {
                   oldPrice: "3.500.000 VNĐ",
                   rating: 5.0,
                   image:
-                    "https://www.createpcs.co.uk/wp-content/Uploads/2022/05/lian-li-o11-dynamic-evo-i7-12700kf-rtx3050-white-custom-pc-27-Large.jpg",
+                    "./photos/lian-li.jpg",
                 },
                 {
                   id: "cool002",
@@ -713,9 +717,9 @@ const Home = () => {
               slidesPerView={3} // Hiển thị 3 slide (1 lớn ở giữa, 2 nhỏ ở hai bên)
               coverflowEffect={{
                 rotate: 0, // Không xoay slide
-                stretch: -20, // Kéo các slide gần nhau hơn để tăng hiệu ứng
-                depth: 10, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
-                modifier: 3, // Tăng modifier để phóng đại hiệu ứng
+                stretch: 30, // Kéo các slide gần nhau hơn để tăng hiệu ứng
+                depth: 5, // Tăng depth để slide ngoài nhỏ lại rõ rệt hơn
+                modifier: 4, // Tăng modifier để phóng đại hiệu ứng
                 slideShadows: false, // Tắt bóng để giao diện sạch
               }}
               spaceBetween={10} // Giảm khoảng cách giữa các slide

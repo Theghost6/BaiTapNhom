@@ -56,9 +56,24 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     className="section-content"
                   >
                     <div className="image-gallery">
-                      <img src="./photos/i.jpg" alt="Ảnh 1" className="sidebar-image" />
-                      <img src="./photos/l.jpg" alt="Ảnh 2" className="sidebar-image" />
-                      <img src="./photos/intel.jpg" alt="Ảnh 3" className="sidebar-image" />
+                      <img src="./photos/a.jpg" alt="Ảnh 1" className="sidebar-image" />
+                      <img src="./photos/b.jpg" alt="Ảnh 2" className="sidebar-image" />
+                      <img src="./photos/c.jpg" alt="Ảnh 3" className="sidebar-image" />
+                      <img src="./photos/d.jpg" alt="Ảnh 4" className="sidebar-image" />
+                      <img src="./photos/e.jpg" alt="Ảnh 5" className="sidebar-image" />
+                      <img src="./photos/f.jpg" alt="Ảnh 6" className="sidebar-image" />
+                      <img src="./photos/giga.jpg" alt="Ảnh 7" className="sidebar-image" />
+                      <img src="./photos/h.jpg" alt="Ảnh 8" className="sidebar-image" />
+                      <img src="./photos/i.jpg" alt="Ảnh 9" className="sidebar-image" />
+                      <img src="./photos/j.jpg" alt="Ảnh 10" className="sidebar-image" />
+                      <img src="./photos/k.jpg" alt="Ảnh 11" className="sidebar-image" />
+                      <img src="./photos/l.jpg" alt="Ảnh 12" className="sidebar-image" />
+                      <img src="./photos/mini.jpg" alt="Ảnh 13" className="sidebar-image" />
+                      <img src="./photos/n.jpg" alt="Ảnh 14" className="sidebar-image" />
+                      <img src="./photos/o.jpg" alt="Ảnh 15" className="sidebar-image" />
+                      <img src="./photos/sea.jpg" alt="Ảnh 16" className="sidebar-image" />
+                      <img src="./photos/w.jpg" alt="Ảnh 17" className="sidebar-image" />
+                      <img src="./photos/intel.jpg" alt="Ảnh 18" className="sidebar-image" />
                     </div>
                   </motion.div>
                 )}
