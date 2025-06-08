@@ -1,160 +1,216 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ref, push, onValue, off, set, query, orderByChild, limitToLast } from 'firebase/database';
-import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import { database, auth } from './firebase.js';
+import { useState, useEffect } from 'react';
+import { getDatabase, ref, onValue, push, set, get } from 'firebase/database';
+import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 
-export const useChat = () => {
+// Admin UID list
+const ALLOWED_ADMIN_UIDS = ['VsLTdtVP3ecoJv5TkXiOYZzhmDx2'];
+
+export default function useChat() {
+  const [firebaseUser, setFirebaseUser] = useState(null);
+  const [chatId, setChatId] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [firebaseUser, setFirebaseUser] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const [chatId, setChatId] = useState(null);
-  const MAX_MESSAGES = 100;
-  const GUEST_CHAT_ID_KEY = 'guest_chat_id';
+  const [customerInfo, setCustomerInfo] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const auth = getAuth();
+  const database = getDatabase();
 
-  const getOrCreateUserId = useCallback(() => {
-    return firebaseUser?.uid || null;
-  }, [firebaseUser]);
-
-  const generateChatId = useCallback(() => {
-    const userId = getOrCreateUserId();
-    if (!userId) return null;
-    return `user_${userId}`;
-  }, [getOrCreateUserId]);
+  // Check if user is admin
+  const checkAdminStatus = async (authUser) => {
+    if (!ALLOWED_ADMIN_UIDS.includes(authUser.uid)) {
+      return false;
+    }
+    
+    try {
+      const userRef = ref(database, `users/${authUser.uid}`);
+      const userSnapshot = await get(userRef);
+      const userData = userSnapshot.val();
+      
+      return userSnapshot.exists() && 
+             userData.role === 'admin' && 
+             userData.adminVerified === true;
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       setLoading(true);
-      if (authUser) {
-        setFirebaseUser(authUser);
-        const userRef = ref(database, `users/${authUser.uid}`);
-        onValue(userRef, (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            setUserData({
-              uid: authUser.uid,
-              username: data.username || 'Khách hàng',
-              email: data.email || authUser.email || null,
-              role: data.role || 'user'
-            });
-          } else {
-            const defaultUserData = {
-              username: 'Khách hàng',
-              email: authUser.email || null,
-              role: 'user',
-              createdAt: Date.now()
-            };
-            set(userRef, defaultUserData).then(() => {
-              setUserData({ uid: authUser.uid, ...defaultUserData });
-            });
+      setError(null);
+      
+      try {
+        if (authUser) {
+          setFirebaseUser(authUser);
+          
+          // Check if user is admin
+          const adminStatus = await checkAdminStatus(authUser);
+          setIsAdmin(adminStatus);
+          
+          if (adminStatus) {
+            console.log('Admin logged in, skipping customer chat creation');
+            setMessages([]);
+            setChatId(null);
+            setCustomerInfo(null);
+            setLoading(false);
+            return;
           }
-        }, (err) => {
-          setError('Lỗi tải thông tin người dùng: ' + err.message);
-        });
 
-        setChatId(`user_${authUser.uid}`);
-        localStorage.setItem(GUEST_CHAT_ID_KEY, authUser.uid);
-      } else {
-        try {
-          const result = await signInAnonymously(auth);
-          setFirebaseUser(result.user);
-          const storedChatId = localStorage.getItem(GUEST_CHAT_ID_KEY);
-          if (storedChatId) {
-            setChatId(`user_${storedChatId}`);
+          // Regular customer logic
+          const userRef = ref(database, `users/${authUser.uid}`);
+          const userSnapshot = await get(userRef);
+          const userData = userSnapshot.val();
+          
+          const customerName = userData?.username || authUser.displayName || 'Khách hàng';
+          const customerEmail = userData?.email || authUser.email || '';
+          
+          setCustomerInfo({
+            name: customerName,
+            email: customerEmail,
+            uid: authUser.uid
+          });
+
+          // Generate chatId for customer
+          const generatedChatId = `customer_${authUser.uid}`;
+          setChatId(generatedChatId);
+          console.log('Customer Chat ID:', generatedChatId);
+
+          const chatRef = ref(database, `private_chats/${generatedChatId}`);
+          const messagesRef = ref(database, `private_chats/${generatedChatId}/messages`);
+
+          // Listen for messages
+          const messagesUnsubscribe = onValue(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              const messagesList = Object.keys(data)
+                .map(key => ({ id: key, ...data[key] }))
+                .sort((a, b) => a.timestamp - b.timestamp);
+              setMessages(messagesList);
+            } else {
+              setMessages([]);
+            }
+            console.log('Messages loaded for customer:', data ? Object.values(data) : []);
+            setLoading(false);
+          }, (err) => {
+            console.error('Messages error:', err);
+            setError('Lỗi tải tin nhắn: ' + err.message);
+            setLoading(false);
+          });
+
+          // Check and create chat node if it doesn't exist
+          const chatSnapshot = await get(chatRef);
+          if (!chatSnapshot.exists()) {
+            try {
+              console.log('Creating new chat node for customer:', generatedChatId);
+              await set(chatRef, {
+                info: {
+                  chatId: generatedChatId,
+                  customerId: authUser.uid,
+                  customerName: customerName,
+                  customerEmail: customerEmail,
+                  isActive: true,
+                  createdAt: Date.now(),
+                  lastMessageTime: Date.now(),
+                  unreadByAdmin: false,
+                  unreadByCustomer: false
+                },
+                messages: {}
+              });
+              console.log('Created new chat node for customer:', generatedChatId);
+            } catch (createError) {
+              console.error('Create chat node error:', createError);
+              setError('Lỗi tạo chat: ' + createError.message);
+              setLoading(false);
+            }
+          } else {
+            // Update customer info if changed
+            const existingInfo = chatSnapshot.val().info || {};
+            if (existingInfo.customerName !== customerName || existingInfo.customerEmail !== customerEmail) {
+              await set(ref(database, `private_chats/${generatedChatId}/info/customerName`), customerName);
+              await set(ref(database, `private_chats/${generatedChatId}/info/customerEmail`), customerEmail);
+            }
           }
-        } catch (authError) {
-          setError('Không thể kết nối: ' + authError.message);
+
+          return messagesUnsubscribe;
+        } else {
+          console.log('No user, signing in anonymously');
+          const result = await signInAnonymously(auth);
+          console.log('Anonymous user created:', result.user.uid);
         }
+      } catch (error) {
+        console.error('Auth error:', error);
+        setError('Lỗi xác thực: ' + error.message);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
-  const validateMessage = (message) => {
-    if (!message || typeof message !== 'string') return false;
-    if (message.trim().length === 0 || message.length > 1000) return false;
-    return true;
-  };
+  const sendMessage = async (newMessage) => {
+    if (!newMessage.trim() || !firebaseUser || !chatId) {
+      console.error('Cannot send message: Missing input/user/chatId', { newMessage, firebaseUser, chatId });
+      setError('Vui lòng nhập tin nhắn và đảm bảo đã đăng nhập');
+      return;
+    }
 
-  const sendMessage = useCallback(async () => {
-    if (!chatId || !validateMessage(newMessage) || !firebaseUser || !userData) {
-      setError('Tin nhắn không hợp lệ hoặc chưa xác thực.');
+    if (isAdmin) {
+      console.error('Admins cannot send messages through customer chat');
+      setError('Quản trị viên không thể gửi tin nhắn qua giao diện khách hàng');
       return;
     }
 
     try {
-      setError(null);
-      const messagesRef = ref(database, `private_chats/${chatId}/messages`);
       const messageData = {
         text: newMessage.trim(),
         senderId: firebaseUser.uid,
-        senderName: userData.username,
+        senderName: customerInfo?.name || 'Khách hàng',
         timestamp: Date.now(),
-        isAdmin: userData.role === 'admin'
+        isAdmin: false,
+        chatId: chatId,
+        messageType: 'customer'
       };
 
+      console.log('Attempting to send message:', messageData);
+      const messagesRef = ref(database, `private_chats/${chatId}/messages`);
       await push(messagesRef, messageData);
-      const chatInfoRef = ref(database, `private_chats/${chatId}/info`);
-      await set(chatInfoRef, {
+      
+      console.log('Updating chat info for:', chatId);
+      await Promise.all([
+        set(ref(database, `private_chats/${chatId}/info/lastMessageTime`), messageData.timestamp),
+        set(ref(database, `private_chats/${chatId}/info/lastMessage`), messageData.text),
+        set(ref(database, `private_chats/${chatId}/info/unreadByAdmin`), true),
+        set(ref(database, `private_chats/${chatId}/info/unreadByCustomer`), false)
+      ]);
+      
+      console.log('Customer message sent successfully:', messageData);
+      setError(null);
+    } catch (error) {
+      console.error('Send message error:', error, {
         chatId,
-        lastMessage: newMessage.trim(),
-        lastMessageTime: Date.now(),
-        customerName: userData.username,
-        customerId: firebaseUser.uid,
-        customerType: userData.uid ? 'registered' : 'guest',
-        isActive: true,
-        unreadByAdmin: userData.role !== 'admin',
-        unreadByCustomer: userData.role === 'admin',
-        createdAt: Date.now()
+        uid: firebaseUser.uid,
+        path: `private_chats/${chatId}/info`
       });
-
-      setNewMessage('');
-    } catch (err) {
-      setError('Gửi tin nhắn thất bại: ' + err.message);
-    }
-  }, [newMessage, firebaseUser, userData, chatId]);
-
-  useEffect(() => {
-    if (!chatId || !firebaseUser) {
-      setLoading(false);
-      return;
-    }
-
-    const messagesRef = ref(database, `private_chats/${chatId}/messages`);
-    const messagesQuery = query(messagesRef, orderByChild('timestamp'), limitToLast(MAX_MESSAGES));
-    const unsubscribe = onValue(messagesQuery, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const loadedMessages = Object.keys(data)
-          .map(key => ({ id: key, ...data[key] }))
-          .sort((a, b) => a.timestamp - b.timestamp);
-        setMessages(loadedMessages);
-        const readField = userData?.role === 'admin' ? 'unreadByAdmin' : 'unreadByCustomer';
-        set(ref(database, `private_chats/${chatId}/info/${readField}`), false);
-      } else {
-        setMessages([]);
+      setError(`Lỗi gửi tin nhắn: ${error.message} (Code: ${error.code})`);
+      if (error.code === 'PERMISSION_DENIED') {
+        console.error('Permission denied. Check Firebase rules and data at:', `private_chats/${chatId}`);
+        setError('Không có quyền gửi tin nhắn. Vui lòng kiểm tra quyền truy cập.');
       }
-      setLoading(false);
-    }, (err) => {
-      setError('Lỗi tải tin nhắn: ' + err.message);
-      setLoading(false);
-    });
-
-    return () => off(messagesRef);
-  }, [chatId, firebaseUser, userData]);
-
-  return {
-    messages,
-    newMessage,
-    setNewMessage,
-    sendMessage,
-    loading,
-    error,
-    currentUser: userData,
-    chatId
+    }
   };
-};
+
+  return { 
+    messages, 
+    sendMessage, 
+    loading, 
+    error, 
+    customerInfo,
+    chatId,
+    isCustomerChat: !!chatId && !isAdmin,
+    isAdmin 
+  };
+}

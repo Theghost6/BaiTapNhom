@@ -1,96 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { ref, onValue, off } from 'firebase/database';
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { database, auth } from './firebase.js';
-import { MessageCircle, Clock, User } from 'lucide-react';
-import '../../style/admin-chat.css';
+import { useState, useEffect } from 'react';
+import { getDatabase, ref, onValue, off, get } from 'firebase/database';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-const AdminChatList = ({ onSelectChat, selectedChatId }) => {
+const ALLOWED_ADMIN_UIDS = ['VsLTdtVP3ecoJv5TkXiOYZzhmDx2'];
+
+function AdminChatList({ onSelectChat }) {
+  const [firebaseUser, setFirebaseUser] = useState(null);
   const [chatRooms, setChatRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debugInfo, setDebugInfo] = useState(null);
-  const [firebaseUser, setFirebaseUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminVerified, setAdminVerified] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false);
+  const [selectedChatId, setSelectedChatId] = useState(null);
+  const auth = getAuth();
+  const database = getDatabase();
 
-  // Initialize Firebase Authentication
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
-      if (authUser) {
-        console.log('AdminChatList Firebase user authenticated:', authUser.uid);
-        setFirebaseUser(authUser);
-      } else {
-        try {
-          console.log('AdminChatList signing in anonymously...');
-          const result = await signInAnonymously(auth);
-          console.log('AdminChatList anonymous sign in successful:', result.user.uid);
-          setFirebaseUser(result.user);
-        } catch (authError) {
-          console.error('AdminChatList anonymous sign in failed:', authError);
-          setError('Không thể kết nối đến hệ thống chat: ' + authError.message);
-        }
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (!firebaseUser) {
-      console.log('AdminChatList waiting for Firebase authentication');
-      return;
+  const verifyAdminAccess = async (authUser) => {
+    if (!ALLOWED_ADMIN_UIDS.includes(authUser.uid)) {
+      console.log('Access denied: UID not in allowed list');
+      setAccessDenied(true);
+      return false;
     }
-    const chatRoomsRef = ref(database, 'private_chats');
-    console.log('AdminChatList: Starting to listen to private_chats with user:', firebaseUser.uid);
-
-    const unsubscribe = onValue(chatRoomsRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log('AdminChatList: Raw Firebase data:', data);
-      setDebugInfo({
-        hasData: !!data,
-        dataKeys: data ? Object.keys(data) : [],
-        totalChats: data ? Object.keys(data).length : 0,
-        firebaseUserId: firebaseUser.uid
+    
+    const userRef = ref(database, `users/${authUser.uid}`);
+    const userSnapshot = await get(userRef);
+    
+    if (!userSnapshot.exists()) {
+      console.log('Creating admin user data for UID:', authUser.uid);
+      await set(userRef, {
+        role: 'admin',
+        username: 'Admin',
+        adminVerified: true
       });
+      setIsAdmin(true);
+      setAdminVerified(true);
+      return true;
+    }
+    
+    const userData = userSnapshot.val();
+    if (userData.role !== 'admin' || userData.adminVerified !== true) {
+      console.log('Access denied: User role is not admin or not verified');
+      setAccessDenied(true);
+      return false;
+    }
+    
+    setIsAdmin(true);
+    setAdminVerified(true);
+    return true;
+  };
 
-      if (data) {
-        const rooms = Object.keys(data)
-          .map(chatId => {
-            const chatData = data[chatId];
-            console.log(`Processing chat ${chatId}:`, chatData);
-            return {
-              chatId,
-              info: chatData.info || {},
-              hasMessages: chatData.messages ? Object.keys(chatData.messages).length > 0 : false,
-              messageCount: chatData.messages ? Object.keys(chatData.messages).length : 0,
-              ...chatData.info
-            };
-          })
-          .filter(room => room.hasMessages || room.isActive)
-          .sort((a, b) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
-        console.log('AdminChatList: Filtered rooms:', rooms);
-        setChatRooms(rooms);
-      } else {
-        setChatRooms([]);
-      }
-      setLoading(false);
-      setError(null);
-    }, (err) => {
-      console.error('AdminChatList Firebase error:', err);
-      setError('Lỗi tải danh sách chat: ' + err.message);
-      setLoading(false);
-    });
-
-    return () => {
-      console.log('AdminChatList: Cleaning up listener');
-      off(chatRoomsRef);
-    };
-  }, [firebaseUser]);
-
-  const formatTime = (timestamp) => {
+  const formatTimestamp = (timestamp) => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = (now - date) / (1000 * 60 * 60);
+    
     if (diffInHours < 24) {
       return date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
     } else {
@@ -98,107 +63,247 @@ const AdminChatList = ({ onSelectChat, selectedChatId }) => {
     }
   };
 
-  const truncateMessage = (message, maxLength = 50) => {
-    if (!message) return '';
-    return message.length > maxLength ? message.substring(0, maxLength) + '...' : message;
+  const handleChatSelect = (chatRoom) => {
+    setSelectedChatId(chatRoom.chatId);
+    if (onSelectChat) {
+      onSelectChat(chatRoom);
+    }
   };
 
-  const filteredChatRooms = chatRooms.filter(room =>
-    room.customerName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    room.lastMessage?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    room.chatId?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        setFirebaseUser(authUser);
+        const isAdminAccess = await verifyAdminAccess(authUser);
+        
+        if (!isAdminAccess) {
+          setChatRooms([]);
+          setLoading(false);
+          return;
+        }
 
-  if (loading || !firebaseUser) {
+        const chatRoomsRef = ref(database, 'private_chats');
+        console.log('Admin listening to private_chats, UID:', authUser.uid);
+        
+        onValue(chatRoomsRef, (snapshot) => {
+          const data = snapshot.val();
+          console.log('Raw Firebase data for admin:', data);
+          
+          if (data) {
+            const rooms = Object.keys(data)
+              .filter(chatId => chatId.startsWith('customer_'))
+              .map(chatId => {
+                const chatData = data[chatId];
+                const info = chatData.info || {};
+                const messages = chatData.messages || {};
+                const messageCount = Object.keys(messages).length;
+                
+                const lastMessage = messageCount > 0 ? 
+                  Object.values(messages).sort((a, b) => b.timestamp - a.timestamp)[0] : null;
+                
+                return {
+                  chatId,
+                  customerName: info.customerName || 'Khách hàng',
+                  customerEmail: info.customerEmail || '',
+                  customerId: info.customerId || '',
+                  isActive: info.isActive || false,
+                  lastMessageTime: info.lastMessageTime || info.createdAt || Date.now(),
+                  lastMessage: lastMessage?.text || info.lastMessage || 'Chưa có tin nhắn',
+                  lastMessageSender: lastMessage?.senderName || '',
+                  messageCount: messageCount,
+                  unreadByAdmin: info.unreadByAdmin || false,
+                  unreadByCustomer: info.unreadByCustomer || false,
+                  createdAt: info.createdAt || Date.now(),
+                  ...info
+                };
+              })
+              .sort((a, b) => b.lastMessageTime - a.lastMessageTime);
+            
+            console.log('Filtered customer chat rooms:', rooms);
+            setChatRooms(rooms);
+          } else {
+            console.log('No chat rooms found');
+            setChatRooms([]);
+          }
+          setLoading(false);
+        }, (err) => {
+          console.error('Firebase error:', err);
+          setError('Lỗi tải danh sách chat: ' + err.message);
+          setLoading(false);
+        });
+      } else {
+        setError('Vui lòng đăng nhập admin');
+        setLoading(false);
+      }
+    });
+
+    return () => {
+      off(ref(database, 'private_chats'));
+      unsubscribe();
+    };
+  }, []);
+
+  if (accessDenied) {
     return (
-      <div className="admin-chat-list loading">
-        <div className="loading-spinner">
-          {!firebaseUser ? 'Đang xác thực...' : 'Đang tải danh sách chat...'}
-        </div>
+      <div style={{ padding: '20px', textAlign: 'center' }}>
+        <h3 style={{ color: 'red' }}>Truy cập bị từ chối</h3>
+        <p>Bạn không có quyền truy cập vào trang quản trị chat.</p>
       </div>
     );
   }
 
   return (
-    <div className="admin-chat-list">
-      <div className="chat-list-header">
-        <h3>
-          <MessageCircle size={20} />
-          Danh sách chat ({filteredChatRooms.length})
-        </h3>
-        <input
-          type="text"
-          placeholder="Tìm kiếm theo tên hoặc tin nhắn..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="chat-search-input"
-        />
-      </div>
-      {debugInfo && (
-        <div className="debug-info" style={{ background: '#f0f0f0', padding: '10px', margin: '10px 0', fontSize: '12px', borderRadius: '4px' }}>
-          <strong>Debug Info:</strong><br/>
-          Firebase User: {debugInfo.firebaseUserId}<br/>
-          Has Data: {debugInfo.hasData ? 'Yes' : 'No'}<br/>
-          Total Chats: {debugInfo.totalChats}<br/>
-          Chat IDs: {debugInfo.dataKeys.join(', ')}<br/>
-          Filtered: {filteredChatRooms.length}
-        </div>
-      )}
+    <div style={{ 
+      maxWidth: '800px', 
+      margin: '0 auto', 
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif'
+    }}>
+      <h2 style={{ 
+        borderBottom: '2px solid #007bff', 
+        paddingBottom: '10px',
+        color: '#333'
+      }}>
+        Danh sách Chat Khách hàng
+      </h2>
+      
       {error && (
-        <div className="admin-chat-error" style={{ color: 'red', padding: '10px', background: '#ffebee', borderRadius: '4px', margin: '10px 0' }}>
+        <div style={{ 
+          color: 'red', 
+          backgroundColor: '#ffebee', 
+          padding: '10px', 
+          borderRadius: '4px',
+          marginBottom: '20px'
+        }}>
           {error}
         </div>
       )}
-      <div className="chat-rooms">
-        {filteredChatRooms.length === 0 ? (
-          <div className="no-chats">
-            <MessageCircle size={48} className="no-chat-icon" />
-            <p>{searchQuery ? 'Không tìm thấy cuộc trò chuyện' : 'Chưa có cuộc trò chuyện nào'}</p>
-            <small>Hãy yêu cầu khách hàng gửi tin nhắn để tạo cuộc trò chuyện</small>
-            <br/>
-            <small style={{ marginTop: '10px', display: 'block' }}>
-              Đã xác thực với Firebase: {firebaseUser?.uid}
-            </small>
-          </div>
-        ) : (
-          filteredChatRooms.map((room) => (
-            <div
-              key={room.chatId}
-              className={`chat-room-item ${selectedChatId === room.chatId ? 'active' : ''} ${room.unreadByAdmin ? 'unread' : ''}`}
-              onClick={() => onSelectChat(room.chatId)}
-            >
-              <div className="room-avatar">
-                <User size={24} />
-              </div>
-              <div className="room-info">
-                <div className="room-header">
-                  <h4 className="customer-name">
-                    {room.customerName || room.chatId || 'Khách hàng'}
-                  </h4>
-                  <span className="last-message-time">
-                    {formatTime(room.lastMessageTime)}
-                  </span>
-                </div>
-                <div className="room-footer">
-                  <p className="last-message">
-                    {truncateMessage(room.lastMessage) || 'Tin nhắn mới'}
-                  </p>
-                  <small className="message-count">
-                    ({room.messageCount} tin nhắn)
-                  </small>
-                  {room.unreadByAdmin && (
-                    <div className="unread-indicator">
-                      <span className="unread-dot"></span>
-                    </div>
-                  )}
-                </div>
-              </div>
+      
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <p>Đang tải danh sách chat...</p>
+        </div>
+      ) : (
+        <div>
+          {chatRooms.length === 0 ? (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '40px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '8px'
+            }}>
+              <p style={{ color: '#666' }}>Chưa có cuộc trò chuyện nào từ khách hàng</p>
             </div>
-          ))
-        )}
-      </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {chatRooms.map(room => (
+                <div
+                  key={room.chatId}
+                  onClick={() => handleChatSelect(room)}
+                  style={{
+                    padding: '15px',
+                    border: selectedChatId === room.chatId ? '2px solid #007bff' : '1px solid #ddd',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    backgroundColor: selectedChatId === room.chatId ? '#f0f8ff' : '#fff',
+                    transition: 'all 0.2s ease',
+                    boxShadow: room.unreadByAdmin ? '0 2px 8px rgba(0,123,255,0.3)' : '0 1px 3px rgba(0,0,0,0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedChatId !== room.chatId) {
+                      e.target.style.backgroundColor = '#f8f9fa';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedChatId !== room.chatId) {
+                      e.target.style.backgroundColor = '#fff';
+                    }
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px' }}>
+                        <h4 style={{ 
+                          margin: 0, 
+                          color: '#333',
+                          fontWeight: room.unreadByAdmin ? 'bold' : 'normal'
+                        }}>
+                          {room.customerName}
+                          {room.unreadByAdmin && (
+                            <span style={{
+                              marginLeft: '8px',
+                              backgroundColor: '#dc3545',
+                              color: 'white',
+                              borderRadius: '50%',
+                              width: '8px',
+                              height: '8px',
+                              display: 'inline-block'
+                            }}></span>
+                          )}
+                        </h4>
+                        <span style={{ 
+                          fontSize: '12px', 
+                          color: '#666',
+                          backgroundColor: '#e9ecef',
+                          padding: '2px 6px',
+                          borderRadius: '10px'
+                        }}>
+                          {room.messageCount} tin nhắn
+                        </span>
+                      </div>
+                      
+                      {room.customerEmail && (
+                        <p style={{ 
+                          margin: '0 0 8px 0', 
+                          fontSize: '13px', 
+                          color: '#666' 
+                        }}>
+                          📧 {room.customerEmail}
+                        </p>
+                      )}
+                      
+                      <p style={{ 
+                        margin: '0 0 5px 0', 
+                        fontSize: '14px', 
+                        color: '#555',
+                        fontStyle: room.lastMessage === 'Chưa có tin nhắn' ? 'italic' : 'normal'
+                      }}>
+                        {room.lastMessageSender && `${room.lastMessageSender}: `}
+                        {room.lastMessage.length > 50 ? 
+                          room.lastMessage.substring(0, 50) + '...' : 
+                          room.lastMessage
+                        }
+                      </p>
+                      
+                      <div style={{ fontSize: '12px', color: '#888' }}>
+                        ID: {room.chatId.replace('customer_', '')}
+                      </div>
+                    </div>
+                    
+                    <div style={{ textAlign: 'right', minWidth: '80px' }}>
+                      <div style={{ fontSize: '12px', color: '#666' }}>
+                        {formatTimestamp(room.lastMessageTime)}
+                      </div>
+                      {room.isActive && (
+                        <div style={{ 
+                          fontSize: '10px', 
+                          color: '#28a745',
+                          marginTop: '4px',
+                          fontWeight: 'bold'
+                        }}>
+                          ● Online
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default AdminChatList;
