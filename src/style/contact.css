@@ -252,3 +252,57 @@ textarea {
     border-radius: 9px;
   }
 }
+
+@media (max-width: 320px) {
+  .contact-wrapper {
+    margin: 1rem auto; /* Giảm margin để tiết kiệm không gian */
+    padding: 1rem; /* Giảm padding cho gọn */
+    border-radius: 6px; /* Bo góc nhỏ hơn */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Giảm độ đậm shadow */
+  }
+
+  .contact-subtitle {
+    font-size: 0.8rem; /* Giảm kích thước chữ */
+  }
+
+  .contact-title {
+    font-size: 1.2rem; /* Giảm kích thước tiêu đề */
+    margin-bottom: 0.3rem; /* Giảm khoảng cách dưới */
+  }
+
+  .contact-description {
+    font-size: 0.8rem; /* Giảm kích thước mô tả */
+    margin-bottom: 0.6rem; /* Giảm khoảng cách */
+  }
+
+  .contact-form {
+    gap: 0.8rem; /* Giảm khoảng cách giữa các trường */
+  }
+
+  .form-row {
+    gap: 0.6rem; /* Giảm khoảng cách trong form-row */
+  }
+
+  input,
+  textarea {
+    padding: 0.5rem; /* Giảm padding cho input và textarea */
+    font-size: 0.85rem; /* Giảm kích thước chữ */
+    border-radius: 5px; /* Bo góc nhỏ hơn */
+  }
+
+  .contact-wrapper-button {
+    padding: 0.6rem; /* Giảm padding cho nút */
+    font-size: 0.85rem; /* Giảm kích thước chữ */
+    border-radius: 5px; /* Bo góc nhỏ hơn */
+  }
+
+  .image-section img {
+    border-radius: 6px; /* Bo góc nhỏ hơn cho hình ảnh */
+  }
+
+  .success-message {
+    padding: 0.6rem; /* Giảm padding */
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    border-radius: 6px; /* Bo góc nhỏ hơn */
+  }
+}

@@ -193,3 +193,69 @@ input[type="number"] {
 .checkout-button:hover {
   background: #8000FF; /* Tím neon khi hover */
 }
+
+@media (max-width: 375px) {
+  .cart-page {
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+
+  .cart-items-container {
+    margin-left: 0;
+    padding: 15px 10px;
+    overflow-x: auto;
+  }
+
+  .cart-table {
+    min-width: 100%;
+    font-size: 13px;
+  }
+
+  .item-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .item-name {
+    font-size: 14px;
+  }
+
+  .cart-actions {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cart-buttons {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .continue-shopping-btn,
+  .clear-cart-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .cart-checkout {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .checkout-button {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  input[type="number"] {
+    width: 50px;
+    font-size: 14px;
+  }
+
+  .cart-summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
