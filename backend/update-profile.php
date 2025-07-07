@@ -29,10 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 try {
     // Kết nối cơ sở dữ liệu
-    $conn = new mysqli("localhost", "root", "", "form");
-    if ($conn->connect_error) {
-        throw new Exception("Database connection failed: " . $conn->connect_error);
-    }
+ require_once __DIR__ . '/connect.php';
 
     // Xử lý dữ liệu đầu vào (JSON hoặc form data)
     if (isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {

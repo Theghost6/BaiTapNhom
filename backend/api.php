@@ -2,6 +2,7 @@
 // Enable CORS
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Content-Type: application/json");
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
@@ -9,14 +10,8 @@ header("Pragma: no-cache");
 // Define log file
 $logFile = __DIR__ . '/debug.log';
 
-// Database connection
-$conn = new mysqli("localhost", "root", "", "form");
-$conn->set_charset("utf8mb4");
-
-if ($conn->connect_error) {
-    file_put_contents($logFile, date('Y-m-d H:i:s') . " - DB connection error: " . $conn->connect_error . "\n", FILE_APPEND);
-    die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
-}
+// Kết nối database qua connect.php
+require_once 'connect.php';
 
 // Get action parameter
 $action = isset($_GET['action']) ? $_GET['action'] : '';
@@ -27,7 +22,7 @@ switch ($action) {
         $sql = "SELECT dh.*, dk.user AS ten_nguoi_dung, dk.email, dk.phone
                 FROM don_hang dh
                 LEFT JOIN dang_ky dk ON dh.ma_nguoi_dung = dk.id
-                ORDER BY dh.ngay_dat DESC";
+                ORDER BY dh.created_at DESC";
         $result = $conn->query($sql);
         if (!$result) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - SQL error: " . $conn->error . "\n", FILE_APPEND);
@@ -42,60 +37,73 @@ switch ($action) {
         break;
 
     case 'get_order_detail':
-        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        if ($id === 0) {
-            echo json_encode(["error" => "Invalid order ID"]);
-            break;
-        }
-        $sql = "SELECT hd.ten_san_pham, hd.ten_nguoi, hd.tong_tien, hd.dia_chi, hd.phuong_thuc_thanh_toan, hd.ngay_tao
-                FROM hoa_don hd
-                WHERE hd.ma_don_hang = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $items = [];
-        if ($row = $result->fetch_assoc()) {
-            // Parse ten_san_pham into an array of products
-            $products = [];
-            if (!empty($row['ten_san_pham'])) {
-                $product_list = explode(', ', $row['ten_san_pham']);
-                foreach ($product_list as $product) {
-                    // Assuming format: "Product Name (xQuantity)"
-                    preg_match('/^(.*)\s\(x(\d+)\)$/', trim($product), $matches);
-                    if ($matches) {
-                        $products[] = [
-                            'ten_san_pham' => $matches[1],
-                            'so_luong' => (int)$matches[2]
-                        ];
-                    } else {
-                        $products[] = [
-                            'ten_san_pham' => $product,
-                            'so_luong' => 1 // Default quantity if not specified
-                        ];
-                    }
-                }
-            }
-            $items = [
-                'ten_nguoi' => $row['ten_nguoi'],
-                'tong_tien' => $row['tong_tien'],
-                'dia_chi' => $row['dia_chi'],
-                'phuong_thuc_thanh_toan' => $row['phuong_thuc_thanh_toan'],
-                'ngay_tao' => $row['ngay_tao'],
-                'san_pham' => $products
-            ];
-        }
-        $sql = "SELECT dcgh.* 
-                FROM dia_chi_giao_hang dcgh
-                JOIN don_hang dh ON dcgh.ma_dia_chi = dh.ma_dia_chi
-                WHERE dh.id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $address = $result->fetch_assoc();
-        echo json_encode(['items' => $items, 'address' => $address]);
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    if ($id === 0) {
+        echo json_encode(["error" => "Invalid order ID"]);
         break;
+    }
+
+    // Get basic order info
+    $sql = "SELECT dh.*, dk.user AS ten_nguoi_dung, dk.email, dk.phone
+            FROM don_hang dh
+            LEFT JOIN dang_ky dk ON dh.ma_nguoi_dung = dk.id
+            WHERE dh.id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $order = $stmt->get_result()->fetch_assoc();
+    
+    // Get order items
+    $sql_items = "SELECT ctdh.*, sp.ten_sp, sp.gia_sau
+                 FROM chi_tiet_don_hang ctdh
+                 JOIN san_pham sp ON ctdh.ma_sp = sp.ma_sp
+                 WHERE ctdh.ma_don_hang = ?";
+    $stmt = $conn->prepare($sql_items);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $items_result = $stmt->get_result();
+    $items = [];
+    while ($row = $items_result->fetch_assoc()) {
+        $items[] = [
+            'ten_san_pham' => $row['ten_sp'],
+            'so_luong' => $row['so_luong'],
+            'don_gia' => $row['don_gia'],
+            'giam_gia' => $row['giam_gia'],
+            'thanh_tien' => $row['thanh_tien']
+        ];
+    }
+    
+    // Get shipping address
+    $address = [];
+    if ($order['ma_dia_chi']) {
+        $sql_address = "SELECT * FROM dia_chi_giao_hang WHERE ma_dia_chi = ?";
+        $stmt = $conn->prepare($sql_address);
+        $stmt->bind_param("i", $order['ma_dia_chi']);
+        $stmt->execute();
+        $address = $stmt->get_result()->fetch_assoc();
+    }
+    
+    // Get payment info
+    $payment = [];
+    $sql_payment = "SELECT * FROM thanh_toan WHERE ma_don_hang = ?";
+    $stmt = $conn->prepare($sql_payment);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $payment_result = $stmt->get_result();
+    if ($payment_result->num_rows > 0) {
+        $payment = $payment_result->fetch_assoc();
+    }
+    
+    // Prepare response
+    $response = [
+        'order' => $order,
+        'items' => $items,
+        'address' => $address,
+        'payment' => $payment
+    ];
+    
+    echo json_encode($response);
+    break;
 
     case 'delete_order':
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -196,13 +204,11 @@ switch ($action) {
 
     // Reviews management
     case 'get_reviews':
-        $sql = "SELECT * FROM danh_gia ORDER BY ngay DESC";
+        $sql = "SELECT dg.*, dk.user AS ten_nguoi_dung
+                FROM danh_gia dg
+                LEFT JOIN dang_ky dk ON dg.ma_nguoi_dung = dk.id
+                ORDER BY dg.created_at DESC";
         $result = $conn->query($sql);
-        if (!$result) {
-            file_put_contents($logFile, date('Y-m-d H:i:s') . " - SQL error: " . $conn->error . "\n", FILE_APPEND);
-            echo json_encode(["error" => "Query failed: " . $conn->error]);
-            break;
-        }
         $reviews = [];
         while ($row = $result->fetch_assoc()) {
             $reviews[] = $row;
@@ -229,7 +235,11 @@ switch ($action) {
             echo json_encode(["success" => false, "error" => "Invalid review ID"]);
             break;
         }
-        $sql = "SELECT * FROM phan_hoi_review WHERE id_danh_gia = ? ORDER BY ngay DESC";
+        $sql = "SELECT phr.*, dk.user AS ten_nguoi_tra_loi
+                FROM phan_hoi_review phr
+                LEFT JOIN dang_ky dk ON phr.ma_nguoi_tra_loi = dk.id
+                WHERE phr.id_danh_gia = ?
+                ORDER BY phr.created_at DESC";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -243,7 +253,7 @@ switch ($action) {
 
     // Payments management
     case 'get_payments':
-        $sql = "SELECT * FROM thanh_toan ORDER BY id DESC";
+        $sql = "SELECT * FROM thanh_toan ORDER BY thoi_gian_thanh_toan DESC, id DESC";
         $result = $conn->query($sql);
         if (!$result) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - SQL error: " . $conn->error . "\n", FILE_APPEND);
@@ -321,8 +331,8 @@ switch ($action) {
         $sql_revenue = "SELECT SUM(tong_tien) AS tong_doanh_thu 
                        FROM don_hang 
                        WHERE trang_thai = 'Đã thanh toán' 
-                       AND MONTH(ngay_dat) = ? 
-                       AND YEAR(ngay_dat) = ?";
+                       AND MONTH(created_at) = ? 
+                       AND YEAR(created_at) = ?";
         $stmt = $conn->prepare($sql_revenue);
         $stmt->bind_param("ii", $month, $year);
         $stmt->execute();
@@ -332,8 +342,8 @@ switch ($action) {
         // Monthly orders count
         $sql_orders = "SELECT COUNT(*) AS tong_don_hang 
                       FROM don_hang 
-                      WHERE MONTH(ngay_dat) = ? 
-                      AND YEAR(ngay_dat) = ?";
+                      WHERE MONTH(created_at) = ? 
+                      AND YEAR(created_at) = ?";
         $stmt = $conn->prepare($sql_orders);
         $stmt->bind_param("ii", $month, $year);
         $stmt->execute();
@@ -343,8 +353,8 @@ switch ($action) {
         // Active users count (users who made orders in this month)
         $sql_active_users = "SELECT COUNT(DISTINCT ma_nguoi_dung) AS nguoi_dung_hoat_dong
                             FROM don_hang 
-                            WHERE MONTH(ngay_dat) = ? 
-                            AND YEAR(ngay_dat) = ?";
+                            WHERE MONTH(created_at) = ? 
+                            AND YEAR(created_at) = ?";
         $stmt = $conn->prepare($sql_active_users);
         $stmt->bind_param("ii", $month, $year);
         $stmt->execute();
@@ -355,52 +365,45 @@ switch ($action) {
         $sql_total_payments = "SELECT COUNT(*) AS tong_thanh_toan
                               FROM don_hang 
                               WHERE trang_thai = 'Đã thanh toán'
-                              AND MONTH(ngay_dat) = ? 
-                              AND YEAR(ngay_dat) = ?";
+                              AND MONTH(created_at) = ? 
+                              AND YEAR(created_at) = ?";
         $stmt = $conn->prepare($sql_total_payments);
         $stmt->bind_param("ii", $month, $year);
         $stmt->execute();
         $result = $stmt->get_result();
         $total_payments = $result->fetch_assoc();
         
-        // Top selling products
-        $sql_top_products = "SELECT hd.ten_san_pham
-                            FROM hoa_don hd
-                            JOIN don_hang dh ON hd.ma_don_hang = dh.id
-                            WHERE MONTH(dh.ngay_dat) = ? 
-                            AND YEAR(dh.ngay_dat) = ?
-                            AND dh.trang_thai = 'Đã thanh toán'";
+        // Top selling products (fix: join chi_tiet_don_hang + san_pham)
+        $sql_top_products = "SELECT sp.id, sp.ten_sp, SUM(ctdh.so_luong) AS tong_so_luong
+                            FROM chi_tiet_don_hang ctdh
+                            JOIN don_hang dh ON ctdh.ma_don_hang = dh.id
+                            JOIN san_pham sp ON ctdh.ma_sp = sp.id
+                            WHERE dh.trang_thai = 'Đã thanh toán'
+                              AND MONTH(dh.created_at) = ?
+                              AND YEAR(dh.created_at) = ?
+                            GROUP BY sp.id, sp.ten_sp
+                            ORDER BY tong_so_luong DESC
+                            LIMIT 5";
         $stmt = $conn->prepare($sql_top_products);
         $stmt->bind_param("ii", $month, $year);
         $stmt->execute();
         $result = $stmt->get_result();
-        $product_counts = [];
+        $top_products = [];
         while ($row = $result->fetch_assoc()) {
-            if (!empty($row['ten_san_pham'])) {
-                $product_list = explode(', ', $row['ten_san_pham']);
-                foreach ($product_list as $product) {
-                    preg_match('/^(.*)\s\(x(\d+)\)$/', trim($product), $matches);
-                    $product_name = $matches[1] ?? trim($product);
-                    $quantity = isset($matches[2]) ? (int)$matches[2] : 1;
-                    if (!isset($product_counts[$product_name])) {
-                        $product_counts[$product_name] = 0;
-                    }
-                    $product_counts[$product_name] += $quantity;
-                }
-            }
+            $top_products[] = [
+                'id' => $row['id'],
+                'ten_san_pham' => $row['ten_sp'],
+                'tong_so_luong' => (int)$row['tong_so_luong']
+            ];
         }
-        arsort($product_counts);
-        $top_products = array_slice(array_map(function($name, $quantity) {
-            return ['ten_san_pham' => $name, 'tong_so_luong' => $quantity];
-        }, array_keys($product_counts), $product_counts), 0, 5);
         
         // Daily revenue for chart
-        $sql_daily_revenue = "SELECT DAY(ngay_dat) AS ngay, SUM(tong_tien) AS doanh_thu
+        $sql_daily_revenue = "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS ngay, SUM(tong_tien) AS tong_doanh_thu
                              FROM don_hang
                              WHERE trang_thai = 'Đã thanh toán'
-                             AND MONTH(ngay_dat) = ?
-                             AND YEAR(ngay_dat) = ?
-                             GROUP BY DAY(ngay_dat)
+                             AND MONTH(created_at) = ?
+                             AND YEAR(created_at) = ?
+                             GROUP BY ngay
                              ORDER BY ngay";
         $stmt = $conn->prepare($sql_daily_revenue);
         $stmt->bind_param("ii", $month, $year);
@@ -409,17 +412,16 @@ switch ($action) {
         $daily_revenue = [];
         while ($row = $result->fetch_assoc()) {
             $daily_revenue[] = [
-                'ngay' => intval($row['ngay']),
-                'doanh_thu' => floatval($row['doanh_thu'])
+                'ngay' => $row['ngay'],
+                'tong_doanh_thu' => floatval($row['tong_doanh_thu'])
             ];
         }
-        
         // Daily orders for chart
-        $sql_daily_orders = "SELECT DAY(ngay_dat) AS ngay, COUNT(*) AS don_hang
+        $sql_daily_orders = "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS ngay, COUNT(*) AS tong_don_hang
                             FROM don_hang
-                            WHERE MONTH(ngay_dat) = ?
-                            AND YEAR(ngay_dat) = ?
-                            GROUP BY DAY(ngay_dat)
+                            WHERE MONTH(created_at) = ?
+                            AND YEAR(created_at) = ?
+                            GROUP BY ngay
                             ORDER BY ngay";
         $stmt = $conn->prepare($sql_daily_orders);
         $stmt->bind_param("ii", $month, $year);
@@ -428,17 +430,16 @@ switch ($action) {
         $daily_orders = [];
         while ($row = $result->fetch_assoc()) {
             $daily_orders[] = [
-                'ngay' => intval($row['ngay']),
-                'don_hang' => intval($row['don_hang'])
+                'ngay' => $row['ngay'],
+                'tong_don_hang' => intval($row['tong_don_hang'])
             ];
         }
-        
         // Daily active users for chart
-        $sql_daily_users = "SELECT DAY(ngay_dat) AS ngay, COUNT(DISTINCT ma_nguoi_dung) AS nguoi_dung
+        $sql_daily_users = "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS ngay, COUNT(DISTINCT ma_nguoi_dung) AS tong_nguoi_dung
                            FROM don_hang
-                           WHERE MONTH(ngay_dat) = ?
-                           AND YEAR(ngay_dat) = ?
-                           GROUP BY DAY(ngay_dat)
+                           WHERE MONTH(created_at) = ?
+                           AND YEAR(created_at) = ?
+                           GROUP BY ngay
                            ORDER BY ngay";
         $stmt = $conn->prepare($sql_daily_users);
         $stmt->bind_param("ii", $month, $year);
@@ -447,49 +448,51 @@ switch ($action) {
         $daily_users = [];
         while ($row = $result->fetch_assoc()) {
             $daily_users[] = [
-                'ngay' => intval($row['ngay']),
-                'nguoi_dung' => intval($row['nguoi_dung'])
+                'ngay' => $row['ngay'],
+                'tong_nguoi_dung' => intval($row['tong_nguoi_dung'])
             ];
         }
-        
-        // Daily payments for chart
-        $sql_daily_payments = "SELECT DAY(ngay_dat) AS ngay, COUNT(*) AS thanh_toan
-                              FROM don_hang
-                              WHERE trang_thai = 'Đã thanh toán'
-                              AND MONTH(ngay_dat) = ?
-                              AND YEAR(ngay_dat) = ?
-                              GROUP BY DAY(ngay_dat)
-                              ORDER BY ngay";
+        // Daily reviews for chart
+        $sql_daily_reviews = "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS ngay, COUNT(*) AS tong_danh_gia
+                     FROM danh_gia
+                     WHERE MONTH(created_at) = ?
+                     AND YEAR(created_at) = ?
+                     GROUP BY ngay
+                     ORDER BY ngay";
+        $stmt = $conn->prepare($sql_daily_reviews);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $daily_reviews = [];
+        while ($row = $result->fetch_assoc()) {
+            $daily_reviews[] = [
+                'ngay' => $row['ngay'],
+                'tong_danh_gia' => intval($row['tong_danh_gia'])
+            ];
+        }
+
+        // Daily payments for chart (ensure always array)
+        $daily_payments = [];
+        // Example: If you want to count payments per day (adjust as needed)
+        $sql_daily_payments = "SELECT DATE_FORMAT(thoi_gian_thanh_toan, '%Y-%m-%d') AS ngay, COUNT(*) AS tong_thanh_toan
+            FROM thanh_toan
+            WHERE thoi_gian_thanh_toan IS NOT NULL
+              AND MONTH(thoi_gian_thanh_toan) = ?
+              AND YEAR(thoi_gian_thanh_toan) = ?
+            GROUP BY ngay
+            ORDER BY ngay";
         $stmt = $conn->prepare($sql_daily_payments);
         $stmt->bind_param("ii", $month, $year);
         $stmt->execute();
         $result = $stmt->get_result();
-        $daily_payments = [];
         while ($row = $result->fetch_assoc()) {
             $daily_payments[] = [
-                'ngay' => intval($row['ngay']),
-                'thanh_toan' => intval($row['thanh_toan'])
+                'ngay' => $row['ngay'],
+                'tong_thanh_toan' => intval($row['tong_thanh_toan'])
             ];
         }
-        $sql_daily_reviews = "SELECT DAY(ngay) AS ngay, COUNT(*) AS danh_gia
-                     FROM danh_gia
-                     WHERE MONTH(ngay) = ?
-                     AND YEAR(ngay) = ?
-                     GROUP BY DAY(ngay)
-                     ORDER BY ngay";
-$stmt = $conn->prepare($sql_daily_reviews);
-$stmt->bind_param("ii", $month, $year);
-$stmt->execute();
-$result = $stmt->get_result();
-$daily_reviews = [];
-while ($row = $result->fetch_assoc()) {
-    $daily_reviews[] = [
-        'ngay' => intval($row['ngay']),
-        'danh_gia' => intval($row['danh_gia'])
-    ];
-}
 
-// Add to $statistics array
+        // Add to $statistics array
         $statistics = [
             'tong_doanh_thu' => floatval($revenue['tong_doanh_thu'] ?? 0),
             'tong_don_hang' => intval($orders_count['tong_don_hang'] ?? 0),
@@ -499,7 +502,7 @@ while ($row = $result->fetch_assoc()) {
             'doanh_thu_theo_ngay' => $daily_revenue,
             'don_hang_theo_ngay' => $daily_orders,
             'nguoi_dung_theo_ngay' => $daily_users,
-            'thanh_toan_theo_ngay' => $daily_payments,
+            'thanh_toan_theo_ngay' => $daily_payments, // always array
             'thang' => $month,
             'nam' => $year,
             'danh_gia_theo_ngay'=> $daily_reviews
@@ -533,38 +536,18 @@ while ($row = $result->fetch_assoc()) {
     }
     break;
         case 'get_dashboard_metrics':
-
-    
-
     // Tổng đơn hàng
     $result = $conn->query("SELECT COUNT(*) AS total FROM don_hang");
     $don_hang = $result->fetch_assoc()['total'];
-
     // Tổng người dùng
     $result = $conn->query("SELECT COUNT(*) AS total FROM dang_ky");
     $tai_khoan = $result->fetch_assoc()['total'];
-
     // Tổng thanh toán
     $result = $conn->query("SELECT COUNT(*) AS total FROM thanh_toan");
     $thanh_toan = $result->fetch_assoc()['total'];
-
-    // Tổng sản phẩm tồn kho
-    $result = $conn->query("
-        SELECT SUM(solg_trong_kho) AS total FROM (
-            SELECT solg_trong_kho FROM cpu
-            UNION ALL SELECT solg_trong_kho FROM mainboard
-            UNION ALL SELECT solg_trong_kho FROM ram
-            UNION ALL SELECT solg_trong_kho FROM ssd
-            UNION ALL SELECT solg_trong_kho FROM psu
-            UNION ALL SELECT solg_trong_kho FROM case
-            UNION ALL SELECT solg_trong_kho FROM gpu
-            UNION ALL SELECT solg_trong_kho FROM keyboard
-            UNION ALL SELECT solg_trong_kho FROM mouse
-            UNION ALL SELECT solg_trong_kho FROM monitor
-        ) AS tong_sp
-    ");
+    // Tổng sản phẩm tồn kho (chuẩn SQL mới)
+    $result = $conn->query("SELECT SUM(so_luong) AS total FROM san_pham");
     $san_pham = $result->fetch_assoc()['total'];
-
     // Trả JSON
     echo json_encode([
         'don_hang' => $don_hang,
@@ -573,6 +556,120 @@ while ($row = $result->fetch_assoc()) {
         'san_pham' => $san_pham
     ]);
     break;
+    // CRUD sản phẩm (Product CRUD)
+    case 'get_products':
+        $sql = "SELECT sp.*, nsx.ten_nha_san_xuat 
+            FROM san_pham sp
+            LEFT JOIN nha_san_xuat nsx ON sp.id_nha_san_xuat = nsx.id
+            ORDER BY sp.id DESC";
+        $result = $conn->query($sql);
+        $products = [];
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+        echo json_encode($products);
+        break;
+    case 'add_product':
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) {
+            echo json_encode(['success' => false, 'error' => 'No data provided']);
+            break;
+        }
+        // Validate required fields
+        $required = ['ma_sp', 'ten_sp', 'gia_sau', 'so_luong'];
+        foreach ($required as $field) {
+            if (empty($data[$field])) {
+                echo json_encode(['success' => false, 'error' => "Thiếu trường bắt buộc: $field"]);
+                break 2;
+            }
+        }
+        // Chuẩn bị dữ liệu
+        $fields = [
+            'ma_sp', 'ten_sp', 'gia_sau', 'gia_truoc', 'so_luong', 'bao_hanh',
+            'mo_ta', 'id_danh_muc', 'id_nha_san_xuat', 'trang_thai'
+        ];
+        $placeholders = [];
+        $values = [];
+        $types = '';
+        foreach ($fields as $field) {
+            $placeholders[] = '?';
+            $values[] = $data[$field] ?? null;
+            // Kiểu dữ liệu
+            if (in_array($field, ['gia_sau', 'gia_truoc'])) $types .= 'd';
+            else if (in_array($field, ['so_luong', 'id_danh_muc', 'id_nha_san_xuat', 'trang_thai'])) $types .= 'i';
+            else $types .= 's';
+        }
+        $sql = "INSERT INTO san_pham (" . implode(",", $fields) . ") VALUES (" . implode(",", $placeholders) . ")";
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            echo json_encode(['success' => false, 'error' => 'SQL error: ' . $conn->error]);
+            break;
+        }
+        try {
+            $stmt->bind_param($types, ...$values);
+            $success = $stmt->execute();
+            if ($success) {
+                echo json_encode(['success' => true, 'id' => $conn->insert_id]);
+            } else {
+                // Kiểm tra lỗi duplicate entry
+                if ($stmt->errno == 1062) {
+                    echo json_encode(['success' => false, 'error' => 'Mã sản phẩm đã tồn tại!']);
+                } else {
+                    echo json_encode(['success' => false, 'error' => $stmt->error]);
+                }
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) {
+                echo json_encode(['success' => false, 'error' => 'Mã sản phẩm đã tồn tại!']);
+            } else {
+                echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            }
+        }
+        break;
+    case 'update_product':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $data = json_decode(file_get_contents('php://input'), true);
+        if ($id === 0 || !$data) {
+            echo json_encode(['success' => false, 'error' => 'Invalid ID or data']);
+            break;
+        }
+        $fields = ['ten_sp', 'mo_ta', 'gia_sau', 'gia_truoc', 'so_luong', 'bao_hanh', 'id_danh_muc', 'id_nha_san_xuat', 'trang_thai'];
+        $set = [];
+        $values = [];
+        $types = '';
+        foreach ($fields as $field) {
+            if (isset($data[$field])) {
+                $set[] = "$field = ?";
+                $values[] = $data[$field];
+                if (in_array($field, ['gia_sau', 'gia_truoc'])) $types .= 'd';
+                else if (in_array($field, ['so_luong', 'id_danh_muc', 'id_nha_san_xuat', 'trang_thai'])) $types .= 'i';
+                else $types .= 's';
+            }
+        }
+        if (empty($set)) {
+            echo json_encode(['success' => false, 'error' => 'No fields to update']);
+            break;
+        }
+        $values[] = $id;
+        $types .= 'i';
+        $sql = "UPDATE san_pham SET " . implode(", ", $set) . " WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param($types, ...$values);
+        $success = $stmt->execute();
+        echo json_encode(['success' => $success]);
+        break;
+    case 'delete_product':
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id === 0) {
+            echo json_encode(['success' => false, 'error' => 'Invalid product ID']);
+            break;
+        }
+        $sql = "DELETE FROM san_pham WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $success = $stmt->execute();
+        echo json_encode(['success' => $success]);
+        break;
 
 
     default:

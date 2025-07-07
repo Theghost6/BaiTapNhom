@@ -1,0 +1,95 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-open {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 24px 24px 24px;
+    min-width: 350px;
+    max-width: 95vw;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
+    position: relative;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.form-group textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.price-input {
+    display: flex;
+    align-items: center;
+}
+
+.price-suffix {
+    margin-left: 8px;
+    color: #888;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.cancel-button,
+.save-button {
+    padding: 7px 18px;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: #eee;
+    color: #333;
+}
+
+.save-button {
+    background: #007bff;
+    color: #fff;
+}
+
+.save-button:hover {
+    background: #0056b3;
+}
+
+.cancel-button:hover {
+    background: #ccc;
+}

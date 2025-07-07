@@ -1,0 +1,75 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:5173" # Máy chủ phát triển Vite
+      - "3001:3001" # Máy chủ Node (WebSocket hoặc API)
+    volumes:
+      - ./frontend:/app:cached
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - PORT=3001 # Cổng cho máy chủ Node
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    image: php:8.2-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./backend/uploads:/var/www/html/uploads
+      - ./frontend/src/page/funtion:/var/www/frontend/src/page/funtion
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=form
+      - DB_USERNAME=root
+      - DB_PASSWORD=""
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+    command: bash -c "docker-php-ext-install mysqli && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: form
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+
+networks:
+  app-network:
+    driver: bridge

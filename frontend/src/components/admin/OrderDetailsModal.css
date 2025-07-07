@@ -1,0 +1,80 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-open {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 24px 24px 24px;
+    min-width: 350px;
+    max-width: 95vw;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
+    position: relative;
+}
+
+.order-details-section {
+    margin-bottom: 18px;
+}
+
+.address-details {
+    background: #f7f7f7;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.cancel-button {
+    background: #eee;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 18px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background: #ccc;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.table th {
+    background: #f1f1f1;
+    font-weight: 600;
+}
+
+.table tr:nth-child(even) {
+    background: #fafafa;
+}

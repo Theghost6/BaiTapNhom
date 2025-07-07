@@ -1,5 +1,5 @@
 <?php
-// Start output buffering
+// Start output buffering at the very beginning
 ob_start();
 
 // Set headers
@@ -15,21 +15,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Database configuration
-$host = "localhost";
-$dbname = "form";
-$username = "root";
-$password = "";
+// Sử dụng file connect.php
+require_once __DIR__ . '/connect.php';
+
+// Kiểm tra kết nối MySQLi
+if (!isset($conn) || $conn->connect_error) {
+    http_response_code(500);
+    ob_end_clean();
+    echo json_encode(["message" => "Lỗi kết nối database: " . ($conn->connect_error ?? "Connection not available")]);
+    exit;
+}
 
 try {
-    // Create PDO connection
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Handle POST request
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Get raw POST data
-        $input = json_decode(file_get_contents('php://input'), true);
+        $json = file_get_contents('php://input');
+        
+        // Check if data was received
+        if (empty($json)) {
+            http_response_code(400);
+            ob_end_clean();
+            echo json_encode(["message" => "Không có dữ liệu được gửi"]);
+            exit;
+        }
+        
+        $input = json_decode($json, true);
 
         // Check if JSON decoding failed
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -47,34 +58,42 @@ try {
             exit;
         }
 
-        // Sanitize inputs
-        $firstName = filter_var($input['firstName'], FILTER_SANITIZE_STRING);
-        $email = filter_var($input['email'], FILTER_SANITIZE_EMAIL);
-        $phone = !empty($input['phone']) ? filter_var($input['phone'], FILTER_SANITIZE_STRING) : null;
-        $message = filter_var($input['message'], FILTER_SANITIZE_STRING);
+        // Sanitize inputs với MySQLi
+        $firstName = $conn->real_escape_string(trim($input['firstName']));
+        $email = $conn->real_escape_string(trim($input['email']));
+        $phone = !empty($input['phone']) ? $conn->real_escape_string(trim($input['phone'])) : null;
+        $message = $conn->real_escape_string(trim($input['message']));
 
-        // Prepare and execute SQL query
-        $stmt = $pdo->prepare("INSERT INTO lien_he (ten, email, sdt, noi_dung) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$firstName, $email, $phone, $message]);
+        // Execute SQL query với MySQLi
+        $phone_value = $phone ? "'$phone'" : "NULL";
+        $sql = "INSERT INTO lien_he (ten, email, sdt, noi_dung) VALUES ('$firstName', '$email', $phone_value, '$message')";
+        
+        if (!$conn->query($sql)) {
+            throw new Exception($conn->error);
+        }
 
         http_response_code(200);
         ob_end_clean();
         echo json_encode(["message" => "Gửi biểu mẫu thành công"]);
+        exit;
     } else {
         http_response_code(405);
         ob_end_clean();
         echo json_encode(["message" => "Phương thức không được phép"]);
+        exit;
     }
-} catch (PDOException $e) {
-    http_response_code(500);
-    ob_end_clean();
-    echo json_encode(["message" => "Lỗi cơ sở dữ liệu: " . $e->getMessage()]);
 } catch (Exception $e) {
     http_response_code(500);
     ob_end_clean();
     echo json_encode(["message" => "Lỗi server: " . $e->getMessage()]);
+    exit;
+}
+
+// Đóng kết nối
+if (isset($conn)) {
+    $conn->close();
 }
 
 // Clear any remaining buffer
-ob_end_flush();
+ob_end_clean();
 ?>

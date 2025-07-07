@@ -1,0 +1,37 @@
+/* Layout styles for checkout page */
+.checkout-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.checkout-container {
+    display: flex;
+    gap: 20px;
+}
+
+.checkout-form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-summary {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+@media (max-width: 375px) {
+    .checkout-container {
+        flex-direction: column;
+    }
+
+    .checkout-form-container,
+    .checkout-summary {
+        width: 100%;
+        padding: 15px;
+    }
+}

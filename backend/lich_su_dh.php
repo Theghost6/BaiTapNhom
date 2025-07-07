@@ -3,19 +3,15 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content Ministrations-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "form";
+// Sử dụng file connect.php
+require_once __DIR__ . '/connect.php';
 
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+// Kiểm tra kết nối MySQLi
+if (!isset($conn) || $conn->connect_error) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Connection failed: " . $e->getMessage()]);
+    echo json_encode(["success" => false, "message" => "Connection failed: " . ($conn->connect_error ?? "Connection not available")]);
     exit;
 }
 
@@ -23,11 +19,13 @@ $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
 
 // Lấy tất cả đơn hàng của người dùng
 function getOrderHistory($conn, $user_id) {
+    $user_id = $conn->real_escape_string($user_id);
+
     $query = "SELECT 
                 dh.id as ma_don_hang, 
                 dh.tong_tien, 
                 dh.trang_thai, 
-                dh.ngay_dat, 
+                dh.updated_at as ngay_dat, 
                 dh.ghi_chu,
                 dcgh.nguoi_nhan, 
                 dcgh.sdt_nhan, 
@@ -35,45 +33,40 @@ function getOrderHistory($conn, $user_id) {
                 dcgh.tinh_thanh, 
                 dcgh.quan_huyen, 
                 dcgh.phuong_xa,
-                tt.phuong_thuc_thanh_toan, 
-                tt.trang_thai_thanh_toan,
-                hd.ten_san_pham
+                tt.phuong_thuc, 
+                tt.trang_thai as trang_thai_thanh_toan
               FROM don_hang dh
               LEFT JOIN dia_chi_giao_hang dcgh ON dh.ma_dia_chi = dcgh.ma_dia_chi
               LEFT JOIN thanh_toan tt ON dh.id = tt.ma_don_hang
-              LEFT JOIN hoa_don hd ON dh.id = hd.ma_don_hang
-              WHERE dh.ma_nguoi_dung = ?
-              ORDER BY dh.ngay_dat DESC";
+              WHERE dh.ma_nguoi_dung = '$user_id'
+              ORDER BY dh.updated_at DESC";
 
-    $stmt = $conn->prepare($query);
-    $stmt->execute([$user_id]);
-    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $conn->query($query);
+    $orders = [];
 
-    foreach ($orders as &$order) {
-        $order_id = $order['ma_don_hang'];
-        // Split ten_san_pham into an array for consistency with previous structure
-        $products = [];
-        if (!empty($order['ten_san_pham'])) {
-            $product_list = explode(', ', $order['ten_san_pham']);
-            foreach ($product_list as $product) {
-                // Assuming format: "Product Name (xQuantity)"
-                preg_match('/^(.*)\s\(x(\d+)\)$/', trim($product), $matches);
-                if ($matches) {
-                    $products[] = [
-                        'ten_san_pham' => $matches[1],
-                        'so_luong' => (int)$matches[2]
-                    ];
-                } else {
-                    $products[] = [
-                        'ten_san_pham' => $product,
-                        'so_luong' => 1 // Default quantity if not specified
-                    ];
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $order_id = $row['ma_don_hang'];
+            // Lấy danh sách sản phẩm cho đơn hàng này
+            $product_query = "SELECT 
+                                ctdh.ma_sp, 
+                                sp.ten_sp, 
+                                ctdh.so_luong, 
+                                ctdh.don_gia,
+                                (SELECT url FROM anh_sp WHERE ma_sp = ctdh.ma_sp ORDER BY thu_tu ASC LIMIT 1) as anh
+                              FROM chi_tiet_don_hang ctdh
+                              JOIN san_pham sp ON ctdh.ma_sp = sp.ma_sp
+                              WHERE ctdh.ma_don_hang = '$order_id'";
+            $product_result = $conn->query($product_query);
+            $products = [];
+            if ($product_result && $product_result->num_rows > 0) {
+                while ($prod = $product_result->fetch_assoc()) {
+                    $products[] = $prod;
                 }
             }
+            $row['san_pham'] = $products;
+            $orders[] = $row;
         }
-        $order['san_pham'] = $products;
-        // Remove ten_san_pham from top-level to avoid redundancy
-        unset($order['ten_san_pham']);
     }
 
     return $orders;
@@ -81,21 +74,28 @@ function getOrderHistory($conn, $user_id) {
 
 // Lấy thông tin chi tiết một đơn hàng cụ thể
 function getOrderDetail($conn, $user_id, $order_id) {
+    $user_id = $conn->real_escape_string($user_id);
+    $order_id = $conn->real_escape_string($order_id);
+
     // Kiểm tra đơn hàng có thuộc về người dùng không
-    $check_query = "SELECT COUNT(*) as count FROM don_hang WHERE id = ? AND ma_nguoi_dung = ?";
-    $stmt = $conn->prepare($check_query);
-    $stmt->execute([$order_id, $user_id]);
-    $check_row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+    $check_query = "SELECT COUNT(*) as count FROM don_hang WHERE id = '$order_id' AND ma_nguoi_dung = '$user_id'";
+    $check_result = $conn->query($check_query);
+
+    if (!$check_result) {
+        return null;
+    }
+
+    $check_row = $check_result->fetch_assoc();
+
     if ($check_row['count'] == 0) {
         return null; // Đơn hàng không thuộc về người dùng này
     }
-    
+
     $query = "SELECT 
                 dh.id as ma_don_hang, 
                 dh.tong_tien, 
                 dh.trang_thai, 
-                dh.ngay_dat, 
+                dh.updated_at as ngay_dat, 
                 dh.ghi_chu,
                 dcgh.nguoi_nhan, 
                 dcgh.sdt_nhan, 
@@ -103,47 +103,41 @@ function getOrderDetail($conn, $user_id, $order_id) {
                 dcgh.tinh_thanh, 
                 dcgh.quan_huyen, 
                 dcgh.phuong_xa,
-                tt.phuong_thuc_thanh_toan, 
-                tt.trang_thai_thanh_toan,
+                tt.phuong_thuc, 
+                tt.trang_thai as trang_thai_thanh_toan,
                 tt.thoi_gian_thanh_toan,
-                tt.ma_giao_dich,
-                hd.ten_san_pham
+                tt.ma_giao_dich
               FROM don_hang dh
               LEFT JOIN dia_chi_giao_hang dcgh ON dh.ma_dia_chi = dcgh.ma_dia_chi
               LEFT JOIN thanh_toan tt ON dh.id = tt.ma_don_hang
-              LEFT JOIN hoa_don hd ON dh.id = hd.ma_don_hang
-              WHERE dh.id = ? AND dh.ma_nguoi_dung = ?";
-    
-    $stmt = $conn->prepare($query);
-    $stmt->execute([$order_id, $user_id]);
-    
-    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Process ten_san_pham into products array
+              WHERE dh.id = '$order_id' AND dh.ma_nguoi_dung = '$user_id'";
+
+    $result = $conn->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        // Lấy danh sách sản phẩm cho đơn hàng này
+        $product_query = "SELECT 
+                            ctdh.ma_sp, 
+                            sp.ten_sp, 
+                            ctdh.so_luong, 
+                            ctdh.don_gia,
+                            (SELECT url FROM anh_sp WHERE ma_sp = ctdh.ma_sp ORDER BY thu_tu ASC LIMIT 1) as anh
+                          FROM chi_tiet_don_hang ctdh
+                          JOIN san_pham sp ON ctdh.ma_sp = sp.ma_sp
+                          WHERE ctdh.ma_don_hang = '$order_id'";
+        $product_result = $conn->query($product_query);
         $products = [];
-        if (!empty($row['ten_san_pham'])) {
-            $product_list = explode(', ', $row['ten_san_pham']);
-            foreach ($product_list as $product) {
-                // Assuming format: "Product Name (xQuantity)"
-                preg_match('/^(.*)\s\(x(\d+)\)$/', trim($product), $matches);
-                if ($matches) {
-                    $products[] = [
-                        'ten_san_pham' => $matches[1],
-                        'so_luong' => (int)$matches[2]
-                    ];
-                } else {
-                    $products[] = [
-                        'ten_san_pham' => $product,
-                        'so_luong' => 1 // Default quantity if not specified
-                    ];
-                }
+        if ($product_result && $product_result->num_rows > 0) {
+            while ($prod = $product_result->fetch_assoc()) {
+                $products[] = $prod;
             }
         }
-        
         $row['san_pham'] = $products;
-        unset($row['ten_san_pham']); // Remove ten_san_pham from top-level
         return $row;
     }
-    
+
     return null;
 }
 
@@ -152,7 +146,36 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['order_id'])) {
+       // Trong phần xử lý GET method, thay thế đoạn code kiểm tra đã mua sản phẩm bằng:
+
+if (isset($_GET['ma_nguoi_dung']) && isset($_GET['ma_sp'])) {
+    $user_id = intval($_GET['ma_nguoi_dung']);
+    $ma_sp = $conn->real_escape_string($_GET['ma_sp']);
+
+    // Chỉ cần có đơn hàng chứa sản phẩm là được, không kiểm tra trạng thái
+    $sql = "SELECT COUNT(*) as count
+            FROM don_hang dh
+            JOIN chi_tiet_don_hang ctdh ON dh.id = ctdh.ma_don_hang
+            WHERE dh.ma_nguoi_dung = $user_id
+              AND ctdh.ma_sp = '$ma_sp'";
+
+    $result = $conn->query($sql);
+    
+    if ($result) {
+        $row = $result->fetch_assoc();
+        echo json_encode([
+            "success" => true,
+            "da_mua" => ($row['count'] > 0) ? 1 : 0
+        ]);
+    } else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Lỗi truy vấn cơ sở dữ liệu"
+        ]);
+    }
+    exit;
+
+        } else if (isset($_GET['order_id'])) {
             // Lấy chi tiết đơn hàng cụ thể
             $order_id = intval($_GET['order_id']);
             $order = getOrderDetail($conn, $user_id, $order_id);
@@ -184,5 +207,8 @@ switch ($method) {
         break;
 }
 
-$conn = null;
+// Đóng kết nối
+if (isset($conn)) {
+    $conn->close();
+}
 ?>

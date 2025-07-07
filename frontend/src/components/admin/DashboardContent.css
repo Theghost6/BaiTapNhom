@@ -1,0 +1,140 @@
+.dashboard_content {
+    padding: 24px 32px;
+    background: #f7f8fa;
+    min-height: 100vh;
+}
+
+.stats_cards {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.stats_card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 24px 32px;
+    flex: 1 1 220px;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transition: box-shadow 0.2s;
+}
+
+.stats_card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card_icon {
+    font-size: 2.2rem;
+    color: #4e73df;
+    background: #eaf0fb;
+    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card_content h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.stats_value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 6px;
+}
+
+.stats_progress {
+    font-size: 0.95rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progress_bar {
+    display: inline-block;
+    height: 8px;
+    background: linear-gradient(90deg, #4e73df 60%, #1cc88a 100%);
+    border-radius: 4px;
+    min-width: 40px;
+    max-width: 120px;
+    transition: width 0.3s;
+}
+
+.progress_text {
+    font-size: 0.95rem;
+    color: #4e73df;
+    font-weight: 500;
+}
+
+.charts_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.chart_card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 18px 24px 8px 24px;
+    flex: 1 1 350px;
+    min-width: 350px;
+    margin-bottom: 16px;
+}
+
+.chart_card h3 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.chart_container {
+    width: 100%;
+    height: 300px;
+}
+
+.loading_spinner {
+    border: 4px solid #eaf0fb;
+    border-top: 4px solid #4e73df;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 900px) {
+
+    .stats_cards,
+    .charts_container {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .chart_card,
+    .stats_card {
+        min-width: unset;
+        width: 100%;
+    }
+}

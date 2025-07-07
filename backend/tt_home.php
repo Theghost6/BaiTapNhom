@@ -1,6 +1,11 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin:*');
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
@@ -8,74 +13,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-// Database configuration
-$host = 'localhost';
-$dbname = 'form';
-$username = 'root';
-$password = '';
+// Define log file for debugging
+$logFile = __DIR__ . '/tt_home_debug.log';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+    require_once __DIR__ . '/connect.php';
+    
+    // Kiểm tra kết nối MySQLi
+    if (!isset($conn) || $conn->connect_error) {
+        throw new Exception("MySQLi connection not available");
+    }
+
+    // Get request method and path
+    $method = $_SERVER['REQUEST_METHOD'];
+    $path = isset($_GET['path']) ? $_GET['path'] : '';
+    $pathParts = explode('/', trim($path, '/'));
+
+    // Log request for debugging
+    file_put_contents($logFile, date('Y-m-d H:i:s') . " - Request: $method $path" . PHP_EOL, FILE_APPEND);
+
+    if (empty($pathParts[0])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid endpoint']);
+        exit;
+    }
+
+    $table = $pathParts[0];
+    $id = isset($pathParts[1]) ? $pathParts[1] : null;
+
+    // Validate table name
+    $allowedTables = ['banner', 'footer', 'top_menu', 'chu_chay'];
+    if (!in_array($table, $allowedTables)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid table name: ' . $table]);
+        exit;
+    }
+
+    // Handle different HTTP methods
+    switch ($method) {
+        case 'GET':
+            handleGet($conn, $table, $id);
+            break;
+        case 'POST':
+            handlePost($conn, $table);
+            break;
+        case 'PUT':
+            handlePut($conn, $table, $id);
+            break;
+        case 'DELETE':
+            handleDelete($conn, $table, $id);
+            break;
+        default:
+            http_response_code(405);
+            echo json_encode(['error' => 'Method not allowed']);
+            break;
+    }
+
+} catch (Exception $e) {
+    file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
     http_response_code(500);
-    echo json_encode(['error' => 'Database connection failed: ' . $e->getMessage()]);
-    exit;
-}
-
-// Get request method and path
-$method = $_SERVER['REQUEST_METHOD'];
-$path = isset($_GET['path']) ? $_GET['path'] : '';
-$pathParts = explode('/', trim($path, '/'));
-
-if (empty($pathParts[0])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid endpoint']);
-    exit;
-}
-
-$table = $pathParts[0];
-$id = isset($pathParts[1]) ? $pathParts[1] : null;
-
-// Validate table name
-$allowedTables = ['banner', 'footer', 'top_menu', 'chu_chay'];
-if (!in_array($table, $allowedTables)) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid table name']);
-    exit;
-}
-
-// Handle different HTTP methods
-switch ($method) {
-    case 'GET':
-        handleGet($pdo, $table, $id);
-        break;
-    case 'POST':
-        handlePost($pdo, $table);
-        break;
-    case 'PUT':
-        handlePut($pdo, $table, $id);
-        break;
-    case 'DELETE':
-        handleDelete($pdo, $table, $id);
-        break;
-    default:
-        http_response_code(405);
-        echo json_encode(['error' => 'Method not allowed']);
-        break;
+    echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);
 }
 
 // GET - Retrieve data
-function handleGet($pdo, $table, $id) {
+function handleGet($conn, $table, $id) {
+    global $logFile;
     try {
         if ($id) {
             // Get single record
-            $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
-            $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $id = $conn->real_escape_string($id);
+            $sql = "SELECT * FROM `$table` WHERE id = '$id'";
+            $result = $conn->query($sql);
             
-            if ($result) {
-                echo json_encode(['success' => true, 'data' => $result]);
+            if ($result && $result->num_rows > 0) {
+                $data = $result->fetch_assoc();
+                echo json_encode(['success' => true, 'data' => $data]);
             } else {
                 http_response_code(404);
                 echo json_encode(['error' => 'Record not found']);
@@ -83,19 +95,30 @@ function handleGet($pdo, $table, $id) {
         } else {
             // Get all records
             $orderBy = getOrderBy($table);
-            $stmt = $pdo->query("SELECT * FROM $table $orderBy");
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode(['success' => true, 'data' => $results]);
+            $sql = "SELECT * FROM `$table` $orderBy";
+            $result = $conn->query($sql);
+            
+            $data = [];
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+            }
+            echo json_encode(['success' => true, 'data' => $data]);
         }
-    } catch(PDOException $e) {
+    } catch(Exception $e) {
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - GET Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
 }
 
 // POST - Create new record
-function handlePost($pdo, $table) {
+function handlePost($conn, $table) {
+    global $logFile;
     $input = json_decode(file_get_contents('php://input'), true);
+    
+    file_put_contents($logFile, date('Y-m-d H:i:s') . " - POST Input: " . print_r($input, true) . PHP_EOL, FILE_APPEND);
     
     if (!$input) {
         http_response_code(400);
@@ -105,8 +128,8 @@ function handlePost($pdo, $table) {
     
     try {
         $fields = getTableFields($table);
-        $data = [];
-        $placeholders = [];
+        $fieldNames = [];
+        $fieldValues = [];
         
         foreach ($fields as $field) {
             if (isset($input[$field])) {
@@ -117,38 +140,43 @@ function handlePost($pdo, $table) {
                     return;
                 }
                 
-                $data[$field] = $input[$field];
-                $placeholders[] = '?';
+                $fieldNames[] = "`$field`";
+                $fieldValues[] = "'" . $conn->real_escape_string($input[$field]) . "'";
             }
         }
         
-        if (empty($data)) {
+        if (empty($fieldNames)) {
             http_response_code(400);
             echo json_encode(['error' => 'No valid fields provided']);
             return;
         }
         
-        $fieldNames = implode(', ', array_keys($data));
-        $placeholderStr = implode(', ', $placeholders);
+        $fieldNamesStr = implode(', ', $fieldNames);
+        $fieldValuesStr = implode(', ', $fieldValues);
         
-        $stmt = $pdo->prepare("INSERT INTO $table ($fieldNames) VALUES ($placeholderStr)");
-        $stmt->execute(array_values($data));
+        $sql = "INSERT INTO `$table` ($fieldNamesStr) VALUES ($fieldValuesStr)";
         
-        $lastId = $pdo->lastInsertId();
+        if ($conn->query($sql)) {
+            $lastId = $conn->insert_id;
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Record created successfully',
+                'id' => $lastId
+            ]);
+        } else {
+            throw new Exception($conn->error);
+        }
         
-        echo json_encode([
-            'success' => true, 
-            'message' => 'Record created successfully',
-            'id' => $lastId
-        ]);
-        
-    } catch(PDOException $e) {
+    } catch(Exception $e) {
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - POST Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
 }
+
 // PUT - Update existing record
-function handlePut($pdo, $table, $id) {
+function handlePut($conn, $table, $id) {
+    global $logFile;
     if (!$id) {
         http_response_code(400);
         echo json_encode(['error' => 'ID is required for update']);
@@ -156,6 +184,8 @@ function handlePut($pdo, $table, $id) {
     }
     
     $input = json_decode(file_get_contents('php://input'), true);
+    
+    file_put_contents($logFile, date('Y-m-d H:i:s') . " - PUT Input: " . print_r($input, true) . PHP_EOL, FILE_APPEND);
     
     if (!$input) {
         http_response_code(400);
@@ -165,51 +195,54 @@ function handlePut($pdo, $table, $id) {
     
     try {
         // Check if record exists
-        $stmt = $pdo->prepare("SELECT id FROM `$table` WHERE id = ?");
-        $stmt->execute([$id]);
-        if (!$stmt->fetch()) {
+        $id = $conn->real_escape_string($id);
+        $checkSql = "SELECT id FROM `$table` WHERE id = '$id'";
+        $checkResult = $conn->query($checkSql);
+        
+        if (!$checkResult || $checkResult->num_rows === 0) {
             http_response_code(404);
             echo json_encode(['error' => 'Record not found']);
             return;
         }
         
         $fields = getTableFields($table);
-        $data = [];
         $setParts = [];
         
         foreach ($fields as $field) {
             if (array_key_exists($field, $input)) {
-                $data[] = $input[$field];
-                $setParts[] = "`$field` = ?";
+                $value = $conn->real_escape_string($input[$field]);
+                $setParts[] = "`$field` = '$value'";
             }
         }
         
-        if (empty($data)) {
+        if (empty($setParts)) {
             http_response_code(400);
             echo json_encode(['error' => 'No valid fields provided']);
             return;
         }
         
-        $data[] = $id; // Add ID for WHERE clause
         $setStr = implode(', ', $setParts);
+        $sql = "UPDATE `$table` SET $setStr WHERE id = '$id'";
         
-        $stmt = $pdo->prepare("UPDATE `$table` SET $setStr WHERE id = ?");
-        $stmt->execute($data);
+        if ($conn->query($sql)) {
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Record updated successfully'
+            ]);
+        } else {
+            throw new Exception($conn->error);
+        }
         
-        echo json_encode([
-            'success' => true, 
-            'message' => 'Record updated successfully'
-        ]);
-        
-    } catch(PDOException $e) {
+    } catch(Exception $e) {
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - PUT Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
         http_response_code(500);
-        // Log detailed error for debugging
-        error_log(date('Y-m-d H:i:s') . " - PUT Error on $table/$id: " . $e->getMessage());
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
 }
+
 // DELETE - Delete record
-function handleDelete($pdo, $table, $id) {
+function handleDelete($conn, $table, $id) {
+    global $logFile;
     if (!$id) {
         http_response_code(400);
         echo json_encode(['error' => 'ID is required for delete']);
@@ -217,23 +250,31 @@ function handleDelete($pdo, $table, $id) {
     }
     
     try {
-        $stmt = $pdo->prepare("SELECT id FROM $table WHERE id = ?");
-        $stmt->execute([$id]);
-        if (!$stmt->fetch()) {
+        $id = $conn->real_escape_string($id);
+        
+        // Check if record exists
+        $checkSql = "SELECT id FROM `$table` WHERE id = '$id'";
+        $checkResult = $conn->query($checkSql);
+        
+        if (!$checkResult || $checkResult->num_rows === 0) {
             http_response_code(404);
             echo json_encode(['error' => 'Record not found']);
             return;
         }
         
-        $stmt = $pdo->prepare("DELETE FROM $table WHERE id = ?");
-        $stmt->execute([$id]);
+        $sql = "DELETE FROM `$table` WHERE id = '$id'";
         
-        echo json_encode([
-            'success' => true, 
-            'message' => 'Record deleted successfully'
-        ]);
+        if ($conn->query($sql)) {
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Record deleted successfully'
+            ]);
+        } else {
+            throw new Exception($conn->error);
+        }
         
-    } catch(PDOException $e) {
+    } catch(Exception $e) {
+        file_put_contents($logFile, date('Y-m-d H:i:s') . " - DELETE Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }

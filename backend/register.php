@@ -27,13 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Database connection
 try {
-    $conn = new mysqli("localhost", "root", "", "form");
-    $conn->set_charset("utf8mb4");
-
+ // Include file connect.php để sử dụng kết nối database
+    require_once __DIR__ . '/connect.php';
+    
+    // Kiểm tra kết nối
     if ($conn->connect_error) {
         file_put_contents($logFile, date('Y-m-d H:i:s') . " - DB connection error: " . $conn->connect_error . PHP_EOL, FILE_APPEND);
         throw new Exception("Database connection failed: " . $conn->connect_error);
     }
+
+    // Set charset
+    $conn->set_charset("utf8mb4");
 
     // Parse JSON input
     if (empty($rawData)) {

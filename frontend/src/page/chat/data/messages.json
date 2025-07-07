@@ -1,0 +1,171 @@
+[
+  {
+    "id": "1750762015772f9lcmr1wl",
+    "content": "hi",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-06-24T10:46:55.772Z"
+  },
+  {
+    "id": "175135467957633jyqssti",
+    "content": "ok hi",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-01T07:24:39.576Z"
+  },
+  {
+    "id": "1751382983260rueb91ed9",
+    "content": "x",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-01T15:16:23.260Z"
+  },
+  {
+    "id": "17513869400719bv57h0i0",
+    "content": "okocsd",
+    "user": {
+      "id": "9",
+      "username": "unkown",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1111111119.jpg",
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-01T16:22:20.071Z"
+  },
+  {
+    "id": "1751386945379wc2ru9lzr",
+    "content": "ok hi",
+    "user": {
+      "id": "9",
+      "username": "unkown",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1111111119.jpg",
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-01T16:22:25.379Z"
+  },
+  {
+    "id": "1751437353652ccoyuozu4",
+    "content": "<script>alert(1)</script>",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-02T06:22:33.652Z"
+  },
+  {
+    "id": "1751437362746h5gosoocl",
+    "content": "<img src=x onerror=alert('XSS thành công!')>",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-02T06:22:42.746Z"
+  },
+  {
+    "id": "1751437372334vqpowdcai",
+    "content": "<script>alert('XSS!')</script>",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-02T06:22:52.334Z"
+  },
+  {
+    "id": "1751437431342sgbq5eldd",
+    "content": "<img src=x onerror=alert('XSS chat!')>",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-02T06:23:51.342Z"
+  },
+  {
+    "id": "1751437985667gk04vamic",
+    "content": "<script>alert(localStorage.getItem('user'))</script>",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-02T06:33:05.667Z"
+  },
+  {
+    "id": "1751506449514huuds32js",
+    "content": "hello shop",
+    "user": {
+      "id": "15",
+      "username": "bt huyền",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-03T01:34:09.514Z"
+  },
+  {
+    "id": "175150660491820ewh2jq2",
+    "content": "hello",
+    "user": {
+      "id": "16",
+      "username": "huyda112",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-03T01:36:44.918Z"
+  },
+  {
+    "id": "1751506639825bmxvszilv",
+    "content": "loo cc",
+    "user": {
+      "id": "2",
+      "username": "Admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-03T01:37:19.825Z"
+  }
+]

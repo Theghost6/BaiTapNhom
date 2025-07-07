@@ -5,19 +5,16 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "form";
+// Database connection using connect.php
+require_once __DIR__ . '/connect.php';
 
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+if ($conn->connect_error) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Connection failed: " . $e->getMessage()]);
+    echo json_encode(["success" => false, "message" => "Connection failed: " . $conn->connect_error]);
     exit;
 }
+
+$conn->set_charset("utf8mb4");
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
@@ -45,6 +42,7 @@ $query = "SELECT
             dh.ghi_chu,
             dk.user as ten_nguoi_dung,
             dk.email,
+            dk.phone,
             dcgh.nguoi_nhan,
             dcgh.sdt_nhan,
             dcgh.dia_chi,
@@ -58,20 +56,56 @@ $query = "SELECT
           LEFT JOIN hoa_don hd ON dh.id = hd.ma_don_hang
           WHERE 1=1";
 
+$conditions = [];
+$types = "";
 $params = [];
+
 if ($order_id > 0) {
-    $query .= " AND dh.id = ?";
+    $conditions[] = "dh.id = ?";
+    $types .= "i";
     $params[] = $order_id;
 }
+
 if (!empty($phone)) {
-    $query .= " AND dk.phone = ?";
+    $conditions[] = "dk.phone = ?";
+    $types .= "s";
     $params[] = $phone;
 }
+
+if (!empty($conditions)) {
+    $query .= " AND " . implode(" AND ", $conditions);
+}
+
 $query .= " ORDER BY dh.ngay_dat DESC";
 
 $stmt = $conn->prepare($query);
-$stmt->execute($params);
-$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Prepare failed: " . $conn->error]);
+    exit;
+}
+
+// Bind parameters if any
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+if (!$result) {
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Query execution failed: " . $conn->error]);
+    exit;
+}
+
+$orders = [];
+while ($row = $result->fetch_assoc()) {
+    $orders[] = $row;
+}
+
+$stmt->close();
 
 if (empty($orders)) {
     http_response_code(404);
@@ -122,6 +156,7 @@ foreach ($orders as $order) {
         'ghi_chu' => $order['ghi_chu'],
         'ten_nguoi_dung' => $order['ten_nguoi_dung'],
         'email' => $order['email'],
+        'phone' => $order['phone'],
         'items' => $items,
         'address' => $address
     ];
@@ -135,5 +170,5 @@ echo json_encode([
     "orders" => $result_orders
 ]);
 
-$conn = null;
+$conn->close();
 ?>

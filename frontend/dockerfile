@@ -1,0 +1,23 @@
+# Sử dụng image Node.js nhẹ
+FROM node:18-alpine
+
+# Tạo thư mục làm việc
+WORKDIR /app
+
+# Copy package.json và lock file trước (để cache tốt hơn)
+COPY package*.json ./
+
+# Cài dependencies (gồm cả dev vì cần vite và concurrently)
+RUN npm install
+
+# Copy toàn bộ mã nguồn vào container
+COPY . .
+
+# Mở cổng cho Vite dev server
+EXPOSE 5173
+EXPOSE 3001
+
+
+
+# Command mặc định
+CMD ["npm","run", "start:docker"]

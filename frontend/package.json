@@ -1,0 +1,60 @@
+{
+  "name": "web-travel",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+"scripts": {
+  "dev": "vite",
+  "dev:dev": "vite --host localhost --port 5173 --mode dev",
+  "dev:docker": "vite --host 0.0.0.0 --port 5173 --mode docker",
+
+  "build": "vite build",
+  "build:dev": "vite build --mode dev",
+  "build:docker": "vite build --mode docker",
+
+  "start-server": "node src/page/chat/server.cjs",
+
+  "start": "npm run start:dev",
+  "start:dev": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm run dev:dev\" \"npm run start-server\"",
+  "start:docker": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm run dev:docker\" \"npm run start-server\"",
+
+  "lint": "eslint .",
+  "preview": "vite preview"
+
+},
+
+  "dependencies": {
+    "axios": "^1.8.4",
+    "chart.js": "^4.4.9",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "firebase": "^11.9.0",
+    "framer-motion": "^12.15.0",
+    "lucide-react": "^0.485.0",
+    "motion": "^12.9.2",
+    "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.4.1",
+    "react-toastify": "^11.0.5",
+    "react-transition-group": "^4.4.5",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "styled-components": "^6.1.18",
+    "swiper": "^11.2.8",
+    "toast": "^0.5.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "vite": "^6.3.2"
+  }
+}
