@@ -84,11 +84,10 @@ Hoặc:
 ```bash
 docker-compose up --build
 ```
-
 **Dự án sẽ chạy tại:** [http://localhost:3000](http://localhost:3000)
 
 ---
-
+Khi chạy xamp hoặc docker hãy vào .env của frondend và backend để chỉnh chính xác đường dẫn để có hoạt động tốt nhất :3
 ## 🎉 Hoàn Thành!
 
 > By NTS 🎨
