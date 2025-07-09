@@ -10,7 +10,7 @@ export function useAllLinhKienLogic() {
     const [allProducts, setAllProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const itemsPerPage = 20;
+    const itemsPerPage = 12;
 
     // Fetch products from backend
     useEffect(() => {
@@ -155,15 +155,14 @@ export function useAllLinhKienLogic() {
         const activeCategory = categories.find(cat => cat !== "Tất cả loại hàng" && selectedOptions.includes(cat)) || "Tất cả loại hàng";
         const activeBrand = brands.find(br => br !== "Tất cả hãng" && selectedOptions.includes(br)) || "Tất cả hãng";
         const activePrice = priceRanges.find(price => price !== "Tất cả giá" && selectedOptions.includes(price)) || "Tất cả giá";
+        const activeStatus = selectedOptions.find(opt => opt === "Còn hàng" || opt === "Hết hàng");
         const result = allProducts.filter((product) => {
             if (!product.ten_sp || !product.gia_sau) return false;
             const originalCategory = categoryMapping[activeCategory];
             const matchesCategory =
-                activeCategory === "Tất cả loại hàng" ||
-                (product.ten_danh_muc && product.ten_danh_muc.toLowerCase() === originalCategory.toLowerCase());
+                activeCategory === "Tất cả loại hàng" || (product.ten_danh_muc && product.ten_danh_muc.toLowerCase() === originalCategory.toLowerCase());
             const matchesBrand =
-                activeBrand === "Tất cả hãng" ||
-                (product.ten_nha_san_xuat === activeBrand);
+                activeBrand === "Tất cả hãng" || (product.ten_nha_san_xuat === activeBrand);
             const productPrice = parseFloat(product.gia_sau);
             const matchesPrice =
                 activePrice === "Tất cả giá" ||
@@ -171,7 +170,10 @@ export function useAllLinhKienLogic() {
                 (activePrice === "2-5 triệu" && productPrice >= 2000000 && productPrice <= 5000000) ||
                 (activePrice === "5-10 triệu" && productPrice >= 5000000 && productPrice <= 10000000) ||
                 (activePrice === "Trên 10 triệu" && productPrice > 10000000);
-            return matchesSearchTerm(product) && matchesCategory && matchesBrand && matchesPrice;
+            let matchesStatus = true;
+            if (activeStatus === "Còn hàng") matchesStatus = Number(product.gia_sau) > 0;
+            if (activeStatus === "Hết hàng") matchesStatus = Number(product.gia_sau) === 0;
+            return matchesSearchTerm(product) && matchesCategory && matchesBrand && matchesPrice && matchesStatus;
         });
         console.log('Filtered items:', result); // Debug: log sản phẩm sau khi lọc
         return result;

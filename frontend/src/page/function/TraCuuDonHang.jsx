@@ -67,8 +67,13 @@ function OrderTracking() {
     setLoading(true);
 
     try {
+      // Build query params dynamically
+      const params = [];
+      if (orderId) params.push(`order_id=${encodeURIComponent(orderId)}`);
+      if (phone) params.push(`phone=${encodeURIComponent(phone)}`);
+      const queryString = params.length > 0 ? "&" + params.join("&") : "";
       const response = await axios.get(
-        `  ${apiUrl}/tracuudh.php?action=track_order&order_id=${orderId}&phone=${phone}`
+        `${apiUrl}/tracuudh.php?action=track_order${queryString}`
       );
       console.log("API response:", response.data);
       if (response.data.success) {

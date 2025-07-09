@@ -980,3 +980,192 @@ body {
 .show-suggestions-btn:hover {
   background: #e6f2fb;
 }
+
+/* --- Responsive tối ưu cho mobile và máy phổ thông --- */
+
+/* Ẩn chữ logo trên màn hình nhỏ */
+@media (max-width: 480px) {
+  .logo-text {
+    display: none;
+  }
+  .logo-image {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+/* Menu: chỉ hiện icon, ẩn chữ trên mobile */
+@media (max-width: 768px) {
+  .menu-button span,
+  .contact-button span,
+  .developer-button span,
+  .consult-selector-btn span {
+    display: none !important;
+  }
+  .menu-button,
+  .contact-button,
+  .developer-button,
+  .consult-selector-btn {
+    padding: 10px;
+    min-width: 40px;
+    justify-content: center;
+  }
+}
+
+/* Search bar chiếm toàn bộ chiều ngang trên mobile */
+@media (max-width: 600px) {
+  .search-bar-container {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 8px 0 0 0;
+  }
+  .search-bar-container input {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+}
+
+/* Dropdown chuyển sang click trên mobile */
+@media (max-width: 768px) {
+  .category-dropdown,
+  .subcategory-panel {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    min-width: unset !important;
+    border-radius: 0 0 8px 8px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    position: fixed !important;
+    top: 60px !important;
+    z-index: 2000 !important;
+  }
+  .subcategory-panel {
+    top: 120px !important;
+  }
+}
+
+/* Popup, dropdown không bị tràn màn hình nhỏ */
+@media (max-width: 480px) {
+  .consult-popup {
+    right: 0 !important;
+    left: 0 !important;
+    min-width: unset !important;
+    width: 100vw !important;
+    border-radius: 0 0 8px 8px !important;
+    top: 60px !important;
+    padding: 10px !important;
+  }
+  .user-dropdown {
+    right: 0 !important;
+    left: 0 !important;
+    min-width: unset !important;
+    width: 100vw !important;
+    border-radius: 0 0 8px 8px !important;
+    top: 60px !important;
+    padding: 10px 0 !important;
+  }
+}
+
+/* Badge nhỏ lại trên mobile */
+@media (max-width: 480px) {
+  .badge {
+    top: -4px;
+    right: -6px;
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+}
+
+/* Tăng kích thước icon cho dễ bấm trên mobile */
+@media (max-width: 480px) {
+  .menu-button svg,
+  .contact-button svg,
+  .developer-button svg,
+  .consult-selector-btn svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+/* Giảm padding/margin header trên mobile */
+@media (max-width: 480px) {
+  .main-header-container {
+    padding: 0 4px;
+  }
+  .header-items {
+    gap: 4px;
+    padding: 4px;
+  }
+}
+
+/* Ẩn menu, chỉ hiện hamburger trên mobile */
+@media (max-width: 600px) {
+  .category-menu,
+  .static-menu-buttons,
+  .search-bar-container {
+    display: none !important;
+  }
+  .mobile-header-bar {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 4px;
+  }
+  .mobile-menu-toggle {
+    display: flex !important;
+    align-items: center;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+/* Offcanvas menu cho mobile */
+.mobile-offcanvas-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 3000;
+}
+.mobile-offcanvas-menu.active {
+  display: block;
+}
+.mobile-offcanvas-content {
+  background: #fff;
+  width: 80vw;
+  max-width: 320px;
+  height: 100%;
+  position: absolute;
+  left: 0; top: 0;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+  padding: 24px 12px;
+  overflow-y: auto;
+}
+.mobile-offcanvas-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Tăng kích thước icon, badge cho mobile */
+@media (max-width: 600px) {
+  .menu-button svg,
+  .contact-button svg,
+  .developer-button svg,
+  .consult-selector-btn svg {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  .badge {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+}

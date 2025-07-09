@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 // Đường dẫn tới file JSON
-$file = '../src/page/funtion/Linh_kien.json';
+$file = '../src/page/function/Linh_kien.json';
 
 // Đọc dữ liệu từ file JSON
 function readData($file) {

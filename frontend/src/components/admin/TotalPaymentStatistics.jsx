@@ -66,28 +66,35 @@ function TotalPaymentStatistics({ statistics, chartData, chartOptions, selectedM
                 </div>
                 <div className="bestsellers_panel">
                     <h3 className="panel_title">Sản phẩm bán chạy nhất</h3>
+                    {console.log('[Bestseller] san_pham_ban_chay:', statistics?.san_pham_ban_chay)}
                     {(statistics?.san_pham_ban_chay || []).length > 0 ? (
                         <div className="bestsellers_list">
-                            {statistics.san_pham_ban_chay.map((product, index) => (
-                                <div key={index} className="bestseller_item">
-                                    <div className="bestseller_rank">{index + 1}</div>
-                                    <div className="bestseller_info">
-                                        <div className="bestseller_name">{product.ten_san_pham}</div>
-                                        <div className="bestseller_sales">
-                                            <span className="sales_count">{product.tong_so_luong}</span>
-                                            <span className="sales_label">sản phẩm</span>
+                            {statistics.san_pham_ban_chay.map((product, index) => {
+                                const max = Math.max(...statistics.san_pham_ban_chay.map((p) => p.tong_so_luong));
+                                let widthPercent = 100;
+                                if (max > 0 && statistics.san_pham_ban_chay.length > 1) {
+                                    widthPercent = (product.tong_so_luong / max) * 100;
+                                    if (product.tong_so_luong === 0) widthPercent = 5;
+                                }
+                                return (
+                                    <div key={index} className="bestseller_item">
+                                        <div className="bestseller_rank">{index + 1}</div>
+                                        <div className="bestseller_info">
+                                            <div className="bestseller_name">{product.ten_san_pham || <span style={{ color: 'red' }}>Không có tên</span>}</div>
+                                            <div className="bestseller_sales">
+                                                <span className="sales_count">{product.tong_so_luong ?? <span style={{ color: 'red' }}>?</span>}</span>
+                                                <span className="sales_label">sản phẩm</span>
+                                            </div>
+                                        </div>
+                                        <div className="bestseller_bar_container">
+                                            <div
+                                                className="bestseller_bar"
+                                                style={{ width: `${widthPercent}%`, minWidth: 10, background: widthPercent <= 5 ? '#eee' : undefined }}
+                                            ></div>
                                         </div>
                                     </div>
-                                    <div className="bestseller_bar_container">
-                                        <div
-                                            className="bestseller_bar"
-                                            style={{
-                                                width: `${(product.tong_so_luong / Math.max(...statistics.san_pham_ban_chay.map((p) => p.tong_so_luong))) * 100}%`,
-                                            }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     ) : (
                         <p className="no_data">Không có dữ liệu sản phẩm bán chạy.</p>

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { AuthContext } from "./AuthContext";
 import { toast } from "react-toastify";
+import { getCookie, setCookie, removeCookie } from "../../helper/cookieHelper";
 
 const CartContext = createContext();
 
@@ -26,36 +27,17 @@ export function CartProvider({ children }) {
 
   // Khi load lại trang, lấy cart từ localStorage nếu có
   useEffect(() => {
-    // Nếu chưa đăng nhập, dùng localStorage với key 'cartItems_guest'
-    if (!isAuthenticated || !user?.id) {
-      const guestCart = localStorage.getItem('cartItems_guest');
-      if (guestCart) {
-        try {
-          setCartItems(JSON.parse(guestCart));
-        } catch {
-          setCartItems([]);
-        }
-      } else {
-        setCartItems([]);
-      }
-      return;
+    let storageKey = 'cartItems_guest';
+    if (isAuthenticated && user?.id) {
+      storageKey = `cartItems_${user.id}`;
     }
-    // Đã đăng nhập, ưu tiên lấy cart theo user
-    const savedCart = localStorage.getItem(`cartItems_${user.id}`);
-    if (savedCart) {
+    const savedCartStr = localStorage.getItem(storageKey);
+    if (savedCartStr) {
       try {
-        setCartItems(JSON.parse(savedCart));
+        setCartItems(JSON.parse(savedCartStr));
       } catch {
         setCartItems([]);
       }
-      return;
-    }
-    // Nếu chưa có cart user, chuyển cart guest sang user (nếu có)
-    const guestCart = localStorage.getItem('cartItems_guest');
-    if (guestCart) {
-      localStorage.setItem(`cartItems_${user.id}`, guestCart);
-      localStorage.removeItem('cartItems_guest');
-      setCartItems(JSON.parse(guestCart));
     } else {
       setCartItems([]);
     }
@@ -63,11 +45,11 @@ export function CartProvider({ children }) {
 
   // Lưu cart vào localStorage mỗi khi thay đổi
   useEffect(() => {
+    let storageKey = 'cartItems_guest';
     if (isAuthenticated && user?.id) {
-      localStorage.setItem(`cartItems_${user.id}`, JSON.stringify(cartItems));
-    } else {
-      localStorage.setItem('cartItems_guest', JSON.stringify(cartItems));
+      storageKey = `cartItems_${user.id}`;
     }
+    localStorage.setItem(storageKey, JSON.stringify(cartItems));
   }, [cartItems, isAuthenticated, user?.id]);
 
   // Khi render giỏ hàng, fetch chi tiết sản phẩm từ backend

@@ -38,7 +38,7 @@ $query = "SELECT
             dh.id as ma_don_hang,
             dh.tong_tien,
             dh.trang_thai,
-            dh.ngay_dat,
+            dh.created_at as ngay_dat,
             dh.ghi_chu,
             dk.user as ten_nguoi_dung,
             dk.email,
@@ -49,11 +49,12 @@ $query = "SELECT
             dcgh.tinh_thanh,
             dcgh.quan_huyen,
             dcgh.phuong_xa,
-            hd.ten_san_pham
+            GROUP_CONCAT(CONCAT(sp.ten_sp, ' (x', ctdh.so_luong, ')') SEPARATOR ', ') as ten_san_pham
           FROM don_hang dh
           LEFT JOIN dang_ky dk ON dh.ma_nguoi_dung = dk.id
           LEFT JOIN dia_chi_giao_hang dcgh ON dh.ma_dia_chi = dcgh.ma_dia_chi
-          LEFT JOIN hoa_don hd ON dh.id = hd.ma_don_hang
+          LEFT JOIN chi_tiet_don_hang ctdh ON dh.id = ctdh.ma_don_hang
+          LEFT JOIN san_pham sp ON ctdh.ma_sp = sp.ma_sp
           WHERE 1=1";
 
 $conditions = [];
@@ -76,7 +77,8 @@ if (!empty($conditions)) {
     $query .= " AND " . implode(" AND ", $conditions);
 }
 
-$query .= " ORDER BY dh.ngay_dat DESC";
+$query .= " GROUP BY dh.id, dh.tong_tien, dh.trang_thai, dh.created_at, dh.ghi_chu, dk.user, dk.email, dk.phone, dcgh.nguoi_nhan, dcgh.sdt_nhan, dcgh.dia_chi, dcgh.tinh_thanh, dcgh.quan_huyen, dcgh.phuong_xa ";
+$query .= " ORDER BY dh.created_at DESC";
 
 $stmt = $conn->prepare($query);
 

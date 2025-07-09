@@ -19,6 +19,23 @@ import "react-toastify/dist/ReactToastify.css";
 // Context Providers
 import { SocketProvider } from './page/chat/SocketContext';
 import { ChatProvider } from './page/chat/ChatContext';
+import { getCookie } from "./helper/cookieHelper";
+import { Chart, LineElement, BarElement, PointElement, ArcElement, RadarController, CategoryScale, LinearScale, RadialLinearScale, Title, Tooltip, Legend } from 'chart.js';
+
+Chart.register(
+  LineElement,
+  BarElement,
+  PointElement,
+  ArcElement,
+  RadarController,
+  CategoryScale,
+  LinearScale,
+  RadialLinearScale, // Đăng ký scale cho radar/doughnut
+  Title,
+  Tooltip,
+  Legend
+);
+
 const ResponsiveDiv = styled.div`
   padding: 20px;
 
@@ -72,6 +89,22 @@ const NotFound = () => (
     </button>
   </motion.div>
 );
+
+// AdminRoute: chỉ cho phép admin truy cập (dùng helper getCookie)
+const AdminRoute = ({ children }) => {
+  let user = null;
+  try {
+    const userCookie = getCookie('user');
+    if (userCookie) {
+      user = JSON.parse(decodeURIComponent(userCookie));
+    }
+  } catch { }
+  if (!user || user.role !== 'admin') {
+    window.location.href = '/';
+    return null;
+  }
+  return children;
+};
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -196,15 +229,17 @@ const App = () => {
                         <Route
                           path="/admin"
                           element={
-                            <motion.div
-                              key="admin"
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -20 }}
-                              transition={{ duration: 0.5, ease: "easeInOut" }}
-                            >
-                              <Admin />
-                            </motion.div>
+                            <AdminRoute>
+                              <motion.div
+                                key="admin"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5, ease: "easeInOut" }}
+                              >
+                                <Admin />
+                              </motion.div>
+                            </AdminRoute>
                           }
                         />
                         <Route

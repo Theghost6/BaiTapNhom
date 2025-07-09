@@ -1,0 +1,274 @@
+GET params: Array
+(
+    [ma_sp] => SP00431
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00015
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00005
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00373
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00373
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00144
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00144
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00001
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00001
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP01018
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Total reviews: 0
+{"ma_sp":"SP00003","ma_nguoi_dung":"1","so_sao":5,"binh_luan":"sản phẩm ok\n"}
+Content-Type: application/json
+Decoded: Array
+(
+    [ma_sp] => SP00003
+    [ma_nguoi_dung] => 1
+    [so_sao] => 5
+    [binh_luan] => sản phẩm ok
+
+)
+
+GET params: Array
+(
+    [ma_sp] => SP00003
+)
+
+Review id 1 replies: 1
+Total reviews: 1
+GET params: Array
+(
+    [ma_sp] => SP00005
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00005
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00005
+)
+
+Total reviews: 0
+{"ma_sp":"SP00005","ma_nguoi_dung":"1","so_sao":5,"binh_luan":"ok"}
+Content-Type: application/json
+Decoded: Array
+(
+    [ma_sp] => SP00005
+    [ma_nguoi_dung] => 1
+    [so_sao] => 5
+    [binh_luan] => ok
+)
+
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00002
+)
+
+Total reviews: 0
+{"ma_sp":"SP00002","ma_nguoi_dung":"2","so_sao":5,"binh_luan":"tót"}
+Content-Type: application/json
+Decoded: Array
+(
+    [ma_sp] => SP00002
+    [ma_nguoi_dung] => 2
+    [so_sao] => 5
+    [binh_luan] => tót
+)
+
+GET params: Array
+(
+    [ma_sp] => SP00015
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00015
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00005
+)
+
+Review id 2 replies: 1
+Total reviews: 1
+GET params: Array
+(
+    [ma_sp] => SP00005
+)
+
+Review id 2 replies: 1
+Total reviews: 1
+GET params: Array
+(
+    [ma_sp] => SP00001
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00023
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00023
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00506
+)
+
+Total reviews: 0
+GET params: Array
+(
+    [ma_sp] => SP00015
+)
+
+Total reviews: 0

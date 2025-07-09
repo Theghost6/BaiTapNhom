@@ -1,5 +1,5 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar, Radar, Doughnut } from "react-chartjs-2";
 import "./DashboardContent.css";
 
 function isChartDataEmpty(chartData) {
@@ -104,6 +104,7 @@ function DashboardContent({
                             <div style={{ textAlign: 'center', color: '#888', paddingTop: '120px' }}>Không có dữ liệu</div>
                         ) : (
                             <Line
+                                key={`revenue-line-${selectedMonth}-${selectedYear}`}
                                 data={chartDataRevenue}
                                 options={chartOptions(`Doanh thu - Tháng ${selectedMonth}/${selectedYear}`)}
                             />
@@ -116,7 +117,8 @@ function DashboardContent({
                         {isChartDataEmpty(chartDataOrders) ? (
                             <div style={{ textAlign: 'center', color: '#888', paddingTop: '120px' }}>Không có dữ liệu</div>
                         ) : (
-                            <Line
+                            <Bar
+                                key={`orders-bar-${selectedMonth}-${selectedYear}`}
                                 data={chartDataOrders}
                                 options={chartOptions(`Đơn hàng - Tháng ${selectedMonth}/${selectedYear}`)}
                             />
@@ -129,7 +131,8 @@ function DashboardContent({
                         {isChartDataEmpty(chartDataUsers) ? (
                             <div style={{ textAlign: 'center', color: '#888', paddingTop: '120px' }}>Không có dữ liệu</div>
                         ) : (
-                            <Line
+                            <Radar
+                                key={`users-radar-${selectedMonth}-${selectedYear}`}
                                 data={chartDataUsers}
                                 options={chartOptions(`Người dùng hoạt động - Tháng ${selectedMonth}/${selectedYear}`)}
                             />
@@ -142,7 +145,8 @@ function DashboardContent({
                         {isChartDataEmpty(chartDataReviews) ? (
                             <div style={{ textAlign: 'center', color: '#888', paddingTop: '120px' }}>Không có dữ liệu</div>
                         ) : (
-                            <Line
+                            <Doughnut
+                                key={`reviews-doughnut-${selectedMonth}-${selectedYear}`}
                                 data={chartDataReviews}
                                 options={chartOptions(`Đánh giá - Tháng ${selectedMonth}/${selectedYear}`)}
                             />

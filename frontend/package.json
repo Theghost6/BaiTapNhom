@@ -3,26 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"scripts": {
-  "dev": "vite",
-  "dev:dev": "vite --host localhost --port 5173 --mode dev",
-  "dev:docker": "vite --host 0.0.0.0 --port 5173 --mode docker",
-
-  "build": "vite build",
-  "build:dev": "vite build --mode dev",
-  "build:docker": "vite build --mode docker",
-
-  "start-server": "node src/page/chat/server.cjs",
-
-  "start": "npm run start:dev",
-  "start:dev": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm run dev:dev\" \"npm run start-server\"",
-  "start:docker": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm run dev:docker\" \"npm run start-server\"",
-
-  "lint": "eslint .",
-  "preview": "vite preview"
-
-},
-
+  "scripts": {
+    "dev": "vite",
+    "dev:dev": "vite --host localhost --port 5173 --mode dev",
+    "dev:docker": "vite --host 0.0.0.0 --port 5173 --mode docker",
+    "build": "vite build",
+    "build:dev": "vite build --mode dev",
+    "build:docker": "vite build --mode docker",
+    "start-server": "node src/page/chat/server.cjs",
+    "start": "npm run start:dev",
+    "start:dev": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm run dev:dev\" \"npm run start-server\"",
+    "start:docker": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm run dev:docker\" \"npm run start-server\"",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "axios": "^1.8.4",
     "chart.js": "^4.4.9",
@@ -33,6 +27,7 @@
     "lucide-react": "^0.485.0",
     "motion": "^12.9.2",
     "react": "^19.0.0",
+    "react-awesome-reveal": "^4.3.1",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
@@ -43,7 +38,8 @@
     "socket.io-client": "^4.8.1",
     "styled-components": "^6.1.18",
     "swiper": "^11.2.8",
-    "toast": "^0.5.4"
+    "toast": "^0.5.4",
+    "wowjs": "^1.1.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

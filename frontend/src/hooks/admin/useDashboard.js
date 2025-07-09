@@ -15,6 +15,15 @@ import axios from "axios";
  *
  * Lưu ý: Nên truyền orders, users, reviews từ ngoài vào để tránh fetch lại dữ liệu đã có.
  */
+
+// Gợi ý icon cho từng chart (đặt ngoài hàm, đúng chuẩn export)
+export const chartIcons = {
+    revenue: "💰",
+    orders: "🛒",
+    users: "👤",
+    reviews: "⭐",
+};
+
 export default function useDashboard(apiUrl, month, year, orders, users, reviews) {
     const [dashboardMetrics, setDashboardMetrics] = useState(null);
     const [statistics, setStatistics] = useState(null);
@@ -62,10 +71,11 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
     }, [reviews, positiveReviews]);
 
     // Chart data cho dashboard (4 chart)
+    // Không cần export chartIcons ở đây nữa, chỉ dùng biến chartIcons nếu cần
+    // Doanh thu: Line chart
     const chartDataRevenue = useMemo(() => {
         let days = statistics?.doanh_thu_theo_ngay?.map((d) => String(d.ngay)) || [];
         let values = statistics?.doanh_thu_theo_ngay?.map((d) => (typeof d.tong_doanh_thu === 'number' ? d.tong_doanh_thu : Number(d.tong_doanh_thu) || 0)) || [];
-        // Chỉ set rỗng nếu thực sự không có dữ liệu
         if (!days.length) {
             days = [];
             values = [];
@@ -77,17 +87,17 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
                     label: "Doanh thu (VNĐ)",
                     data: values,
                     borderColor: "#36a2eb",
-                    backgroundColor: "rgba(54,162,235,0.2)",
+                    backgroundColor: "rgba(54,162,235,0.3)",
                     fill: true,
                     tension: 0.4,
                 },
             ],
+            type: 'line',
         };
-        console.log("[Dashboard] statistics:", statistics);
-        console.log("[Dashboard] chartDataRevenue:", data);
         return data;
     }, [statistics]);
 
+    // Đơn hàng: Bar chart
     const chartDataOrders = useMemo(() => {
         let days = statistics?.don_hang_theo_ngay?.map((d) => String(d.ngay)) || [];
         let values = statistics?.don_hang_theo_ngay?.map((d) => (typeof d.tong_don_hang === 'number' ? d.tong_don_hang : Number(d.tong_don_hang) || 0)) || [];
@@ -101,17 +111,17 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
                 {
                     label: "Đơn hàng",
                     data: values,
-                    borderColor: "#4bc0c0",
-                    backgroundColor: "rgba(75,192,192,0.2)",
+                    borderColor: "#00bcd4",
+                    backgroundColor: "rgba(0,188,212,0.3)",
                     fill: true,
-                    tension: 0.4,
                 },
             ],
+            type: 'bar',
         };
-        console.log("[Dashboard] chartDataOrders:", data);
         return data;
     }, [statistics]);
 
+    // Người dùng: Radar chart
     const chartDataUsers = useMemo(() => {
         let days = statistics?.nguoi_dung_theo_ngay?.map((d) => String(d.ngay)) || [];
         let values = statistics?.nguoi_dung_theo_ngay?.map((d) => (typeof d.tong_nguoi_dung === 'number' ? d.tong_nguoi_dung : Number(d.tong_nguoi_dung) || 0)) || [];
@@ -126,16 +136,17 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
                     label: "Người dùng hoạt động",
                     data: values,
                     borderColor: "#ffcd56",
-                    backgroundColor: "rgba(255,205,86,0.2)",
-                    fill: true,
-                    tension: 0.4,
+                    backgroundColor: "rgba(255,205,86,0.3)",
+                    pointBackgroundColor: "#ffcd56",
+                    pointBorderColor: "#fff",
                 },
             ],
+            type: 'radar',
         };
-        console.log("[Dashboard] chartDataUsers:", data);
         return data;
     }, [statistics]);
 
+    // Đánh giá: Doughnut chart
     const chartDataReviews = useMemo(() => {
         let days = statistics?.danh_gia_theo_ngay?.map((d) => String(d.ngay)) || [];
         let values = statistics?.danh_gia_theo_ngay?.map((d) => (typeof d.tong_danh_gia === 'number' ? d.tong_danh_gia : Number(d.tong_danh_gia) || 0)) || [];
@@ -149,19 +160,25 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
                 {
                     label: "Đánh giá",
                     data: values,
-                    borderColor: "#ff6384",
-                    backgroundColor: "rgba(255,99,132,0.2)",
-                    fill: true,
-                    tension: 0.4,
+                    backgroundColor: [
+                        "rgba(255,99,132,0.6)",
+                        "rgba(255,205,86,0.6)",
+                        "rgba(54,162,235,0.6)",
+                        "rgba(75,192,192,0.6)",
+                        "rgba(153,102,255,0.6)",
+                        "rgba(255,159,64,0.6)"
+                    ],
+                    borderColor: "#fff",
+                    borderWidth: 2,
                 },
             ],
+            type: 'doughnut',
         };
-        console.log("[Dashboard] chartDataReviews:", data);
         return data;
     }, [statistics]);
 
-    // Chart options factory
-    const chartOptions = (title) => ({
+    // Chart options factory (thêm icon vào title nếu có)
+    const chartOptions = (title, icon) => ({
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -175,7 +192,7 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
             },
             title: {
                 display: true,
-                text: title,
+                text: icon ? `${icon} ${title}` : title,
             },
         },
         scales: {
@@ -226,7 +243,8 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
         chartDataOrders,
         chartDataUsers,
         chartDataReviews,
-        chartOptions,
+        chartOptions, // giờ nhận thêm icon nếu muốn
         chartData,
+        chartIcons, // export để dùng ngoài component
     };
 }

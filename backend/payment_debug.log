@@ -1733,3 +1733,105 @@
 2025-07-07 18:22:15 - Khớp hash: Có
 2025-07-07 18:22:16 - Trạng thái thanh toán được cập nhật cho đơn hàng 14: Đã thanh toán
 2025-07-07 18:22:16 - Cập nhật trạng thái đơn hàng 14 thành 'Đã thanh toán'
+2025-07-08 13:23:18 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-08 13:23:18 - Kết nối cơ sở dữ liệu thành công
+2025-07-08 13:23:18 - Dữ liệu thô: {"userId":"1","cartItems":[{"ma_sp":"SP00373","ten":"Card màn hình SAPPHIRE Radeon RX 7800XT PURE Gaming OC 16GB GDDR6","gia":15990000,"so_luong":1,"danh_muc":"Card màn hình"}],"customerInfo":{"fullName":"admin32","email":"unkown@gmail.com","phone":"7878987909","address":"HCM","city":"Thành phố Hà Nội","district":"Quận Ba Đình","ward":"Phường Kim Mã","note":""},"paymentMethod":"cod","shippingMethod":"ship","totalAmount":15990000,"orderDate":"2025-07-08T06:23:18.550Z"}
+2025-07-08 13:23:18 - Chuyển đổi ngay_dat_hang: 2025-07-08T06:23:18.550Z thành 2025-07-08 06:23:18
+2025-07-08 13:23:18 - Xác thực đầu vào thành công
+2025-07-08 13:23:18 - Tạo địa chỉ giao hàng mới với ID: 1
+2025-07-08 13:23:18 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('1', '1', '15990000', '0', 'Chờ xử lý', '2025-07-08 06:23:18', '')
+2025-07-08 13:23:18 - Chèn đơn hàng với ID: 1
+2025-07-08 13:23:18 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('1', 'SP00373', '1', '15990000', '0')
+2025-07-08 13:23:18 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('1', 'Khách: admin32; Sản phẩm: Card màn hình SAPPHIRE Radeon RX 7800XT PURE Gaming OC 16GB GDDR6 (x1); Địa chỉ: HCM, Phường Kim Mã, Quận Ba Đình, Thành phố Hà Nội; Ghi chú: ; Phương thức: cod', '15990000')
+2025-07-08 13:23:18 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('1', 'cod', '15990000', 'Chưa thanh toán')
+2025-07-08 13:23:18 - Giao dịch COD được xác nhận thành công
+2025-07-08 13:23:18 - Đóng kết nối cơ sở dữ liệu
+2025-07-08 13:28:04 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-08 13:28:04 - Kết nối cơ sở dữ liệu thành công
+2025-07-08 13:28:04 - Dữ liệu thô: {"userId":"1","cartItems":[{"ma_sp":"SP00001","ten":"Ổ cứng di động SSD ADATA SC750 USB 3.2 Gen 2 1050MB/s 1TB","gia":1990000,"so_luong":1,"danh_muc":"Ổ cứng"}],"customerInfo":{"fullName":"admin","email":"admin@gmail.com","phone":"1234567890","address":"","city":"","district":"","ward":"","note":""},"paymentMethod":"vnpay","shippingMethod":"pickup","totalAmount":1990000,"orderDate":"2025-07-08T06:28:04.003Z"}
+2025-07-08 13:28:04 - Chuyển đổi ngay_dat_hang: 2025-07-08T06:28:04.003Z thành 2025-07-08 06:28:04
+2025-07-08 13:28:04 - Xác thực đầu vào thành công
+2025-07-08 13:28:04 - Tạo địa chỉ giao hàng mới với ID: 2 cho pickup
+2025-07-08 13:28:04 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('1', '2', '1990000', '0', 'Chờ xử lý', '2025-07-08 06:28:04', '')
+2025-07-08 13:28:04 - Chèn đơn hàng với ID: 2
+2025-07-08 13:28:04 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('2', 'SP00001', '1', '1990000', '0')
+2025-07-08 13:28:04 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('2', 'Khách: admin; Sản phẩm: Ổ cứng di động SSD ADATA SC750 USB 3.2 Gen 2 1050MB/s 1TB (x1); Địa chỉ: Lấy tại cửa hàng; Ghi chú: ; Phương thức: vnpay', '1990000')
+2025-07-08 13:28:04 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('2', 'vnpay', '1990000', 'Chưa thanh toán')
+2025-07-08 13:28:04 - Đơn hàng VNPay đã tạo, trả về orderId để frontend tự gọi sang vnpay_create.php
+2025-07-08 13:28:04 - Khởi tạo thanh toán VNPay cho đơn hàng 2: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=199000000&vnp_Command=pay&vnp_CreateDate=20250708132804&vnp_CurrCode=VND&vnp_ExpireDate=20250708135804&vnp_IpAddr=%3A%3A1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+don+hang+2&vnp_OrderType=billpayment&vnp_ReturnUrl=http%3A%2F%2Flocalhost%2FBaiTapNhom%2Fbackend%2Fvnpay_callback.php&vnp_TmnCode=LYE5QSH7&vnp_TxnRef=2&vnp_Version=2.1.0&vnp_SecureHash=e5e9a010935b227a11bb3f4b19698266cdcae84c5d22381fc30e91f6f6cfb1741d87b3d09ff73a3514bc6d949a4a15514bdda0a785aa55d9ce416b4ce46bdbe2
+2025-07-08 13:33:25 - --------- Gỡ lỗi Callback VNPay ---------
+2025-07-08 13:33:25 - Tất cả tham số GET: {"vnp_Amount":"199000000","vnp_BankCode":"NCB","vnp_BankTranNo":"VNP15061923","vnp_CardType":"ATM","vnp_OrderInfo":"Thanh toan don hang 2","vnp_PayDate":"20250708133415","vnp_ResponseCode":"00","vnp_TmnCode":"LYE5QSH7","vnp_TransactionNo":"15061923","vnp_TransactionStatus":"00","vnp_TxnRef":"2","vnp_SecureHash":"b7cfddfbeb0d1019a3279c1ffe3545462ff37f2a5c252f315187faeb64da98511bf8c4a74de6c254c3553464b7a06ddf25e5f78e6f90a7516f3e3ccdea013c55"}
+2025-07-08 13:33:25 - vnp_SecureHash nhận được: b7cfddfbeb0d1019a3279c1ffe3545462ff37f2a5c252f315187faeb64da98511bf8c4a74de6c254c3553464b7a06ddf25e5f78e6f90a7516f3e3ccdea013c55
+2025-07-08 13:33:25 - inputData sau khi sắp xếp: {"vnp_Amount":"199000000","vnp_BankCode":"NCB","vnp_BankTranNo":"VNP15061923","vnp_CardType":"ATM","vnp_OrderInfo":"Thanh toan don hang 2","vnp_PayDate":"20250708133415","vnp_ResponseCode":"00","vnp_TmnCode":"LYE5QSH7","vnp_TransactionNo":"15061923","vnp_TransactionStatus":"00","vnp_TxnRef":"2"}
+2025-07-08 13:33:25 - Chuỗi hashData: vnp_Amount=199000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP15061923&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+2&vnp_PayDate=20250708133415&vnp_ResponseCode=00&vnp_TmnCode=LYE5QSH7&vnp_TransactionNo=15061923&vnp_TransactionStatus=00&vnp_TxnRef=2
+2025-07-08 13:33:25 - secureHash được tạo: b7cfddfbeb0d1019a3279c1ffe3545462ff37f2a5c252f315187faeb64da98511bf8c4a74de6c254c3553464b7a06ddf25e5f78e6f90a7516f3e3ccdea013c55
+2025-07-08 13:33:25 - Khớp hash: Có
+2025-07-08 13:33:25 - Trạng thái thanh toán được cập nhật cho đơn hàng 2: Đã thanh toán
+2025-07-08 13:33:25 - Cập nhật trạng thái đơn hàng 2 thành 'Đã thanh toán'
+2025-07-08 13:34:16 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-08 13:34:16 - Kết nối cơ sở dữ liệu thành công
+2025-07-08 13:34:16 - Dữ liệu thô: {"userId":"1","cartItems":[{"ma_sp":"SP00003","ten":"Ổ cứng di động SSD Kingston XS1000 USB 3.2 Gen 2 1TB Đen","gia":2090000,"so_luong":1,"danh_muc":"Ổ cứng"}],"customerInfo":{"fullName":"admin","email":"unkown@gmail.com","phone":"7878987909","address":"","city":"","district":"","ward":"","note":""},"paymentMethod":"vnpay","shippingMethod":"pickup","totalAmount":2090000,"orderDate":"2025-07-08T06:34:16.101Z"}
+2025-07-08 13:34:16 - Chuyển đổi ngay_dat_hang: 2025-07-08T06:34:16.101Z thành 2025-07-08 06:34:16
+2025-07-08 13:34:16 - Xác thực đầu vào thành công
+2025-07-08 13:34:16 - Tạo địa chỉ giao hàng mới với ID: 3 cho pickup
+2025-07-08 13:34:16 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('1', '3', '2090000', '0', 'Chờ xử lý', '2025-07-08 06:34:16', '')
+2025-07-08 13:34:16 - Chèn đơn hàng với ID: 3
+2025-07-08 13:34:16 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('3', 'SP00003', '1', '2090000', '0')
+2025-07-08 13:34:16 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('3', 'Khách: admin; Sản phẩm: Ổ cứng di động SSD Kingston XS1000 USB 3.2 Gen 2 1TB Đen (x1); Địa chỉ: Lấy tại cửa hàng; Ghi chú: ; Phương thức: vnpay', '2090000')
+2025-07-08 13:34:16 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('3', 'vnpay', '2090000', 'Chưa thanh toán')
+2025-07-08 13:34:16 - Đơn hàng VNPay đã tạo, trả về orderId để frontend tự gọi sang vnpay_create.php
+2025-07-08 13:34:16 - Khởi tạo thanh toán VNPay cho đơn hàng 3: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=209000000&vnp_Command=pay&vnp_CreateDate=20250708133416&vnp_CurrCode=VND&vnp_ExpireDate=20250708140416&vnp_IpAddr=%3A%3A1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+don+hang+3&vnp_OrderType=billpayment&vnp_ReturnUrl=http%3A%2F%2Flocalhost%2FBaiTapNhom%2Fbackend%2Fvnpay_callback.php&vnp_TmnCode=LYE5QSH7&vnp_TxnRef=3&vnp_Version=2.1.0&vnp_SecureHash=95ca3513f333c7097a842e9baa03e3f890b53765a05ffc1f315ce8b055b0190290c468406c7c7b3a93440bc2760534d1f2d3488687fada7a6579b26a5280e4cd
+2025-07-08 13:34:37 - --------- Gỡ lỗi Callback VNPay ---------
+2025-07-08 13:34:37 - Tất cả tham số GET: {"vnp_Amount":"209000000","vnp_BankCode":"NCB","vnp_BankTranNo":"VNP15061928","vnp_CardType":"ATM","vnp_OrderInfo":"Thanh toan don hang 3","vnp_PayDate":"20250708133527","vnp_ResponseCode":"00","vnp_TmnCode":"LYE5QSH7","vnp_TransactionNo":"15061928","vnp_TransactionStatus":"00","vnp_TxnRef":"3","vnp_SecureHash":"162badc1552d5659c0d4342abf0666c464af0abc654754660621f9eae85f6ad5b015f1e1277a36c846e55efd7da975f3b2f15264a6a4e66e3ab57bc50925bb75"}
+2025-07-08 13:34:37 - vnp_SecureHash nhận được: 162badc1552d5659c0d4342abf0666c464af0abc654754660621f9eae85f6ad5b015f1e1277a36c846e55efd7da975f3b2f15264a6a4e66e3ab57bc50925bb75
+2025-07-08 13:34:37 - inputData sau khi sắp xếp: {"vnp_Amount":"209000000","vnp_BankCode":"NCB","vnp_BankTranNo":"VNP15061928","vnp_CardType":"ATM","vnp_OrderInfo":"Thanh toan don hang 3","vnp_PayDate":"20250708133527","vnp_ResponseCode":"00","vnp_TmnCode":"LYE5QSH7","vnp_TransactionNo":"15061928","vnp_TransactionStatus":"00","vnp_TxnRef":"3"}
+2025-07-08 13:34:37 - Chuỗi hashData: vnp_Amount=209000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP15061928&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+3&vnp_PayDate=20250708133527&vnp_ResponseCode=00&vnp_TmnCode=LYE5QSH7&vnp_TransactionNo=15061928&vnp_TransactionStatus=00&vnp_TxnRef=3
+2025-07-08 13:34:37 - secureHash được tạo: 162badc1552d5659c0d4342abf0666c464af0abc654754660621f9eae85f6ad5b015f1e1277a36c846e55efd7da975f3b2f15264a6a4e66e3ab57bc50925bb75
+2025-07-08 13:34:37 - Khớp hash: Có
+2025-07-08 13:34:37 - Trạng thái thanh toán được cập nhật cho đơn hàng 3: Đã thanh toán
+2025-07-08 13:34:37 - Cập nhật trạng thái đơn hàng 3 thành 'Đã thanh toán'
+2025-07-08 15:57:01 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-08 15:57:01 - Kết nối cơ sở dữ liệu thành công
+2025-07-08 15:57:01 - Dữ liệu thô: {"userId":"1","cartItems":[{"ma_sp":"SP00005","ten":"RAM Laptop Kingston 1.2V 8GB 3200MHz KVR32S22S8/8","gia":650000,"so_luong":1,"danh_muc":"RAM"}],"customerInfo":{"fullName":"admin","email":"unkown@gmail.com","phone":"7878987909","address":"lkl","city":"Tỉnh Hà Giang","district":"Huyện Đồng Văn","ward":"Xã Sính Lủng","note":""},"paymentMethod":"cod","shippingMethod":"ship","totalAmount":650000,"orderDate":"2025-07-08T08:57:01.540Z"}
+2025-07-08 15:57:01 - Chuyển đổi ngay_dat_hang: 2025-07-08T08:57:01.540Z thành 2025-07-08 08:57:01
+2025-07-08 15:57:01 - Xác thực đầu vào thành công
+2025-07-08 15:57:01 - Tạo địa chỉ giao hàng mới với ID: 4
+2025-07-08 15:57:01 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('1', '4', '650000', '0', 'Chờ xử lý', '2025-07-08 08:57:01', '')
+2025-07-08 15:57:01 - Chèn đơn hàng với ID: 4
+2025-07-08 15:57:01 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('4', 'SP00005', '1', '650000', '0')
+2025-07-08 15:57:01 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('4', 'Khách: admin; Sản phẩm: RAM Laptop Kingston 1.2V 8GB 3200MHz KVR32S22S8/8 (x1); Địa chỉ: lkl, Xã Sính Lủng, Huyện Đồng Văn, Tỉnh Hà Giang; Ghi chú: ; Phương thức: cod', '650000')
+2025-07-08 15:57:01 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('4', 'cod', '650000', 'Chưa thanh toán')
+2025-07-08 15:57:01 - Giao dịch COD được xác nhận thành công
+2025-07-08 15:57:01 - Đóng kết nối cơ sở dữ liệu
+2025-07-08 15:58:19 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-08 15:58:19 - Kết nối cơ sở dữ liệu thành công
+2025-07-08 15:58:19 - Dữ liệu thô: {"userId":"1","cartItems":[{"ma_sp":"SP00005","ten":"RAM Laptop Kingston 1.2V 8GB 3200MHz KVR32S22S8/8","gia":650000,"so_luong":1,"danh_muc":"RAM"}],"customerInfo":{"fullName":"admin","email":"hoa@gmail.com","phone":"7878987909","address":"","city":"","district":"","ward":"","note":""},"paymentMethod":"cod","shippingMethod":"pickup","totalAmount":650000,"orderDate":"2025-07-08T08:58:19.198Z"}
+2025-07-08 15:58:19 - Chuyển đổi ngay_dat_hang: 2025-07-08T08:58:19.198Z thành 2025-07-08 08:58:19
+2025-07-08 15:58:19 - Xác thực đầu vào thành công
+2025-07-08 15:58:19 - Tạo địa chỉ giao hàng mới với ID: 5 cho pickup
+2025-07-08 15:58:19 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('1', '5', '650000', '0', 'Chờ xử lý', '2025-07-08 08:58:19', '')
+2025-07-08 15:58:19 - Chèn đơn hàng với ID: 5
+2025-07-08 15:58:19 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('5', 'SP00005', '1', '650000', '0')
+2025-07-08 15:58:19 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('5', 'Khách: admin; Sản phẩm: RAM Laptop Kingston 1.2V 8GB 3200MHz KVR32S22S8/8 (x1); Địa chỉ: Lấy tại cửa hàng; Ghi chú: ; Phương thức: cod', '650000')
+2025-07-08 15:58:19 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('5', 'cod', '650000', 'Chưa thanh toán')
+2025-07-08 15:58:19 - Giao dịch COD được xác nhận thành công
+2025-07-08 15:58:19 - Đóng kết nối cơ sở dữ liệu
+2025-07-08 16:13:12 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-08 16:13:12 - Kết nối cơ sở dữ liệu thành công
+2025-07-08 16:13:12 - Dữ liệu thô: {"userId":"2","cartItems":[{"ma_sp":"SP00002","ten":"VGA Asus ROG Astral Geforce RTX 5090 OC 32GB ROG-ASTRAL-RTX5090-O32G-GAMING","gia":109990000,"so_luong":1,"danh_muc":"Card màn hình"}],"customerInfo":{"fullName":"unkown","email":"unkown@gmail.com","phone":"7878987909","address":"lkl","city":"Thành phố Hà Nội","district":"Huyện Mê Linh","ward":"Xã Tiền Phong","note":""},"paymentMethod":"cod","shippingMethod":"ship","totalAmount":109990000,"orderDate":"2025-07-08T09:13:12.851Z"}
+2025-07-08 16:13:12 - Chuyển đổi ngay_dat_hang: 2025-07-08T09:13:12.851Z thành 2025-07-08 09:13:12
+2025-07-08 16:13:12 - Xác thực đầu vào thành công
+2025-07-08 16:13:12 - Tạo địa chỉ giao hàng mới với ID: 6
+2025-07-08 16:13:12 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('2', '6', '109990000', '0', 'Chờ xử lý', '2025-07-08 09:13:12', '')
+2025-07-08 16:13:12 - Chèn đơn hàng với ID: 6
+2025-07-08 16:13:12 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('6', 'SP00002', '1', '109990000', '0')
+2025-07-08 16:13:12 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('6', 'Khách: unkown; Sản phẩm: VGA Asus ROG Astral Geforce RTX 5090 OC 32GB ROG-ASTRAL-RTX5090-O32G-GAMING (x1); Địa chỉ: lkl, Xã Tiền Phong, Huyện Mê Linh, Thành phố Hà Nội; Ghi chú: ; Phương thức: cod', '109990000')
+2025-07-08 16:13:12 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('6', 'cod', '109990000', 'Chưa thanh toán')
+2025-07-08 16:13:12 - Giao dịch COD được xác nhận thành công
+2025-07-08 16:13:12 - Đóng kết nối cơ sở dữ liệu

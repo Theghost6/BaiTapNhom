@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ReviewsTable.css";
+import ReviewReplyModal from "./ReviewReplyModal";
 
 function ReviewsTable({ reviews, viewReply, handleDelete, deleteReview, replies, selectedReview }) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalReviewId, setModalReviewId] = useState(null);
+    // Khi ấn xem phản hồi, vừa gọi viewReply vừa mở modal
+    const handleViewReply = (reviewId) => {
+        viewReply(reviewId);
+        setModalReviewId(reviewId);
+        setModalOpen(true);
+    };
     return (
         <div className="reviews-table-container">
             <h2>Quản lý Đánh giá</h2>
@@ -34,7 +43,7 @@ function ReviewsTable({ reviews, viewReply, handleDelete, deleteReview, replies,
                                 <td>{review.binh_luan || review.noi_dung || ''}</td>
                                 <td>{review.created_at}</td>
                                 <td>
-                                    <button onClick={() => viewReply(review.id)}>
+                                    <button onClick={() => handleViewReply(review.id)}>
                                         Xem phản hồi
                                     </button>
                                     <button
@@ -50,33 +59,12 @@ function ReviewsTable({ reviews, viewReply, handleDelete, deleteReview, replies,
                     )}
                 </tbody>
             </table>
-            {selectedReview && (
-                <div style={{ marginTop: 40 }}>
-                    <h2>Phản hồi Đánh giá ID: {selectedReview}</h2>
-                    {replies.length === 0 ? (
-                        <p>Không có phản hồi nào.</p>
-                    ) : (
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>Người phản hồi</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {replies.map((reply, index) => (
-                                    <tr key={index}>
-                                        <td>{reply.ten_nguoi_tra_loi}</td>
-                                        <td>{reply.noi_dung || ''}</td>
-                                        <td>{reply.created_at}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
-            )}
+            <ReviewReplyModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                replies={replies}
+                reviewId={modalReviewId}
+            />
         </div>
     );
 }

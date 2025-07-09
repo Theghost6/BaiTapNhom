@@ -4,10 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { Trash2, Heart } from "lucide-react";
-import products from "./Linh_kien.json";
-import "../../style/wishlist.css";
-
-const allProducts = Object.values(products).flat();
+import { getCookie } from "../../helper/cookieHelper";
 
 const Wishlist = () => {
   const navigate = useNavigate();
@@ -19,24 +16,25 @@ const Wishlist = () => {
   const apiUrl = import.meta.env.VITE_HOST;
   // Check authentication status
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
+    // const userData = localStorage.getItem("user");
+    const userCookie = getCookie("user");
+    if (userCookie) {
       try {
-        const parsedUser = JSON.parse(userData);
+        const parsedUser = JSON.parse(userCookie);
         if (parsedUser?.id) {
           setUser(parsedUser);
         } else {
           console.warn("User data missing id:", parsedUser);
-          localStorage.removeItem("user");
+          // localStorage.removeItem("user");
           setUser(null);
         }
       } catch (err) {
-        console.error("Invalid user data in localStorage:", err);
-        localStorage.removeItem("user");
+        console.error("Invalid user data in cookie:", err);
+        // localStorage.removeItem("user");
         setUser(null);
       }
     } else {
-      console.log("No user data in localStorage");
+      console.log("No user data in cookie");
     }
     setAuthChecked(true);
   }, []);
@@ -48,7 +46,7 @@ const Wishlist = () => {
 
     if (!user?.id) {
       toast.error("Vui lòng đăng nhập để xem danh sách yêu thích!");
-      navigate("/register", { state: { returnUrl: "/wishlist" } }); // Reverted to /register as per App.jsx
+      navigate("/register", { state: { returnUrl: "/wishlist" } });
       return;
     }
 
@@ -72,20 +70,42 @@ const Wishlist = () => {
         const data = await response.json();
 
         if (data.success && Array.isArray(data.items)) {
-          // Debug: log data.items và allProducts để kiểm tra mapping
-          console.log('Wishlist API items:', data.items);
-          console.log('All products:', allProducts);
-          const wishlistProducts = data.items
-            .map((item) => {
-              // item.ma_sp có thể là string hoặc số, cần ép kiểu cho chắc chắn
-              const product = allProducts.find((p) => String(p.id) === String(item.ma_sp));
-              if (!product) {
-                console.warn('Không tìm thấy sản phẩm cho ma_sp:', item.ma_sp);
+          // Lấy chi tiết sản phẩm từ API cho từng item
+          const productPromises = data.items.map(async (item) => {
+            try {
+              const productRes = await fetch(`${apiUrl}/products.php?id=${item.ma_sp}`);
+              if (!productRes.ok) throw new Error();
+              const productData = await productRes.json();
+              if (productData.success && productData.data) {
+                return {
+                  ...productData.data,
+                  wishlistId: item.id,
+                  wishlistMaSp: item.ma_sp,
+                };
+              } else {
+                // Không tìm thấy sản phẩm
+                return {
+                  wishlistId: item.id,
+                  wishlistMaSp: item.ma_sp,
+                  ten: item.ten_san_pham || `Mã: ${item.ma_sp}`,
+                  gia: null,
+                  images: [],
+                  notFound: true,
+                };
               }
-              return product ? { ...product, wishlistId: item.id } : null;
-            })
-            .filter((item) => item !== null);
-          setWishlistItems(wishlistProducts);
+            } catch {
+              return {
+                wishlistId: item.id,
+                wishlistMaSp: item.ma_sp,
+                ten: item.ten_san_pham || `Mã: ${item.ma_sp}`,
+                gia: null,
+                images: [],
+                notFound: true,
+              };
+            }
+          });
+          const wishlistWithProducts = await Promise.all(productPromises);
+          setWishlistItems(wishlistWithProducts);
         } else {
           setError(data.message || "Không thể tải danh sách yêu thích");
         }
@@ -184,28 +204,42 @@ const Wishlist = () => {
             {wishlistItems.map((item, index) => (
               <motion.div
                 key={item.wishlistId}
-                className="wishlist-item"
+                className={`wishlist-item${item.notFound ? ' wishlist-item-notfound' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <Link to={`/linh-kien/${item.id}`} className="wishlist-link">
-                  <img
-                    src={item.images?.[0] || "/placeholder.jpg"}
-                    alt={item.ten}
-                    className="wishlist-item-image"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/placeholder.jpg";
-                    }}
-                  />
-                  <div className="wishlist-item-info">
-                    <h3 className="wishlist-name">{item.ten}</h3>
-                    <p className="wishlist-price">{formatPrice(item.gia)}</p>
+                {item.notFound ? (
+                  <div className="wishlist-link wishlist-link-notfound">
+                    <img
+                      src="/placeholder.jpg"
+                      alt={item.ten || item.ten_sp}
+                      className="wishlist-item-image"
+                    />
+                    <div className="wishlist-item-info">
+                      <h3 className="wishlist-name">{item.ten || item.ten_sp}</h3>
+                      <p className="wishlist-price">Không tìm thấy sản phẩm</p>
+                    </div>
                   </div>
-                </Link>
+                ) : (
+                  <Link to={`/linh-kien/${item.id}`} className="wishlist-link">
+                    <img
+                      src={item.images?.[0] || item.anh || "/placeholder.jpg"}
+                      alt={item.ten_sp || item.ten}
+                      className="wishlist-item-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/placeholder.jpg";
+                      }}
+                    />
+                    <div className="wishlist-item-info">
+                      <h3 className="wishlist-name">{item.ten_sp || item.ten}</h3>
+                      <p className="wishlist-price">{item.gia_sau ? formatPrice(item.gia_sau) : (item.gia ? formatPrice(item.gia) : '--')}</p>
+                    </div>
+                  </Link>
+                )}
                 <button
-                  onClick={() => handleRemoveFromWishlist(item.wishlistId, item.id)}
+                  onClick={() => handleRemoveFromWishlist(item.wishlistId, item.wishlistMaSp)}
                   className="wishlist-button"
                   aria-label="Remove from wishlist"
                 >

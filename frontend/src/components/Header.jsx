@@ -72,6 +72,7 @@ const Header = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [wishlistError, setWishlistError] = useState(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const headerRef = useRef(null);
   const userDropdownRef = useRef(null);
@@ -267,6 +268,125 @@ const Header = () => {
 
   return (
     <>
+      {/* Mobile Header Bar */}
+      <div className="mobile-header-bar" style={{ display: 'none' }}>
+        <button className="mobile-menu-toggle" onClick={() => setShowMobileMenu(true)}>
+          <FaBars size={28} />
+        </button>
+        <Link to="/" className="logo-link">
+          <div className="logo-container">
+            <img src="/photos/Logo.png" alt="Logo" className="logo-image" />
+            <span className="logo-text">MRS</span>
+          </div>
+        </Link>
+        <div className="header-actions">
+          {isLoggedIn ? (
+            <div className="user-profile" ref={userDropdownRef}>
+              <button onClick={toggleUserDropdown}>
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="Avatar"
+                    className="header-avatar"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/photos/default-avatar.png";
+                    }}
+                  />
+                ) : (
+                  <div className="default-avatar">
+                    <UserCircle size={24} color="#7f8c8d" />
+                  </div>
+                )}
+              </button>
+            </div>
+          ) : (
+            <div className="user-actions">
+              <Link to="/register">
+                <User size={24} />
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Offcanvas Mobile Menu */}
+      <div className={`mobile-offcanvas-menu${showMobileMenu ? ' active' : ''}`} onClick={() => setShowMobileMenu(false)}>
+        <div className="mobile-offcanvas-content" onClick={e => e.stopPropagation()}>
+          <button className="mobile-offcanvas-close" onClick={() => setShowMobileMenu(false)}>×</button>
+          {/* Search bar trong menu mobile */}
+          <div className="search-bar-container" style={{ marginBottom: 16 }}>
+            <input
+              type="text"
+              placeholder="Bạn cần tìm gì?"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <button
+              className="show-suggestions-btn"
+              type="button"
+              onClick={() => setShowSuggestions((v) => !v)}
+            >
+              <Search size={18} />
+            </button>
+          </div>
+          {/* Danh mục sản phẩm */}
+          <div className="category-menu" style={{ marginBottom: 16 }}>
+            <div className="category-dropdown" style={{ display: 'block', position: 'static', boxShadow: 'none', background: 'none', border: 'none' }}>
+              {Object.keys(menuCategories).map((category) => (
+                <div key={category} className="category-item-wrapper">
+                  <div
+                    className="category-item"
+                    onClick={() => handleCategoryClick(category)}
+                  >
+                    {category}
+                    <span className="category-arrow">›</span>
+                  </div>
+                  {selectedCategory === category && (
+                    <div className="subcategory-panel" style={{ position: 'static', boxShadow: 'none', background: 'none', border: 'none' }}>
+                      <h4 className="subcategory-title">{category}</h4>
+                      <div className="subcategory-items">
+                        {menuCategories[category].items.map((item) => (
+                          <Link
+                            key={item.id}
+                            to={`/linh-kien/${item.id}`}
+                            className="subcategory-item"
+                            onClick={() => {
+                              setSelectedCategory(null);
+                              setShowMobileMenu(false);
+                            }}
+                          >
+                            {item.ten_sp}
+                          </Link>
+                        ))}
+                        {menuCategories[category].items.length === 0 && (
+                          <div className="no-items">Không có sản phẩm</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Các menu tĩnh */}
+          <div className="static-menu-buttons" style={{ flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+            <button className="menu-button" onClick={() => {navigate("/blog"); setShowMobileMenu(false);}}>
+              <FaBlogger size={18} style={{ marginRight: 6 }} /> Tin tức
+            </button>
+            <button className="menu-button" onClick={() => {openChat('general', user); setShowMobileMenu(false);}} disabled={!isLoggedIn || !user}>
+              <MessageCircle size={18} style={{ marginRight: 6 }} /> Chat cộng đồng
+              {unreadCount > 0 && (
+                <span className="chat-notification-badge">{unreadCount}</span>
+              )}
+              <span className={`connection-indicator ${isConnected ? 'connected' : 'disconnected'}`}>●</span>
+            </button>
+            <button className="menu-button" onClick={() => {navigate("/alllinhkien"); setShowMobileMenu(false);}}>
+              <FiPackage size={18} style={{ marginRight: 6 }} /> Sản phẩm
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Header cũ chỉ hiện trên desktop */}
       <header className="main-header" ref={headerRef}>
         <div className="main-header-container">
           <div className="header-items">
@@ -367,10 +487,18 @@ const Header = () => {
               </button>
               <button
                 className="menu-button"
-                onClick={() => navigate("/community-chat")}
+                onClick={() => openChat('general', user)}
+                disabled={!isLoggedIn || !user}
+                title={!isLoggedIn ? "Vui lòng đăng nhập để sử dụng chat cộng đồng" : "Chat cộng đồng"}
               >
                 <MessageCircle size={18} style={{ marginRight: 6 }} />
                 Chat cộng đồng
+                {/* Hiển thị số tin nhắn chưa đọc */}
+                {unreadCount > 0 && (
+                  <span className="chat-notification-badge">{unreadCount}</span>
+                )}
+                {/* Hiển thị trạng thái kết nối */}
+                <span className={`connection-indicator ${isConnected ? 'connected' : 'disconnected'}`}>●</span>
               </button>
               <button
                 className="menu-button"
@@ -513,7 +641,9 @@ const Header = () => {
       </header>
 
       {/* Chat Popup Component */}
-      <ChatPopup user={user} />
+      {isLoggedIn && user && (
+        <ChatPopup user={user} />
+      )}
     </>
   );
 };

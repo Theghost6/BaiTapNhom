@@ -78,19 +78,6 @@
     "timestamp": "2025-07-02T06:22:33.652Z"
   },
   {
-    "id": "1751437362746h5gosoocl",
-    "content": "<img src=x onerror=alert('XSS thành công!')>",
-    "user": {
-      "id": "2",
-      "username": "Admin",
-      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
-      "role": "admin"
-    },
-    "room": "general",
-    "type": "text",
-    "timestamp": "2025-07-02T06:22:42.746Z"
-  },
-  {
     "id": "1751437372334vqpowdcai",
     "content": "<script>alert('XSS!')</script>",
     "user": {
@@ -102,19 +89,6 @@
     "room": "general",
     "type": "text",
     "timestamp": "2025-07-02T06:22:52.334Z"
-  },
-  {
-    "id": "1751437431342sgbq5eldd",
-    "content": "<img src=x onerror=alert('XSS chat!')>",
-    "user": {
-      "id": "2",
-      "username": "Admin",
-      "avatar": "http://localhost:8080/uploads/avatars/avatar_1234567890.jpg",
-      "role": "admin"
-    },
-    "room": "general",
-    "type": "text",
-    "timestamp": "2025-07-02T06:23:51.342Z"
   },
   {
     "id": "1751437985667gk04vamic",
@@ -167,5 +141,18 @@
     "room": "general",
     "type": "text",
     "timestamp": "2025-07-03T01:37:19.825Z"
+  },
+  {
+    "id": "1751902218841j3sg2jeyt",
+    "content": "?",
+    "user": {
+      "id": "1",
+      "username": "admin",
+      "avatar": "http://localhost:8080/uploads/avatars/avatar_admin@gmail.com.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-07T15:30:18.841Z"
   }
 ]

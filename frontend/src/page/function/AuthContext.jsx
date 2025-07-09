@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { getCookie, setCookie, removeCookie } from "../../helper/cookieHelper";
 
 export const AuthContext = createContext();
 
@@ -7,20 +8,21 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    console.log("Stored user from localStorage:", storedUser);
+    const storedUserStr = getCookie("user");
+    const storedUser = storedUserStr ? JSON.parse(storedUserStr) : null;
+    console.log("Stored user from cookie:", storedUser);
     if (storedUser) {
       setUser(storedUser);
       setIsAuthenticated(true);
-      console.log("isAuthenticated set to true from localStorage");
+      console.log("isAuthenticated set to true from cookie");
     } else {
-      console.log("No user in localStorage");
+      console.log("No user in cookie");
     }
   }, []);
 
   const login = (userData) => {
     console.log("Logging in with userData:", userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    setCookie("user", JSON.stringify(userData));
     setUser(userData);
     setIsAuthenticated(true);
     console.log("isAuthenticated set to true after login");
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     console.log("Logging out");
-    localStorage.removeItem("user");
+    removeCookie("user");
     setUser(null);
     setIsAuthenticated(false);
     console.log("isAuthenticated set to false after logout");

@@ -4,7 +4,7 @@ import { Edit, Save, Upload, User } from "lucide-react";
 import "../../style/profile.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setCookie } from "../../helper/cookieHelper"; // Adjust the import path as needed
+import { getCookie, setCookie } from "../../helper/cookieHelper";
 
 
 const Profile = () => {
@@ -25,13 +25,13 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const userData = localStorage.getItem(USER_KEY);
-      if (!userData) {
+      // const userData = localStorage.getItem(USER_KEY);
+      const userCookie = getCookie(USER_KEY);
+      if (!userCookie) {
         navigate("/");
         return;
       }
-
-      const parsedUser = JSON.parse(userData);
+      const parsedUser = JSON.parse(userCookie);
       setUser(parsedUser);
       setAvatarPreview(parsedUser.avatar || "");
       setFormData({
@@ -41,19 +41,16 @@ const Profile = () => {
         password: "",
         confirmPassword: "",
       });
-
       try {
         const response = await fetch(
-          `  ${apiUrl}/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
+          `${apiUrl}/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
           {
             method: "GET",
           }
         );
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}, body: ${await response.text()}`);
         }
-
         const result = await response.json();
         if (result.success) {
           const newUserData = {
@@ -63,7 +60,6 @@ const Profile = () => {
             type: parsedUser.type,
             avatar: result.data.avatarUrl,
           };
-
           setUser(newUserData);
           setAvatarPreview(result.data.avatarUrl || "");
           setFormData({
@@ -73,8 +69,7 @@ const Profile = () => {
             password: "",
             confirmPassword: "",
           });
-
-          localStorage.setItem(USER_KEY, JSON.stringify(newUserData));
+          setCookie(USER_KEY, JSON.stringify(newUserData));
         } else {
           console.error("API error:", result.message);
           toast.error("Không thể tải thông tin người dùng: " + result.message);
@@ -82,7 +77,6 @@ const Profile = () => {
       } catch (error) {
         console.error("Error fetching user profile:", error);
         toast.error("Lỗi khi tải thông tin người dùng: " + error.message);
-        // Fallback to localStorage data
       }
     };
 

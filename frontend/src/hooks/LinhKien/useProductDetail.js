@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useCart } from "../../page/funtion/useCart";
-import { AuthContext } from "../../page/funtion/AuthContext";
+import { useCart } from "../../page/function/useCart";
+import { AuthContext } from "../../page/function/AuthContext";
 import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_HOST;

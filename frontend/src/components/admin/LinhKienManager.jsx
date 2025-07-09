@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { CiEdit } from "react-icons/ci";
+import { FaRegTrashAlt } from "react-icons/fa";
+
+
 import "./LinhKienManager.css";
 
 const apiUrl = import.meta.env.VITE_HOST;
@@ -309,14 +313,19 @@ function LinhKienManager({
                                                 setEditLinhKien(item);
                                                 setIsEditModalOpen(true);
                                             }}
+                                            title="Chỉnh sửa"
                                         >
-                                            <i className="fas fa-edit"></i>
+                                            <CiEdit />
+
                                         </button>
                                         <button
                                             className="button-red"
                                             onClick={() => handleDelete(item.id, "linh kiện", () => deleteLinhKien(item.id, selectedLoaiTable))}
+                                            title="Xóa"
+                                            style={{ marginLeft: 8 }}
                                         >
-                                            <i className="fas fa-trash"></i>
+                                            <FaRegTrashAlt />
+
                                         </button>
                                     </td>
                                 </tr>

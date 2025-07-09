@@ -1,0 +1,974 @@
+2025-07-07 15:23:28 - Raw Request: 
+2025-07-07 15:23:28 - Raw Request: {"phone":"f","password":"f"}
+2025-07-07 15:23:28 - Parsed data: Array
+(
+    [phone] => f
+    [password] => f
+)
+
+2025-07-07 15:23:28 - Error: Account not found or disabled
+2025-07-07 15:24:07 - Raw Request: 
+2025-07-07 15:24:07 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-07 15:24:07 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 15:24:07 - Error: Account not found or disabled
+2025-07-07 15:24:27 - Raw Request: 
+2025-07-07 15:24:28 - Raw Request: {"username":"unkown","phone":"1111111119","email":"unkown@gmail.com","password":"123456","confirmPassword":"123456"}
+2025-07-07 15:24:28 - Parsed data: Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 123456
+    [confirmPassword] => 123456
+)
+
+2025-07-07 15:24:28 - Success: Registered user: unkown
+2025-07-07 15:24:34 - Raw Request: 
+2025-07-07 15:24:34 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-07 15:24:34 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 15:24:34 - Success: Logged in user: unkown
+2025-07-07 15:26:01 - Origin: http://localhost:3000
+2025-07-07 15:26:01 - Request (Form): Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 123456
+    [confirmPassword] => 123456
+    [currentIdentifier] => 1111111119
+    [currentType] => phone
+)
+
+2025-07-07 15:26:01 - Files: Array
+(
+)
+
+2025-07-07 15:26:01 - Existing data: Array
+(
+    [id] => 2
+    [user] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [pass] => e10adc3949ba59abbe56e057f20f883e
+    [role] => user
+    [is_active] => 1
+    [created_at] => 2025-07-07 15:24:28
+    [updated_at] => 
+)
+
+2025-07-07 15:28:13 - Raw Request: 
+2025-07-07 15:28:13 - Raw Request: {"email":"admin@gmail.com","password":"123456"}
+2025-07-07 15:28:13 - Parsed data: Array
+(
+    [email] => admin@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 15:28:13 - Success: Logged in user: admin
+2025-07-07 15:28:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 15:28:57 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 15:28:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 15:28:57 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 15:28:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 15:28:59 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 15:29:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 15:29:00 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 15:29:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 15:29:00 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 15:58:12 - Raw Request: 
+2025-07-07 15:58:12 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-07 15:58:12 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 15:58:12 - Success: Logged in user: unkown
+2025-07-07 15:58:53 - Origin: http://localhost:3000
+2025-07-07 15:58:53 - Request (Form): Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 12345
+    [confirmPassword] => 12345
+    [currentIdentifier] => unkown@gmail.com
+    [currentType] => email
+)
+
+2025-07-07 15:58:53 - Files: Array
+(
+    [avatar] => Array
+        (
+            [name] => xien-chet-ba-may-gio.jpg
+            [full_path] => xien-chet-ba-may-gio.jpg
+            [type] => image/jpeg
+            [tmp_name] => /tmp/php1oR5oa
+            [error] => 0
+            [size] => 86066
+        )
+
+)
+
+2025-07-07 15:58:53 - Existing data: Array
+(
+    [id] => 2
+    [user] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [pass] => e10adc3949ba59abbe56e057f20f883e
+    [role] => user
+    [is_active] => 1
+    [created_at] => 2025-07-07 15:24:28
+    [updated_at] => 
+)
+
+2025-07-07 15:58:54 - Uploaded avatar: http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_unkown@gmail.com.jpg
+2025-07-07 15:59:37 - Raw Request: 
+2025-07-07 15:59:37 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-07 15:59:37 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-07 15:59:37 - Success: Logged in user: admin
+2025-07-07 16:02:26 - Raw Request: 
+2025-07-07 16:02:26 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-07 16:02:26 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 16:02:27 - Error: Incorrect password
+2025-07-07 16:02:31 - Raw Request: {"email":"unkown@gmail.com","password":"12345"}
+2025-07-07 16:02:31 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 12345
+)
+
+2025-07-07 16:02:31 - Success: Logged in user: unkown
+2025-07-07 16:03:02 - Origin: http://localhost:3000
+2025-07-07 16:03:02 - Request (Form): Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 123456
+    [confirmPassword] => 123456
+    [currentIdentifier] => unkown@gmail.com
+    [currentType] => email
+)
+
+2025-07-07 16:03:02 - Files: Array
+(
+)
+
+2025-07-07 16:03:02 - Existing data: Array
+(
+    [id] => 2
+    [user] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [pass] => 827ccb0eea8a706c4c34a16891f84e7b
+    [role] => user
+    [is_active] => 1
+    [created_at] => 2025-07-07 15:24:28
+    [updated_at] => 2025-07-07 15:58:54
+)
+
+2025-07-07 16:24:24 - Raw Request: 
+2025-07-07 16:24:25 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-07 16:24:25 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-07 16:24:25 - Success: Logged in user: unkown
+2025-07-07 16:24:50 - Raw Request: 
+2025-07-07 16:25:07 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-07 16:25:07 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-07 16:25:07 - Success: Logged in user: unkown
+2025-07-07 16:27:35 - Raw Request: 
+2025-07-07 16:27:35 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-07 16:27:35 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-07 16:27:35 - Success: Logged in user: unkown
+2025-07-07 16:37:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:05 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:05 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:06 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 16:37:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 16:37:13 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:48 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:50 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:53 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:07:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:07:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:12 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:13 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:29 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:08:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:08:59 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:00 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:01 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:04 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:09:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:09:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:48 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:49 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:49 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:50 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:51 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:13:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-07 17:13:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-07 17:24:15 - Raw Request: 
+2025-07-07 17:24:15 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-07 17:24:15 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-07 17:24:15 - Success: Logged in user: admin
+2025-07-07 17:27:47 - Raw Request: 
+2025-07-07 17:27:47 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-07 17:27:47 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 17:27:47 - Success: Logged in user: unkown
+2025-07-07 17:36:42 - Raw Request: 
+2025-07-07 17:36:42 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-07 17:36:42 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-07 17:36:42 - Success: Logged in user: admin
+2025-07-07 17:37:06 - Raw Request: 
+2025-07-07 17:37:06 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-07 17:37:06 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-07 17:37:06 - Success: Logged in user: unkown
+2025-07-08 06:21:14 - Raw Request: 
+2025-07-08 06:21:14 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-08 06:21:14 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-08 06:21:14 - Success: Logged in user: admin
+[2025-07-08 06:22:21] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:22:21] Method: POST
+[2025-07-08 06:22:21] POST data: Array
+(
+)
+
+[2025-07-08 06:22:21] POST request nhận được
+[2025-07-08 06:22:21] ID nhận được: 'SP00373'
+[2025-07-08 06:22:21] Số lượng nhận được: '1'
+[2025-07-08 06:22:21] Action nhận được: 'check'
+[2025-07-08 06:22:21] Không tìm thấy sản phẩm với ID: SP00373
+[2025-07-08 06:22:21] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:22:21] Method: POST
+[2025-07-08 06:22:21] POST data: Array
+(
+)
+
+[2025-07-08 06:22:21] POST request nhận được
+[2025-07-08 06:22:21] ID nhận được: 'SP00373'
+[2025-07-08 06:22:21] Số lượng nhận được: '1'
+[2025-07-08 06:22:21] Action nhận được: 'check'
+[2025-07-08 06:22:21] Không tìm thấy sản phẩm với ID: SP00373
+[2025-07-08 06:22:22] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:22:22] Method: POST
+[2025-07-08 06:22:22] POST data: Array
+(
+)
+
+[2025-07-08 06:22:22] POST request nhận được
+[2025-07-08 06:22:22] ID nhận được: 'SP00373'
+[2025-07-08 06:22:22] Số lượng nhận được: '1'
+[2025-07-08 06:22:22] Action nhận được: 'check'
+[2025-07-08 06:22:22] Không tìm thấy sản phẩm với ID: SP00373
+[2025-07-08 06:22:22] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:22:22] Method: POST
+[2025-07-08 06:22:22] POST data: Array
+(
+)
+
+[2025-07-08 06:22:22] POST request nhận được
+[2025-07-08 06:22:22] ID nhận được: 'SP00373'
+[2025-07-08 06:22:22] Số lượng nhận được: '1'
+[2025-07-08 06:22:22] Action nhận được: 'check'
+[2025-07-08 06:22:22] Không tìm thấy sản phẩm với ID: SP00373
+[2025-07-08 06:23:18] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:23:18] Method: POST
+[2025-07-08 06:23:18] POST data: Array
+(
+    [id] => 373
+    [so_luong] => 1
+)
+
+[2025-07-08 06:23:18] POST request nhận được
+[2025-07-08 06:23:18] ID nhận được: '373'
+[2025-07-08 06:23:18] Số lượng nhận được: '1'
+[2025-07-08 06:23:18] Action nhận được: ''
+[2025-07-08 06:23:18] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"373","ten_san_pham":"Card m\u00e0n h\u00ecnh SAPPHIRE Radeon RX 7800XT PURE Gaming OC 16GB GDDR6","so_luong_cu":19,"so_luong_da_mua":1,"so_luong_con_lai":18}}
+2025-07-08 06:24:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:24:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:24:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:24:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:24:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:24:50 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:16 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:19 - Updating order ID: 0, Status: 
+2025-07-08 06:25:19 - Updating order ID: 0, Status: 
+2025-07-08 06:25:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:21 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:22 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:27 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:29 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:31 - Updating order ID: 0, Status: 
+2025-07-08 06:25:31 - Updating order ID: 0, Status: 
+2025-07-08 06:25:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:36 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:37 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:37 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:41 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 06:25:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 06:25:42 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+[2025-07-08 06:28:04] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:28:04] Method: POST
+[2025-07-08 06:28:04] POST data: Array
+(
+    [id] => 1
+    [so_luong] => 1
+)
+
+[2025-07-08 06:28:04] POST request nhận được
+[2025-07-08 06:28:04] ID nhận được: '1'
+[2025-07-08 06:28:04] Số lượng nhận được: '1'
+[2025-07-08 06:28:04] Action nhận được: ''
+[2025-07-08 06:28:04] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"1","ten_san_pham":"\u1ed4 c\u1ee9ng di \u0111\u1ed9ng SSD ADATA SC750 USB 3.2 Gen 2 1050MB\/s 1TB","so_luong_cu":5,"so_luong_da_mua":1,"so_luong_con_lai":4}}
+[2025-07-08 06:34:16] === BẮT ĐẦU REQUEST ===
+[2025-07-08 06:34:16] Method: POST
+[2025-07-08 06:34:16] POST data: Array
+(
+    [id] => 3
+    [so_luong] => 1
+)
+
+[2025-07-08 06:34:16] POST request nhận được
+[2025-07-08 06:34:16] ID nhận được: '3'
+[2025-07-08 06:34:16] Số lượng nhận được: '1'
+[2025-07-08 06:34:16] Action nhận được: ''
+[2025-07-08 06:34:16] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"3","ten_san_pham":"\u1ed4 c\u1ee9ng di \u0111\u1ed9ng SSD Kingston XS1000 USB 3.2 Gen 2 1TB \u0110en","so_luong_cu":4,"so_luong_da_mua":1,"so_luong_con_lai":3}}
+2025-07-08 08:02:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:02:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:02:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:02:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:02:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:02:37 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:02:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:02:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:02:44 - Updating order ID: 0, Status: 
+2025-07-08 08:02:44 - Updating order ID: 0, Status: 
+2025-07-08 08:02:54 - Updating order ID: 0, Status: 
+2025-07-08 08:02:54 - Updating order ID: 0, Status: 
+2025-07-08 08:02:56 - Updating order ID: 0, Status: 
+2025-07-08 08:03:07 - Updating order ID: 0, Status: 
+2025-07-08 08:03:07 - Updating order ID: 0, Status: 
+2025-07-08 08:03:19 - Updating order ID: 0, Status: 
+2025-07-08 08:03:19 - Updating order ID: 0, Status: 
+2025-07-08 08:09:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:09:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:09:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:09:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:09:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:09:45 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:09:48 - Updating order ID: 0, Status: 
+2025-07-08 08:09:48 - Updating order ID: 1, Status: Đã thanh toán
+2025-07-08 08:09:55 - Updating order ID: 0, Status: 
+2025-07-08 08:09:55 - Updating order ID: 1, Status: Đã thanh toán
+2025-07-08 08:09:55 - No rows affected for ID: 1
+2025-07-08 08:12:14 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:12:14 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:12:14 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:12:14 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:12:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:12:20 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:12:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:12:22 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:12:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:12:27 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:12:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:12:32 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:14:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:14:18 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:14:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:14:19 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:14:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:14:20 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:14:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:14:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:14:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:14:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:41 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:41 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:47 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:49 - Updating order ID: 0, Status: 
+2025-07-08 08:17:49 - Updating order ID: 1, Status: Chưa thanh toán
+2025-07-08 08:17:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:51 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:51 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:17:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:17:55 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:00 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:02 - Updating order ID: 0, Status: 
+2025-07-08 08:18:02 - Updating order ID: 1, Status: Đã thanh toán
+2025-07-08 08:18:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:04 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:04 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:05 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:06 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:09 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:14 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:14 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:15 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:16 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:18:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:18:17 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:22 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:23 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:23 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:24 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:26 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:28 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:29 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:32 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:41 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:19:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:19:42 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:28:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:28:26 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:28:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:28:26 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:28:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:28:28 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:28:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:28:29 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:31:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:31:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:31:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:31:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:18 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:36 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:42 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:43 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:43 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:46 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:32:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:32:46 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:16 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:16 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:17 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:18 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:19 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:19 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:28 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:31 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:31 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:36 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:35:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:35:37 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:44:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:44:09 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:44:10 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:44:10 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:04 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:04 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:09 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:45:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:45:12 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:46:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:46:01 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:46:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:46:01 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:47:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:47:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:47:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:47:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:49:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:49:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:49:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:49:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:49:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:49:57 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:49:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:49:58 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:50:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:50:34 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:50:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:50:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:50:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:50:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:50:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:50:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:50:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:50:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:50:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:50:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:51:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:51:48 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:51:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:51:49 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:51:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:51:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:51:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:51:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:51:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:51:59 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:51:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:51:59 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:52:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:52:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:52:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:52:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:53:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:53:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:53:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:53:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:53:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:53:41 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:55:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:55:15 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:55:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:55:15 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:55:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:55:19 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:56:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:56:24 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:56:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:56:24 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:56:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:56:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+[2025-07-08 08:57:01] === BẮT ĐẦU REQUEST ===
+[2025-07-08 08:57:01] Method: POST
+[2025-07-08 08:57:01] POST data: Array
+(
+    [id] => 5
+    [so_luong] => 1
+)
+
+[2025-07-08 08:57:01] POST request nhận được
+[2025-07-08 08:57:01] ID nhận được: '5'
+[2025-07-08 08:57:01] Số lượng nhận được: '1'
+[2025-07-08 08:57:01] Action nhận được: ''
+[2025-07-08 08:57:01] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"5","ten_san_pham":"RAM Laptop Kingston 1.2V 8GB 3200MHz KVR32S22S8\/8","so_luong_cu":10,"so_luong_da_mua":1,"so_luong_con_lai":9}}
+2025-07-08 08:57:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:11 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:11 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:17 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:17 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:17 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:19 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:20 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:21 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:21 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:25 - Updating order ID: 0, Status: 
+2025-07-08 08:57:25 - Updating order ID: 4, Status: Đã thanh toán
+2025-07-08 08:57:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:27 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:28 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:31 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:31 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:36 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:46 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:47 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:48 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:53 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:57:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:57:55 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+[2025-07-08 08:58:19] === BẮT ĐẦU REQUEST ===
+[2025-07-08 08:58:19] Method: POST
+[2025-07-08 08:58:19] POST data: Array
+(
+    [id] => 5
+    [so_luong] => 1
+)
+
+[2025-07-08 08:58:19] POST request nhận được
+[2025-07-08 08:58:19] ID nhận được: '5'
+[2025-07-08 08:58:19] Số lượng nhận được: '1'
+[2025-07-08 08:58:19] Action nhận được: ''
+[2025-07-08 08:58:19] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"5","ten_san_pham":"RAM Laptop Kingston 1.2V 8GB 3200MHz KVR32S22S8\/8","so_luong_cu":9,"so_luong_da_mua":1,"so_luong_con_lai":8}}
+2025-07-08 08:58:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:58:32 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:58:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:58:32 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:58:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:58:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:58:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:58:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 08:58:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 08:58:36 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:02:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:02:37 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:02:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:02:38 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:02:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:02:45 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:05:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:05:42 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:05:43 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:05:43 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:05:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:05:49 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:14 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:14 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:15 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:17 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:52 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:55 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:06:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:06:58 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:07:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:07:00 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:07:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:07:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:08:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:08:56 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:08:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:08:57 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:09:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:09:28 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:09:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:09:29 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:10:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:10:13 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:10:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:10:13 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:05 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:06 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:12:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-08 09:12:20 - Raw Request: 
+2025-07-08 09:12:20 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-08 09:12:20 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-08 09:12:20 - Error: Account not found or disabled
+2025-07-08 09:12:37 - Raw Request: 
+2025-07-08 09:12:37 - Raw Request: {"username":"unkown","phone":"1111111119","email":"unkown@gmail.com","password":"123456","confirmPassword":"123456"}
+2025-07-08 09:12:37 - Parsed data: Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 123456
+    [confirmPassword] => 123456
+)
+
+2025-07-08 09:12:37 - Success: Registered user: unkown
+2025-07-08 09:12:46 - Raw Request: 
+2025-07-08 09:12:46 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-08 09:12:46 - Parsed data: Array
+(
+    [email] => unkown@gmail.com
+    [password] => 123456
+)
+
+2025-07-08 09:12:46 - Success: Logged in user: unkown
+[2025-07-08 09:13:12] === BẮT ĐẦU REQUEST ===
+[2025-07-08 09:13:12] Method: POST
+[2025-07-08 09:13:12] POST data: Array
+(
+    [id] => 2
+    [so_luong] => 1
+)
+
+[2025-07-08 09:13:12] POST request nhận được
+[2025-07-08 09:13:12] ID nhận được: '2'
+[2025-07-08 09:13:12] Số lượng nhận được: '1'
+[2025-07-08 09:13:12] Action nhận được: ''
+[2025-07-08 09:13:12] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"2","ten_san_pham":"VGA Asus ROG Astral Geforce RTX 5090 OC 32GB ROG-ASTRAL-RTX5090-O32G-GAMING","so_luong_cu":16,"so_luong_da_mua":1,"so_luong_con_lai":15}}
+2025-07-08 09:13:42 - Raw Request: 
+2025-07-08 09:13:42 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-08 09:13:42 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-08 09:13:42 - Success: Logged in user: admin
+2025-07-08 09:13:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:13:47 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:13:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:13:47 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:16:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:16:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:16:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:16:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:17:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:17:50 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:18:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:18:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:24:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:24:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-08 09:24:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-08 09:24:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]

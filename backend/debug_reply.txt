@@ -1,0 +1,18 @@
+{"id_danh_gia":1,"ma_nguoi_tra_loi":"1","noi_dung":"thanks","ngay":"2025-07-08"}
+Decoded: Array
+(
+    [id_danh_gia] => 1
+    [ma_nguoi_tra_loi] => 1
+    [noi_dung] => thanks
+    [ngay] => 2025-07-08
+)
+
+{"id_danh_gia":2,"ma_nguoi_tra_loi":"1","noi_dung":"ok!","ngay":"2025-07-08"}
+Decoded: Array
+(
+    [id_danh_gia] => 2
+    [ma_nguoi_tra_loi] => 1
+    [noi_dung] => ok!
+    [ngay] => 2025-07-08
+)
+

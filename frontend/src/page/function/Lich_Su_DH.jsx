@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../funtion/AuthContext";
+import { AuthContext } from "../function/AuthContext";
+import { getCookie } from "../../helper/cookieHelper";
+
 import "../../style/lich_su.css";
 import { toast } from "react-toastify";
 
@@ -14,7 +16,8 @@ const OrderHistory = () => {
   const apiUrl = import.meta.env.VITE_HOST;
   useEffect(() => {
     const fetchOrders = async () => {
-      const user_id = JSON.parse(localStorage.getItem("user"));
+      const userStr = getCookie("user");
+      const user_id = userStr ? JSON.parse(userStr) : null;
 
       try {
         setLoading(true);

@@ -119,13 +119,23 @@ switch ($action) {
         break;
 
     case 'update_order_status':
+        // Hỗ trợ cả GET lẫn POST/body JSON
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         $status = isset($_GET['status']) ? $_GET['status'] : '';
+        // Nếu là POST hoặc body JSON
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            if (isset($data['id'])) $id = intval($data['id']);
+            if (isset($data['trang_thai'])) $status = $data['trang_thai'];
+            if (isset($data['status'])) $status = $data['status']; // fallback nếu frontend gửi key là status
+        }
         file_put_contents($logFile, date('Y-m-d H:i:s') . " - Updating order ID: $id, Status: $status\n", FILE_APPEND);
         if ($id === 0 || empty($status)) {
             echo json_encode(["success" => false, "error" => "Invalid ID or status"]);
             break;
         }
+        // Update don_hang
         $sql = "UPDATE don_hang SET trang_thai = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
@@ -136,13 +146,24 @@ switch ($action) {
         $stmt->bind_param("si", $status, $id);
         $stmt->execute();
         $affected_rows = $stmt->affected_rows;
-        if ($affected_rows > 0) {
-            echo json_encode(["success" => true, "affected_rows" => $affected_rows]);
+        $stmt->close();
+        // Update thanh_toan nếu có bản ghi
+        $sql2 = "UPDATE thanh_toan SET trang_thai = ? WHERE ma_don_hang = ?";
+        $stmt2 = $conn->prepare($sql2);
+        if ($stmt2) {
+            $stmt2->bind_param("si", $status, $id);
+            $stmt2->execute();
+            $affected_rows2 = $stmt2->affected_rows;
+            $stmt2->close();
+        } else {
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - Prepare failed (thanh_toan): " . $conn->error . "\n", FILE_APPEND);
+        }
+        if ($affected_rows > 0 || (isset($affected_rows2) && $affected_rows2 > 0)) {
+            echo json_encode(["success" => true, "affected_rows" => $affected_rows, "affected_rows_thanh_toan" => $affected_rows2 ?? 0]);
         } else {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - No rows affected for ID: $id\n", FILE_APPEND);
             echo json_encode(["success" => false, "error" => "No rows updated"]);
         }
-        $stmt->close();
         break;
 
     // Users management
@@ -374,14 +395,15 @@ switch ($action) {
         $total_payments = $result->fetch_assoc();
         
         // Top selling products (fix: join chi_tiet_don_hang + san_pham)
-        $sql_top_products = "SELECT sp.id, sp.ten_sp, SUM(ctdh.so_luong) AS tong_so_luong
+        // Sửa JOIN để lấy đúng sản phẩm bán chạy nhất dù dùng id hay ma_sp
+        $sql_top_products = "SELECT sp.ma_sp, sp.ten_sp, SUM(ctdh.so_luong) AS tong_so_luong
                             FROM chi_tiet_don_hang ctdh
                             JOIN don_hang dh ON ctdh.ma_don_hang = dh.id
-                            JOIN san_pham sp ON ctdh.ma_sp = sp.id
+                            JOIN san_pham sp ON ctdh.ma_sp = sp.ma_sp
                             WHERE dh.trang_thai = 'Đã thanh toán'
                               AND MONTH(dh.created_at) = ?
                               AND YEAR(dh.created_at) = ?
-                            GROUP BY sp.id, sp.ten_sp
+                            GROUP BY sp.ma_sp, sp.ten_sp
                             ORDER BY tong_so_luong DESC
                             LIMIT 5";
         $stmt = $conn->prepare($sql_top_products);
@@ -391,7 +413,7 @@ switch ($action) {
         $top_products = [];
         while ($row = $result->fetch_assoc()) {
             $top_products[] = [
-                'id' => $row['id'],
+                'ma_sp' => $row['ma_sp'],
                 'ten_san_pham' => $row['ten_sp'],
                 'tong_so_luong' => (int)$row['tong_so_luong']
             ];

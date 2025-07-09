@@ -1,0 +1,5 @@
+Review inserted: id_product=SP00003, user=1, time=2025-07-08 08:34:52
+Reply inserted: id_danh_gia=1, time=2025-07-08 08:35:00
+Review inserted: id_product=SP00005, user=1, time=2025-07-08 09:09:15
+Reply inserted: id_danh_gia=2, time=2025-07-08 09:09:23
+Review inserted: id_product=SP00002, user=2, time=2025-07-08 09:13:34
