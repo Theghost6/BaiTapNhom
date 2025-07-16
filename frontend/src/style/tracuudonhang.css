@@ -1,3 +1,6 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 .order-tracking-container {
   padding: 20px;
   max-width: 800px;
@@ -7,7 +10,7 @@
 
 .order-tracking-container h1 {
   text-align: center;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 30px;
   font-size: 28px;
   font-weight: 600;
@@ -20,7 +23,7 @@
   background: linear-gradient(135deg, #ffffff, #f7f7f7);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--shadow-color);
   margin-bottom: 20px;
 }
 
@@ -74,7 +77,7 @@
 }
 
 .track-btn:disabled {
-  background: #cccccc;
+  background: var(--text-muted);
   cursor: not-allowed;
   transform: none;
 }
@@ -97,7 +100,7 @@
   background: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--shadow-color);
   animation: popIn 0.4s ease-in-out;
 }
 
@@ -124,7 +127,7 @@
 
 .order-header h2 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 20px;
   font-weight: 600;
 }
@@ -141,13 +144,13 @@
 
 .order-content {
   padding: 20px;
-  background: #fff;
+  background: var(--bg-primary);
   animation: slideDown 0.3s ease-in-out;
 }
 
 .order-details h3 {
   margin: 20px 0 10px;
-  color: #333;
+  color: var(--text-primary);
   font-size: 20px;
 }
 
@@ -170,7 +173,7 @@
 }
 
 .table td strong {
-  color: #333;
+  color: var(--text-primary);
 }
 
 /* Timeline */
@@ -262,7 +265,7 @@
 
 .modal-content h2 {
   margin: 0 0 15px;
-  color: #333;
+  color: var(--text-primary);
   font-size: 24px;
 }
 

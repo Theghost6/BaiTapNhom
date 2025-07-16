@@ -1,3 +1,4 @@
+/* Admin Styles */
 h1 {
   font-family: 'Ubuntu', sans-serif;
   font-size: 32px;
@@ -15,65 +16,73 @@ h1 {
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
-  background-color: #2c3e50;
-  color: #ecf0f1;
+  width: 260px;
+  background: #1a1a2e;
+  color: #eee;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
-  transition: width 0.3s ease;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0 0 20px;
+.sidebar-header {
   text-align: center;
-  color: #ecf0f1;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #16213e;
+}
+
+.sidebar-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #16a085;
 }
 
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin: 0;
 }
 
 .sidebar-button {
   background: none;
   border: none;
-  color: #ecf0f1;
-  padding: 16px 20px;
+  color: #bbb;
+  padding: 12px 16px;
   text-align: left;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  border-radius: 8px;
-  transition: background-color 0.3s, transform 0.2s;
+  border-radius: 6px;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 12px;
-  white-space: nowrap;
+  width: 100%;
 }
 
 .sidebar-button i {
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.sidebar-button span {
-  flex-grow: 1;
+  font-size: 16px;
+  width: 18px;
+  text-align: center;
 }
 
 .sidebar-button:hover {
-  background-color: #1abc9c;
-  transform: translateY(-2px);
+  background: #16213e;
+  color: #fff;
 }
 
 .sidebar-button.active {
-  background-color: #e67e22;
+  background: #16a085;
   color: #fff;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Main Content */
@@ -138,25 +147,27 @@ h1 {
 @media (max-width: 768px) {
   .sidebar {
     width: 60px;
-    padding: 10px;
+    padding: 15px 8px;
   }
 
-  .sidebar-title {
+  .sidebar-header h2 {
     font-size: 0;
+  }
+
+  .sidebar-header::after {
+    content: 'A';
+    font-size: 20px;
+    color: #16a085;
+  }
+
+  .sidebar-button {
+    padding: 12px 8px;
+    justify-content: center;
+    gap: 0;
   }
 
   .sidebar-button span {
     display: none;
-  }
-
-  .sidebar-button i {
-    font-size: 20px;
-  }
-
-  .sidebar-button {
-    padding: 14px;
-    justify-content: center;
-    border-radius: 6px;
   }
 
   .main-content {

@@ -46,7 +46,9 @@ export function useAllLinhKienLogic() {
         "Nguồn (PSU)",
         "Tản nhiệt (Cooling)",
         "Vỏ máy (Case)",
-        "Thiết bị khác (Peripherals)",
+        "Chuột",
+        "Bàn phím",
+        "Màn hình",
     ];
 
     const categoryMapping = {
@@ -59,7 +61,9 @@ export function useAllLinhKienLogic() {
         "Nguồn (PSU)": "PSU",
         "Tản nhiệt (Cooling)": "tan_nhiet",
         "Vỏ máy (Case)": "Case",
-        "Thiết bị khác (Peripherals)": "Peripherals",
+        "Chuột": "Chuột",
+        "Bàn phím": "Bàn phím",
+        "Màn hình": "Màn hình",
     };
 
     const brands = useMemo(() => {
@@ -140,12 +144,22 @@ export function useAllLinhKienLogic() {
         const normalizedProductName = normalizeText(product.ten_sp || product.ten || "");
         const normalizedBrand = product.hang ? normalizeText(product.hang) : "";
         const normalizedCategory = product.danh_muc ? normalizeText(product.danh_muc) : "";
+        // Nếu tìm kiếm là 'màn hình' thì chỉ khớp với sản phẩm có danh mục là màn hình
+        if (normalizedSearchTerm.includes('man hinh') || normalizedSearchTerm.includes('monitor')) {
+            return (
+                normalizedProductName.includes(normalizedSearchTerm) ||
+                normalizedCategory === 'man hinh' // chỉ đúng danh mục màn hình
+            );
+        }
         let matches =
             normalizedProductName.includes(normalizedSearchTerm) ||
             normalizedBrand.includes(normalizedSearchTerm) ||
             normalizedCategory.includes(normalizedSearchTerm);
         if (normalizedSearchTerm.includes('chuot') || normalizedSearchTerm.includes('mouse')) {
-            matches = matches || ['peripherals', 'thiet bi ngoai vi'].includes(normalizedCategory);
+            matches = matches || normalizedCategory === 'chuot';
+        }
+        if (normalizedSearchTerm.includes('ban phim') || normalizedSearchTerm.includes('keyboard')) {
+            matches = matches || normalizedCategory === 'ban phim';
         }
         return matches;
     };
@@ -283,5 +297,7 @@ export function useAllLinhKienLogic() {
         indexOfLastItem,
         sortedItems,
         toggleOption, // Thêm hàm này để component có thể sử dụng
+        loading, // Thêm loading state
+        error, // Thêm error state
     };
 }

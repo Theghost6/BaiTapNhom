@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useCheckout } from "../../hooks/checkout/useCheckout";
 import CheckoutForm from "./CheckoutForm";
 import CheckoutSummary from "./CheckoutSummary";
+import { AuthContext } from "../../page/function/AuthContext";
+import { useNavigate } from "react-router-dom";
 import "./css/layout.css";
 import "./css/cart.css";
 import "./css/form.css";
@@ -10,6 +12,24 @@ import "./css/button.css";
 
 const CheckoutPage = () => {
     const checkout = useCheckout();
+    const { isAuthenticated, user } = useContext(AuthContext) || {};
+    const navigate = useNavigate();
+    
+    // Kiểm tra role admin
+    if (isAuthenticated && user?.role === 'admin') {
+        return (
+            <div className="checkout-page">
+                <div className="error-message global-error">
+                    Tài khoản admin không được phép truy cập trang thanh toán!
+                </div>
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <button onClick={() => navigate('/')} className="btn btn-primary">
+                        Về trang chủ
+                    </button>
+                </div>
+            </div>
+        );
+    }
     
     // Kiểm tra nếu checkout hook chưa sẵn sàng
     if (!checkout) {

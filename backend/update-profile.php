@@ -34,15 +34,12 @@ try {
     // Xử lý dữ liệu đầu vào (JSON hoặc form data)
     if (isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
         $rawData = file_get_contents("php://input");
-        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Request (JSON): $rawData\n", FILE_APPEND);
         $data = json_decode($rawData, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception("Invalid JSON data: " . json_last_error_msg());
         }
     } else {
         $data = $_POST;
-        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Request (Form): " . print_r($data, true) . "\n", FILE_APPEND);
-        file_put_contents($logFile, date('Y-m-d H:i:s') . " - Files: " . print_r($_FILES, true) . "\n", FILE_APPEND);
     }
 
     // Kiểm tra dữ liệu đầu vào
@@ -69,7 +66,7 @@ try {
 
     // Kiểm tra tài khoản tồn tại
     $identifierColumn = $currentType === "phone" ? "phone" : "email";
-    $stmtCheck = $conn->prepare("SELECT * FROM dang_ky WHERE $identifierColumn = ?");
+    $stmtCheck = $conn->prepare("SELECT * FROM tai_khoan WHERE $identifierColumn = ?");
     $stmtCheck->bind_param("s", $currentIdentifier);
     $stmtCheck->execute();
     $resultCheck = $stmtCheck->get_result();
@@ -79,7 +76,6 @@ try {
     }
     
     $existingData = $resultCheck->fetch_assoc();
-    file_put_contents($logFile, date('Y-m-d H:i:s') . " - Existing data: " . print_r($existingData, true) . "\n", FILE_APPEND);
 
     // Xử lý avatar
     $avatarUrl = null;
@@ -161,7 +157,7 @@ try {
     }
 
     // Cập nhật thông tin trong cơ sở dữ liệu
-    $updateQuery = "UPDATE dang_ky SET user = ?, phone = ?, email = ?";
+    $updateQuery = "UPDATE tai_khoan SET user = ?, phone = ?, email = ?";
     $paramTypes = "sss";
     $params = [$username, $phone, $email];
 

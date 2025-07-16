@@ -1,3 +1,6 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 /* menu.css */
 
 .menu-nav {
@@ -28,7 +31,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #000;
+    color: var(--text-primary);
   }
   
   .menu-logo {
@@ -58,14 +61,14 @@
     top: 15px;
     left: 0px;
     z-index: 1000;
-    background-color: #fff;
+    background-color: var(--bg-primary);
     transition: background-color 0.3s;
     margin-top: 60px;
     border-radius: 0px;
   }
   
   .menu-toggle-button:hover {
-    background-color: #fff;
+    background-color: var(--bg-primary);
     border-radius: 0px;
     border: 0px solid #000;
   }

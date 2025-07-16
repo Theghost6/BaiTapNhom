@@ -33,10 +33,8 @@ const Contact = () => {
       });
 
       const text = await response.text(); // Get raw response text
-      console.log("Raw Response:", text, "Status:", response.status);
 
       const result = JSON.parse(text); // Attempt to parse as JSON
-      console.log("Parsed Response:", result);
 
       if (response.ok) {
         setSubmitted(true);
@@ -44,7 +42,6 @@ const Contact = () => {
         setError(result.message || "Có lỗi xảy ra");
       }
     } catch (err) {
-      console.error("Fetch error:", err);
       setError("Không thể gửi biểu mẫu: " + err.message);
     } finally {
       setIsLoading(false);

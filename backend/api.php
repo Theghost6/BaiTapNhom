@@ -21,7 +21,7 @@ switch ($action) {
     case 'get_orders':
         $sql = "SELECT dh.*, dk.user AS ten_nguoi_dung, dk.email, dk.phone
                 FROM don_hang dh
-                LEFT JOIN dang_ky dk ON dh.ma_nguoi_dung = dk.id
+                LEFT JOIN tai_khoan dk ON dh.ma_nguoi_dung = dk.id
                 ORDER BY dh.created_at DESC";
         $result = $conn->query($sql);
         if (!$result) {
@@ -46,7 +46,7 @@ switch ($action) {
     // Get basic order info
     $sql = "SELECT dh.*, dk.user AS ten_nguoi_dung, dk.email, dk.phone
             FROM don_hang dh
-            LEFT JOIN dang_ky dk ON dh.ma_nguoi_dung = dk.id
+            LEFT JOIN tai_khoan dk ON dh.ma_nguoi_dung = dk.id
             WHERE dh.id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
@@ -168,7 +168,7 @@ switch ($action) {
 
     // Users management
     case 'get_users':
-        $sql = "SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user";
+        $sql = "SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user";
         $result = $conn->query($sql);
         if (!$result) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - SQL error: " . $conn->error . "\n", FILE_APPEND);
@@ -190,7 +190,7 @@ switch ($action) {
             echo json_encode(["success" => false, "error" => "Phone number is required"]);
             break;
         }
-        $sql = "DELETE FROM dang_ky WHERE phone = ?";
+        $sql = "DELETE FROM tai_khoan WHERE phone = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $phone);
         $success = $stmt->execute();
@@ -204,7 +204,7 @@ switch ($action) {
             echo json_encode(["success" => false, "error" => "Phone number is required"]);
             break;
         }
-        $sql = "UPDATE dang_ky SET is_active = ? WHERE phone = ?";
+        $sql = "UPDATE tai_khoan SET is_active = ? WHERE phone = ?";
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Prepare failed: " . $conn->error . "\n", FILE_APPEND);
@@ -227,7 +227,7 @@ switch ($action) {
     case 'get_reviews':
         $sql = "SELECT dg.*, dk.user AS ten_nguoi_dung
                 FROM danh_gia dg
-                LEFT JOIN dang_ky dk ON dg.ma_nguoi_dung = dk.id
+                LEFT JOIN tai_khoan dk ON dg.ma_nguoi_dung = dk.id
                 ORDER BY dg.created_at DESC";
         $result = $conn->query($sql);
         $reviews = [];
@@ -258,7 +258,7 @@ switch ($action) {
         }
         $sql = "SELECT phr.*, dk.user AS ten_nguoi_tra_loi
                 FROM phan_hoi_review phr
-                LEFT JOIN dang_ky dk ON phr.ma_nguoi_tra_loi = dk.id
+                LEFT JOIN tai_khoan dk ON phr.ma_nguoi_tra_loi = dk.id
                 WHERE phr.id_danh_gia = ?
                 ORDER BY phr.created_at DESC";
         $stmt = $conn->prepare($sql);
@@ -295,35 +295,6 @@ switch ($action) {
             break;
         }
         $sql = "DELETE FROM thanh_toan WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $success = $stmt->execute();
-        echo json_encode(["success" => $success]);
-        break;
-
-    // Promotions management
-    case 'get_promotions':
-        $sql = "SELECT * FROM khuyen_mai ORDER BY id";
-        $result = $conn->query($sql);
-        if (!$result) {
-            file_put_contents($logFile, date('Y-m-d H:i:s') . " - SQL error: " . $conn->error . "\n", FILE_APPEND);
-            echo json_encode(["error" => "Query failed: " . $conn->error]);
-            break;
-        }
-        $promotions = [];
-        while ($row = $result->fetch_assoc()) {
-            $promotions[] = $row;
-        }
-        echo json_encode($promotions);
-        break;
-
-    case 'delete_promotion':
-        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        if ($id === 0) {
-            echo json_encode(["success" => false, "error" => "Invalid promotion ID"]);
-            break;
-        }
-        $sql = "DELETE FROM khuyen_mai WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $success = $stmt->execute();
@@ -382,6 +353,36 @@ switch ($action) {
         $result = $stmt->get_result();
         $active_users = $result->fetch_assoc();
         
+        // Total users count (all users in system)
+        $sql_total_users = "SELECT COUNT(*) AS tong_nguoi_dung FROM tai_khoan";
+        $stmt = $conn->prepare($sql_total_users);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $total_users = $result->fetch_assoc();
+        
+        // Total reviews count (all reviews in this month)
+        $sql_total_reviews = "SELECT COUNT(*) AS tong_danh_gia 
+                             FROM danh_gia 
+                             WHERE MONTH(created_at) = ? 
+                             AND YEAR(created_at) = ?";
+        $stmt = $conn->prepare($sql_total_reviews);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $total_reviews = $result->fetch_assoc();
+        
+        // Positive reviews count (reviews with rating >= 3)
+        $sql_positive_reviews = "SELECT COUNT(*) AS danh_gia_tich_cuc 
+                                FROM danh_gia 
+                                WHERE so_sao >= 3 
+                                AND MONTH(created_at) = ? 
+                                AND YEAR(created_at) = ?";
+        $stmt = $conn->prepare($sql_positive_reviews);
+        $stmt->bind_param("ii", $month, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $positive_reviews = $result->fetch_assoc();
+        
         // Total payments count (paid orders)
         $sql_total_payments = "SELECT COUNT(*) AS tong_thanh_toan
                               FROM don_hang 
@@ -394,7 +395,7 @@ switch ($action) {
         $result = $stmt->get_result();
         $total_payments = $result->fetch_assoc();
         
-        // Top selling products (fix: join chi_tiet_don_hang + san_pham)
+        
         // Sửa JOIN để lấy đúng sản phẩm bán chạy nhất dù dùng id hay ma_sp
         $sql_top_products = "SELECT sp.ma_sp, sp.ten_sp, SUM(ctdh.so_luong) AS tong_so_luong
                             FROM chi_tiet_don_hang ctdh
@@ -519,6 +520,9 @@ switch ($action) {
             'tong_doanh_thu' => floatval($revenue['tong_doanh_thu'] ?? 0),
             'tong_don_hang' => intval($orders_count['tong_don_hang'] ?? 0),
             'nguoi_dung_hoat_dong' => intval($active_users['nguoi_dung_hoat_dong'] ?? 0),
+            'tong_nguoi_dung' => intval($total_users['tong_nguoi_dung'] ?? 0),
+            'tong_danh_gia' => intval($total_reviews['tong_danh_gia'] ?? 0),
+            'danh_gia_tich_cuc' => intval($positive_reviews['danh_gia_tich_cuc'] ?? 0),
             'tong_thanh_toan' => intval($total_payments['tong_thanh_toan'] ?? 0),
             'san_pham_ban_chay' => $top_products,
             'doanh_thu_theo_ngay' => $daily_revenue,
@@ -562,7 +566,7 @@ switch ($action) {
     $result = $conn->query("SELECT COUNT(*) AS total FROM don_hang");
     $don_hang = $result->fetch_assoc()['total'];
     // Tổng người dùng
-    $result = $conn->query("SELECT COUNT(*) AS total FROM dang_ky");
+    $result = $conn->query("SELECT COUNT(*) AS total FROM tai_khoan");
     $tai_khoan = $result->fetch_assoc()['total'];
     // Tổng thanh toán
     $result = $conn->query("SELECT COUNT(*) AS total FROM thanh_toan");

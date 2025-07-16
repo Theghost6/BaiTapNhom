@@ -49,7 +49,7 @@ try {
 
     // Truy vấn cơ sở dữ liệu
     $identifierColumn = $identifierType === "phone" ? "phone" : "email";
-    $stmt = $conn->prepare("SELECT user, phone, email FROM dang_ky WHERE $identifierColumn = ?");
+    $stmt = $conn->prepare("SELECT user, phone, email FROM tai_khoan WHERE $identifierColumn = ?");
     $stmt->bind_param("s", $identifier);
     $stmt->execute();
     $result = $stmt->get_result();

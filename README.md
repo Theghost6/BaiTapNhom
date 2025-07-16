@@ -39,7 +39,9 @@ cd BaiTapNhom
 ---
 
 ## 📌 Bước 3: Cài đặt thư viện với npm
-
+```bash
+cd C:\xampp\htdocs\BaiTapNhom\frontend
+```
 Chạy lệnh:
 ```bash
 npm install

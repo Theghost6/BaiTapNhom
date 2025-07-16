@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { Trash2, Heart } from "lucide-react";
 import { getCookie } from "../../helper/cookieHelper";
+import "../../style/wishlist.css";
 
 const Wishlist = () => {
   const navigate = useNavigate();
@@ -24,17 +25,15 @@ const Wishlist = () => {
         if (parsedUser?.id) {
           setUser(parsedUser);
         } else {
-          console.warn("User data missing id:", parsedUser);
           // localStorage.removeItem("user");
           setUser(null);
         }
       } catch (err) {
-        console.error("Invalid user data in cookie:", err);
         // localStorage.removeItem("user");
         setUser(null);
       }
     } else {
-      console.log("No user data in cookie");
+      setUser(null);
     }
     setAuthChecked(true);
   }, []);
@@ -73,32 +72,42 @@ const Wishlist = () => {
           // Lấy chi tiết sản phẩm từ API cho từng item
           const productPromises = data.items.map(async (item) => {
             try {
-              const productRes = await fetch(`${apiUrl}/products.php?id=${item.ma_sp}`);
+              // Thử tìm theo mã sản phẩm trước
+              let productRes = await fetch(`${apiUrl}/products.php?ma_sp=${item.ma_sp}`);
+
+              // Nếu không tìm thấy, thử tìm theo ID
+              if (!productRes.ok) {
+                productRes = await fetch(`${apiUrl}/products.php?id=${item.ma_sp}`);
+              }
+
               if (!productRes.ok) throw new Error();
               const productData = await productRes.json();
+
               if (productData.success && productData.data) {
-                return {
+                const product = {
                   ...productData.data,
                   wishlistId: item.id,
                   wishlistMaSp: item.ma_sp,
                 };
+
+                return product;
               } else {
                 // Không tìm thấy sản phẩm
                 return {
                   wishlistId: item.id,
                   wishlistMaSp: item.ma_sp,
-                  ten: item.ten_san_pham || `Mã: ${item.ma_sp}`,
-                  gia: null,
+                  ten_sp: item.ten_san_pham || `Mã: ${item.ma_sp}`,
+                  gia_sau: null,
                   images: [],
                   notFound: true,
                 };
               }
-            } catch {
+            } catch (error) {
               return {
                 wishlistId: item.id,
                 wishlistMaSp: item.ma_sp,
-                ten: item.ten_san_pham || `Mã: ${item.ma_sp}`,
-                gia: null,
+                ten_sp: item.ten_san_pham || `Mã: ${item.ma_sp}`,
+                gia_sau: null,
                 images: [],
                 notFound: true,
               };
@@ -224,17 +233,32 @@ const Wishlist = () => {
                 ) : (
                   <Link to={`/linh-kien/${item.id}`} className="wishlist-link">
                     <img
-                      src={item.images?.[0] || item.anh || "/placeholder.jpg"}
-                      alt={item.ten_sp || item.ten}
+                      src={
+                        item.images && item.images.length > 0
+                          ? item.images[0]
+                          : item.anh
+                          || item.image
+                          || "/photos/placeholder.jpg"
+                      }
+                      alt={item.ten_sp || item.ten || "Sản phẩm"}
                       className="wishlist-item-image"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = "/placeholder.jpg";
+                        e.target.src = "/photos/placeholder.jpg";
                       }}
                     />
                     <div className="wishlist-item-info">
-                      <h3 className="wishlist-name">{item.ten_sp || item.ten}</h3>
-                      <p className="wishlist-price">{item.gia_sau ? formatPrice(item.gia_sau) : (item.gia ? formatPrice(item.gia) : '--')}</p>
+                      <h3 className="wishlist-name">{item.ten_sp || item.ten || "Sản phẩm"}</h3>
+                      <p className="wishlist-price">
+                        {item.gia_sau
+                          ? formatPrice(item.gia_sau)
+                          : item.gia_truoc
+                            ? formatPrice(item.gia_truoc)
+                            : item.gia
+                              ? formatPrice(item.gia)
+                              : 'Liên hệ'
+                        }
+                      </p>
                     </div>
                   </Link>
                 )}

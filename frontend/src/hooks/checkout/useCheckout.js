@@ -1,11 +1,32 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef, useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCart } from "../../page/function/useCart";
+import { useCart } from "../cart/useCart";
 import { AuthContext } from "../../page/function/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_HOST;
+
+// Constants
+const MAX_TOTAL_ALLOWED = 99999999.99;
+const DEFAULT_SHIPPING_COST = 30000;
+const FREE_SHIPPING_THRESHOLD = 10000000;
+
+// API endpoints
+const API_ENDPOINTS = {
+    PROVINCES: 'https://provinces.open-api.vn/api/p/',
+    DISTRICTS: (code) => `https://provinces.open-api.vn/api/p/${code}?depth=2`,
+    WARDS: (code) => `https://provinces.open-api.vn/api/d/${code}?depth=2`,
+    PAYMENTS: `${apiUrl}/payments.php`,
+    STOCK_UPDATE: `${apiUrl}/stock_json.php`,
+    VNPAY_CREATE: `${apiUrl}/vnpay_create.php`
+};
+
+// Validation patterns
+const VALIDATION_PATTERNS = {
+    EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    PHONE: /^\d{10,11}$/
+};
 
 export function useCheckout() {
     const { cartItems, totalAmount, clearCart } = useCart();
@@ -14,18 +35,29 @@ export function useCheckout() {
     const { isAuthenticated, user } = useContext(AuthContext) || {};
     const directProduct = location.state?.product;
     const cartItemsFromRoute = location.state?.products;
+
+    // Core state
     const [finalCartItems, setFinalCartItems] = useState([]);
     const [finalTotalAmount, setFinalTotalAmount] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState("");
+
+    // Location state
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
-    const [isLoadingProvinces, setIsLoadingProvinces] = useState(false);
-    const [isLoadingDistricts, setIsLoadingDistricts] = useState(false);
-    const [isLoadingWards, setIsLoadingWards] = useState(false);
+
+    // Loading states
+    const [loadingStates, setLoadingStates] = useState({
+        provinces: false,
+        districts: false,
+        wards: false
+    });
+
+    // Form state
     const [customerInfo, setCustomerInfo] = useState({
         fullName: user?.username || "",
         email: user?.email || "",
@@ -34,13 +66,55 @@ export function useCheckout() {
         city: "",
         district: "",
         ward: "",
+        wardCode: "",
         note: "",
     });
     const [formErrors, setFormErrors] = useState({});
     const [paymentMethod, setPaymentMethod] = useState("cod");
     const [shippingMethod, setShippingMethod] = useState("ship");
     const formRef = useRef(null);
-    const [totalQuantity, setTotalQuantity] = useState(0);
+
+    // Memoized values
+    const isAdmin = useMemo(() => user?.role === 'admin', [user?.role]);
+
+    const shippingCost = useMemo(() => {
+        if (shippingMethod === "pickup") return 0;
+        if (finalTotalAmount >= FREE_SHIPPING_THRESHOLD) return 0;
+        return DEFAULT_SHIPPING_COST;
+    }, [shippingMethod, finalTotalAmount]);
+
+    // Helper functions
+    const normalizeCartItem = useCallback((item) => ({
+        id: item.id || item.id_product || "unknown",
+        ma_sp: item.ma_sp || "",
+        ten_sp: item.ten_sp || item.ten || "Sản phẩm không xác định",
+        gia_sau: Number(item.gia_sau) || Number(item.gia) || Number(item.price) || 0,
+        so_luong: item.quantity || item.so_luong || 1, // Ưu tiên quantity (số lượng người dùng chọn) trước so_luong (tồn kho)
+        loai: item.loai || item.danh_muc || "Linh kiện",
+        images: item.images?.[0] || item.images || "/placeholder.jpg",
+    }), []);
+
+    const calculateCartSummary = useCallback((items) => {
+        const total = items.reduce((sum, item) => sum + item.gia_sau * item.so_luong, 0);
+        const quantity = items.reduce((sum, item) => sum + item.so_luong, 0);
+        return { total, quantity };
+    }, []);
+
+    // API functions with better error handling
+    const fetchWithErrorHandling = useCallback(async (url, errorMessage) => {
+        try {
+            const response = await axios.get(url);
+            return response.data || [];
+        } catch (err) {
+            console.error(`Error fetching data from ${url}:`, err);
+            toast.error(errorMessage);
+            throw err;
+        }
+    }, []);
+
+    const setLoadingState = useCallback((key, value) => {
+        setLoadingStates(prev => ({ ...prev, [key]: value }));
+    }, []);
 
     // Authentication check
     useEffect(() => {
@@ -50,224 +124,193 @@ export function useCheckout() {
         }
     }, [isAuthenticated, navigate]);
 
-    // Cart items calculation
+    // Cart items calculation - optimized
     useEffect(() => {
         let calculatedCartItems = [];
-        let calculatedTotal = 0;
-        let calculatedQuantity = 0;
 
-        if (directProduct) {
-            const item = {
-                id: directProduct.id || "unknown",
-                ma_sp: directProduct.ma_sp || directProduct.ma_sp || "",
-                ten_sp: directProduct.ten_sp || directProduct.ten || "Sản phẩm không xác định",
-                gia_sau: Number(directProduct.gia_sau) || Number(directProduct.gia) || Number(directProduct.price) || 0,
-                so_luong: directProduct.quantity || directProduct.so_luong || location.state?.quantity || 1,
-                loai: directProduct.loai || directProduct.danh_muc || "Linh kiện",
-                images: directProduct.images?.[0] || directProduct.images || "/placeholder.jpg",
-            };
-            calculatedCartItems.push(item);
-            calculatedTotal = item.gia_sau * item.so_luong;
-            calculatedQuantity = item.so_luong;
-        } else if (cartItemsFromRoute && cartItemsFromRoute.length > 0) {
-            calculatedCartItems = cartItemsFromRoute.map((item) => ({
-                id: item.id || item.id_product || "unknown",
-                ma_sp: item.ma_sp || item.ma_sp || "",
-                ten_sp: item.ten_sp || item.ten || "Sản phẩm không xác định",
-                gia_sau: Number(item.gia_sau) || Number(item.gia) || Number(item.price) || 0,
-                so_luong: item.so_luong || item.quantity || 1,
-                loai: item.loai || item.danh_muc || "Linh kiện",
-                images: item.images?.[0] || item.images || "/placeholder.jpg",
-            }));
-            calculatedTotal = calculatedCartItems.reduce(
-                (total, item) => total + item.gia_sau * item.so_luong,
-                0
-            );
-            calculatedQuantity = calculatedCartItems.reduce((sum, item) => sum + item.so_luong, 0);
-        } else if (cartItems && cartItems.length > 0) {
-            calculatedCartItems = cartItems.map((item) => ({
-                id: item.id || item.id_product,
-                ma_sp: item.ma_sp || item.ma_sp || "",
-                ten_sp: item.ten_sp || item.ten || "Sản phẩm không xác định",
-                gia_sau: Number(item.gia_sau) || Number(item.gia) || Number(item.price) || 0,
-                so_luong: item.so_luong || item.quantity || 1,
-                loai: item.loai || item.danh_muc || "Linh kiện",
-                images: item.images?.[0] || item.images || "/placeholder.jpg",
-            }));
-            calculatedTotal = calculatedCartItems.reduce(
-                (total, item) => total + item.gia_sau * item.so_luong,
-                0
-            );
-            calculatedQuantity = calculatedCartItems.reduce((sum, item) => sum + item.so_luong, 0);
-        }
+        try {
+            if (directProduct) {
+                calculatedCartItems = [normalizeCartItem({
+                    ...directProduct,
+                    quantity: directProduct.quantity || location.state?.quantity || 1
+                })];
+            } else if (cartItemsFromRoute?.length > 0) {
+                calculatedCartItems = cartItemsFromRoute.map(normalizeCartItem);
+            } else if (cartItems?.length > 0) {
+                calculatedCartItems = cartItems.map(normalizeCartItem);
+            }
 
-        // Check for maximum total allowed
-        const maxTotalAllowed = 99999999.99;
-        if (calculatedTotal > maxTotalAllowed) {
-            toast.error("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
+            const { total, quantity } = calculateCartSummary(calculatedCartItems);
+
+            // Check for maximum total allowed
+            if (total > MAX_TOTAL_ALLOWED) {
+                toast.error("Số tiền quá lớn! Vui lòng giảm số lượng hoặc chọn sản phẩm khác.");
+            }
+
             setFinalCartItems(calculatedCartItems);
-            setFinalTotalAmount(calculatedTotal);
-            return;
+            setFinalTotalAmount(total);
+            setTotalQuantity(quantity);
+        } catch (error) {
+            console.error("Error calculating cart items:", error);
+            toast.error("Có lỗi khi tính toán giỏ hàng");
         }
-
-        setFinalCartItems(calculatedCartItems);
-        setFinalTotalAmount(calculatedTotal);
-        setTotalQuantity(calculatedQuantity);
-    }, [directProduct, cartItems, cartItemsFromRoute, totalAmount]);
+    }, [directProduct, cartItems, cartItemsFromRoute, location.state?.quantity, normalizeCartItem, calculateCartSummary]);
 
     // Fetch provinces
     useEffect(() => {
         const fetchProvinces = async () => {
-            setIsLoadingProvinces(true);
+            setLoadingState('provinces', true);
             try {
-                const response = await axios.get('https://provinces.open-api.vn/api/p/');
-                setProvinces(response.data || []);
-            } catch (err) {
-                console.error("Error fetching provinces:", err);
-                toast.error("Không thể tải danh sách tỉnh/thành phố");
+                const data = await fetchWithErrorHandling(
+                    API_ENDPOINTS.PROVINCES,
+                    "Không thể tải danh sách tỉnh/thành phố"
+                );
+                setProvinces(data);
             } finally {
-                setIsLoadingProvinces(false);
+                setLoadingState('provinces', false);
             }
         };
         fetchProvinces();
-    }, []);
+    }, [fetchWithErrorHandling, setLoadingState]);
 
     // Fetch districts when province changes
     useEffect(() => {
         const fetchDistricts = async () => {
-            if (!selectedProvince || !selectedProvince.code) return;
-            setIsLoadingDistricts(true);
+            if (!selectedProvince?.code) return;
+
+            setLoadingState('districts', true);
             try {
-                const response = await axios.get(`https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`);
-                setDistricts(response.data.districts || []);
+                const data = await fetchWithErrorHandling(
+                    API_ENDPOINTS.DISTRICTS(selectedProvince.code),
+                    "Không thể tải danh sách quận/huyện"
+                );
+                setDistricts(data.districts || []);
                 setWards([]); // Reset wards when province changes
                 setSelectedDistrict(null);
-            } catch (err) {
-                console.error("Error fetching districts:", err);
-                toast.error("Không thể tải danh sách quận/huyện");
             } finally {
-                setIsLoadingDistricts(false);
+                setLoadingState('districts', false);
             }
         };
         fetchDistricts();
-    }, [selectedProvince]);
+    }, [selectedProvince, fetchWithErrorHandling, setLoadingState]);
 
     // Fetch wards when district changes
     useEffect(() => {
         const fetchWards = async () => {
-            if (!selectedDistrict || !selectedDistrict.code) return;
-            setIsLoadingWards(true);
+            if (!selectedDistrict?.code) return;
+
+            setLoadingState('wards', true);
             try {
-                const response = await axios.get(`https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`);
-                setWards(response.data.wards || []);
-            } catch (err) {
-                console.error("Error fetching wards:", err);
-                toast.error("Không thể tải danh sách phường/xã");
+                const data = await fetchWithErrorHandling(
+                    API_ENDPOINTS.WARDS(selectedDistrict.code),
+                    "Không thể tải danh sách phường/xã"
+                );
+                setWards(data.wards || []);
             } finally {
-                setIsLoadingWards(false);
+                setLoadingState('wards', false);
             }
         };
         fetchWards();
-    }, [selectedDistrict]);
+    }, [selectedDistrict, fetchWithErrorHandling, setLoadingState]);
 
-    const handleProvinceChange = (e) => {
+    // Event handlers
+    const handleProvinceChange = useCallback((e) => {
         const provinceCode = e.target.value;
         const selectedProv = provinces.find(p => p.code.toString() === provinceCode);
 
         if (selectedProv) {
             setSelectedProvince(selectedProv);
-            setCustomerInfo((prev) => ({
+            setCustomerInfo(prev => ({
                 ...prev,
                 city: selectedProv.name,
                 district: "",
-                ward: ""
+                ward: "",
+                wardCode: ""
             }));
         } else {
             setSelectedProvince(null);
             setDistricts([]);
             setWards([]);
-            setCustomerInfo((prev) => ({
+            setCustomerInfo(prev => ({
                 ...prev,
                 city: "",
                 district: "",
-                ward: ""
+                ward: "",
+                wardCode: ""
             }));
         }
-    };
+    }, [provinces]);
 
-    const handleDistrictChange = (e) => {
+    const handleDistrictChange = useCallback((e) => {
         const districtCode = e.target.value;
         const selectedDist = districts.find(d => d.code.toString() === districtCode);
 
         if (selectedDist) {
             setSelectedDistrict(selectedDist);
-            setCustomerInfo((prev) => ({
+            setCustomerInfo(prev => ({
                 ...prev,
                 district: selectedDist.name,
-                ward: ""
+                ward: "",
+                wardCode: ""
             }));
         } else {
             setSelectedDistrict(null);
             setWards([]);
-            setCustomerInfo((prev) => ({
+            setCustomerInfo(prev => ({
                 ...prev,
                 district: "",
-                ward: ""
+                ward: "",
+                wardCode: ""
             }));
         }
-    };
+    }, [districts]);
 
-    const handleWardChange = (e) => {
+    const handleWardChange = useCallback((e) => {
         const wardCode = e.target.value;
         const selectedWard = wards.find(w => w.code.toString() === wardCode);
 
-        if (selectedWard) {
-            setCustomerInfo((prev) => ({
-                ...prev,
-                ward: selectedWard.name
-            }));
-        } else {
-            setCustomerInfo((prev) => ({
-                ...prev,
-                ward: ""
-            }));
-        }
-    };
+        setCustomerInfo(prev => ({
+            ...prev,
+            wardCode: wardCode,
+            ward: selectedWard?.name || ""
+        }));
+    }, [wards]);
 
-    const validateForm = () => {
+    // Validation function - improved
+    const validateForm = useCallback(() => {
         const errors = {};
 
+        // Basic info validation
         if (!customerInfo.fullName.trim()) {
             errors.fullName = "Vui lòng nhập họ và tên";
         }
 
         if (!customerInfo.email.trim()) {
             errors.email = "Vui lòng nhập email";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerInfo.email)) {
+        } else if (!VALIDATION_PATTERNS.EMAIL.test(customerInfo.email)) {
             errors.email = "Email không hợp lệ";
         }
 
         if (!customerInfo.phone.trim()) {
             errors.phone = "Vui lòng nhập số điện thoại";
-        } else if (!/^\d{10,11}$/.test(customerInfo.phone.replace(/[^0-9]/g, ""))) {
+        } else if (!VALIDATION_PATTERNS.PHONE.test(customerInfo.phone.replace(/[^0-9]/g, ""))) {
             errors.phone = "Số điện thoại không hợp lệ";
         }
 
+        // Shipping validation
         if (shippingMethod === "ship") {
             if (!customerInfo.address.trim()) {
                 errors.address = "Vui lòng nhập địa chỉ";
             }
-
             if (!customerInfo.city.trim()) {
                 errors.city = "Vui lòng chọn tỉnh/thành phố";
             }
-
             if (!customerInfo.district.trim()) {
                 errors.district = "Vui lòng chọn quận/huyện";
             }
         }
 
-        // Validate cart items
+        // Cart validation
         finalCartItems.forEach((item, index) => {
             if (!item.id || item.id === "unknown") {
                 errors[`id_${index}`] = `Sản phẩm tại vị trí ${index + 1} thiếu ID`;
@@ -288,33 +331,31 @@ export function useCheckout() {
 
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
-    };
+    }, [customerInfo, shippingMethod, finalCartItems]);
 
-    const updateProductStock = async (cartItems) => {
+    // Stock update function - improved error handling
+    const updateProductStock = useCallback(async (cartItems) => {
         try {
             const updatePromises = cartItems.map(async (item) => {
                 const formData = new FormData();
                 formData.append("id", item.id);
                 formData.append("so_luong", item.so_luong);
 
-                const response = await fetch(
-                    `${apiUrl}/stock_json.php`,
-                    {
-                        method: "POST",
-                        body: formData,
-                    }
-                );
+                const response = await fetch(API_ENDPOINTS.STOCK_UPDATE, {
+                    method: "POST",
+                    body: formData,
+                });
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const result = await response.json();
-                return result;
+                return await response.json();
             });
 
             const results = await Promise.all(updatePromises);
             const hasError = results.some((result) => !result.success);
+
             if (hasError) {
                 console.error("Stock update errors:", results);
                 return {
@@ -328,11 +369,19 @@ export function useCheckout() {
             console.error("Error updating stock:", error);
             return { success: false, message: error.message };
         }
-    };
+    }, []);
 
-    const handleSubmit = async (e) => {
+    // Main submit handler - improved
+    const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         console.log("handleSubmit triggered, paymentMethod:", paymentMethod);
+
+        // Admin check
+        if (isAdmin) {
+            toast.error("Tài khoản admin không được phép thực hiện thanh toán!");
+            setError("Tài khoản admin không được phép thực hiện thanh toán!");
+            return;
+        }
 
         if (!validateForm()) {
             console.log("Form validation failed:", formErrors);
@@ -346,7 +395,7 @@ export function useCheckout() {
             const orderData = {
                 userId: user?.id || null,
                 cartItems: finalCartItems.map((item) => ({
-                    ma_sp: item.ma_sp, // Sử dụng đúng mã sản phẩm
+                    ma_sp: item.ma_sp,
                     ten: item.ten_sp,
                     gia: item.gia_sau,
                     so_luong: item.so_luong,
@@ -361,14 +410,11 @@ export function useCheckout() {
 
             console.log("Sending orderData to backend:", orderData);
 
-            const response = await fetch(
-                `${apiUrl}/payments.php`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(orderData),
-                }
-            );
+            const response = await fetch(API_ENDPOINTS.PAYMENTS, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderData),
+            });
 
             if (!response.ok) {
                 const errorText = await response.text().catch(() => "No response body");
@@ -377,9 +423,7 @@ export function useCheckout() {
                     statusText: response.statusText,
                     errorText,
                 });
-                throw new Error(
-                    `HTTP error! Status: ${response.status}, Response: ${errorText}`
-                );
+                throw new Error(`HTTP error! Status: ${response.status}, Response: ${errorText}`);
             }
 
             const result = await response.json();
@@ -397,16 +441,17 @@ export function useCheckout() {
                 }
 
                 if (paymentMethod === "vnpay") {
-                    // Gọi tiếp API lấy payUrl
                     try {
-                        const payRes = await fetch(`${apiUrl}/vnpay_create.php`, {
+                        const payRes = await fetch(API_ENDPOINTS.VNPAY_CREATE, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ orderId: result.orderId }),
                         });
+
                         if (!payRes.ok) {
                             throw new Error(`Lỗi lấy link thanh toán VNPay: ${payRes.status}`);
                         }
+
                         const payData = await payRes.json();
                         if (payData.status === "success" && payData.payUrl) {
                             window.location.href = payData.payUrl;
@@ -422,15 +467,13 @@ export function useCheckout() {
                 } else {
                     console.log("Processing COD order, navigating to invoice");
                     clearCart();
-                    const shippingCost = (shippingMethod === "ship" && finalTotalAmount > 10000000) ||
-                        shippingMethod === "pickup" ? 0 : 30000;
                     navigate("/invoice", {
                         state: {
                             orderData: {
                                 customerInfo,
                                 cartItems: finalCartItems,
                                 totalAmount: finalTotalAmount,
-                                shippingCost: shippingCost,
+                                shippingCost,
                                 paymentMethod,
                                 shippingMethod,
                                 orderDate: new Date().toISOString(),
@@ -455,9 +498,13 @@ export function useCheckout() {
         } finally {
             setIsProcessing(false);
         }
-    };
+    }, [
+        paymentMethod, isAdmin, validateForm, finalCartItems, customerInfo,
+        shippingMethod, finalTotalAmount, user?.id, updateProductStock,
+        clearCart, navigate, shippingCost
+    ]);
 
-    const handleResetForm = () => {
+    const handleResetForm = useCallback(() => {
         setCustomerInfo({
             fullName: user?.username || "",
             email: user?.email || "",
@@ -477,34 +524,32 @@ export function useCheckout() {
         setDistricts([]);
         setWards([]);
         setTotalQuantity(0);
-    };
+    }, [user]);
 
-    const formatCurrency = (amount) => {
+    const formatCurrency = useCallback((amount) => {
         return new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
         }).format(amount);
-    };
+    }, []);
 
     return {
-        // Original returns
-        cartItems,
-        totalAmount,
-        clearCart,
-        location,
-        navigate,
-        isAuthenticated,
-        user,
-        directProduct,
-        cartItemsFromRoute,
+        // Core data
         finalCartItems,
         setFinalCartItems,
         finalTotalAmount,
         setFinalTotalAmount,
+        totalQuantity,
+        setTotalQuantity,
+        shippingCost,
+
+        // State
         isProcessing,
         setIsProcessing,
         error,
         setError,
+
+        // Location data
         provinces,
         setProvinces,
         districts,
@@ -515,12 +560,16 @@ export function useCheckout() {
         setSelectedProvince,
         selectedDistrict,
         setSelectedDistrict,
-        isLoadingProvinces,
-        setIsLoadingProvinces,
-        isLoadingDistricts,
-        setIsLoadingDistricts,
-        isLoadingWards,
-        setIsLoadingWards,
+
+        // Loading states
+        isLoadingProvinces: loadingStates.provinces,
+        setIsLoadingProvinces: (value) => setLoadingState('provinces', value),
+        isLoadingDistricts: loadingStates.districts,
+        setIsLoadingDistricts: (value) => setLoadingState('districts', value),
+        isLoadingWards: loadingStates.wards,
+        setIsLoadingWards: (value) => setLoadingState('wards', value),
+
+        // Form data
         customerInfo,
         setCustomerInfo,
         formErrors,
@@ -530,8 +579,8 @@ export function useCheckout() {
         shippingMethod,
         setShippingMethod,
         formRef,
-        totalQuantity,
-        setTotalQuantity,
+
+        // Functions
         validateForm,
         updateProductStock,
         handleSubmit,
@@ -540,5 +589,16 @@ export function useCheckout() {
         handleProvinceChange,
         handleDistrictChange,
         handleWardChange,
+
+        // Legacy compatibility
+        cartItems,
+        totalAmount,
+        clearCart,
+        location,
+        navigate,
+        isAuthenticated,
+        user,
+        directProduct,
+        cartItemsFromRoute,
     };
 }

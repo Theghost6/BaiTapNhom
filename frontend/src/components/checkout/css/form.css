@@ -1,3 +1,13 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
+/* CSS cho dấu * bắt buộc màu đỏ */
+.required-asterisk {
+    color: #dc3545;
+    font-weight: bold;
+    margin-left: 2px;
+}
+
 /* Thay thế CSS trong form.css */
 .form-group input:focus,
 .form-group textarea:focus {
@@ -22,7 +32,7 @@
     border-radius: 4px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    background-color: #fff;
+    background-color: var(--bg-primary);
     position: relative;
     z-index: 1;
 }
@@ -37,14 +47,15 @@
 /* Đảm bảo options hiển thị đúng */
 .form-group select option {
     padding: 8px;
-    background-color: #fff;
-    color: #333;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 /* Fix cho mobile */
 @media (max-width: 375px) {
     .form-group select {
-        font-size: 16px; /* Tránh zoom trên iOS */
+        font-size: 16px;
+        /* Tránh zoom trên iOS */
         padding: 12px;
     }
 }

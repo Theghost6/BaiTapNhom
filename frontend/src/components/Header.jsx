@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   UserCircle,
   ShoppingBag,
@@ -16,11 +16,9 @@ import {
 } from "lucide-react";
 import { FiPackage } from "react-icons/fi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search } from "lucide-react";
-import { FaBars, FaBlogger } from "react-icons/fa";
+import { FaBars, FaBlogger, FaSearch } from "react-icons/fa";
 import "../style/header.css";
-import products from "../page/function/products_data.json";
-import { useCart } from "../page/function/useCart";
+import { useCart } from "../hooks/cart/useCart"; // Giả sử bạn đã tạo hook useCart
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useChat } from '../page/chat/ChatContext';
@@ -28,39 +26,8 @@ import { useSocket } from '../page/chat/SocketContext';
 import ChatPopup from '../page/chat/ChatPopup';
 import { setCookie, getCookie, removeCookie } from "../helper/cookieHelper";
 
-const allProducts = Object.values(products).flat();
 const apiUrl = import.meta.env.VITE_HOST;
-// Định nghĩa cấu trúc danh mục phân cấp
-const menuCategories = {
-  CPU: {
-    items: allProducts.filter(item => item.loai === "CPU")
-  },
-  Mainboard: {
-    items: allProducts.filter(item => item.loai === "Mainboard")
-  },
-  RAM: {
-    items: allProducts.filter(item => item.loai === "RAM")
-  },
-  "Ổ cứng": {
-    items: allProducts.filter(item => item.loai === "storage")
-  },
-  VGA: {
-    items: allProducts.filter(item => item.loai === "GPU")
-  },
-  PSU: {
-    items: allProducts.filter(item => item.loai === "PSU")
-  },
-  Case: {
-    items: allProducts.filter(item => item.loai === "case")
-  },
-  "Tản nhiệt": {
-    items: allProducts.filter(item => item.loai === "tan_nhiet")
-  },
-  "Phụ kiện khác": {
-    items: allProducts.filter(item => item.loai === "Peripherals")
-  }
-};
-console.log("Menu Categories:", menuCategories);
+
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -73,6 +40,7 @@ const Header = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [wishlistError, setWishlistError] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
 
   const headerRef = useRef(null);
   const userDropdownRef = useRef(null);
@@ -105,15 +73,26 @@ const Header = () => {
 
           // Fetch latest user data from server
           try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+
             const response = await fetch(
               `${apiUrl}/get-profile.php?identifier=${encodeURIComponent(parsedUser.identifier)}&identifierType=${parsedUser.type}`,
               {
                 method: "GET",
+                signal: controller.signal,
               }
             );
 
+            clearTimeout(timeoutId);
+
             if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}, body: ${await response.text()}`);
+              throw new Error(`Server responded with ${response.status}`);
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+              throw new Error("Server returned non-JSON response");
             }
 
             const result = await response.json();
@@ -129,14 +108,19 @@ const Header = () => {
               setUser(newUserData);
               setCookie(USER_KEY, JSON.stringify(newUserData));
             } else {
-              console.error("API error:", result.message);
-              toast.error("Không thể tải thông tin người dùng '" + result.message + "'");
+              // Don't spam console with auth errors
+              console.debug("Auth validation failed:", result.message);
             }
           } catch (error) {
-            console.error("Error fetching user profile:", error);
-            toast.error("Lỗi khi tải thông tin người dùng: " + error.message);
+            // Only log significant errors, not network issues
+            if (error.name === 'AbortError') {
+              console.debug("Profile fetch timed out");
+            } else if (!error.message.includes("Failed to fetch")) {
+              console.debug("Profile fetch error:", error.message);
+            }
           }
-        } catch {
+        } catch (cookieError) {
+          console.warn("Error parsing user cookie:", cookieError);
           // localStorage.removeItem(USER_KEY);
           removeCookie(USER_KEY);
           setIsLoggedIn(false);
@@ -160,10 +144,26 @@ const Header = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, [location, connectSocket, disconnectSocket]);
 
-  // Không fetch menu từ API nữa, chỉ dùng menu tĩnh hoặc bỏ menu động
-  // const [menuItems, setMenuItems] = useState([]);
-  // const [menuError, setMenuError] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
+  // Lấy dữ liệu sản phẩm từ API PHP
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/products.php`);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && Array.isArray(data.data)) {
+          setAllProducts(data.data);
+        }
+      } catch (error) {
+        console.warn('Could not fetch products:', error.message);
+        // Don't show error to user, just log it
+      }
+    };
+
+    fetchProducts();
+  }, [apiUrl]);
 
   // Fetch wishlist items from API
   useEffect(() => {
@@ -193,16 +193,18 @@ const Header = () => {
             return product ? { ...product, wishlistId: item.id } : null;
           }).filter(item => item !== null);
           setWishlistItems(wishlistProducts);
+          setWishlistError(null);
         } else {
           setWishlistError(data.message || 'Không thể tải danh sách yêu thích');
         }
       } catch (error) {
-        setWishlistError('Lỗi khi tải danh sách yêu thích: ' + error.message);
+        console.warn('Could not fetch wishlist:', error.message);
+        setWishlistError(null); // Don't show error to user
       }
     };
 
     fetchWishlistItems();
-  }, [isLoggedIn, user?.id]);
+  }, [isLoggedIn, user?.id, allProducts]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -243,6 +245,24 @@ const Header = () => {
       setSelectedCategory(null);
     } else {
       setSelectedCategory(category);
+      
+      // Auto-adjust subcategory panel position to prevent cutoff
+      setTimeout(() => {
+        const categoryDropdown = document.querySelector('.category-dropdown');
+        const subcategoryPanel = document.querySelector('.subcategory-panel');
+        
+        if (categoryDropdown && subcategoryPanel) {
+          const dropdownRect = categoryDropdown.getBoundingClientRect();
+          const panelRect = subcategoryPanel.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          
+          // If panel extends beyond viewport, adjust position
+          if (panelRect.bottom > viewportHeight) {
+            const overflow = panelRect.bottom - viewportHeight + 20; // 20px padding
+            subcategoryPanel.style.top = `${Math.max(-overflow, -200)}px`;
+          }
+        }
+      }, 50);
     }
   };
 
@@ -262,9 +282,153 @@ const Header = () => {
     }
   };
 
-  const filteredProducts = allProducts.filter((item) =>
-    item.ten_sp.toLowerCase().includes(searchInput.toLowerCase())
-  );
+  // Hàm normalizeText giống AllLinhKien
+  const normalizeText = (str) => {
+    return str
+      ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D")
+      : "";
+  };
+
+  // Hàm matchesSearchTerm giống AllLinhKien
+  const matchesSearchTerm = (product) => {
+    if (!searchInput) return true;
+    const normalizedSearchTerm = normalizeText(searchInput);
+    const normalizedProductName = normalizeText(product.ten_sp || product.ten || "");
+    const normalizedBrand = product.ten_nha_san_xuat ? normalizeText(product.ten_nha_san_xuat) : (product.hang ? normalizeText(product.hang) : "");
+    const normalizedCategory = product.danh_muc ? normalizeText(product.danh_muc) : (product.loai ? normalizeText(product.loai) : "");
+    // Nếu tìm kiếm là 'màn hình' thì chỉ khớp với sản phẩm có danh mục là màn hình
+    if (normalizedSearchTerm.includes('man hinh') || normalizedSearchTerm.includes('monitor')) {
+      return (
+        normalizedProductName.includes(normalizedSearchTerm) ||
+        normalizedCategory === 'man hinh'
+      );
+    }
+    let matches =
+      normalizedProductName.includes(normalizedSearchTerm) ||
+      normalizedBrand.includes(normalizedSearchTerm) ||
+      normalizedCategory.includes(normalizedSearchTerm);
+    if (normalizedSearchTerm.includes('chuot') || normalizedSearchTerm.includes('mouse')) {
+      matches = matches || normalizedCategory === 'chuot';
+    }
+    if (normalizedSearchTerm.includes('ban phim') || normalizedSearchTerm.includes('keyboard')) {
+      matches = matches || normalizedCategory === 'ban phim';
+    }
+    return matches;
+  };
+
+  // Lọc sản phẩm theo searchInput
+  const filteredProducts = allProducts.filter(matchesSearchTerm);
+
+  // Tạo menuCategories động từ allProducts
+  const menuCategories = useMemo(() => {
+    const norm = s => s ? s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D") : "";
+    return {
+      CPU: {
+        items: allProducts.filter(item =>
+          item.loai === "CPU" ||
+          (item.loai && norm(item.loai).includes("cpu")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("cpu"))
+        )
+      },
+      Mainboard: {
+        items: allProducts.filter(item =>
+          item.loai === "Mainboard" ||
+          item.loai === "mainboard" ||
+          (item.loai && norm(item.loai).includes("mainboard")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("mainboard"))
+        )
+      },
+      RAM: {
+        items: allProducts.filter(item =>
+          item.loai === "RAM" ||
+          (item.loai && norm(item.loai).includes("ram")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("ram"))
+        )
+      },
+      "Ổ cứng": {
+        items: allProducts.filter(item =>
+          item.loai === "storage" ||
+          (item.loai && norm(item.loai).includes("storage")) ||
+          (item.loai && norm(item.loai).includes("o cung")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("o cung"))
+        )
+      },
+      VGA: {
+        items: allProducts.filter(item =>
+          item.loai === "GPU" ||
+          item.loai === "VGA" ||
+          (item.loai && norm(item.loai).includes("gpu")) ||
+          (item.loai && norm(item.loai).includes("vga")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("vga")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("gpu"))
+        )
+      },
+      PSU: {
+        items: allProducts.filter(item =>
+          item.loai === "PSU" ||
+          (item.loai && norm(item.loai).includes("psu")) ||
+          (item.loai && norm(item.loai).includes("nguon")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("nguon")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("psu"))
+        )
+      },
+      Case: {
+        items: allProducts.filter(item =>
+          item.loai === "case" ||
+          item.loai === "Case" ||
+          (item.loai && norm(item.loai).includes("case")) ||
+          (item.loai && norm(item.loai).includes("vo may")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("case")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("vo may"))
+        )
+      },
+      "Tản nhiệt": {
+        items: allProducts.filter(item =>
+          item.loai === "tan_nhiet" ||
+          (item.loai && norm(item.loai).includes("tan nhiet")) ||
+          (item.loai && norm(item.loai).includes("cooler")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("tan nhiet")) ||
+          (item.ten_sp && norm(item.ten_sp).includes("cooler"))
+        )
+      },
+      "Chuột": {
+        items: allProducts.filter(item =>
+          (item.loai && (
+            norm(item.loai).includes("chuot") ||
+            norm(item.loai).includes("mouse")
+          )) ||
+          (item.ten_sp && (
+            norm(item.ten_sp).includes("chuot") ||
+            norm(item.ten_sp).includes("mouse")
+          ))
+        )
+      },
+      "Bàn phím": {
+        items: allProducts.filter(item =>
+          (item.loai && (
+            norm(item.loai).includes("ban phim") ||
+            norm(item.loai).includes("keyboard")
+          )) ||
+          (item.ten_sp && (
+            norm(item.ten_sp).includes("ban phim") ||
+            norm(item.ten_sp).includes("keyboard")
+          ))
+        )
+      },
+      "Màn hình": {
+        items: allProducts.filter(item => {
+          const name = item.ten_sp ? norm(item.ten_sp) : "";
+          const type = item.loai ? norm(item.loai) : "";
+          // Lấy sản phẩm có tên hoặc loại chứa 'man hinh', 'monitor', loại trừ vga/card/gpu
+          return (
+            (name.includes("man hinh") || name.includes("monitor") || type.includes("man hinh") || type.includes("monitor")) &&
+            !name.includes("vga") && !name.includes("card") && !name.includes("gpu") &&
+            !type.includes("vga") && !type.includes("card") && !type.includes("gpu")
+          );
+        })
+      },
+    };
+  }, [allProducts]);
 
   return (
     <>
@@ -276,7 +440,7 @@ const Header = () => {
         <Link to="/" className="logo-link">
           <div className="logo-container">
             <img src="/photos/Logo.png" alt="Logo" className="logo-image" />
-            <span className="logo-text">MRS</span>
+            <span className="logo-text">SH3</span>
           </div>
         </Link>
         <div className="header-actions">
@@ -326,7 +490,7 @@ const Header = () => {
               type="button"
               onClick={() => setShowSuggestions((v) => !v)}
             >
-              <Search size={18} />
+              <FaSearch size={18} />
             </button>
           </div>
           {/* Danh mục sản phẩm */}
@@ -370,17 +534,17 @@ const Header = () => {
           </div>
           {/* Các menu tĩnh */}
           <div className="static-menu-buttons" style={{ flexDirection: 'column', gap: 8, marginBottom: 16 }}>
-            <button className="menu-button" onClick={() => {navigate("/blog"); setShowMobileMenu(false);}}>
+            <button className="menu-button" onClick={() => { navigate("/blog"); setShowMobileMenu(false); }}>
               <FaBlogger size={18} style={{ marginRight: 6 }} /> Tin tức
             </button>
-            <button className="menu-button" onClick={() => {openChat('general', user); setShowMobileMenu(false);}} disabled={!isLoggedIn || !user}>
+            <button className="menu-button" onClick={() => { openChat('general', user); setShowMobileMenu(false); }} disabled={!isLoggedIn || !user}>
               <MessageCircle size={18} style={{ marginRight: 6 }} /> Chat cộng đồng
               {unreadCount > 0 && (
                 <span className="chat-notification-badge">{unreadCount}</span>
               )}
               <span className={`connection-indicator ${isConnected ? 'connected' : 'disconnected'}`}>●</span>
             </button>
-            <button className="menu-button" onClick={() => {navigate("/alllinhkien"); setShowMobileMenu(false);}}>
+            <button className="menu-button" onClick={() => { navigate("/alllinhkien"); setShowMobileMenu(false); }}>
               <FiPackage size={18} style={{ marginRight: 6 }} /> Sản phẩm
             </button>
           </div>
@@ -393,7 +557,7 @@ const Header = () => {
             <Link to="/" className="logo-link">
               <div className="logo-container">
                 <img src="/photos/Logo.png" alt="Logo" className="logo-image" />
-                <span className="logo-text">MRS</span>
+                <span className="logo-text">SH3</span>
               </div>
             </Link>
 
@@ -451,7 +615,7 @@ const Header = () => {
                 onClick={() => setShowSuggestions((v) => !v)}
                 style={{ marginLeft: 6, padding: '7px 12px', borderRadius: 6, border: '1px solid #0D92F4', background: '#fff', cursor: 'pointer' }}
               >
-                <Search size={18} />
+                <FaSearch size={18} />
               </button>
               {showSuggestions && searchInput && (
                 <div className="search-suggestions">
@@ -508,12 +672,6 @@ const Header = () => {
                 Sản phẩm
               </button>
             </div>
-
-            {filteredProducts.length === 0 && (
-              <div className="search-suggestion-item">
-                Không tìm thấy kết quả
-              </div>
-            )}
 
             {showLocationPopup && (
               <div className="consult-popup" ref={popupRef}>
@@ -575,38 +733,13 @@ const Header = () => {
                   </button>
                   {showUserDropdown && (
                     <div className="user-dropdown">
-                      <Link to="/Profile" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
-                        <UserCircle size={16} />
-                        <span>Thông tin cá nhân</span>
-                      </Link>
-                      <Link to="/cart" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
-                        <div style={{ position: "relative", display: "inline-block" }}>
-                          <ShoppingBag size={16} />
-                          {totalQuantity > 0 && (
-                            <span className="badge">
-                              {totalQuantity}
-                            </span>
-                          )}
-                        </div>
-                        <span>Đơn hàng của tôi</span>
-                      </Link>
-                      <Link to="/lich_su_don_hang" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
-                        <History size={16} />
-                        <span>Lịch sử đơn hàng</span>
-                      </Link>
-                      <Link to="/wishlist" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
-                        <div style={{ position: "relative", display: "inline-block" }}>
-                          <Heart size={16} />
-                          {wishlistItems.length > 0 && (
-                            <span className="badge">
-                              {wishlistItems.length}
-                            </span>
-                          )}
-                        </div>
-                        <span>Yêu thích</span>
-                      </Link>
-                      {user?.role === "admin" && (
+                      {user?.role === "admin" ? (
+                        // Menu cho Admin - chỉ hiển thị Quản trị viên và Tra cứu đơn hàng
                         <>
+                          <Link to="/Profile" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                            <UserCircle size={16} />
+                            <span>Thông tin cá nhân</span>
+                          </Link>
                           <Link to="/admin" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
                             <User size={16} />
                             <span>Quản trị viên</span>
@@ -614,6 +747,40 @@ const Header = () => {
                           <Link to="/tracuu" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
                             <FiPackage size={16} />
                             <span>Tra cứu đơn hàng</span>
+                          </Link>
+                        </>
+                      ) : (
+                        // Menu cho User - hiển thị các tùy chọn khác
+                        <>
+                          <Link to="/Profile" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                            <UserCircle size={16} />
+                            <span>Thông tin cá nhân</span>
+                          </Link>
+                          <Link to="/cart" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                            <div style={{ position: "relative", display: "inline-block" }}>
+                              <ShoppingBag size={16} />
+                              {totalQuantity > 0 && (
+                                <span className="badge">
+                                  {totalQuantity}
+                                </span>
+                              )}
+                            </div>
+                            <span>Đơn hàng của tôi</span>
+                          </Link>
+                          <Link to="/lich_su_don_hang" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                            <History size={16} />
+                            <span>Lịch sử đơn hàng</span>
+                          </Link>
+                          <Link to="/wishlist" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                            <div style={{ position: "relative", display: "inline-block" }}>
+                              <Heart size={16} />
+                              {wishlistItems.length > 0 && (
+                                <span className="badge">
+                                  {wishlistItems.length}
+                                </span>
+                              )}
+                            </div>
+                            <span>Yêu thích</span>
                           </Link>
                         </>
                       )}

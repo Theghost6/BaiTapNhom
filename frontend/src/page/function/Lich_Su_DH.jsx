@@ -30,8 +30,6 @@ const OrderHistory = () => {
         const response = await axios.get(
           `  ${apiUrl}/lich_su_dh.php?user_id=${user_id.id}`
         );
-        console.log("Dữ liệu đơn hàng trả về:", response.data.data);
-        console.log("Full API response:", response.data);
         const orderData = Array.isArray(response.data?.data) ? response.data.data : [];
         if (!Array.isArray(response.data?.data)) {
           toast.error("Lỗi dữ liệu đơn hàng từ server hoặc không đúng định dạng!");

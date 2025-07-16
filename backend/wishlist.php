@@ -182,4 +182,4 @@ try {
 }
 
 $conn->close();
-file_put_contents('wishlist_debug.log', date('c')."\n".json_encode($_POST)."\n", FILE_APPEND);
+

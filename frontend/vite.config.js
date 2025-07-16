@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       },
       allowedHosts: [
         'all',
-        // 'sheep-immigration-functioning-email.trycloudflare.com'
+        // 'explicitly-georgia-fisheries-attending.trycloudflare.com'
       ],
       // hmr: {
       //   clientPort: 443, // nếu bạn truy cập qua https tunnel

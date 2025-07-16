@@ -1,3 +1,6 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 .order-history-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -9,7 +12,7 @@
 .order-history-container h1 {
   text-align: center;
   margin-bottom: 30px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .loading, .error, .no-orders {
@@ -56,12 +59,12 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  background-color: #fff;
+  background-color: var(--bg-primary);
   transition: all 0.3s ease;
 }
 
 .order-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .order-header {
@@ -99,14 +102,14 @@
 .order-total-price {
   font-weight: bold;
   font-size: 1.1rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .order-status {
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--shadow-color);
 }
 
 .toggle-icon {
@@ -116,7 +119,7 @@
 
 .order-details {
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--bg-primary);
   border-top: 1px solid #eee;
 }
 
@@ -142,7 +145,7 @@
 .order-section h3, .order-note h3, .product-list h3 {
   margin-top: 0;
   margin-bottom: 10px;
-  color: #333;
+  color: var(--text-primary);
   font-size: 1.1rem;
 }
 
@@ -153,7 +156,7 @@
 }
 
 .order-note {
-  background-color: #fff9e6;
+  background-color: var(--bg-primary)9e6;
   border-left: 4px solid #ffd54f;
   padding: 15px;
   margin-bottom: 20px;
@@ -178,7 +181,7 @@
 .product-table th {
   background-color: #f5f5f5;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .product-table tr:hover {

@@ -4,7 +4,7 @@ import ProductOverview from "../../components/LinhKien/ProductOverview";
 import ProductSpecs from "../../components/LinhKien/ProductSpecs";
 import ProductReviews from "../../components/LinhKien/ProductReviews";
 import RelatedProducts from "../../components/LinhKien/RelatedProducts";
-import { useCart } from "./useCart";
+import { useCart } from "../../hooks/cart/useCart";
 import { AuthContext } from "../function/AuthContext";
 import ImageSlider from "../function/ImageSlider";
 import "react-toastify/dist/ReactToastify.css";

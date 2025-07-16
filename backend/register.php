@@ -54,7 +54,6 @@ try {
     }
 
     // Log parsed data
-    file_put_contents($logFile, date('Y-m-d H:i:s') . " - Parsed data: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
 
     // Check if it's a registration request
     $isRegistration = isset($data['email']) && isset($data['phone']) && isset($data['password']);
@@ -90,7 +89,7 @@ try {
         }
 
         // Check if email already exists (vulnerable to SQLi here)
-        $sqlCheckEmail = "SELECT email FROM dang_ky WHERE email = '$email'";
+        $sqlCheckEmail = "SELECT email FROM tai_khoan WHERE email = '$email'";
         $result = $conn->query($sqlCheckEmail);
         if ($result && $result->num_rows > 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Email already exists: $email\n", FILE_APPEND);
@@ -99,7 +98,7 @@ try {
         }
 
         // Check if phone already exists (vulnerable to SQLi)
-        $sqlCheckPhone = "SELECT phone FROM dang_ky WHERE phone = '$phone'";
+        $sqlCheckPhone = "SELECT phone FROM tai_khoan WHERE phone = '$phone'";
         $result = $conn->query($sqlCheckPhone);
         if ($result && $result->num_rows > 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Phone already exists: $phone\n", FILE_APPEND);
@@ -111,7 +110,7 @@ try {
         $hashedPassword = md5($password);
 
         // Insert new user (vulnerable to SQLi)
-        $sqlInsert = "INSERT INTO dang_ky (user, phone, email, pass, role, is_active) VALUES ('$username', '$phone', '$email', '$hashedPassword', 'user', 1)";
+        $sqlInsert = "INSERT INTO tai_khoan (user, phone, email, pass, role, is_active) VALUES ('$username', '$phone', '$email', '$hashedPassword', 'user', 1)";
         if ($conn->query($sqlInsert) === TRUE) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Success: Registered user: $username\n", FILE_APPEND);
             echo json_encode(['success' => true, 'message' => 'Đăng ký thành công']);
@@ -140,17 +139,16 @@ try {
 
         // Build SQL query vulnerable to SQL Injection
         if ($email !== null) {
-            $sqlLogin = "SELECT id, user, email, phone, pass, role, is_active FROM dang_ky WHERE email = '$email' AND is_active = 1";
+            $sqlLogin = "SELECT id, user, email, phone, pass, role, is_active FROM tai_khoan WHERE email = '$email' AND is_active = 1";
         } else {
-            $sqlLogin = "SELECT id, user, email, phone, pass, role, is_active FROM dang_ky WHERE phone = '$phone' AND is_active = 1";
+            $sqlLogin = "SELECT id, user, email, phone, pass, role, is_active FROM tai_khoan WHERE phone = '$phone' AND is_active = 1";
         }
 
         $result = $conn->query($sqlLogin);
 
         if (!$result || $result->num_rows === 0) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Account not found or disabled\n", FILE_APPEND);
-            echo json_encode(['success' => false, 'message' => 'Tài khoản không tồn tại hoặc đã bị vô hiệu hóa']);
-            echo json_encode(['success' => false, 'message' => $email ?? $phone]); // Phản ánh payload
+            echo json_encode(['success' => false, 'message' => 'Sai tên tài khoản hoặc mật khẩu']);
 
         } else {
             $user = $result->fetch_assoc();
@@ -169,7 +167,7 @@ try {
                 ]);
             } else {
                 file_put_contents($logFile, date('Y-m-d H:i:s') . " - Error: Incorrect password\n", FILE_APPEND);
-                echo json_encode(['success' => false, 'message' => 'Mật khẩu không đúng']);
+                echo json_encode(['success' => false, 'message' => 'Sai tên tài khoản hoặc mật khẩu']);
             }
         }
     }

@@ -19,17 +19,16 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rawData = file_get_contents("php://input");
-    file_put_contents('debug_reply.txt', $rawData . PHP_EOL, FILE_APPEND);
     $data = json_decode($rawData, true);
-    file_put_contents('debug_reply.txt', "Decoded: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
 
     if (!is_array($data)) {
-        file_put_contents('debug_reply.txt', "JSON decode error: " . json_last_error_msg() . PHP_EOL, FILE_APPEND);
+        http_response_code(400);
+        echo json_encode(["success" => false, "message" => "JSON decode error: " . json_last_error_msg()]);
+        exit;
     }
 
     if (!$data || !isset($data['id_danh_gia']) || !isset($data['ma_nguoi_tra_loi']) || 
         !isset($data['noi_dung']) || !isset($data['ngay'])) {
-        file_put_contents('debug_reply.txt', "Missing fields: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "Missing required fields", "received" => $data]);
         exit;
@@ -86,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_danh_gia = (int)$_GET['id_danh_gia'];
     $sql = "SELECT pr.id, pr.ma_nguoi_tra_loi, dk.user AS ten_nguoi_tra_loi, dk.email, pr.noi_dung, pr.created_at AS ngay
             FROM phan_hoi_review pr
-            LEFT JOIN dang_ky dk ON pr.ma_nguoi_tra_loi = dk.id
+            LEFT JOIN tai_khoan dk ON pr.ma_nguoi_tra_loi = dk.id
             WHERE pr.id_danh_gia = ?
             ORDER BY pr.created_at ASC";
     $stmt = $conn->prepare($sql);

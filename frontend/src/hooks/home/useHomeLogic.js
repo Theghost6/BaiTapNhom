@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export function useHomeLogic(apiUrl) {
+export function useHomeLogic() {
     const [activeSlide, setActiveSlide] = useState(0);
     const [showUrl, setShowUrl] = useState(null);
     const [timeLeft, setTimeLeft] = useState({

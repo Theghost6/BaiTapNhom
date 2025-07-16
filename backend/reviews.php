@@ -24,20 +24,15 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rawData = file_get_contents("php://input");
-    file_put_contents('debug_review.txt', $rawData . PHP_EOL, FILE_APPEND);
     $contentType = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : 'unknown';
-    file_put_contents('debug_review.txt', "Content-Type: $contentType" . PHP_EOL, FILE_APPEND);
     $data = json_decode($rawData, true);
-    file_put_contents('debug_review.txt', "Decoded: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
     if (!$data) {
-        file_put_contents('debug_review.txt', "JSON decode error: " . json_last_error_msg() . PHP_EOL, FILE_APPEND);
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "Invalid JSON: " . json_last_error_msg(), "rawData" => $rawData]);
         exit;
     }
     if (!isset($data['ma_sp']) || !isset($data['ma_nguoi_dung']) || 
         !isset($data['so_sao']) || !isset($data['binh_luan'])) {
-        file_put_contents('debug_review.txt', "Missing fields: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "Missing required fields", "received" => $data]);
         exit;
@@ -69,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $stmt->close();
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    file_put_contents('debug_review.txt', "GET params: " . print_r($_GET, true) . PHP_EOL, FILE_APPEND);
     if (!isset($_GET['ma_sp'])) {
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "Missing ma_sp"]);
@@ -81,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["success" => false, "message" => "Invalid product ID"]);
         exit;
     }
-    $sql = "SELECT dg.id, dg.ma_nguoi_dung, dg.so_sao, dg.binh_luan, dg.created_at AS ngay, dk.user AS ten_nguoi_dung, dk.email FROM danh_gia dg LEFT JOIN dang_ky dk ON dg.ma_nguoi_dung = dk.id WHERE dg.ma_sp = ? ORDER BY dg.created_at DESC";
+    $sql = "SELECT dg.id, dg.ma_nguoi_dung, dg.so_sao, dg.binh_luan, dg.created_at AS ngay, dk.user AS ten_nguoi_dung, dk.email FROM danh_gia dg LEFT JOIN tai_khoan dk ON dg.ma_nguoi_dung = dk.id WHERE dg.ma_sp = ? ORDER BY dg.created_at DESC";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         file_put_contents('debug_review.txt', "Prepare failed: " . $conn->error . PHP_EOL, FILE_APPEND);
@@ -100,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row['ten_nguoi_dung'] = $row['ten_nguoi_dung'] ?: ($row['email'] ?: $row['ma_nguoi_dung']);
         unset($row['email']);
         // Fetch replies for each review
-        $reply_sql = "SELECT pr.id, pr.ma_nguoi_tra_loi, dk.user AS ten_nguoi_tra_loi, dk.email, pr.noi_dung, pr.created_at AS ngay FROM phan_hoi_review pr LEFT JOIN dang_ky dk ON pr.ma_nguoi_tra_loi = dk.id WHERE pr.id_danh_gia = ? ORDER BY pr.created_at ASC";
+        $reply_sql = "SELECT pr.id, pr.ma_nguoi_tra_loi, dk.user AS ten_nguoi_tra_loi, dk.email, pr.noi_dung, pr.created_at AS ngay FROM phan_hoi_review pr LEFT JOIN tai_khoan dk ON pr.ma_nguoi_tra_loi = dk.id WHERE pr.id_danh_gia = ? ORDER BY pr.created_at ASC";
         $reply_stmt = $conn->prepare($reply_sql);
         if ($reply_stmt) {
             $reply_stmt->bind_param("i", $row['id']);

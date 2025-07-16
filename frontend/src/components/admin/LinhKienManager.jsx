@@ -3,11 +3,11 @@ import { CiEdit } from "react-icons/ci";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 
-import "./LinhKienManager.css";
+import "./LinhKienManager_simple.css";
 
 const apiUrl = import.meta.env.VITE_HOST;
 
-// Mapping id sang mã loại nếu cần (ví dụ, bạn cần chỉnh lại cho đúng project của bạn)
+// Mapping id sang mã loại theo database
 const idToLoai = {
     1: "Ổ cứng",
     2: "Card màn hình",
@@ -18,13 +18,25 @@ const idToLoai = {
     7: "Vỏ case",
     8: "Tản nhiệt",
     9: "Linh kiện khác",
-    // Thêm các id khác nếu có
+    10: "Màn hình",
+    19: "Bàn phím",
+    20: "Chuột"
 };
 
-// Danh sách loại linh kiện chuẩn theo thứ tự mong muốn (nếu muốn động thì convert trước)
+// Danh sách loại linh kiện chuẩn theo thứ tự mong muốn
 const loaiLinhKienArray = [
-    "Ổ cứng", "Card màn hình", "RAM", "CPU", "Mainboard", "Nguồn máy tính", "Vỏ case", "Tản nhiệt", "Linh kiện khác"
-    // Thêm các loại khác nếu có
+    "Ổ cứng",
+    "Card màn hình",
+    "RAM",
+    "CPU",
+    "Mainboard",
+    "Nguồn máy tính",
+    "Vỏ case",
+    "Tản nhiệt",
+    "Linh kiện khác",
+    "Màn hình",
+    "Bàn phím",
+    "Chuột"
 ];
 
 function LinhKienManager({
@@ -45,10 +57,14 @@ function LinhKienManager({
     // Local state for add form
     const [newLinhKien, setNewLinhKien] = useState({
         loai: selectedLoaiTable || loaiLinhKienArray[0],
-        ten: "",
-        hang: "",
-        gia: "",
+        ma_sp: "",
+        ten_sp: "",
+        gia_sau: "",
+        gia_truoc: "",
         so_luong: "",
+        bao_hanh: "",
+        id_nha_san_xuat: "",
+        trang_thai: "1",
         mo_ta: ""
     });
 
@@ -83,14 +99,14 @@ function LinhKienManager({
             bao_hanh: "Bảo hành",
             id_nha_san_xuat: "Nhà sản xuất",
             trang_thai: "Trạng thái",
-            mo_ta: "Mô tả",
+            mo_ta: "Mô tả"
         };
         return labels[key] || key;
     }
 
     // Helper: get input type
     function getInputType(key) {
-        if (key === "gia" || key === "so_luong") return "number";
+        if (key === "gia" || key === "gia_sau" || key === "gia_truoc" || key === "so_luong" || key === "id_nha_san_xuat" || key === "trang_thai") return "number";
         return "text";
     }
 
@@ -112,8 +128,12 @@ function LinhKienManager({
     const handleAddLinhKien = async (e) => {
         e.preventDefault();
         // Validate input
-        if (!newLinhKien.ten && !newLinhKien.ten_sp) {
+        if (!newLinhKien.ten_sp && !newLinhKien.ten) {
             alert("Vui lòng nhập tên sản phẩm!");
+            return;
+        }
+        if (!newLinhKien.ma_sp) {
+            alert("Vui lòng nhập mã sản phẩm!");
             return;
         }
         // Build đúng object backend yêu cầu
@@ -141,7 +161,6 @@ function LinhKienManager({
             try {
                 data = JSON.parse(text);
             } catch (e) {
-                console.error('Lỗi parse JSON:', text);
                 alert("Lỗi backend không trả về JSON hợp lệ!\n" + text);
                 return;
             }
@@ -149,11 +168,15 @@ function LinhKienManager({
                 alert("Thêm sản phẩm thành công!");
                 setIsAddFormVisible(false);
                 setNewLinhKien({
-                    loai: loaiLinhKienList[0] || "cpu",
-                    ten: "",
-                    hang: "",
-                    gia: "",
+                    loai: loaiLinhKienArray[0] || "Ổ cứng",
+                    ma_sp: "",
+                    ten_sp: "",
+                    gia_sau: "",
+                    gia_truoc: "",
                     so_luong: "",
+                    bao_hanh: "",
+                    id_nha_san_xuat: "",
+                    trang_thai: "1",
                     mo_ta: ""
                 });
                 // Reload lại danh sách sản phẩm nếu có hàm setLinhKien
@@ -180,23 +203,25 @@ function LinhKienManager({
     // Hàm ánh xạ mã loại sang tên hiển thị
     function getLoaiLabel(loai) {
         const labels = {
-            cpu: "CPU",
-            ram: "RAM",
-            vga: "Card đồ họa",
-            main: "Mainboard",
-            ssd: "SSD",
-            hdd: "HDD",
-            psu: "Nguồn",
-            case: "Case",
-            fan: "Quạt tản nhiệt",
-            // Thêm các loại khác nếu có
+            "Ổ cứng": "Ổ cứng",
+            "Card màn hình": "Card màn hình",
+            "RAM": "RAM",
+            "CPU": "CPU",
+            "Mainboard": "Mainboard",
+            "Nguồn máy tính": "Nguồn máy tính",
+            "Vỏ case": "Vỏ case",
+            "Tản nhiệt": "Tản nhiệt",
+            "Linh kiện khác": "Linh kiện khác",
+            "Màn hình": "Màn hình",
+            "Bàn phím": "Bàn phím",
+            "Chuột": "Chuột"
         };
-        return labels[loai] || loai.toUpperCase();
+        return labels[loai] || loai;
     }
 
     // Các trường cần nhập cho form thêm mới
     const fieldsForAddForm = [
-        "ma_sp", "ten", "hang", "gia", "gia_truoc", "so_luong", "bao_hanh", "id_nha_san_xuat", "trang_thai"
+        "ma_sp", "ten_sp", "gia_sau", "gia_truoc", "so_luong", "bao_hanh", "id_nha_san_xuat", "trang_thai"
     ];
 
     return (
@@ -222,7 +247,8 @@ function LinhKienManager({
                         className="lk-search"
                     />
                     <button className="button-green" onClick={() => setIsAddFormVisible(true)}>
-                        <i className="fas fa-plus"></i> Thêm sản phẩm
+                        <i className="fas fa-plus"></i>
+                        <span>Thêm sản phẩm</span>
                     </button>
                 </div>
             </div>
@@ -238,17 +264,32 @@ function LinhKienManager({
                                 <option key={loai} value={loai}>{loai}</option>
                             ))}
                         </select>
-                        {fieldsForAddForm.map((key) => (
-                            <input
-                                key={key}
-                                name={key}
-                                type={getInputType(key)}
-                                placeholder={getFieldLabel(key)}
-                                value={newLinhKien[key] || ""}
-                                onChange={handleAddInputChange}
-                                required={key === "ten" || key === "ma_sp"}
-                            />
-                        ))}
+                        {fieldsForAddForm.map((key) => {
+                            if (key === "trang_thai") {
+                                return (
+                                    <select
+                                        key={key}
+                                        name={key}
+                                        value={newLinhKien[key] || "1"}
+                                        onChange={handleAddInputChange}
+                                    >
+                                        <option value="1">Hoạt động</option>
+                                        <option value="0">Ngừng hoạt động</option>
+                                    </select>
+                                );
+                            }
+                            return (
+                                <input
+                                    key={key}
+                                    name={key}
+                                    type={getInputType(key)}
+                                    placeholder={getFieldLabel(key)}
+                                    value={newLinhKien[key] || ""}
+                                    onChange={handleAddInputChange}
+                                    required={key === "ten_sp" || key === "ma_sp"}
+                                />
+                            );
+                        })}
                         {/* Luôn hiển thị textarea cho mô tả */}
                         <textarea
                             name="mo_ta"
@@ -261,8 +302,14 @@ function LinhKienManager({
                         />
                     </div>
                     <div className="lk-add-actions">
-                        <button type="submit" className="button-green">Lưu</button>
-                        <button type="button" className="button-red" onClick={() => setIsAddFormVisible(false)}>Hủy</button>
+                        <button type="submit" className="button-green">
+                            <i className="fas fa-save"></i>
+                            <span>Lưu</span>
+                        </button>
+                        <button type="button" className="button-red" onClick={() => setIsAddFormVisible(false)}>
+                            <i className="fas fa-times"></i>
+                            <span>Hủy</span>
+                        </button>
                     </div>
                 </form>
             )}
@@ -295,7 +342,12 @@ function LinhKienManager({
                             filteredData.map((item, idx) => (
                                 <tr key={item.id || idx}>
                                     {columns.map((col) => (
-                                        <td key={col}>{col === "gia" || col === "gia_sau" ? formatPrice(item[col]) : item[col]}</td>
+                                        <td key={col}>
+                                            {(col === "gia" || col === "gia_sau" || col === "gia_truoc") ?
+                                                formatPrice(item[col]) :
+                                                item[col]
+                                            }
+                                        </td>
                                     ))}
                                     <td>
                                         <button
@@ -316,7 +368,6 @@ function LinhKienManager({
                                             title="Chỉnh sửa"
                                         >
                                             <CiEdit />
-
                                         </button>
                                         <button
                                             className="button-red"
@@ -325,7 +376,6 @@ function LinhKienManager({
                                             style={{ marginLeft: 8 }}
                                         >
                                             <FaRegTrashAlt />
-
                                         </button>
                                     </td>
                                 </tr>

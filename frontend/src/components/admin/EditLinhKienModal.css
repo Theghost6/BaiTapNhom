@@ -1,10 +1,13 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--shadow-hover);
     z-index: 1000;
     display: flex;
     align-items: flex-start;
@@ -17,7 +20,7 @@
 }
 
 .modal-content {
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 8px;
     padding: 24px 16px 16px 16px;
     min-width: 320px;
@@ -92,12 +95,12 @@
 
 .cancel-button {
     background: #eee;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .save-button {
     background: #007bff;
-    color: #fff;
+    color: var(--bg-primary);
 }
 
 .save-button:hover {
@@ -105,5 +108,5 @@
 }
 
 .cancel-button:hover {
-    background: #ccc;
+    background: var(--text-muted);
 }

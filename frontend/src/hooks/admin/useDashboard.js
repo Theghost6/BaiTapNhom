@@ -40,7 +40,8 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
                 setDashboardMetrics(metricsRes.data);
                 setStatistics(statsRes.data);
             })
-            .catch(() => {
+            .catch((error) => {
+                console.error('Dashboard API Error:', error);
                 setDashboardMetrics(null);
                 setStatistics(null);
             })
@@ -55,20 +56,23 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
             : 0;
     }, [statistics]);
 
-    const completedOrders = useMemo(() => orders.filter((order) => order.trang_thai === "Đã thanh toán").length, [orders]);
+    const completedOrders = useMemo(() => statistics?.tong_thanh_toan || 0, [statistics]);
     const orderCompletionPercentage = useMemo(() => {
-        return orders.length ? (completedOrders / orders.length) * 100 : 0;
-    }, [orders, completedOrders]);
+        const totalOrders = statistics?.tong_don_hang || 0;
+        return totalOrders ? (completedOrders / totalOrders) * 100 : 0;
+    }, [statistics, completedOrders]);
 
-    const activeUsers = useMemo(() => users.filter((user) => user.is_active === 1).length, [users]);
+    const activeUsers = useMemo(() => statistics?.nguoi_dung_hoat_dong || 0, [statistics]);
     const userActivePercentage = useMemo(() => {
-        return users.length > 0 ? (activeUsers / users.length) * 100 : 0;
-    }, [users, activeUsers]);
+        const totalUsers = statistics?.tong_nguoi_dung || 0;
+        return totalUsers > 0 ? (activeUsers / totalUsers) * 100 : 0;
+    }, [statistics, activeUsers]);
 
-    const positiveReviews = useMemo(() => reviews.filter((review) => review.so_sao >= 3).length, [reviews]);
+    const positiveReviews = useMemo(() => statistics?.danh_gia_tich_cuc || 0, [statistics]);
     const positiveReviewPercentage = useMemo(() => {
-        return reviews.length === 0 ? 0 : (positiveReviews / reviews.length) * 100;
-    }, [reviews, positiveReviews]);
+        const totalReviews = statistics?.tong_danh_gia || 0;
+        return totalReviews === 0 ? 0 : (positiveReviews / totalReviews) * 100;
+    }, [statistics, positiveReviews]);
 
     // Chart data cho dashboard (4 chart)
     // Không cần export chartIcons ở đây nữa, chỉ dùng biến chartIcons nếu cần

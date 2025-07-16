@@ -52,6 +52,16 @@ export default function Register() {
     }
   }, []);
 
+  // Auto switch to login after successful registration
+  useEffect(() => {
+    if (message === "Đăng ký thành công! Vui lòng đăng nhập." && !isRegistering) {
+      const container = document.querySelector(".container");
+      if (container) {
+        container.classList.remove("active");
+      }
+    }
+  }, [message, isRegistering]);
+
   return (
     <div className="register-body">
       <div className="container">

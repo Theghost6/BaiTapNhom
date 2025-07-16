@@ -1,160 +1,105 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, EffectCoverflow } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
 import {
   ArrowRight,
   Calendar,
-  Fan,
-  Mouse,
-  Keyboard,
 } from "lucide-react";
 import "../style/home.css";
 import "../style/all_linh_kien.css";
+import "../style/performance.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGift } from "react-icons/fa";
-import 'swiper/css/effect-coverflow';
-import { useHomeLogic } from "../hooks/home/useHomeLogic";
-// Import nhiều hiệu ứng hơn từ react-awesome-reveal
 import { Fade, Slide, Zoom, Bounce, Flip } from 'react-awesome-reveal';
+import useProductData from '../hooks/home/useProductData';
+import useOptimizedSlider from '../hooks/home/useOptimizedSlider';
+import HeroSlider from '../components/HeroSlider';
 
-const slides = [
+// Fallback data với ảnh cố định
+const fallbackSlides = [
   {
-    id: "gpu001",
-    image: ["/photos/k.jpg"],
-    title: "NVIDIA GeForce RTX 4090",
+    id: 2,
+    image: "https://cdn-media.sforum.vn/storage/app/media/tiz/nvidia-geforce-rtx-5090-gpu.jpg",
+    title: "Geforce RTX 5090",
     description: "Sức mạnh đồ họa vượt trội cho game thủ",
   },
   {
-    id: "peripheral009",
-    image: "/photos/n.jpg",
-    title: "Keychron K6",
-    description: "Trải nghiệm gõ phím tuyệt vời với đèn RGB",
+    id: 1715,
+    image: "https://w.wallhaven.cc/full/nr/wallhaven-nrkp6w.jpg",
+    title: "Asus ROG Falchion RX",
+    description: "Bàn phím Gaming Asus ROG Falchion RX Low Profile",
   },
   {
-    id: "peripheral004",
-    image: "https://w.wallhaven.cc/full/nr/wallhaven-nrkp6w.jpg",
-    title: "Logitech MX Master 3S",
-    description: "Chuột chơi game với cảm biến HERO 25K",
+    id: 1696,
+    image: "https://w.wallhaven.cc/full/21/wallhaven-21gpm6.png",
+    title: "HyperWork Helios",
+    description: "Chuột chơi game không dây HyperWork Helios",
   },
 ];
 
-const Hanghoa = [
+// Fallback data cho brand banner
+const fallbackBrandBanner = [
   {
-    id: "kb001",
-    ten: "Keychron K8 Pro",
-    hang: "Keychron",
-    gia: 2500000,
-    images: ["/photos/l.jpg"],
+    id: 1711,
+    image: "/photos/j.jpg",
+    subtitle: "LINH KIỆN MỌI MÁY",
   },
   {
-    id: "case009",
-    ten: "NZXT H9 Elite",
-    hang: "NZXT",
-    gia: 3690000,
+    id: 164,
+    image: "/photos/asrock.jpg",
+    subtitle: "LINH KIỆN MỌI MÁY",
+  },
+  {
+    id: 245,
+    image: "/photos/nguon.jpg",
+    subtitle: "LINH KIỆN MỌI MÁY",
+  },
+];
+
+const fallbackHanghoa = [
+  {
+    id: 1707,
+    images: ["https://i.pinimg.com/1200x/3f/e4/5e/3fe45e565dd9277f0cc318391e12bb12.jpg"],
+  },
+  {
+    id: 143,
     images: ["/photos/case008.jpg"],
   },
   {
-    id: "cpu003",
-    ten: "CPU Intel Core Ultra 9 285K",
-    hang: "INTEL",
-    gia: 17290000,
-    images: ["/photos/e.jpg"],
+    id: 161,
+    images: ["/photos/d.jpg"],
   },
   {
-    id: "cool001",
-    ten: "Noctua NH-D15",
-    hang: "Noctua",
-    gia: 2500000,
+    id: 491,
     images: ["/photos/p.jpg"],
   },
   {
-    id: "mb002",
-    ten: "MSI MPG B650 Tomahawk WiFi",
-    hang: "MSI",
-    gia: 6500000,
+    id: 432,
     images: ["/photos/mainboard.png"],
   },
   {
-    id: "storage004",
-    ten: "Crucial P3 Plus 2TB NVMe PCIe Gen4",
-    hang: "Crucial",
-    gia: 3890000,
+    id: 6,
     images: ["/photos/storage.jpg"],
   },
 ];
 
-const hotItems = [
+const fallbackHotItems = [
   {
-    id: "cpu001",
-    name: "CPU Intel Core i9-13900K",
-    price: "13,999,000đ",
+    id: 1699,
+    icon: "⌨️",
     trend: "+15%",
-    icon: <Keyboard className="w-5 h-5" />,
     trendColor: "text-green-500",
   },
   {
-    id: "cpu006",
-    name: "AMD Ryzen 9 7950X3D",
-    price: "15,999,000đ",
+    id: 1698,
+    icon: "🖱️",
     trend: "+23%",
-    icon: <Mouse className="w-5 h-5" />,
     trendColor: "text-red-500",
   },
   {
-    id: "mb001",
-    name: "ASUS ROG Strix Z790-E Gaming",
-    price: "10,000,000đ",
+    id: 1697,
+    icon: "🌀",
     trend: "+18%",
-    icon: <Fan className="w-5 h-5" />,
     trendColor: "text-red-500",
-  },
-];
-
-const promoSlides = [
-  {
-    id: "psu002",
-    image: "/photos/sea.jpg",
-    title: "Seasonic Prime TX-1000",
-    brand: "Thương hiệu: Seasonic",
-    price: "6.50.000 VNĐ",
-  },
-  {
-    id: "gpu006",
-    image: "/photos/sap.jpg",
-    title: "Sapphire NITRO+ RX 7900 XT 24GB GDDR6",
-    brand: "Thương hiệu: Sapphire",
-    price: "3.190.000 VNĐ",
-  },
-  {
-    id: "cpu010",
-    image: "/photos/ry.jpg",
-    title: "AMD Ryzen 7 9800X3D",
-    brand: "Thương hiệu: AMD",
-    price: "14.390.000 VNĐ",
-  },
-  {
-    id: "gpu008",
-    image: "/photos/po.jpg",
-    title: "PowerColor RX 7600 Fighter 8GB GDDR6",
-    brand: "Thương hiệu: PowerColor",
-    price: "12.900.000 VNĐ",
-  },
-  {
-    id: "mb007",
-    image: "/photos/main.png",
-    title: "Asrock B760M Pro RS/D4",
-    brand: "Thương hiệu: Asrock",
-    price: "4.390.000 VNĐ",
-  },
-  {
-    id: "mb006",
-    image: "/photos/giga.jpg",
-    title: "Gigabyte Z790M Aorus Elite AX D5",
-    brand: "Thương hiệu: Gigabyte",
-    price: "5.290.000 VNĐ",
   },
 ];
 
@@ -197,135 +142,106 @@ const newsData = [
   },
 ];
 
-const Home = () => {
+const Home = memo(() => {
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_HOST;
+
+  // Memoize static data để tránh re-create
+  const slideIds = useMemo(() => [2, 1715, 1696], []);
+  const brandBannerIds = useMemo(() => [1711, 164, 245], []);
+  const hanghoaIds = useMemo(() => [1707, 143, 161, 491, 432, 6], []);
+  const hotItemIds = useMemo(() => [1699, 1698, 1697], []);
+
+  // Fetch dữ liệu từ API với optimization
+  const { products: slides, loading: slidesLoading } = useProductData(slideIds, fallbackSlides);
+  const { products: brandBanners, loading: brandBannersLoading } = useProductData(brandBannerIds, fallbackBrandBanner);
+  const { products: Hanghoa, loading: hanghoaLoading } = useProductData(hanghoaIds, fallbackHanghoa);
+  const { products: hotItems, loading: hotItemsLoading } = useProductData(hotItemIds, fallbackHotItems);
+
+
+  // Optimized slider hook
   const {
     activeSlide,
     setActiveSlide,
-    showUrl,
-    setShowUrl,
-    timeLeft,
-    prevRef,
-    nextRef,
-  } = useHomeLogic(apiUrl);
-
-  // XÓA HOÀN TOÀN đoạn useEffect liên quan đến messages/marqueeText
-  // React.useEffect(() => {
-  //   if (messages.length === 0 || loading || error) return;
-  //   const interval = setInterval(() => {
-  //     setMarqueeText((prev) => (prev + 1) % messages.length);
-  //   }, (messages[marqueeText]?.toc_do * 1000 || 15000) - 900);
-  //   return () => clearInterval(interval);
-  // }, [messages, marqueeText, loading, error]);
+    handleMouseEnter,
+    handleMouseLeave,
+    handleKeyDown,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd
+  } = useOptimizedSlider(slides, 4000);
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [slides.length]);
+    // Thêm keyboard navigation
+    const handleGlobalKeyDown = (event) => {
+      if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
+        handleKeyDown(event);
+      }
+    };
+
+    document.addEventListener('keydown', handleGlobalKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <div className="home-container">
-      <Zoom triggerOnce duration={900}>
-        <div className="hero-slider" id="hero-slider">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={slides[activeSlide].id}
-              className="slide-background"
-              style={{ backgroundImage: `url('${slides[activeSlide].image}')` }}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div
-                className="slide-background"
-                style={{ backgroundImage: `url('${slides[activeSlide].image}')` }}
-              >
-                <div className="slide-overlay"></div>
-                <div className="slide-content">
-                  <div className="slide-text">
-                    <h1 className="slide-title">{slides[activeSlide].title}</h1>
-                    <p className="slide-description">{slides[activeSlide].description}</p>
-                    <div className="slide-buttons">
-                      <button
-                        className="primary-button"
-                        onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
-                      >
-                        Đặt hàng ngay <ArrowRight className="button-icon" />
-                      </button>
-                      <button
-                        className="secondary-button"
-                        onClick={() => navigate(`/linh-kien/${slides[activeSlide].id}`)}
-                      >
-                        Tìm hiểu thêm
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="slide-indicators">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveSlide(index)}
-                    className={`slide-indicator${index === activeSlide ? " active-indicator" : ""}`}
-                    aria-label={`Slide ${index + 1}`}
-                    aria-current={index === activeSlide ? "true" : undefined}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </Zoom>
+      <HeroSlider
+        slides={slides}
+        activeSlide={activeSlide}
+        setActiveSlide={setActiveSlide}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+        handleKeyDown={handleKeyDown}
+        handleTouchStart={handleTouchStart}
+        handleTouchMove={handleTouchMove}
+        handleTouchEnd={handleTouchEnd}
+        navigate={navigate}
+      />
 
       <Slide direction="left" triggerOnce duration={900} delay={100}>
         <div className="brandBanner-container">
-          <div className="brandBanner-slide">
-            <img src="/photos/j.jpg" alt="Slide" className="brandBanner-image" />
-            <div className="brandBanner-overlay">
-              <p className="brandBanner-subtitle">
-                Từ <span>2.500K VNĐ</span>
-              </p>
-              <p className="brandBanner-text">LINH KIỆN MỌI MÁY</p>
-              <h2 className="brandBanner-title">MX Master 3S</h2>
-              <Link to="/linh-kien/peripheral004">
-                <button className="brandBanner-button">SHOP NOW</button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="brandBanner-slide">
-            <img src="/photos/asrock.jpg" alt="Slide" className="brandBanner-image" />
-            <div className="brandBanner-overlay">
-              <p className="brandBanner-subtitle">
-                Từ <span>4.390K VNĐ</span>
-              </p>
-              <p className="brandBanner-text">LINH KIỆN MỌI MÁY</p>
-              <h2 className="brandBanner-title">B760M Pro</h2>
-              <Link to="/linh-kien/mb007">
-                <button className="brandBanner-button">SHOP NOW</button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="brandBanner-slide">
-            <img src="/photos/nguon.jpg" alt="Slide" className="brandBanner-image" />
-            <div className="brandBanner-overlay">
-              <p className="brandBanner-subtitle">
-                Từ <span>3.750K VNĐ</span>
-              </p>
-              <p className="brandBanner-text">LINH KIỆN MỌI MÁY</p>
-              <h2 className="brandBanner-title">RM850X</h2>
-              <Link to="/linh-kien/psu001">
-                <button className="brandBanner-button">SHOP NOW</button>
-              </Link>
-            </div>
-          </div>
+          {brandBannersLoading ? (
+            <div>Loading banners...</div>
+          ) : (
+            brandBanners.map((banner, idx) => (
+              <div key={idx} className="brandBanner-slide">
+                <img src={banner.image} alt="Slide" className="brandBanner-image" />
+                <div className="brandBanner-overlay">
+                  <p className="brandBanner-subtitle">
+                    Từ <span>
+                      {banner.gia_sau
+                        ? `${(parseFloat(banner.gia_sau) / 1000).toFixed(0)}K VNĐ`
+                        : '0K VNĐ'
+                      }
+                    </span>
+                  </p>
+                  <p className="brandBanner-text">{banner.subtitle || 'LINH KIỆN MỌI MÁY'}</p>
+                  <h2 className="brandBanner-title" style={{
+                    fontSize: '1.2rem',
+                    lineHeight: '1.3',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    maxHeight: '3.2rem'
+                  }}>
+                    {banner.ten_sp ?
+                      (banner.ten_sp.length > 40 ?
+                        banner.ten_sp.substring(0, 40) + '...' :
+                        banner.ten_sp
+                      ) :
+                      (banner.title || 'Đang tải...')
+                    }
+                  </h2>
+                  <Link to={`/linh-kien/${banner.id}`}>
+                    <button className="brandBanner-button">SHOP NOW</button>
+                  </Link>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </Slide>
 
@@ -341,7 +257,7 @@ const Home = () => {
                 HOT COMPONENTS
               </h2>
               <p className="section-subtitle">
-                Những mặt hàng được đánh giá cao trong năm 2025
+                Những mặt hàng được đánh giá cao trong năm 2025
               </p>
               <div className="title-icon-line">
                 <span className="line"></span>
@@ -358,34 +274,49 @@ const Home = () => {
           </div>
 
           <div className="destination-grid">
-            {Hanghoa.map((lk, idx) => (
-              <div key={idx} className="products-card">
-                <div className="products-image-container">
-                  <img
-                    src={lk.images[0] || "https://example.com/placeholder.jpg"}
-                    alt={lk.ten}
-                    className="products-image"
-                  />
-                </div>
-                <div className="products-details">
-                  <h3 className="products-name">{lk.ten}</h3>
-                  <p className="products-brand">Thương hiệu: {lk.hang}</p>
-                  <p className="products-price">{lk.gia.toLocaleString("vi-VN")} VNĐ</p>
-                  {lk.khuyen_mai && (
-                    <p className="products-sale">
-                      <FaGift style={{ marginRight: "6px" }} />
-                      {lk.khuyen_mai}
+            {hanghoaLoading ? (
+              <div>Loading products...</div>
+            ) : (
+              Hanghoa.map((lk, idx) => (
+                <div key={idx} className="products-card">
+                  <div className="products-image-container">
+                    <img
+                      src={lk.images && lk.images[0] ? lk.images[0] : "https://example.com/placeholder.jpg"}
+                      alt={lk.ten_sp || lk.ten || 'Sản phẩm'}
+                      className="products-image"
+                    />
+                  </div>
+                  <div className="products-details">
+                    <h3 className="products-name">{lk.ten_sp || lk.ten || 'Đang tải...'}</h3>
+                    <p className="products-brand">
+                      Thương hiệu: {lk.ten_nha_san_xuat || lk.hang || 'Đang cập nhật'}
                     </p>
-                  )}
-                  <button
-                    className="shop-now-btn"
-                    onClick={() => navigate(`/linh-kien/${lk.id}`)}
-                  >
-                    Shop Now →
-                  </button>
+                    <p className="products-price">
+                      {(lk.gia_sau && lk.gia_sau !== "0.00" && lk.gia_sau !== "0") ||
+                        (lk.gia && lk.gia !== "0.00" && lk.gia !== "0")
+                        ? `${parseFloat(lk.gia_sau || lk.gia).toLocaleString("vi-VN")} VNĐ`
+                        : 'Liên hệ'
+                      }
+                    </p>
+                    {lk.khuyen_mai && (
+                      <p className="products-sale">
+                        <FaGift style={{ marginRight: "6px" }} />
+                        {lk.khuyen_mai}
+                      </p>
+                    )}
+                    <button
+                      className="shop-now-btn"
+                      onClick={() => navigate(`/linh-kien/${lk.id}`)}
+                    >
+                      Shop Now →
+                    </button>
+                    {/* Debug info - remove after testing */}
+                    <div style={{ fontSize: '10px', color: '#ccc', marginTop: '5px' }}>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </Slide>
@@ -396,7 +327,7 @@ const Home = () => {
             <div className="promotion-left">
               <h2>Ưu đãi linh kiện 2025</h2>
               <p>
-                Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để nhận thêm quà tặng đặc biệt!
+                Giảm đến 30% cho các mua hàng combo. Đặt ngay hôm nay để nhận thêm quà tặng đặc biệt!
               </p>
             </div>
             <div className="promotion-right">
@@ -412,12 +343,19 @@ const Home = () => {
                     onClick={() => navigate(`/linh-kien/${item.id}`)}
                   >
                     <div className="item-left">
-                      <span className="icon">{item.icon}</span>
-                      <span className="item-name">{item.name}</span>
+                      <span className="icon">{item.icon || '🔥'}</span>
+                      <span className="item-name">{item.ten_sp || item.name || 'Đang tải...'}</span>
                     </div>
                     <div className="item-right">
-                      <div className="item-price">{item.price}</div>
-                      <div className={`item-trend ${item.color}`}>{item.trend}</div>
+                      <div className="item-price">
+                        {item.gia_sau || item.gia
+                          ? `${parseFloat(item.gia_sau || item.gia).toLocaleString('vi-VN')}đ`
+                          : (item.price || 'Liên hệ')
+                        }
+                      </div>
+                      <div className={`item-trend ${item.trendColor || 'text-green-500'}`}>
+                        {item.trend || '+10%'}
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -443,17 +381,17 @@ const Home = () => {
             {[
               {
                 icon: "🛠️",
-                title: "Sửa chữa và bảo trì",
+                title: "Sửa chữa và bảo trì",
                 desc: "Chúng tôi cung cấp dịch vụ sửa chữa và bảo trì cho tất cả các thiết bị điện tử.",
               },
               {
                 icon: "🚚",
-                title: "Vận chuyển hàng hóa tận nơi",
+                title: "Vận chuyển hàng hóa tận nơi",
                 desc: "Dịch vụ vận chuyển hàng hóa tận nơi với giá cả hợp lý.",
               },
               {
                 icon: "🛡️",
-                title: "Bảo hành và hỗ trợ",
+                title: "Bảo hành và hỗ trợ",
                 desc: "Chúng tôi cung cấp dịch vụ bảo hành và hỗ trợ kỹ thuật 24/7.",
               },
             ].map((service, idx) => (
@@ -472,9 +410,9 @@ const Home = () => {
           <section className="recommended-section" id="tintuc">
             <div className="background-text">BLOG</div>
             <div className="content">
-              <h2>Tin tức</h2>
-              <p href="/blog" className="view-all">
-                Xem tin tức và sự kiện mới nhất gần đây
+              <h2>Tin tức</h2>
+              <p className="view-all">
+                Xem tin tức và sự kiện mới nhất gần đây
               </p>
             </div>
           </section>
@@ -515,7 +453,7 @@ const Home = () => {
                 Ở nhà an toàn - Mua sắm nhu yếu phẩm tại shop chúng tôi
               </h2>
               <p className="newsletter-description">
-                Mua sắm mỗi ngày cùng <span className="highlight">NANOCORE4</span>
+                Mua sắm mỗi ngày cùng <span className="highlight">SH3</span>
               </p>
               <div className="newsletter-form">
                 <Link to="/contact">
@@ -531,6 +469,8 @@ const Home = () => {
       </Zoom>
     </div>
   );
-};
+});
+
+Home.displayName = 'Home';
 
 export default Home;

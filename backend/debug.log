@@ -972,3 +972,1002 @@
 2025-07-08 09:24:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
 2025-07-08 09:24:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
 2025-07-08 09:24:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-09 17:04:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:04:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:04:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:04:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:04:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:04:48 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:06 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:06 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:09 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:11 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:05:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:05:13 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+[2025-07-09 17:39:27] === BẮT ĐẦU REQUEST ===
+[2025-07-09 17:39:27] Method: POST
+[2025-07-09 17:39:27] POST data: Array
+(
+    [id] => 1338
+    [so_luong] => 1
+)
+
+[2025-07-09 17:39:27] POST request nhận được
+[2025-07-09 17:39:27] ID nhận được: '1338'
+[2025-07-09 17:39:27] Số lượng nhận được: '1'
+[2025-07-09 17:39:27] Action nhận được: ''
+[2025-07-09 17:39:27] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"1338","ten_san_pham":"B\u00e0n ph\u00edm Gaming Asus ROG Falchion RX Low Profile","so_luong_cu":14,"so_luong_da_mua":1,"so_luong_con_lai":13}}
+2025-07-09 17:39:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:39:45 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:39:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:39:45 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:39:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:39:54 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:39:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:39:55 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:00 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:01 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:05 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:07 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:08 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:09 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:10 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:10 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:11 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:11 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:14 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:14 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:16 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:17 - Updating order ID: 0, Status: 
+2025-07-09 17:40:17 - Updating order ID: 1, Status: Đã thanh toán
+2025-07-09 17:40:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:18 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:19 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:20 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:20 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:22 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:22 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:25 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:26 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:30 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:31 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:31 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:31 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:31 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:32 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:33 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:39 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:40 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:41 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:44 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-09 17:40:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-09 17:40:46 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:55:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:55:46 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:55:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:55:46 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:51 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:53 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:55 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:56 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:58 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:59 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:56:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:56:59 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:57:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:57:01 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:57:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:57:02 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 03:57:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 03:57:03 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"}]
+2025-07-10 04:08:03 - Raw Request: 
+2025-07-10 04:08:03 - Raw Request: {"username":"unkown","phone":"1111111119","email":"unkown@gmail.com","password":"123456","confirmPassword":"123456"}
+2025-07-10 04:08:03 - Parsed data: Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 123456
+    [confirmPassword] => 123456
+)
+
+2025-07-10 04:08:03 - Success: Registered user: unkown
+2025-07-10 04:08:17 - Raw Request: 
+2025-07-10 04:08:17 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-10 04:08:17 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-10 04:08:17 - Success: Logged in user: unkown
+2025-07-10 04:09:26 - Raw Request: 
+2025-07-10 04:09:26 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-10 04:09:26 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-10 04:09:26 - Success: Logged in user: admin
+2025-07-10 04:09:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 04:09:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-10 04:09:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM dang_ky ORDER BY user
+2025-07-10 04:09:35 - Users fetched: [{"id":"1","user":"admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-10 04:42:24 - Raw Request: 
+2025-07-10 04:42:24 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-10 04:42:25 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-10 04:42:25 - Success: Logged in user: unkown
+2025-07-10 05:40:25 - Raw Request: 
+2025-07-10 05:40:25 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-10 05:40:25 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-10 05:40:25 - Success: Logged in user: Admin
+2025-07-11 01:41:18 - Raw Request: 
+2025-07-11 01:41:18 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-11 01:41:18 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-11 01:41:18 - Error: Account not found or disabled
+2025-07-11 01:41:31 - Raw Request: 
+2025-07-11 01:41:31 - Raw Request: {"username":"unkown","phone":"1111111119","email":"unkown@gmail.com","password":"123456","confirmPassword":"123456"}
+2025-07-11 01:41:31 - Parsed data: Array
+(
+    [username] => unkown
+    [phone] => 1111111119
+    [email] => unkown@gmail.com
+    [password] => 123456
+    [confirmPassword] => 123456
+)
+
+2025-07-11 01:41:31 - Success: Registered user: unkown
+2025-07-11 01:41:42 - Raw Request: 
+2025-07-11 01:41:42 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-11 01:41:42 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-11 01:41:42 - Success: Logged in user: unkown
+2025-07-14 17:23:00 - Raw Request: 
+2025-07-14 17:23:00 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-14 17:23:00 - Parsed data: Array
+(
+    [phone] => 1111111119
+    [password] => 123456
+)
+
+2025-07-14 17:23:00 - Success: Logged in user: unkown
+2025-07-14 17:28:54 - Raw Request: 
+2025-07-14 17:28:54 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-14 17:28:54 - Parsed data: Array
+(
+    [phone] => 1234567890
+    [password] => 123456
+)
+
+2025-07-14 17:28:54 - Success: Logged in user: Admin
+2025-07-14 17:30:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:02 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:02 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:05 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:06 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:07 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:27 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:29 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:30 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:33 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:30:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:30:34 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+[2025-07-14 17:32:00] === BẮT ĐẦU REQUEST ===
+[2025-07-14 17:32:00] Method: POST
+[2025-07-14 17:32:00] POST data: Array
+(
+    [id] => 2
+    [so_luong] => 16
+)
+
+[2025-07-14 17:32:00] POST request nhận được
+[2025-07-14 17:32:00] ID nhận được: '2'
+[2025-07-14 17:32:00] Số lượng nhận được: '16'
+[2025-07-14 17:32:00] Action nhận được: ''
+[2025-07-14 17:32:00] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"2","ten_san_pham":"VGA Asus ROG Astral Geforce RTX 5090 OC 32GB ROG-ASTRAL-RTX5090-O32G-GAMING","so_luong_cu":16,"so_luong_da_mua":16,"so_luong_con_lai":0}}
+2025-07-14 17:32:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:13 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:14 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:14 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:16 - Updating order ID: 0, Status: 
+2025-07-14 17:32:16 - Updating order ID: 1, Status: Đã thanh toán
+2025-07-14 17:32:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:17 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:18 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:18 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:25 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:26 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:44 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:45 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:46 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:46 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:47 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:32:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:32:56 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:41 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:49 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:54 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 17:33:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 17:33:55 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:42 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:42 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:47 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:54 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:55 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-14 18:49:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-14 18:49:56 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:26 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:26 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:29 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:46 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:49 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:39:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:39:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:40:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:40:07 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:40:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:40:08 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 01:40:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 01:40:11 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 02:38:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 02:38:15 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 02:38:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 02:38:15 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 02:38:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 02:38:18 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 02:38:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 02:38:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 02:38:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 02:38:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:06:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:06:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:06:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:06:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:10:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:10:30 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:50:10 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:50:10 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:50:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:50:11 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:50:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:50:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 03:50:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 03:50:17 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:01:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:01:46 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:01:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:01:46 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:01:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:01:48 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:02:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:02:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:02:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:02:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:02:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:02:34 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:02:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:02:37 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:02:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:02:39 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:02:43 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:02:43 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:04:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:04:42 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:04:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:04:42 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:04:43 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:04:43 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:06:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:06:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:06:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:06:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:06:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:06:58 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:07:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:07:00 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:09:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:09:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:09:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:09:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:09:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:09:56 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:09:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:09:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:09:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:09:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:10:01 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:10:01 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:10:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:10:02 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:12:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:12:35 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:12:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:12:40 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:14:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:14:24 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:14:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:14:24 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:15:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:15:04 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:18:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:18:11 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:18:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:18:13 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:26:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:26:35 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:26:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:26:35 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:26:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:26:37 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:26:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:26:38 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:26:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:26:39 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:05 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:06 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:08 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:15 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:16 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:17 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:20 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:28:23 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:28:23 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:31:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:31:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:32:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:32:02 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:32:02 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:32:02 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:32:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:32:04 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:34:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:34:08 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:34:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:34:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:34:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:34:11 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:34:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:34:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:15 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:15 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:16 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:16 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:17 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:17 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:20 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:22 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:23 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:23 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:25 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:36:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:36:27 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:38:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:38:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:38:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:38:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:41:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:41:55 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:41:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:41:55 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:42:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:42:20 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 04:42:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 04:42:20 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+[2025-07-15 04:46:42] === BẮT ĐẦU REQUEST ===
+[2025-07-15 04:46:42] Method: POST
+[2025-07-15 04:46:42] POST data: Array
+(
+)
+
+[2025-07-15 04:46:42] POST request nhận được
+[2025-07-15 04:46:42] ID nhận được: 'SP00001'
+[2025-07-15 04:46:42] Số lượng nhận được: '1'
+[2025-07-15 04:46:42] Action nhận được: 'check'
+[2025-07-15 04:46:42] Không tìm thấy sản phẩm với ID: SP00001
+[2025-07-15 04:46:46] === BẮT ĐẦU REQUEST ===
+[2025-07-15 04:46:46] Method: POST
+[2025-07-15 04:46:46] POST data: Array
+(
+)
+
+[2025-07-15 04:46:46] POST request nhận được
+[2025-07-15 04:46:46] ID nhận được: 'SP00001'
+[2025-07-15 04:46:46] Số lượng nhận được: '1'
+[2025-07-15 04:46:46] Action nhận được: 'check'
+[2025-07-15 04:46:46] Không tìm thấy sản phẩm với ID: SP00001
+[2025-07-15 04:47:40] === BẮT ĐẦU REQUEST ===
+[2025-07-15 04:47:40] Method: POST
+[2025-07-15 04:47:40] POST data: Array
+(
+)
+
+[2025-07-15 04:47:40] POST request nhận được
+[2025-07-15 04:47:40] ID nhận được: 'SP00001'
+[2025-07-15 04:47:40] Số lượng nhận được: '1'
+[2025-07-15 04:47:40] Action nhận được: 'check'
+[2025-07-15 04:47:40] Không tìm thấy sản phẩm với ID: SP00001
+2025-07-15 05:04:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:04:58 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:04:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:04:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:05:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:05:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:05:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:05:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:06:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:06:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:06:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:06:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:18:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:18:35 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:18:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 05:18:35 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 05:26:05 - Raw Request: 
+2025-07-15 05:26:05 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-15 05:26:05 - Success: Logged in user: unkown
+2025-07-15 07:13:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:13:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:13:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:13:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:11 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:11 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:13 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:13 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:13 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:15 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:15 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:18 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:20 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 07:14:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 07:14:22 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+[2025-07-15 11:36:30] POST request nhận được
+[2025-07-15 11:36:30] ID nhận được: '9'
+[2025-07-15 11:36:30] Số lượng nhận được: '1'
+[2025-07-15 11:36:30] Action nhận được: ''
+[2025-07-15 11:36:30] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"9","ten_san_pham":"RAM Laptop Kingston Sodimm 1.2V 16GB 3200MHz CL22","so_luong_cu":9,"so_luong_da_mua":1,"so_luong_con_lai":8}}
+[2025-07-15 11:47:06] POST request nhận được
+[2025-07-15 11:47:06] ID nhận được: '32'
+[2025-07-15 11:47:06] Số lượng nhận được: '1'
+[2025-07-15 11:47:06] Action nhận được: ''
+[2025-07-15 11:47:06] Response: {"success":true,"message":"C\u1eadp nh\u1eadt t\u1ed3n kho th\u00e0nh c\u00f4ng","data":{"id":"32","ten_san_pham":"Ram Laptop Kingston DDR5 5600MHz 16GB KVR56S46BS8-16","so_luong_cu":3,"so_luong_da_mua":1,"so_luong_con_lai":2}}
+2025-07-15 12:00:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:30 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:31 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:31 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:47 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:48 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:58 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:00:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:00:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 12:01:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 12:01:00 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 13:16:09 - Raw Request: 
+2025-07-15 13:16:09 - Raw Request: {"username":"sinh","phone":"0192834756","email":"sinh@gmail.com","password":"123456","confirmPassword":"123456"}
+2025-07-15 13:16:09 - Success: Registered user: sinh
+2025-07-15 13:16:39 - Raw Request: 
+2025-07-15 13:16:39 - Raw Request: {"email":"sinh@gmail.com","password":"123456"}
+2025-07-15 13:16:39 - Success: Logged in user: sinh
+2025-07-15 13:19:15 - Raw Request: 
+2025-07-15 13:19:15 - Raw Request: {"email":"sinh@gmail.com","password":"123456"}
+2025-07-15 13:19:15 - Success: Logged in user: sinh
+2025-07-15 13:59:34 - Raw Request: 
+2025-07-15 13:59:34 - Raw Request: {"username":"tét","phone":"1234567898","email":"test@gmail.com","password":"123456","confirmPassword":"123456"}
+2025-07-15 13:59:34 - Success: Registered user: tét
+2025-07-15 14:03:41 - Raw Request: 
+2025-07-15 14:03:41 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-15 14:03:41 - Success: Logged in user: Admin
+2025-07-15 14:04:13 - Raw Request: 
+2025-07-15 14:04:13 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-15 14:04:13 - Success: Logged in user: Admin
+2025-07-15 14:09:44 - Raw Request: 
+2025-07-15 14:09:44 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-15 14:09:44 - Success: Logged in user: unkown
+2025-07-15 14:12:04 - Raw Request: 
+2025-07-15 14:12:04 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-15 14:12:04 - Success: Logged in user: unkown
+2025-07-15 14:17:44 - Raw Request: 
+2025-07-15 14:17:44 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-15 14:17:44 - Success: Logged in user: Admin
+2025-07-15 14:17:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:17:47 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:17:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:17:48 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:41 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:55 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:56 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:56 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:58 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:19:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:19:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:20:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:20:00 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:20:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:20:04 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:39:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:39:30 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:39:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:39:31 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:48 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:54 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:54 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:55 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:55 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:56 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:56 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:57 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:57 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:40:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:40:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:41:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:41:00 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:41:07 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:41:07 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:29 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:30 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:30 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:34 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:34 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:35 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:35 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:39 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:40 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:40 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:41 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:41 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:41 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:43 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:42:43 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:42:56 - Raw Request: 
+2025-07-15 14:42:56 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-15 14:42:56 - Success: Logged in user: Admin
+2025-07-15 14:43:59 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:43:59 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:00 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:00 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:46 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:46 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:47 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:47 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:47 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:48 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:48 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:49 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:49 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:49 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:44:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:44:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:22 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:22 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:23 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:23 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:25 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:26 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:27 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:46:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:46:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:48:29 - Raw Request: 
+2025-07-15 14:48:29 - Raw Request: {"username":"huyda112","phone":"1278371281","email":"huy@gmail.com","password":"huyda112","confirmPassword":"huyda112"}
+2025-07-15 14:48:29 - Success: Registered user: huyda112
+2025-07-15 14:48:35 - Raw Request: 
+2025-07-15 14:48:35 - Raw Request: {"phone":"huyda112","password":"huyda112"}
+2025-07-15 14:48:35 - Error: Account not found or disabled
+2025-07-15 14:48:37 - Raw Request: {"phone":"huyda112","password":"huyda112"}
+2025-07-15 14:48:37 - Error: Account not found or disabled
+2025-07-15 14:49:11 - Raw Request: 
+2025-07-15 14:49:11 - Raw Request: {"phone":"huyda112","password":"huyda112"}
+2025-07-15 14:49:11 - Error: Account not found or disabled
+2025-07-15 14:49:12 - Raw Request: {"phone":"huyda112","password":"huyda112"}
+2025-07-15 14:49:12 - Error: Account not found or disabled
+2025-07-15 14:50:01 - Raw Request: 
+2025-07-15 14:50:01 - Raw Request: {"email":"huy@gmail.com","password":"huyda112"}
+2025-07-15 14:50:01 - Success: Logged in user: huyda112
+2025-07-15 14:50:08 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:50:08 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:50:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:50:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:50:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:50:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:50:52 - Raw Request: 
+2025-07-15 14:50:52 - Raw Request: {"phone":"1111111119","password":"123456"}
+2025-07-15 14:50:52 - Success: Logged in user: unkown
+2025-07-15 14:51:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:51:18 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:51:18 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:51:18 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:51:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:51:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:53:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:53:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:53:12 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:53:12 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:53:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:53:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:53:20 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:53:20 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:53:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:53:25 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:53:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 14:53:26 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 14:59:53 - Raw Request: 
+2025-07-15 14:59:53 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-15 14:59:53 - Success: Logged in user: Admin
+2025-07-15 15:00:10 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:00:10 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:00:10 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:00:10 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:00:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:00:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:00:29 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:00:29 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:00:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:00:42 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:00:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:00:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:05 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:09 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:09 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:44 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:44 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:01:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:01:45 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:02:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:02:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:02:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:02:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:02:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:02:34 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:02:58 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:02:58 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:03:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:03:04 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:03:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:03:33 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:03:34 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:03:34 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:24 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:24 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:24 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:25 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:26 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:26 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:27 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:27 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:06:28 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:06:28 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:32 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:32 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:33 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:33 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:36 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:37 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:38 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:38 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:08:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:08:39 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:09:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:09:45 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:09:45 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:09:45 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:09:50 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:09:50 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:09:51 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:09:51 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:09:52 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:09:52 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:09:53 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:09:53 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:03 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:03 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:04 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:04 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:05 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:05 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:06 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:06 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:19 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:19 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:23 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:23 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:24 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:24 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:25 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:25 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:36 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:36 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:37 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:37 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:39 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:39 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:41 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:41 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:41:42 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:41:42 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-15 15:54:21 - SQL get_users: SELECT id, user, phone, email, role, is_active FROM tai_khoan ORDER BY user
+2025-07-15 15:54:21 - Users fetched: [{"id":"1","user":"Admin","phone":"1234567890","email":"admin@gmail.com","role":"admin","is_active":"1"},{"id":"5","user":"huyda112","phone":"1278371281","email":"huy@gmail.com","role":"user","is_active":"1"},{"id":"3","user":"sinh","phone":"0192834756","email":"sinh@gmail.com","role":"user","is_active":"1"},{"id":"4","user":"t\u00e9t","phone":"1234567898","email":"test@gmail.com","role":"user","is_active":"1"},{"id":"2","user":"unkown","phone":"1111111119","email":"unkown@gmail.com","role":"user","is_active":"1"}]
+2025-07-16 10:22:52 - Raw Request: {
+    "phone":1234567890;
+    "password":123456
+}
+2025-07-16 10:22:52 - JSON Parse Error: Syntax error
+2025-07-16 10:23:16 - Raw Request: {
+    "phone":1234567890;
+    "password":123456
+}
+2025-07-16 10:23:16 - JSON Parse Error: Syntax error
+2025-07-16 10:23:41 - Raw Request: 
+2025-07-16 10:23:41 - Raw Request: {"email":"unkown@gmail.com","password":"123456"}
+2025-07-16 10:23:41 - Success: Logged in user: unkown
+2025-07-16 10:24:23 - Raw Request: 
+2025-07-16 10:24:23 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-16 10:24:23 - Success: Logged in user: Admin
+2025-07-16 10:24:55 - Raw Request: {
+    "email": "admin@gmail.com",
+    "password":"123456"
+}
+2025-07-16 10:24:55 - Success: Logged in user: Admin
+2025-07-16 10:25:03 - Raw Request: {"query":"\n    query IntrospectionQuery {\n      __schema {\n        \n        queryType { name }\n        mutationType { name }\n        subscriptionType { name }\n        types {\n          ...FullType\n        }\n        directives {\n          name\n          description\n          \n          locations\n          args {\n            ...InputValue\n          }\n        }\n      }\n    }\n\n    fragment FullType on __Type {\n      kind\n      name\n      description\n      \n      fields(includeDeprecated: true) {\n        name\n        description\n        args {\n          ...InputValue\n        }\n        type {\n          ...TypeRef\n        }\n        isDeprecated\n        deprecationReason\n      }\n      inputFields {\n        ...InputValue\n      }\n      interfaces {\n        ...TypeRef\n      }\n      enumValues(includeDeprecated: true) {\n        name\n        description\n        isDeprecated\n        deprecationReason\n      }\n      possibleTypes {\n        ...TypeRef\n      }\n    }\n\n    fragment InputValue on __InputValue {\n      name\n      description\n      type { ...TypeRef }\n      defaultValue\n      \n      \n    }\n\n    fragment TypeRef on __Type {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n                ofType {\n                  kind\n                  name\n                  ofType {\n                    kind\n                    name\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  "}
+2025-07-16 10:25:03 - Error: Missing or empty password
+2025-07-16 10:25:21 - Raw Request: {
+    "email": "admin@gmail.com",
+    "password":"123456"
+}
+2025-07-16 10:25:21 - Success: Logged in user: Admin
+2025-07-16 10:25:33 - Raw Request: {
+    "email": "sinh@gmail.com",
+    "password":"123456"
+}
+2025-07-16 10:25:33 - Error: Account not found or disabled
+2025-07-16 10:25:50 - Raw Request: {
+    "email": "sinh@gmail.com",
+    "password":"123456"
+}
+2025-07-16 10:25:50 - Error: Account not found or disabled
+2025-07-16 10:26:10 - Raw Request: {
+    "email": "unkown@gmail.com",
+    "password":"123456"
+}
+2025-07-16 10:26:10 - Success: Logged in user: unkown
+2025-07-16 10:26:18 - Raw Request: {
+    "email": "unkown@gmail.com",
+    "password":"123456"
+}
+2025-07-16 10:26:18 - Success: Logged in user: unkown
+2025-07-16 10:26:56 - Raw Request: 
+2025-07-16 10:26:56 - Raw Request: {"phone":"12345678901","password":"123456"}
+2025-07-16 10:26:56 - Error: Account not found or disabled
+2025-07-16 10:26:59 - Raw Request: {"phone":"12345678901","password":"123456"}
+2025-07-16 10:26:59 - Error: Account not found or disabled
+2025-07-16 10:27:51 - Raw Request: 
+2025-07-16 10:27:51 - Raw Request: {"phone":"12345678901","password":"123456"}
+2025-07-16 10:27:51 - Error: Account not found or disabled
+2025-07-16 10:27:59 - Raw Request: 
+2025-07-16 10:27:59 - Raw Request: {"phone":"1234567890d","password":"123456"}
+2025-07-16 10:27:59 - Error: Account not found or disabled
+2025-07-16 10:28:03 - Raw Request: {"phone":"1234567890","password":"123456"}
+2025-07-16 10:28:03 - Success: Logged in user: Admin

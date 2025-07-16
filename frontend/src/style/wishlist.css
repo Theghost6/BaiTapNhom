@@ -1,10 +1,13 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 .wishlist-wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background: #FFFFFF;
+  background: var(--bg-primary);
   min-height: 100vh;
-  color: #1F2937;
+  color: var(--text-primary);
 }
 
 .wishlist-hero {
@@ -29,7 +32,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, var(--shadow-hover) 50%, rgba(0, 0, 0, 0.2) 100%);
   z-index: 1;
 }
 
@@ -38,33 +41,33 @@
   bottom: 30px;
   left: 30px;
   z-index: 2;
-  color: #FFFFFF;
+  color: var(--bg-primary);
 }
 
 .hero-title {
   font-size: 3rem;
   margin: 0;
   font-weight: 700;
-  color: #FFFFFF;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: var(--bg-primary);
+  text-shadow: 2px 2px 4px var(--overlay-bg);
   letter-spacing: -0.025em;
 }
 
 .breadcrumbs {
   font-size: 1rem;
-  color: #F3F4F6;
+  color: var(--bg-tertiary);
   margin-top: 10px;
   font-weight: 500;
 }
 
 .breadcrumbs a {
-  color: #FFFFFF;
+  color: var(--bg-primary);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .breadcrumbs a:hover {
-  color: #E5E7EB;
+  color: var(--border-color);
 }
 
 .wishlist-container {
@@ -79,17 +82,17 @@
 
 .wishlist-item {
   position: relative;
-  background: #FFFFFF;
+  background: var(--bg-primary);
   border: 1px solid #E5E7EB;
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .wishlist-item:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border-color: #D1D5DB;
 }
 
@@ -123,7 +126,7 @@
 
 .wishlist-item-info {
   padding: 20px;
-  background: #FFFFFF;
+  background: var(--bg-primary);
   backdrop-filter: blur(10px);
   border-top: 1px solid #F3F4F6;
 }
@@ -132,7 +135,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0 0 8px 0;
-  color: #1F2937;
+  color: var(--text-primary);
   line-height: 1.4;
   overflow: hidden;
   display: -webkit-box;
@@ -153,8 +156,8 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  background: #EF4444;
-  color: #FFFFFF;
+  background: var(--error-color);
+  color: var(--bg-primary);
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -177,16 +180,16 @@
 .wishlist-empty {
   text-align: center;
   padding: 60px 40px;
-  background: #FFFFFF;
+  background: var(--bg-primary);
   border: 2px solid #F3F4F6;
   border-radius: 20px;
-  color: #6B7280;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: var(--text-secondary);
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
 }
 
 .wishlist-empty p {
   font-size: 1.25rem;
-  color: #6B7280;
+  color: var(--text-secondary);
   margin: 25px 0;
   font-weight: 500;
 }
@@ -194,8 +197,8 @@
 .explore-btn {
   display: inline-block;
   padding: 12px 30px;
-  background: #3B82F6;
-  color: #FFFFFF;
+  background: var(--brand-accent);
+  color: var(--bg-primary);
   text-decoration: none;
   border-radius: 50px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -205,7 +208,7 @@
 }
 
 .explore-btn:hover {
-  background: #2563EB;
+  background: var(--brand-primary);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
 }
@@ -213,7 +216,7 @@
 .wishlist-loading {
   text-align: center;
   padding: 80px 20px;
-  color: #6B7280;
+  color: var(--text-secondary);
 }
 
 .spinner {
@@ -234,11 +237,11 @@
 .wishlist-error {
   text-align: center;
   padding: 60px 40px;
-  background: #FFFFFF;
+  background: var(--bg-primary);
   border: 2px solid #FEE2E2;
   border-radius: 20px;
-  color: #6B7280;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: var(--text-secondary);
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
 }
 
 .wishlist-error h2 {
@@ -248,7 +251,7 @@
 }
 
 .wishlist-error p {
-  color: #6B7280;
+  color: var(--text-secondary);
   margin-bottom: 30px;
   font-size: 1.1rem;
 }
@@ -257,7 +260,7 @@
   display: inline-block;
   padding: 12px 30px;
   background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
-  color: #FFFFFF;
+  color: var(--bg-primary);
   text-decoration: none;
   border-radius: 50px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

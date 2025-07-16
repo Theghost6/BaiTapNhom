@@ -7,7 +7,14 @@ const Invoice = () => {
   const orderData = location.state?.orderData || {};
   const { customerInfo, cartItems, totalAmount, shippingCost, paymentMethod, shippingMethod, orderDate } = orderData;
 
+  // Debug: Log cart items để kiểm tra cấu trúc dữ liệu
+  console.log('Invoice cartItems:', cartItems);
+  console.log('Sample item:', cartItems?.[0]);
+
   const formatCurrency = (amount) => {
+    if (amount === null || amount === undefined || isNaN(amount)) {
+      return "0 ₫";
+    }
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
@@ -36,7 +43,7 @@ const Invoice = () => {
             <p><strong>Họ tên:</strong> {customerInfo?.fullName || 'N/A'}</p>
             <p><strong>Email:</strong> {customerInfo?.email || 'N/A'}</p>
             <p><strong>Số điện thoại:</strong> {customerInfo?.phone || 'N/A'}</p>
-            
+
             {shippingMethod === 'ship' && (
               <>
                 <p><strong>Địa chỉ:</strong> {customerInfo?.address || 'N/A'}</p>
@@ -45,7 +52,7 @@ const Invoice = () => {
                 <p><strong>Phường/Xã:</strong> {customerInfo?.ward || 'N/A'}</p>
               </>
             )}
-            
+
             {shippingMethod === 'pickup' && (
               <p><strong>Nhận hàng tại cửa hàng</strong></p>
             )}
@@ -65,15 +72,21 @@ const Invoice = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems?.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.ten_sp}</td>
-                  <td>{formatCurrency(item.gia_sau)}</td>
-                  <td>{item.so_luong}</td>
-                  <td>{formatCurrency(item.gia * item.so_luong)}</td>
-                </tr>
-              ))}
+              {cartItems?.map((item, index) => {
+                const price = item.gia_sau || item.gia || 0;
+                const quantity = item.so_luong || item.quantity || 0;
+                const subtotal = price * quantity;
+
+                return (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.ten_sp || item.name || 'Sản phẩm'}</td>
+                    <td>{formatCurrency(price)}</td>
+                    <td>{quantity}</td>
+                    <td>{formatCurrency(subtotal)}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

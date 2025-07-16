@@ -7,14 +7,15 @@
 
 body {
   overflow-x: hidden;
+  /* margin-top: 70px; */
+  /* Bằng với chiều cao header */
+  padding-top: 0;
 }
 
 .main-header {
-  background: #FFFFFF;
-  /* Changed to solid white */
-  color: #000000;
-  /* Black text for contrast */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: var(--header-bg);
+  /* Light mode white background */
+  box-shadow: 0 2px 8px var(--header-border);
   position: fixed;
   top: 0;
   left: 0;
@@ -67,22 +68,22 @@ body {
   transform: translateY(-1px);
   background: rgba(13, 146, 244, 0.1);
   /* Light blue (#0D92F4) hover */
-  border-color: #0D92F4;
+  border-color: var(--brand-primary);
   /* Primary blue border */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .logo-image {
   height: 40px;
   width: 40px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 2px 4px var(--shadow-color));
 }
 
 .logo-text {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   letter-spacing: -0.3px;
@@ -101,7 +102,7 @@ body {
   border: 1px solid transparent;
   font-size: 14px;
   font-weight: 600;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -113,7 +114,7 @@ body {
 .category-button:hover {
   background: rgba(13, 146, 244, 0.1);
   /* Light blue (#0D92F4) hover */
-  border-color: #0D92F4;
+  border-color: var(--brand-primary);
   /* Primary blue border */
   transform: translateY(-1px);
   box-shadow: 0 3px 12px rgba(13, 146, 244, 0.2);
@@ -137,7 +138,7 @@ body {
   border: 1px solid rgba(13, 146, 244, 0.3);
   /* Primary blue border */
   border-radius: 8px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px var(--shadow-hover);
   z-index: 1000;
   display: none;
   padding: 8px 0;
@@ -173,7 +174,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   transition: all 0.2s ease;
   border-radius: 4px;
@@ -183,7 +184,7 @@ body {
 .category-item:hover {
   background: linear-gradient(135deg, #C62E2E, #0D92F4);
   /* Red to blue gradient */
-  color: #FFFFFF;
+  color: var(--bg-primary);
   /* White text on hover */
   transform: translateX(4px);
 }
@@ -208,7 +209,7 @@ body {
   border: 1px solid rgba(13, 146, 244, 0.3);
   /* Primary blue border */
   border-radius: 8px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px var(--shadow-hover);
   padding: 16px;
   z-index: 1001;
   animation: slideRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -233,7 +234,7 @@ body {
   padding-bottom: 8px;
   border-bottom: 2px solid #0D92F4;
   /* Primary blue border */
-  color: #0D92F4;
+  color: var(--brand-primary);
   /* Primary blue text */
   position: relative;
 }
@@ -245,7 +246,7 @@ body {
   left: 0;
   width: 25px;
   height: 2px;
-  background: #C62E2E;
+  background: var(--error-color);
   /* Secondary red underline */
 }
 
@@ -261,7 +262,7 @@ body {
   word-break: break-word;
   white-space: normal;
   scrollbar-width: thin;
-  scrollbar-color: #0D92F4 #CCCCCC;
+  scrollbar-color: var(--brand-primary) #CCCCCC;
 }
 
 .subcategory-items::-webkit-scrollbar {
@@ -269,20 +270,20 @@ body {
 }
 
 .subcategory-items::-webkit-scrollbar-track {
-  background: #CCCCCC;
+  background: var(--text-muted);
   /* Light gray track */
   border-radius: 2px;
 }
 
 .subcategory-items::-webkit-scrollbar-thumb {
-  background: #0D92F4;
+  background: var(--brand-primary);
   /* Primary blue thumb */
   border-radius: 2px;
 }
 
 .subcategory-item {
   padding: 8px 10px;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   text-decoration: none;
   border-radius: 4px;
@@ -319,7 +320,7 @@ body {
 .subcategory-item:hover {
   background: linear-gradient(135deg, #C62E2E, #0D92F4);
   /* Red to blue gradient */
-  color: #FFFFFF;
+  color: var(--bg-primary);
   /* White text on hover */
   transform: translateX(6px);
   box-shadow: 0 2px 6px rgba(13, 146, 244, 0.2);
@@ -343,26 +344,26 @@ body {
   border-radius: 6px;
   border: 1px solid rgba(13, 146, 244, 0.3);
   /* Primary blue border */
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--overlay-light);
   backdrop-filter: blur(10px);
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 .search-bar-container input:focus {
   outline: none;
-  border-color: #0D92F4;
+  border-color: var(--brand-primary);
   /* Primary blue on focus */
   box-shadow: 0 00 3px rgba(13, 146, 244, 0.2);
   transform: translateY(-1px);
 }
 
 .search-bar-container input::placeholder {
-  color: #CCCCCC;
+  color: var(--text-muted);
   /* Light gray placeholder */
   font-weight: 400;
 }
@@ -380,7 +381,7 @@ body {
   max-height: 280px;
   overflow-y: auto;
   border-radius: 8px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px var(--shadow-hover);
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -389,7 +390,7 @@ body {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   transition: all 0.2s ease;
   border-radius: 4px;
@@ -399,7 +400,7 @@ body {
 .search-suggestion-item:hover {
   background: linear-gradient(135deg, #C62E2E, #0D92F4);
   /* Red to blue gradient */
-  color: #FFFFFF;
+  color: var(--bg-primary);
   /* White text on hover */
   transform: translateX(3px);
 }
@@ -415,7 +416,7 @@ body {
   padding: 10px 12px;
   border: 1px solid transparent;
   border-radius: 6px;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   font-size: 13px;
   font-weight: 600;
@@ -456,7 +457,7 @@ body {
 .consult-selector-btn:hover {
   background: rgba(13, 146, 244, 0.1);
   /* Light blue hover */
-  border-color: #0D92F4;
+  border-color: var(--brand-primary);
   /* Primary blue border */
   transform: translateY(-1px);
   box-shadow: 0 4px 15px rgba(13, 146, 244, 0.2);
@@ -473,7 +474,7 @@ body {
   /* Primary blue border */
   border-radius: 8px;
   padding: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px var(--shadow-hover);
   z-index: 1000;
   min-width: 200px;
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -497,7 +498,7 @@ body {
   gap: 8px;
   font-size: 13px;
   font-weight: 500;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   transition: all 0.2s ease;
   padding: 3px 0;
@@ -511,7 +512,7 @@ body {
 }
 
 .consult-info a {
-  color: #0D92F4;
+  color: var(--brand-primary);
   /* Primary blue links */
   text-decoration: none;
   font-weight: 600;
@@ -519,7 +520,7 @@ body {
 }
 
 .consult-info a:hover {
-  color: #C62E2E;
+  color: var(--error-color);
   /* Secondary red on hover */
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -528,7 +529,7 @@ body {
 .close-btn {
   font-size: 20px;
   font-weight: bold;
-  color: #CCCCCC;
+  color: var(--text-muted);
   /* Light gray */
   cursor: pointer;
   transition: all 0.2s ease;
@@ -542,7 +543,7 @@ body {
 }
 
 .close-btn:hover {
-  color: #000000;
+  color: var(--text-primary);
   /* Black on hover */
   background: rgba(198, 46, 46, 0.1);
   /* Light red hover */
@@ -570,7 +571,7 @@ body {
   /* Neutral background */
   border: 1px solid transparent;
   border-radius: 6px;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   font-size: 13px;
   font-weight: 600;
@@ -581,7 +582,7 @@ body {
 .user-profile button:hover {
   background: rgba(13, 146, 244, 0.1);
   /* Light blue hover */
-  border-color: #0D92F4;
+  border-color: var(--brand-primary);
   /* Primary blue border */
   transform: translateY(-1px);
   box-shadow: 0 3px 12px rgba(13, 146, 244, 0.2);
@@ -592,15 +593,15 @@ body {
   height: 32px !important;
   border-radius: 4px !important;
   object-fit: cover !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid var(--shadow-hover) !important;
   /* Neutral border */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 6px var(--shadow-color) !important;
 }
 
 .header-avatar:hover {
   transform: scale(1.05) !important;
-  border-color: #0D92F4 !important;
+  border-color: var(--brand-primary) !important;
   /* Primary blue border */
   box-shadow: 0 3px 12px rgba(13, 146, 244, 0.3) !important;
 }
@@ -614,7 +615,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px var(--shadow-color);
   transition: all 0.3s ease;
 }
 
@@ -634,7 +635,7 @@ body {
   /* Primary blue border */
   border-radius: 8px;
   padding: 12px 0;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px var(--shadow-hover);
   z-index: 1000;
   min-width: 180px;
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -649,7 +650,7 @@ body {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -678,7 +679,7 @@ body {
 .user-dropdown .dropdown-item:hover {
   background: linear-gradient(135deg, #C62E2E, #0D92F4);
   /* Red to blue gradient */
-  color: #FFFFFF;
+  color: var(--bg-primary);
   /* White text on hover */
   transform: translateX(3px);
   box-shadow: 0 2px 6px rgba(13, 146, 244, 0.2);
@@ -694,7 +695,7 @@ body {
 .logout-button:hover {
   background: linear-gradient(135deg, #C62E2E, #F95454) !important;
   /* Red to light red gradient */
-  color: #FFFFFF !important;
+  color: var(--bg-primary) !important;
   /* White text on hover */
 }
 
@@ -714,27 +715,27 @@ body {
 .user-actions:hover {
   background: rgba(13, 146, 244, 0.1);
   /* Light blue hover */
-  border-color: #0D92F4;
+  border-color: var(--brand-primary);
   /* Primary blue border */
   transform: translateY(-1px);
   box-shadow: 0 3px 12px rgba(13, 146, 244, 0.2);
 }
 
 .user-actions a {
-  color: #000000;
+  color: var(--text-primary);
   /* Black for contrast */
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .user-actions a:hover {
-  color: #0D92F4;
+  color: var(--brand-primary);
   /* Primary blue on hover */
   transform: scale(1.05);
 }
 
 .Separator {
-  color: rgba(0, 0, 0, 0.3);
+  color: var(--shadow-hover);
   /* Neutral separator */
   font-weight: 300;
 }
@@ -749,15 +750,15 @@ body {
 }
 
 .menu-loading {
-  color: #CCCCCC;
+  color: var(--text-muted);
   /* Light gray */
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--shadow-color);
   /* Neutral background */
   animation: pulse 2s infinite;
 }
 
 .menu-error {
-  color: #C62E2E;
+  color: var(--error-color);
   /* Secondary red */
   background: rgba(198, 46, 46, 0.1);
   /* Light red background */
@@ -773,6 +774,27 @@ body {
   50% {
     opacity: 0.5;
   }
+}
+
+/* Main Content Wrapper - Đảm bảo tách biệt với header */
+.main-content {
+  margin-top: 0;
+  /* Không cần margin-top vì body đã có */
+  min-height: calc(100vh - 70px);
+  position: relative;
+  z-index: 1;
+  padding-top: 10px;
+  /* Chỉ một chút padding để không sát quá */
+}
+
+/* Page Container - Wrapper cho toàn bộ nội dung */
+.page-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* padding: 10px 15px; */
+  /* Giảm padding từ 20px xuống 10px */
+  box-sizing: border-box;
 }
 
 /* Responsive Design - Tối ưu cho 14 inch */
@@ -859,6 +881,18 @@ body {
     padding: 8px;
   }
 
+  /* Điều chỉnh margin-top cho body trên mobile - giữ nguyên 70px */
+  body {
+    margin-top: 70px;
+  }
+
+  .main-content {
+    margin-top: 0;
+    min-height: calc(100vh - 70px);
+    padding-top: 8px;
+    /* Giảm padding cho mobile */
+  }
+
   .search-bar-container {
     order: 3;
     flex: 1;
@@ -915,9 +949,9 @@ body {
   position: absolute;
   top: -8px;
   right: -10px;
-  background-color: #C62E2E;
+  background-color: var(--error-color);
   /* Secondary red */
-  color: #FFFFFF;
+  color: var(--bg-primary);
   /* White for contrast */
   border-radius: 50%;
   padding: 1px 5px;
@@ -969,16 +1003,28 @@ body {
   padding: 7px 12px;
   border-radius: 6px;
   border: 1px solid #0D92F4;
-  background: #fff;
+  background: var(--bg-primary);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: #0D92F4;
+}
+
+.show-suggestions-btn svg {
+  color: #0D92F4 !important;
+  fill: #0D92F4 !important;
 }
 
 .show-suggestions-btn:hover {
   background: #e6f2fb;
+  color: #1E40AF;
+}
+
+.show-suggestions-btn:hover svg {
+  color: #1E40AF !important;
+  fill: #1E40AF !important;
 }
 
 /* --- Responsive tối ưu cho mobile và máy phổ thông --- */
@@ -988,6 +1034,7 @@ body {
   .logo-text {
     display: none;
   }
+
   .logo-image {
     height: 32px;
     width: 32px;
@@ -996,12 +1043,14 @@ body {
 
 /* Menu: chỉ hiện icon, ẩn chữ trên mobile */
 @media (max-width: 768px) {
+
   .menu-button span,
   .contact-button span,
   .developer-button span,
   .consult-selector-btn span {
     display: none !important;
   }
+
   .menu-button,
   .contact-button,
   .developer-button,
@@ -1021,6 +1070,7 @@ body {
     min-width: 0;
     margin: 8px 0 0 0;
   }
+
   .search-bar-container input {
     font-size: 15px;
     padding: 10px 12px;
@@ -1029,6 +1079,7 @@ body {
 
 /* Dropdown chuyển sang click trên mobile */
 @media (max-width: 768px) {
+
   .category-dropdown,
   .subcategory-panel {
     left: 0 !important;
@@ -1036,11 +1087,12 @@ body {
     width: 100vw !important;
     min-width: unset !important;
     border-radius: 0 0 8px 8px !important;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
     position: fixed !important;
     top: 60px !important;
     z-index: 2000 !important;
   }
+
   .subcategory-panel {
     top: 120px !important;
   }
@@ -1057,6 +1109,7 @@ body {
     top: 60px !important;
     padding: 10px !important;
   }
+
   .user-dropdown {
     right: 0 !important;
     left: 0 !important;
@@ -1080,6 +1133,7 @@ body {
 
 /* Tăng kích thước icon cho dễ bấm trên mobile */
 @media (max-width: 480px) {
+
   .menu-button svg,
   .contact-button svg,
   .developer-button svg,
@@ -1094,6 +1148,7 @@ body {
   .main-header-container {
     padding: 0 4px;
   }
+
   .header-items {
     gap: 4px;
     padding: 4px;
@@ -1102,11 +1157,13 @@ body {
 
 /* Ẩn menu, chỉ hiện hamburger trên mobile */
 @media (max-width: 600px) {
+
   .category-menu,
   .static-menu-buttons,
   .search-bar-container {
     display: none !important;
   }
+
   .mobile-header-bar {
     display: flex !important;
     justify-content: space-between;
@@ -1114,6 +1171,7 @@ body {
     width: 100%;
     padding: 8px 4px;
   }
+
   .mobile-menu-toggle {
     display: flex !important;
     align-items: center;
@@ -1128,27 +1186,35 @@ body {
 .mobile-offcanvas-menu {
   display: none;
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 3000;
 }
+
 .mobile-offcanvas-menu.active {
   display: block;
 }
+
 .mobile-offcanvas-content {
-  background: #fff;
+  background: var(--bg-primary);
   width: 80vw;
   max-width: 320px;
   height: 100%;
   position: absolute;
-  left: 0; top: 0;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+  left: 0;
+  top: 0;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
   padding: 24px 12px;
   overflow-y: auto;
 }
+
 .mobile-offcanvas-close {
   position: absolute;
-  top: 12px; right: 12px;
+  top: 12px;
+  right: 12px;
   font-size: 28px;
   background: none;
   border: none;
@@ -1157,6 +1223,7 @@ body {
 
 /* Tăng kích thước icon, badge cho mobile */
 @media (max-width: 600px) {
+
   .menu-button svg,
   .contact-button svg,
   .developer-button svg,
@@ -1164,6 +1231,7 @@ body {
     width: 26px !important;
     height: 26px !important;
   }
+
   .badge {
     font-size: 10px;
     padding: 2px 6px;

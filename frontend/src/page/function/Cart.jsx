@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from './useCart';
+import { useCart } from '../../hooks/cart/useCart';
 import '../../style/cart.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { useContext } from 'react';
@@ -10,9 +10,25 @@ import { toast } from 'react-toastify';
 
 const Cart = () => {
   const navigate = useNavigate();
-  // Lấy cartProducts từ useCart (dữ liệu đã fetch từ backend)
-  const { cartProducts, totalQuantity, totalAmount, removeFromCart, clearCart, updateQuantity } = useCart();
-  const { isAuthenticated } = useContext(AuthContext) || {};
+  // Lấy cartItems từ useCart (dữ liệu localStorage)
+  const { cartItems, totalQuantity, totalAmount, removeFromCart, clearCart, updateQuantity } = useCart();
+  const { isAuthenticated, user } = useContext(AuthContext) || {};
+
+  // Kiểm tra role admin
+  if (isAuthenticated && user?.role === 'admin') {
+    return (
+      <div className="cart-page empty-cart">
+        <h3>Giỏ Hàng</h3>
+        <div className="empty-cart-message">
+          <i className="fa fa-shopping-cart"></i>
+          <p>Tài khoản admin không được phép truy cập giỏ hàng</p>
+          <button onClick={() => navigate('/')} className="continue-shopping-btn">
+            Về trang chủ
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
@@ -25,7 +41,7 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    navigate('/checkout', { state: { products: cartProducts } });
+    navigate('/checkout', { state: { products: cartItems } });
   };
 
   const handleContinueShopping = () => {
@@ -36,65 +52,39 @@ const Cart = () => {
     navigate('/register');
   };
 
-  // Helper: kiểm tra tồn kho qua stock_json.php giống ChiTietLinhKien
-  const checkStock = async (item) => {
-    const ma_sp = item.ma_sp || item.id || item.id_product;
-    if (!ma_sp) {
-      console.warn('Không có ma_sp hợp lệ:', item);
-      return null;
-    }
-    const apiUrl = `${import.meta.env.VITE_HOST}/stock_json.php`;
+  // Kiểm tra tồn kho từ API products.php
+  const checkStock = async (itemId) => {
     try {
-      console.log('Gửi kiểm tra tồn kho:', { ma_sp, apiUrl });
-      const res = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'check',
-          items: [{ ma_sp, id: ma_sp, id_product: ma_sp }]
-        })
-      });
-      const text = await res.text();
-      try {
-        const data = JSON.parse(text);
-        console.log('Kết quả trả về từ stock_json.php:', data);
-        if ((data.status === 'success' || data.success === true) && data.updated_items && data.updated_items.length > 0) {
-          return data.updated_items[0].so_luong_cu;
-        }
-        if (data.error || data.message) {
-          toast.error(data.error || data.message);
-        }
-        return null;
-      } catch (jsonErr) {
-        console.error('Lỗi parse JSON tồn kho:', text);
-        toast.error('Lỗi dữ liệu tồn kho: ' + text);
-        return null;
+      const response = await fetch(`${import.meta.env.VITE_HOST}/products.php?id=${itemId}`);
+      const data = await response.json();
+
+      if (data.success && data.data) {
+        return data.data.so_luong || 0;
       }
-    } catch (err) {
-      console.error('Lỗi khi gọi API tồn kho:', err);
-      toast.error('Không kết nối được API tồn kho!');
+      return null;
+    } catch (error) {
       return null;
     }
   };
 
   const handleQuantityChange = async (itemId, newQuantity) => {
     if (newQuantity < 1) return;
-    // Tìm đúng item trong cartProducts để lấy ma_sp chuẩn
-    const item = cartProducts.find(i => i.id === itemId || i.ma_sp === itemId || i.id_product === itemId);
-    if (!item) {
-      toast.error('Không tìm thấy sản phẩm trong giỏ hàng!');
+
+    // Kiểm tra tồn kho
+    const stockQuantity = await checkStock(itemId);
+
+    if (stockQuantity === null) {
+      toast.error('Không thể kiểm tra tồn kho sản phẩm này!');
       return;
     }
-    const maxStock = await checkStock(item);
-    if (maxStock === null) {
-      toast.error('Không kiểm tra được tồn kho sản phẩm này!');
+
+    if (newQuantity > stockQuantity) {
+      toast.warn(`Số lượng vượt quá tồn kho! Chỉ còn ${stockQuantity} sản phẩm.`);
+      // Tự động điều chỉnh về số lượng tồn kho tối đa
+      updateQuantity(itemId, stockQuantity);
       return;
     }
-    if (newQuantity > maxStock) {
-      toast.warn(`Số lượng vượt quá tồn kho! Chỉ còn ${maxStock} sản phẩm.`);
-      updateQuantity(itemId, maxStock);
-      return;
-    }
+
     updateQuantity(itemId, newQuantity);
   };
 
@@ -118,7 +108,7 @@ const Cart = () => {
     );
   }
 
-  if (!cartProducts.length) {
+  if (!cartItems.length) {
     return (
       <div className="cart-page empty-cart">
         <h3>Giỏ Hàng</h3>
@@ -133,8 +123,8 @@ const Cart = () => {
     );
   }
 
-  // Nếu có cartProducts nhưng không có trường ten_sp, images, gia_sau... thì hiển thị debug
-  const hasProductInfo = cartProducts.some(item => item.ten_sp || item.gia_sau || (item.images && item.images.length));
+  // Nếu có cartItems nhưng không có trường ten_sp, images, gia_sau... thì hiển thị debug
+  const hasProductInfo = cartItems.some(item => item.ten_sp || item.gia_sau || (item.images && item.images.length));
   if (!hasProductInfo) {
     return (
       <div className="cart-page empty-cart">
@@ -165,7 +155,7 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {cartProducts.map((item) => (
+              {cartItems.map((item) => (
                 <tr key={item.id} className="cart-item">
                   <td>
                     <div className="item-info">

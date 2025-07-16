@@ -51,7 +51,7 @@ $query = "SELECT
             dcgh.phuong_xa,
             GROUP_CONCAT(CONCAT(sp.ten_sp, ' (x', ctdh.so_luong, ')') SEPARATOR ', ') as ten_san_pham
           FROM don_hang dh
-          LEFT JOIN dang_ky dk ON dh.ma_nguoi_dung = dk.id
+          LEFT JOIN tai_khoan dk ON dh.ma_nguoi_dung = dk.id
           LEFT JOIN dia_chi_giao_hang dcgh ON dh.ma_dia_chi = dcgh.ma_dia_chi
           LEFT JOIN chi_tiet_don_hang ctdh ON dh.id = ctdh.ma_don_hang
           LEFT JOIN san_pham sp ON ctdh.ma_sp = sp.ma_sp

@@ -171,11 +171,16 @@ if (is_null($userId)) {
     sendError(400, "Thiếu mã người dùng. Vui lòng đăng nhập lại.");
 }
 
-// Verify userId exists in dang_ky table
-$userQuery = "SELECT id FROM dang_ky WHERE id = '$userId' LIMIT 1";
+// Verify userId exists in tai_khoan table and check role
+$userQuery = "SELECT id, role FROM tai_khoan WHERE id = '$userId' LIMIT 1";
 $userResult = $conn->query($userQuery);
 if (!$userResult || $userResult->num_rows == 0) {
     sendError(400, "Mã người dùng không hợp lệ: $userId");
+}
+
+$userData = $userResult->fetch_assoc();
+if ($userData['role'] === 'admin') {
+    sendError(403, "Tài khoản admin không được phép thực hiện thanh toán!");
 }
 
 logMessage("Xác thực đầu vào thành công");

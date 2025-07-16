@@ -23,7 +23,7 @@ const Footer = () => {
             <div className="footer-logo">
               <div className="footer-logo-container">
                 <img src="/photos/Logo.png" alt="Logo" className="footer-logo-image" />
-                <span className="footer-logo-text">NANOCORE4</span>
+                <span className="footer-logo-text">SH3</span>
               </div>
             </div>
             <p className="footer-description">

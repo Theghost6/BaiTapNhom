@@ -1,3 +1,6 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 /* Cart table and item styles */
 .cart-items table {
     width: 100%;
@@ -12,7 +15,7 @@
 
 .cart-items th {
     background-color: #007bff;
-    color: #fff;
+    color: var(--bg-primary);
 }
 
 .cart-items td {

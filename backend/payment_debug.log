@@ -1835,3 +1835,68 @@
 2025-07-08 16:13:12 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('6', 'cod', '109990000', 'Chưa thanh toán')
 2025-07-08 16:13:12 - Giao dịch COD được xác nhận thành công
 2025-07-08 16:13:12 - Đóng kết nối cơ sở dữ liệu
+2025-07-10 00:39:27 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-10 00:39:27 - Kết nối cơ sở dữ liệu thành công
+2025-07-10 00:39:27 - Dữ liệu thô: {"userId":"1","cartItems":[{"ma_sp":"SP01338","ten":"Bàn phím Gaming Asus ROG Falchion RX Low Profile","gia":3790000,"so_luong":1,"danh_muc":"Bàn phím"}],"customerInfo":{"fullName":"admin","email":"unkown@gmail.com","phone":"7878987909","address":"lkl","city":"Thành phố Hà Nội","district":"Thị xã Sơn Tây","ward":"Xã Kim Sơn","note":""},"paymentMethod":"cod","shippingMethod":"ship","totalAmount":3790000,"orderDate":"2025-07-09T17:39:27.589Z"}
+2025-07-10 00:39:27 - Chuyển đổi ngay_dat_hang: 2025-07-09T17:39:27.589Z thành 2025-07-09 17:39:27
+2025-07-10 00:39:27 - Xác thực đầu vào thành công
+2025-07-10 00:39:27 - Tạo địa chỉ giao hàng mới với ID: 1
+2025-07-10 00:39:27 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('1', '1', '3790000', '0', 'Chờ xử lý', '2025-07-09 17:39:27', '')
+2025-07-10 00:39:27 - Chèn đơn hàng với ID: 1
+2025-07-10 00:39:27 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('1', 'SP01338', '1', '3790000', '0')
+2025-07-10 00:39:27 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('1', 'Khách: admin; Sản phẩm: Bàn phím Gaming Asus ROG Falchion RX Low Profile (x1); Địa chỉ: lkl, Xã Kim Sơn, Thị xã Sơn Tây, Thành phố Hà Nội; Ghi chú: ; Phương thức: cod', '3790000')
+2025-07-10 00:39:27 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('1', 'cod', '3790000', 'Chưa thanh toán')
+2025-07-10 00:39:27 - Giao dịch COD được xác nhận thành công
+2025-07-10 00:39:27 - Đóng kết nối cơ sở dữ liệu
+2025-07-15 00:32:00 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-15 00:32:00 - Kết nối cơ sở dữ liệu thành công
+2025-07-15 00:32:00 - Dữ liệu thô: {"userId":"2","cartItems":[{"ma_sp":"SP00002","ten":"VGA Asus ROG Astral Geforce RTX 5090 OC 32GB ROG-ASTRAL-RTX5090-O32G-GAMING","gia":109990000,"so_luong":16,"danh_muc":"Card màn hình"}],"customerInfo":{"fullName":"unkown","email":"unkown@gmail.com","phone":"9839283749","address":"1","city":"Thành phố Hà Nội","district":"Quận Ba Đình","ward":"Phường Kim Mã","note":"nope"},"paymentMethod":"cod","shippingMethod":"ship","totalAmount":1759840000,"orderDate":"2025-07-14T17:32:00.403Z"}
+2025-07-15 00:32:00 - Chuyển đổi ngay_dat_hang: 2025-07-14T17:32:00.403Z thành 2025-07-14 17:32:00
+2025-07-15 00:32:00 - Xác thực đầu vào thành công
+2025-07-15 00:32:00 - Tạo địa chỉ giao hàng mới với ID: 1
+2025-07-15 00:32:00 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('2', '1', '1759840000', '0', 'Chờ xử lý', '2025-07-14 17:32:00', 'nope')
+2025-07-15 00:32:00 - Chèn đơn hàng với ID: 1
+2025-07-15 00:32:00 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('1', 'SP00002', '16', '109990000', '0')
+2025-07-15 00:32:00 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('1', 'Khách: unkown; Sản phẩm: VGA Asus ROG Astral Geforce RTX 5090 OC 32GB ROG-ASTRAL-RTX5090-O32G-GAMING (x16); Địa chỉ: 1, Phường Kim Mã, Quận Ba Đình, Thành phố Hà Nội; Ghi chú: nope; Phương thức: cod', '1759840000')
+2025-07-15 00:32:00 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('1', 'cod', '1759840000', 'Chưa thanh toán')
+2025-07-15 00:32:00 - Giao dịch COD được xác nhận thành công
+2025-07-15 00:32:00 - Đóng kết nối cơ sở dữ liệu
+2025-07-15 18:36:30 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-15 18:36:30 - Kết nối cơ sở dữ liệu thành công
+2025-07-15 18:36:30 - Dữ liệu thô: {"userId":"2","cartItems":[{"ma_sp":"SP00009","ten":"RAM Laptop Kingston Sodimm 1.2V 16GB 3200MHz CL22","gia":1290000,"so_luong":1,"danh_muc":"RAM"}],"customerInfo":{"fullName":"unkown","email":"test@gmail.com","phone":"1121212932","address":"2","city":"Thành phố Hà Nội","district":"Quận Ba Đình","ward":"Phường Giảng Võ","wardCode":"31","note":""},"paymentMethod":"vnpay","shippingMethod":"ship","totalAmount":1290000,"orderDate":"2025-07-15T11:36:29.852Z"}
+2025-07-15 18:36:30 - Chuyển đổi ngay_dat_hang: 2025-07-15T11:36:29.852Z thành 2025-07-15 11:36:29
+2025-07-15 18:36:30 - Xác thực đầu vào thành công
+2025-07-15 18:36:30 - Tạo địa chỉ giao hàng mới với ID: 2
+2025-07-15 18:36:30 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('2', '2', '1290000', '0', 'Chờ xử lý', '2025-07-15 11:36:29', '')
+2025-07-15 18:36:30 - Chèn đơn hàng với ID: 2
+2025-07-15 18:36:30 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('2', 'SP00009', '1', '1290000', '0')
+2025-07-15 18:36:30 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('2', 'Khách: unkown; Sản phẩm: RAM Laptop Kingston Sodimm 1.2V 16GB 3200MHz CL22 (x1); Địa chỉ: 2, Phường Giảng Võ, Quận Ba Đình, Thành phố Hà Nội; Ghi chú: ; Phương thức: vnpay', '1290000')
+2025-07-15 18:36:30 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('2', 'vnpay', '1290000', 'Chưa thanh toán')
+2025-07-15 18:36:30 - Đơn hàng VNPay đã tạo, trả về orderId để frontend tự gọi sang vnpay_create.php
+2025-07-15 18:36:31 - Khởi tạo thanh toán VNPay cho đơn hàng 2: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=129000000&vnp_Command=pay&vnp_CreateDate=20250715183631&vnp_CurrCode=VND&vnp_ExpireDate=20250715190631&vnp_IpAddr=%3A%3A1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+don+hang+2&vnp_OrderType=billpayment&vnp_ReturnUrl=https%3A%2F%2Ftraffic-humans-incentive-heather.trycloudflare.com%2FBaiTapNhom%2Fbackend%2Fvnpay_callback.php&vnp_TmnCode=LYE5QSH7&vnp_TxnRef=2&vnp_Version=2.1.0&vnp_SecureHash=2fea7d2e90b013358b3abf9d28cba86ddc6111b6bf507b8badf3b39e19b0a7f42eeda7441f71fa0d271116867255585c486f4c8402724915782ff6f604a200da
+2025-07-15 18:37:35 - --------- Gỡ lỗi Callback VNPay ---------
+2025-07-15 18:37:35 - Tất cả tham số GET: {"vnp_Amount":"129000000","vnp_BankCode":"NCB","vnp_BankTranNo":"VNP15076390","vnp_CardType":"ATM","vnp_OrderInfo":"Thanh toan don hang 2","vnp_PayDate":"20250715183826","vnp_ResponseCode":"00","vnp_TmnCode":"LYE5QSH7","vnp_TransactionNo":"15076390","vnp_TransactionStatus":"00","vnp_TxnRef":"2","vnp_SecureHash":"b003f7e39b1178340f4df7b24b4894257bf117a9445c84d5b63fea0cbad2cc49d6cdf0d12c749977f7d44c82a38e1737f897cbce1ab75a30c23a95c243ace87a"}
+2025-07-15 18:37:35 - vnp_SecureHash nhận được: b003f7e39b1178340f4df7b24b4894257bf117a9445c84d5b63fea0cbad2cc49d6cdf0d12c749977f7d44c82a38e1737f897cbce1ab75a30c23a95c243ace87a
+2025-07-15 18:37:35 - inputData sau khi sắp xếp: {"vnp_Amount":"129000000","vnp_BankCode":"NCB","vnp_BankTranNo":"VNP15076390","vnp_CardType":"ATM","vnp_OrderInfo":"Thanh toan don hang 2","vnp_PayDate":"20250715183826","vnp_ResponseCode":"00","vnp_TmnCode":"LYE5QSH7","vnp_TransactionNo":"15076390","vnp_TransactionStatus":"00","vnp_TxnRef":"2"}
+2025-07-15 18:37:35 - Chuỗi hashData: vnp_Amount=129000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP15076390&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+don+hang+2&vnp_PayDate=20250715183826&vnp_ResponseCode=00&vnp_TmnCode=LYE5QSH7&vnp_TransactionNo=15076390&vnp_TransactionStatus=00&vnp_TxnRef=2
+2025-07-15 18:37:35 - secureHash được tạo: b003f7e39b1178340f4df7b24b4894257bf117a9445c84d5b63fea0cbad2cc49d6cdf0d12c749977f7d44c82a38e1737f897cbce1ab75a30c23a95c243ace87a
+2025-07-15 18:37:35 - Khớp hash: Có
+2025-07-15 18:37:35 - Trạng thái thanh toán được cập nhật cho đơn hàng 2: Đã thanh toán
+2025-07-15 18:37:35 - Cập nhật trạng thái đơn hàng 2 thành 'Đã thanh toán'
+2025-07-15 18:47:06 - Nhận yêu cầu: POST /BaiTapNhom/backend/payments.php
+2025-07-15 18:47:06 - Kết nối cơ sở dữ liệu thành công
+2025-07-15 18:47:06 - Dữ liệu thô: {"userId":"2","cartItems":[{"ma_sp":"SP00032","ten":"Ram Laptop Kingston DDR5 5600MHz 16GB KVR56S46BS8-16","gia":1390000,"so_luong":1,"danh_muc":"RAM"}],"customerInfo":{"fullName":"unkown","email":"hola@gmail.com","phone":"09764512345","address":"879","city":"Thành phố Hà Nội","district":"Quận Hoàng Mai","ward":"Phường Yên Sở","wardCode":"340","note":""},"paymentMethod":"cod","shippingMethod":"ship","totalAmount":1390000,"orderDate":"2025-07-15T11:47:05.264Z"}
+2025-07-15 18:47:06 - Chuyển đổi ngay_dat_hang: 2025-07-15T11:47:05.264Z thành 2025-07-15 11:47:05
+2025-07-15 18:47:06 - Xác thực đầu vào thành công
+2025-07-15 18:47:06 - Tạo địa chỉ giao hàng mới với ID: 3
+2025-07-15 18:47:06 - Thực thi truy vấn chèn đơn hàng: INSERT INTO don_hang (ma_nguoi_dung, ma_dia_chi, tong_tien, phi_van_chuyen, trang_thai, created_at, ghi_chu)
+                 VALUES ('2', '3', '1390000', '0', 'Chờ xử lý', '2025-07-15 11:47:05', '')
+2025-07-15 18:47:06 - Chèn đơn hàng với ID: 3
+2025-07-15 18:47:06 - Thực thi truy vấn chèn chi_tiet_don_hang: INSERT INTO chi_tiet_don_hang (ma_don_hang, ma_sp, so_luong, don_gia, giam_gia) VALUES ('3', 'SP00032', '1', '1390000', '0')
+2025-07-15 18:47:06 - Thực thi truy vấn chèn hóa đơn: INSERT INTO hoa_don (ma_don_hang, noi_dung, tong_tien) VALUES ('3', 'Khách: unkown; Sản phẩm: Ram Laptop Kingston DDR5 5600MHz 16GB KVR56S46BS8-16 (x1); Địa chỉ: 879, Phường Yên Sở, Quận Hoàng Mai, Thành phố Hà Nội; Ghi chú: ; Phương thức: cod', '1390000')
+2025-07-15 18:47:06 - Thực thi truy vấn chèn thanh toán: INSERT INTO thanh_toan (ma_don_hang, phuong_thuc, tong_tien, trang_thai) VALUES ('3', 'cod', '1390000', 'Chưa thanh toán')
+2025-07-15 18:47:06 - Giao dịch COD được xác nhận thành công
+2025-07-15 18:47:06 - Đóng kết nối cơ sở dữ liệu

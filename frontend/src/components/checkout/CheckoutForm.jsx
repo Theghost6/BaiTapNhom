@@ -31,9 +31,9 @@ const CheckoutForm = ({
     return (
         <form ref={formRef} onSubmit={handleSubmit} className="checkout-form">
             <h3>Thông tin giao hàng</h3>
-            
+
             <div className={`form-group ${formErrors.fullName ? "error" : ""}`}>
-                <label htmlFor="fullName">Họ và tên *</label>
+                <label htmlFor="fullName">Họ và tên <span className="required-asterisk">*</span></label>
                 <input
                     id="fullName"
                     type="text"
@@ -46,7 +46,7 @@ const CheckoutForm = ({
             </div>
 
             <div className={`form-group ${formErrors.email ? "error" : ""}`}>
-                <label htmlFor="email">Email *</label>
+                <label htmlFor="email">Email <span className="required-asterisk">*</span></label>
                 <input
                     id="email"
                     type="email"
@@ -59,7 +59,7 @@ const CheckoutForm = ({
             </div>
 
             <div className={`form-group ${formErrors.phone ? "error" : ""}`}>
-                <label htmlFor="phone">Số điện thoại *</label>
+                <label htmlFor="phone">Số điện thoại <span className="required-asterisk">*</span></label>
                 <input
                     id="phone"
                     type="tel"
@@ -75,7 +75,7 @@ const CheckoutForm = ({
                 <>
                     <div className="form-row">
                         <div className={`form-group ${formErrors.city ? "error" : ""}`}>
-                            <label htmlFor="city">Tỉnh/Thành phố *</label>
+                            <label htmlFor="city">Tỉnh/Thành phố <span className="required-asterisk">*</span></label>
                             <select
                                 id="city"
                                 value={selectedProvince?.code || ""}
@@ -96,7 +96,7 @@ const CheckoutForm = ({
                         </div>
 
                         <div className={`form-group ${formErrors.district ? "error" : ""}`}>
-                            <label htmlFor="district">Quận/Huyện *</label>
+                            <label htmlFor="district">Quận/Huyện <span className="required-asterisk">*</span></label>
                             <select
                                 id="district"
                                 value={selectedDistrict?.code || ""}
@@ -145,7 +145,7 @@ const CheckoutForm = ({
                     </div>
 
                     <div className={`form-group ${formErrors.address ? "error" : ""}`}>
-                        <label htmlFor="address">Địa chỉ cụ thể *</label>
+                        <label htmlFor="address">Địa chỉ cụ thể <span className="required-asterisk">*</span></label>
                         <input
                             id="address"
                             type="text"

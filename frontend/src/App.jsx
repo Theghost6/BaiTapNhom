@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./page/function/AuthContext";
-import { CartProvider } from "./page/function/useCart";
+import { CartProvider } from "./hooks/cart/useCart.jsx";
 import Sidebar from "./components/Sidebar";
 import "./style/home.css";
 import "./style/contact.css";
@@ -57,7 +57,7 @@ const GlobalStyle = createGlobalStyle`
 
 // Lazy load components
 const Contact = lazy(() => import("./page/Contact"));
-const Home = lazy(() => import("./page/Home"));
+const Home = lazy(() => import("./page/Home.jsx"));
 const Register = lazy(() => import("./page/Register"));
 const AllLinhKien = lazy(() => import("./page/function/AllLinhKien"));
 const ChiTietLinhKien = lazy(() => import("./page/function/ChiTietLinhKien"));

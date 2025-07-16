@@ -1,3 +1,6 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 /* News/Guides Page Styles */
 .news-guides {
   max-width: 1300px;
@@ -13,14 +16,14 @@
 .news-title {
   font-size: 32px;
   font-weight: bold;
-  color: #000000; /* Black */
+  color: var(--text-primary); /* Black */
   margin-bottom: -90px;
   margin-top: 50px;
 }
 
 .news-subtitle {
   font-size: 18px;
-  color: #0D92F4; /* Primary blue */
+  color: var(--brand-primary); /* Primary blue */
   margin: 0;
 }
 
@@ -33,7 +36,7 @@
 }
 
 .blog-post {
-  background: #FFFFFF; /* White */
+  background: var(--bg-primary); /* White */
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aligned shadow with other pages */
@@ -57,7 +60,7 @@
 }
 
 .blog-title {
-  color: #000000; /* Black */
+  color: var(--text-primary); /* Black */
   font-size: 20px;
   margin: 0 0 10px;
   font-weight: bold;
@@ -84,7 +87,7 @@
 }
 
 .blog-comment {
-  color: #C62E2E; /* Secondary red */
+  color: var(--error-color); /* Secondary red */
   text-decoration: none;
 }
 
@@ -95,8 +98,8 @@
 .read-more {
   display: inline-block;
   padding: 8px 16px;
-  background-color: #FFFFFF; /* White */
-  color: #C62E2E; /* Secondary red */
+  background-color: var(--bg-primary); /* White */
+  color: var(--error-color); /* Secondary red */
   text-decoration: none;
   border-radius: 4px;
   font-size: 14px;
@@ -106,8 +109,8 @@
 }
 
 .read-more:hover {
-  background-color: #C62E2E; /* Secondary red */
-  color: #FFFFFF; /* White */
+  background-color: var(--error-color); /* Secondary red */
+  color: var(--bg-primary); /* White */
 }
 
 /* Mobile (max-width: 767px) */
@@ -268,7 +271,7 @@
 
   .blog-post {
     border-radius: 5px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 2px var(--shadow-hover);
   }
 
   .blog-image {

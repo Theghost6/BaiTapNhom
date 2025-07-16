@@ -62,7 +62,7 @@ function DashboardContent({
                     </div>
                     <div className="card_content">
                         <h3>Đơn hàng</h3>
-                        <p className="stats_value">{orders.length || 0}</p>
+                        <p className="stats_value">{statistics.tong_don_hang || 0}</p>
                         <p className="stats_progress" title="Tỷ lệ đơn hàng đã thanh toán">
                             <span className="progress_bar" style={{ width: `${orderCompletionPercentage}%` }}></span>
                             <span className="progress_text">{orderCompletionPercentage.toFixed(1)}%</span>
@@ -75,7 +75,7 @@ function DashboardContent({
                     </div>
                     <div className="card_content">
                         <h3>Người dùng</h3>
-                        <p className="stats_value">{users.length || 0}</p>
+                        <p className="stats_value">{statistics.tong_nguoi_dung || 0}</p>
                         <p className="stats_progress" title="Tỷ lệ người dùng hoạt động">
                             <span className="progress_bar" style={{ width: `${userActivePercentage}%` }}></span>
                             <span className="progress_text">{userActivePercentage.toFixed(1)}%</span>
@@ -88,7 +88,7 @@ function DashboardContent({
                     </div>
                     <div className="card_content">
                         <h3>Đánh giá</h3>
-                        <p className="stats_value">{reviews.length || 0}</p>
+                        <p className="stats_value">{statistics.tong_danh_gia || 0}</p>
                         <p className="stats_progress" title="Tỷ lệ đánh giá tích cực (≥ 3 sao)">
                             <span className="progress_bar" style={{ width: `${positiveReviewPercentage}%` }}></span>
                             <span className="progress_text">{positiveReviewPercentage.toFixed(1)}%</span>

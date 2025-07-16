@@ -18,11 +18,6 @@ function logDebug($message) {
     file_put_contents($logFile, "[$timestamp] $message" . PHP_EOL, FILE_APPEND);
 }
 
-// Log thông tin request
-logDebug("=== BẮT ĐẦU REQUEST ===");
-logDebug("Method: " . $_SERVER['REQUEST_METHOD']);
-logDebug("POST data: " . print_r($_POST, true));
-
 // Đảm bảo không có output nào ngoài JSON, kể cả khi lỗi PHP
 ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);

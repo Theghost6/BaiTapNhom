@@ -1,0 +1,127 @@
+/* Light Mode Global Overrides - Chỉ đảm bảo background light mode, giữ nguyên màu chữ */
+@import url('./color-scheme.css');
+
+/* Global reset chỉ cho background */
+html {
+    color-scheme: light !important;
+    background-color: var(--bg-primary) !important;
+}
+
+body {
+    background-color: var(--bg-primary) !important;
+}
+
+/* Card background fixes - giữ nguyên màu chữ */
+.card,
+.product-card,
+.item-card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* Table background fixes */
+table {
+    background-color: var(--table-bg) !important;
+}
+
+tr:nth-child(even) {
+    background-color: var(--table-stripe) !important;
+}
+
+tr:hover {
+    background-color: var(--table-hover) !important;
+}
+
+/* Modal background fixes */
+.modal,
+.popup,
+.dialog {
+    background-color: var(--modal-bg) !important;
+    border-color: var(--modal-border) !important;
+}
+
+.modal-overlay,
+.popup-overlay {
+    background-color: var(--modal-overlay) !important;
+}
+
+/* Navigation background fixes */
+.nav,
+.menu,
+.navbar {
+    background-color: var(--header-bg) !important;
+}
+
+/* Sidebar background fixes */
+.sidebar {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--border-primary) !important;
+}
+
+/* Form background fixes - giữ nguyên màu chữ */
+input,
+textarea,
+select {
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--input-focus) !important;
+    box-shadow: 0 0 0 2px var(--shadow-focus) !important;
+}
+
+/* Dropdown background fixes */
+.dropdown,
+.select-dropdown {
+    background-color: var(--bg-primary) !important;
+    border-color: var(--border-primary) !important;
+    box-shadow: var(--shadow-color) !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Scrollbar fixes cho light mode */
+::-webkit-scrollbar {
+    background-color: var(--bg-secondary) !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-primary) !important;
+}
+
+/* Prevent any dark mode background overrides */
+@media (prefers-color-scheme: dark) {
+
+    *,
+    *::before,
+    *::after {
+        color-scheme: light !important;
+    }
+
+    html,
+    body {
+        background-color: var(--bg-primary) !important;
+    }
+
+    .card,
+    .modal,
+    .dropdown,
+    input,
+    textarea,
+    select {
+        background-color: var(--bg-primary) !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    * {
+        background-color: white !important;
+    }
+}

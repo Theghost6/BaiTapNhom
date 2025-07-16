@@ -1,0 +1,169 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
+/* Performance Optimization CSS */
+
+/* GPU Acceleration for smooth animations */
+.hero-slider,
+.slide-container,
+.slide-background,
+.slide-content {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Optimize loading state */
+.hero-slider.loading {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    min-height: 400px;
+}
+
+/* Smooth transitions */
+.slide-background {
+    transition: none;
+    /* Remove any CSS transitions that conflict with Framer Motion */
+}
+
+/* Optimize indicators */
+.slide-indicators {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    z-index: 10;
+}
+
+.slide-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform: translateZ(0);
+    will-change: transform, background-color;
+}
+
+.slide-indicator.active-indicator {
+    background: var(--overlay-light);
+    border-color: rgba(255, 255, 255, 1);
+    transform: scale(1.2) translateZ(0);
+}
+
+.slide-indicator:hover {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: var(--overlay-light);
+}
+
+/* Optimize text rendering */
+.slide-title,
+.slide-description {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce layout shifts */
+.slide-title {
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+}
+
+.slide-description {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.4;
+    margin: 0 0 2rem 0;
+}
+
+/* Button optimizations */
+.slide-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.primary-button,
+.secondary-button {
+    transform: translateZ(0);
+    will-change: transform;
+    transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+    transform: translateY(-2px) translateZ(0);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .slide-indicators {
+        bottom: 15px;
+        gap: 6px;
+    }
+
+    .slide-indicator {
+        width: 10px;
+        height: 10px;
+    }
+
+    .slide-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-slider *,
+    .slide-container *,
+    .slide-indicator {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Loading skeleton */
+.hero-slider.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.1) 25%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}

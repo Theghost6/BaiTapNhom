@@ -116,7 +116,7 @@ const ChatPopup = ({ user }) => {
       <div className="chat-header">
         <div className="chat-title">
           <MessageCircle size={20} />
-          <span>Tư vấn trực tuyến</span>
+          <span>Tư vấn cộng đồng</span>
           {!isConnected && (
             <span className="connection-status offline">
               (Đang kết nối...)
@@ -161,7 +161,7 @@ const ChatPopup = ({ user }) => {
             {messages.length === 0 ? (
               <div className="no-messages">
                 <MessageCircle size={48} />
-                <p>Chào mừng bạn đến với dịch vụ tư vấn!</p>
+                <p>Chào mừng bạn đến với shop cua chúng tôi!</p>
                 <p>Hãy gửi tin nhắn để bắt đầu cuộc trò chuyện.</p>
               </div>
             ) : (

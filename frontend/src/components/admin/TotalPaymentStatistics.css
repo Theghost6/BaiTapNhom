@@ -1,3 +1,6 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 .statistics_content {
     padding: 24px 10px;
 }
@@ -10,7 +13,7 @@
 }
 
 .stats_card {
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     padding: 18px 24px;
@@ -30,7 +33,7 @@
 .card_content h3 {
     font-size: 1.1rem;
     margin: 0 0 6px 0;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .stats_value {
@@ -47,7 +50,7 @@
 
 .chart_panel,
 .bestsellers_panel {
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     padding: 18px 24px;
@@ -79,7 +82,7 @@
 .bestseller_rank {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #fff;
+    color: var(--bg-primary);
     background: #1976d2;
     border-radius: 50%;
     width: 28px;
@@ -95,7 +98,7 @@
 
 .bestseller_name {
     font-weight: 500;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .bestseller_sales {

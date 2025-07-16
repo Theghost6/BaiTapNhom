@@ -1,1 +1,4 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 /* This file is now empty. All checkout styles have been moved to src/components/checkout/css/ */

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGift, FaTimes, FaSearch, FaFilter, FaStar } from "react-icons/fa";
+import { PacmanLoader } from "react-spinners";
 import { useAllLinhKienLogic } from "../../hooks/alllinhkien/useAllLinhKienLogic";
 import "../../style/all_linh_kien.css";
 
@@ -92,11 +93,33 @@ const BannerAd = () => {
   );
 };
 
-const getRandomInStockProducts = (allProducts, count = 4) => {
-  const inStock = allProducts.filter(p => Number(p.gia_sau) > 0);
-  const shuffled = inStock.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
+// Component Loading Skeleton
+const ProductCardSkeleton = () => (
+  <div className="product-card skeleton">
+    <div className="product-image-container skeleton-shimmer">
+      <div className="skeleton-image"></div>
+    </div>
+    <div className="product-details">
+      <div className="skeleton-line skeleton-title"></div>
+      <div className="skeleton-line skeleton-price"></div>
+      <div className="skeleton-line skeleton-specs"></div>
+    </div>
+  </div>
+);
+
+const LoadingGrid = () => (
+  <div className="loading-container">
+    <PacmanLoader
+      color="#ff6b35"
+      size={25}
+      cssOverride={{
+        display: "block",
+        margin: "50px auto",
+      }}
+    />
+    <p className="loading-text">Đang tải sản phẩm...</p>
+  </div>
+);
 
 // Rest of the AllLinhKien component remains unchanged
 const AllLinhKien = () => {
@@ -131,7 +154,8 @@ const AllLinhKien = () => {
     suggestRelatedProducts,
     currentPage,
     handlePageChange,
-    allProducts, // Assuming allProducts is available from useAllLinhKienLogic
+    allProducts,
+    loading, // Thêm loading state từ hook
   } = useAllLinhKienLogic();
 
   // State tạm thời cho filter sidebar
@@ -176,8 +200,6 @@ const AllLinhKien = () => {
     setSelectedOptions(selectedOptions.filter(opt => opt !== filter));
   };
 
-  const featuredProducts = getRandomInStockProducts(allProducts, 4);
-
   return (
     <div className="all-products-page">
       <div className="hero-banner">
@@ -218,12 +240,12 @@ const AllLinhKien = () => {
           )}
           {/* Loại sản phẩm */}
           <div className="sidebar-section">
-            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'category' ? '' : 'category')} style={{cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'category' ? '' : 'category')} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               Loại sản phẩm <span>{openSection === 'category' ? '▲' : '▼'}</span>
             </div>
             {openSection === 'category' && (
               <div>
-                {(showAllCategories ? categories.filter(c => c !== "Tất cả loại hàng") : categories.filter(c => c !== "Tất cả loại hàng").slice(0,5)).map((cat) => (
+                {(showAllCategories ? categories.filter(c => c !== "Tất cả loại hàng") : categories.filter(c => c !== "Tất cả loại hàng").slice(0, 5)).map((cat) => (
                   <label key={cat} className="sidebar-filter-label">
                     <input
                       type="radio"
@@ -244,12 +266,12 @@ const AllLinhKien = () => {
           </div>
           {/* Hãng */}
           <div className="sidebar-section">
-            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'brand' ? '' : 'brand')} style={{cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'brand' ? '' : 'brand')} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               Hãng <span>{openSection === 'brand' ? '▲' : '▼'}</span>
             </div>
             {openSection === 'brand' && (
               <div>
-                {(showAllBrands ? brands.filter(b => b !== "Tất cả hãng") : brands.filter(b => b !== "Tất cả hãng").slice(0,5)).map((brand) => (
+                {(showAllBrands ? brands.filter(b => b !== "Tất cả hãng") : brands.filter(b => b !== "Tất cả hãng").slice(0, 5)).map((brand) => (
                   <label key={brand} className="sidebar-filter-label">
                     <input
                       type="radio"
@@ -270,7 +292,7 @@ const AllLinhKien = () => {
           </div>
           {/* Mức giá */}
           <div className="sidebar-section">
-            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'price' ? '' : 'price')} style={{cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'price' ? '' : 'price')} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               Mức giá <span>{openSection === 'price' ? '▲' : '▼'}</span>
             </div>
             {openSection === 'price' && (
@@ -291,7 +313,7 @@ const AllLinhKien = () => {
           </div>
           {/* Trạng thái hàng */}
           <div className="sidebar-section">
-            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'status' ? '' : 'status')} style={{cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'status' ? '' : 'status')} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               Trạng thái hàng <span>{openSection === 'status' ? '▲' : '▼'}</span>
             </div>
             {openSection === 'status' && (
@@ -310,7 +332,7 @@ const AllLinhKien = () => {
               </div>
             )}
           </div>
-          <div style={{display:'flex', gap:8, marginTop:16}}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button className="sidebar-apply-btn" onClick={handleApplySidebarFilters}>Áp dụng</button>
             <button className="sidebar-clear-btn" onClick={handleClearSidebarFilters}>Xóa tất cả</button>
           </div>
@@ -348,155 +370,164 @@ const AllLinhKien = () => {
                 )}
               </div>
             </div>
-            {/* Bọc lưới sản phẩm và box nổi bật vào 1 flex container */}
-            <div className="products-main-area" style={{display:'flex',gap:24,alignItems:'flex-start'}}>
-              <div className="products-grid-area" style={{flex:1}}>
-                <div className="products-grid">
-                  {currentItems.length > 0 ? (
-                    currentItems.map((product, index) => {
-                      // const originalPrice = product.gia_sau || product.gia * 1.1;
-                      const originalPrice = product.gia_sau;
-                      const discountPercent = product.khuyen_mai ? parseInt(product.khuyen_mai) : Math.round(((originalPrice - product.gia) / originalPrice) * 100);
+            {/* Products grid */}
+            <div className="products-main-area">
+              <div className="products-grid-area">
+                {loading ? (
+                  <LoadingGrid />
+                ) : (
+                  <div className="products-grid">
+                    {currentItems.length > 0 ? (
+                      currentItems.map((product, index) => {
+                        // const originalPrice = product.gia_sau || product.gia * 1.1;
+                        const originalPrice = product.gia_sau;
+                        const discountPercent = product.khuyen_mai ? parseInt(product.khuyen_mai) : Math.round(((originalPrice - product.gia) / originalPrice) * 100);
 
-                      return (
-                        <div
-                          key={`${product.id}-${index}`}
-                          className="product-card clickable"
-                          onClick={() => handleProductClick(product.id)}
-                        >
-                          <div className="product-image-container">
-                            {discountPercent > 0 && (
-                              <div className="discount-badge">
-                                Giảm {discountPercent}%
-                              </div>
-                            )}
-                            <img
-                              src={(Array.isArray(product.images) && product.images.length > 0)
-                                ? product.images[0]
-                                : "/photos/placeholder.jpg"}
-                              alt={product.ten}
-                              className="product-image"
-                              onError={(e) => {
-                                e.target.src = "/photos/placeholder.jpg";
-                              }}
-                            />
-                            {product.thong_so && (
-                              <div className="product-specs">
-                                {product.loai === "CPU" && product.thong_so.cores && (
-                                  <div>{product.thong_so.cores} cores</div>
-                                )}
-                                {product.loai === "Mainboard" && product.thong_so.memorySlots && (
-                                  <div>{product.thong_so.memorySlots} RAM slots</div>
-                                )}
-                                {product.loai === "RAM" && product.thong_so.dung_luong && (
-                                  <div>{product.thong_so.dung_luong} RAM </div>
-                                )}
-                                {product.loai === "Storage" && (
-                                  <div>{product.thong_so.toc_do_doc} </div>
-                                )}
-                                {product.loai === "GPU" && (
-                                  <div>{product.thong_so.Chipset} </div>
-                                )}
-                                {product.loai === "PSU" && (
-                                  <div> Max {product.thong_so.cong_suat_nguon} </div>
-                                )}
-                                {product.loai === "Cooling" && (
-                                  <div> {product.thong_so.loai_tan_nhiet} </div>
-                                )}
-                                {product.loai === "Peripherals" && (
-                                  <div> {product.thong_so.type} </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                          <div className="product-details">
-                            <h3 className="product-name" title={product.ten_sp}>
-                              {product.ten_sp}
-                            </h3>
-                            <div className="product-price-container">
-                              <p className="product-price discounted">
-                                {!product.gia_sau || parseFloat(product.gia_sau) === 0
-                                  ? <span className="out-of-stock">Tạm hết hàng</span>
-                                  : <span className="product-price">{Number(product.gia_sau).toLocaleString()}₫</span>
-                                }
-                              </p>
-                              {product.gia_truoc && product.gia_sau !== null && product.gia_sau !== undefined && Number(product.gia_truoc) > Number(product.gia_sau) && (
-                                <p className="product-price original" style={{ textDecoration: 'line-through', color: '#888', marginLeft: 8 }}>
-                                  {formatCurrency(Number(product.gia_truoc))}
-                                </p>
+                        return (
+                          <div
+                            key={`${product.id}-${index}`}
+                            className="product-card clickable"
+                            onClick={() => handleProductClick(product.id)}
+                          >
+                            <div className="product-image-container">
+                              {discountPercent > 0 && (
+                                <div className="discount-badge">
+                                  Giảm {discountPercent}%
+                                </div>
+                              )}
+                              <img
+                                src={(Array.isArray(product.images) && product.images.length > 0)
+                                  ? product.images[0]
+                                  : "/photos/placeholder.jpg"}
+                                alt={product.ten}
+                                className="product-image"
+                                onError={(e) => {
+                                  e.target.src = "/photos/placeholder.jpg";
+                                }}
+                              />
+                              {product.thong_so && (
+                                <div className="product-specs">
+                                  {product.loai === "CPU" && product.thong_so.cores && (
+                                    <div>{product.thong_so.cores} cores</div>
+                                  )}
+                                  {product.loai === "Mainboard" && product.thong_so.memorySlots && (
+                                    <div>{product.thong_so.memorySlots} RAM slots</div>
+                                  )}
+                                  {product.loai === "RAM" && product.thong_so.dung_luong && (
+                                    <div>{product.thong_so.dung_luong} RAM </div>
+                                  )}
+                                  {product.loai === "Storage" && (
+                                    <div>{product.thong_so.toc_do_doc} </div>
+                                  )}
+                                  {product.loai === "GPU" && (
+                                    <div>{product.thong_so.Chipset} </div>
+                                  )}
+                                  {product.loai === "PSU" && (
+                                    <div> Max {product.thong_so.cong_suat_nguon} </div>
+                                  )}
+                                  {product.loai === "Cooling" && (
+                                    <div> {product.thong_so.loai_tan_nhiet} </div>
+                                  )}
+                                  {product.loai === "Peripherals" && (
+                                    <div> {product.thong_so.type} </div>
+                                  )}
+                                </div>
                               )}
                             </div>
-                            {product.gia_truoc && product.gia_sau !== null && product.gia_sau !== undefined && Number(product.gia_truoc) > Number(product.gia_sau) && (
-                              <div className="product-member-discount" style={{ color: '#000', fontWeight: 500 }}>
-                                Tiết kiệm thêm {formatCurrency(Number(product.gia_truoc) - Number(product.gia_sau))} cho Smembe
-                              </div>
-                            )}
-                            {product.rating && (
-                              <div className="product-rating">
-                                {renderStars(product.rating)}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="empty-state">
-                      <img src="/photos/empty-search.svg" alt="Không tìm thấy" />
-                      <h3>Không tìm thấy sản phẩm phù hợp</h3>
-                      <p>Thử tìm kiếm với từ khóa khác hoặc điều chỉnh bộ lọc</p>
-                      {(searchTerm || selectedOptions.length > 0 || sortOrder !== "default") && (
-                        <button className="clear-all-button" onClick={clearAllFilters}>
-                          Xóa tất cả bộ lọc
-                        </button>
-                      )}
-                      <h4>Có thể bạn quan tâm:</h4>
-                      <div className="related-products">
-                        {(() => {
-                          const related = suggestRelatedProducts();
-                          console.log('Related products:', related);
-                          return related.map((product, index) => (
-                            <div
-                              key={`${product.id}-${index}`}
-                              className="product-card clickable"
-                              onClick={() => handleProductClick(product.id)}
-                            >
-                              <div className="product-image-container">
-                                <img
-                                  src={(Array.isArray(product.images) && product.images.length > 0)
-                                    ? product.images[0]
-                                    : "/photos/placeholder.jpg"}
-                                  alt={product.ten_sp}
-                                  className="product-image"
-                                  onError={(e) => {
-                                    e.target.src = "/photos/placeholder.jpg";
-                                  }}
-                                />
-                              </div>
-                              <div className="product-details">
-                                <h3 className="product-name" title={product.ten_sp}>
-                                  {product.ten_sp}
-                                </h3>
-                                {/* Debug: Hiển thị toàn bộ thông tin sản phẩm */}
-                                <pre style={{ fontSize: '10px', color: '#888', background: '#f7f7f7', padding: 4, borderRadius: 4, margin: 0, overflowX: 'auto' }}>
-                                  {JSON.stringify(product, null, 2)}
-                                </pre>
-                                <p className="product-price">
-                                  {product.gia_sau === null || product.gia_sau === undefined ? (
-                                    product.trang_thai_hang || 'Tạm hết hàng'
-                                  ) : product.gia_sau ? formatCurrency(Number(product.gia_sau))
-                                    : product.gia ? formatCurrency(Number(product.gia))
-                                      : 'Liên hệ'}
+                            <div className="product-details">
+                              <h3 className="product-name" title={product.ten_sp}>
+                                {product.ten_sp}
+                              </h3>
+                              <div className="product-price-container">
+                                <p className="product-price discounted">
+                                  {!product.gia_sau || parseFloat(product.gia_sau) === 0
+                                    ? <span className="out-of-stock">Tạm hết hàng</span>
+                                    : <span className="product-price">{Number(product.gia_sau).toLocaleString()}₫</span>
+                                  }
                                 </p>
+                                {product.gia_truoc && product.gia_sau !== null && product.gia_sau !== undefined && Number(product.gia_truoc) > Number(product.gia_sau) && (
+                                  <p className="product-price original" style={{ textDecoration: 'line-through', color: '#888', marginLeft: 8 }}>
+                                    {formatCurrency(Number(product.gia_truoc))}
+                                  </p>
+                                )}
                               </div>
+                              {product.gia_truoc && product.gia_sau !== null && product.gia_sau !== undefined && Number(product.gia_truoc) > Number(product.gia_sau) && (
+                                <div className="product-member-discount" style={{ color: '#000', fontWeight: 500 }}>
+                                  Tiết kiệm thêm {formatCurrency(Number(product.gia_truoc) - Number(product.gia_sau))} cho Smembe
+                                </div>
+                              )}
+                              {product.rating && (
+                                <div className="product-rating">
+                                  {renderStars(product.rating)}
+                                </div>
+                              )}
                             </div>
-                          ));
-                        })()}
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="empty-state">
+                        <img src="/photos/empty-search.svg" alt="Không tìm thấy" />
+                        <h3>Không tìm thấy sản phẩm phù hợp</h3>
+                        <p>Thử tìm kiếm với từ khóa khác hoặc điều chỉnh bộ lọc</p>
+                        {(searchTerm || selectedOptions.length > 0 || sortOrder !== "default") && (
+                          <button className="clear-all-button" onClick={clearAllFilters}>
+                            Xóa tất cả bộ lọc
+                          </button>
+                        )}
+                        <h4>Có thể bạn quan tâm:</h4>
+                        <div className="related-products">
+                          {(() => {
+                            let related = [];
+                            if (sortedItems.length > 0) {
+                              // Lấy sản phẩm liên quan dựa trên sản phẩm đầu tiên của kết quả lọc
+                              related = suggestRelatedProducts(sortedItems[0]);
+                            } else if (allProducts.length > 0) {
+                              // Nếu không có sản phẩm lọc, random 4 sản phẩm bất kỳ
+                              related = [...allProducts].sort(() => 0.5 - Math.random()).slice(0, 4);
+                            }
+                            return related.map((product, index) => (
+                              <div
+                                key={`${product.id}-${index}`}
+                                className="product-card clickable"
+                                onClick={() => handleProductClick(product.id)}
+                              >
+                                <div className="product-image-container">
+                                  <img
+                                    src={(Array.isArray(product.images) && product.images.length > 0)
+                                      ? product.images[0]
+                                      : "/photos/placeholder.jpg"}
+                                    alt={product.ten_sp}
+                                    className="product-image"
+                                    onError={(e) => {
+                                      e.target.src = "/photos/placeholder.jpg";
+                                    }}
+                                  />
+                                </div>
+                                <div className="product-details">
+                                  <h3 className="product-name" title={product.ten_sp}>
+                                    {product.ten_sp}
+                                  </h3>
+                                  <pre style={{ fontSize: '10px', color: '#888', background: '#f7f7f7', padding: 4, borderRadius: 4, margin: 0, overflowX: 'auto' }}>
+                                    {JSON.stringify(product, null, 2)}
+                                  </pre>
+                                  <p className="product-price">
+                                    {product.gia_sau === null || product.gia_sau === undefined ? (
+                                      product.trang_thai_hang || 'Tạm hết hàng'
+                                    ) : product.gia_sau ? formatCurrency(Number(product.gia_sau))
+                                      : product.gia ? formatCurrency(Number(product.gia))
+                                        : 'Liên hệ'}
+                                  </p>
+                                </div>
+                              </div>
+                            ));
+                          })()}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                {totalPages > 1 && (
+                    )}
+                  </div>
+                )}
+                {!loading && totalPages > 1 && (
                   <div className="pagination">
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
@@ -532,39 +563,6 @@ const AllLinhKien = () => {
                     </button>
                   </div>
                 )}
-              </div>
-              <div className="featured-products-box" style={{width:300,minWidth:220}}>
-                <h3 style={{color:'#1976d2',marginBottom:12}}>Sản phẩm nổi bật</h3>
-                <div className="products-grid" style={{gap: '18px'}}>
-                  {featuredProducts.map((product, idx) => (
-                    <div
-                      key={product.id || product.ma_sp || idx}
-                      className="product-card clickable"
-                      onClick={() => handleProductClick(product.id || product.ma_sp)}
-                    >
-                      <div className="product-image-container">
-                        <img
-                          src={(Array.isArray(product.images) && product.images.length > 0)
-                            ? product.images[0]
-                            : "/photos/placeholder.jpg"}
-                          alt={product.ten_sp}
-                          className="product-image"
-                          onError={(e) => {
-                            e.target.src = "/photos/placeholder.jpg";
-                          }}
-                        />
-                      </div>
-                      <div className="product-details">
-                        <h3 className="product-name" title={product.ten_sp} style={{fontSize:'1.05rem'}}>
-                          {product.ten_sp}
-                        </h3>
-                        <p className="product-price">
-                          {Number(product.gia_sau).toLocaleString()}₫
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </div>

@@ -1,7 +1,10 @@
+/* Import color scheme variables */
+@import url('./color-scheme.css');
+
 /* Button, error, and utility styles for checkout */
 .checkout-button {
     background-color: #007bff;
-    color: #fff;
+    color: var(--bg-primary);
     padding: 12px 24px;
     border: none;
     border-radius: 5px;
@@ -21,7 +24,7 @@
 }
 
 .checkout-button:disabled {
-    background-color: #ccc;
+    background-color: var(--text-muted);
     cursor: not-allowed;
 }
 
@@ -65,7 +68,7 @@
 }
 
 .reset-button {
-    background-color: #fff;
+    background-color: var(--bg-primary);
     color: #f44336;
     padding: 12px 24px;
     border: 1px solid #f44336;
@@ -80,7 +83,7 @@
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
     background-color: #f44336;
-    color: #fff;
+    color: var(--bg-primary);
 }
 
 .reset-button:active {
@@ -88,7 +91,7 @@
 }
 
 .reset-button:disabled {
-    background-color: #ccc;
+    background-color: var(--text-muted);
     cursor: not-allowed;
 }
 

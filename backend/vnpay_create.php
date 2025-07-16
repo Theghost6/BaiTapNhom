@@ -48,13 +48,20 @@ require_once $connectPath;
 if (!isset($conn) || $conn->connect_error) {
     sendError(500, 'Không thể kết nối cơ sở dữ liệu');
 }
-$sql = "SELECT tong_tien FROM don_hang WHERE id = '$orderId' LIMIT 1";
+$sql = "SELECT dh.tong_tien, dk.role FROM don_hang dh 
+        JOIN tai_khoan dk ON dh.ma_nguoi_dung = dk.id 
+        WHERE dh.id = '$orderId' LIMIT 1";
 $res = $conn->query($sql);
 if (!$res || $res->num_rows == 0) {
     sendError(404, 'Không tìm thấy đơn hàng');
 }
 $row = $res->fetch_assoc();
 $orderTotal = floatval($row['tong_tien']);
+
+// Kiểm tra role admin
+if ($row['role'] === 'admin') {
+    sendError(403, 'Tài khoản admin không được phép thực hiện thanh toán!');
+}
 $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 $backendHost = $env['BACKEND_HOST'] ?? 'http://localhost:8080';
 $vnp_Returnurl = rtrim($backendHost, '/') . '/vnpay_callback.php';

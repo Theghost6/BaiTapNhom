@@ -20,7 +20,7 @@ import useUsers from '../../hooks/admin/useUsers';
 import useContacts from '../../hooks/admin/useContacts';
 import useDashboard from '../../hooks/admin/useDashboard';
 import useFavorites from '../../hooks/admin/useFavorites';
-import useLinhKien from '../../hooks/LinhKien/useLinhKien';
+import useLinhKien from '../../hooks/admin/useLinhKien';
 import OrderDetailsModal from "../../components/admin/OrderDetailsModal";
 import EditLinhKienModal from "../../components/admin/EditLinhKienModal";
 import HomeManager from "../../components/admin/HomeManager";
@@ -153,7 +153,7 @@ function Admin() {
         try {
           await deleteFunction();
         } catch (error) {
-          console.error("Error deleting:", error);
+          // Error handled by deleteFunction
         }
         cancelDelete();
       },

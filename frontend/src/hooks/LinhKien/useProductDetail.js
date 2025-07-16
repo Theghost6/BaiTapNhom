@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useCart } from "../../page/function/useCart";
+import { useCart } from "../cart/useCart";
 import { AuthContext } from "../../page/function/AuthContext";
 import { toast } from "react-toastify";
 
@@ -145,6 +145,10 @@ export function useProductDetail() {
                 setWishlistLoading(false);
                 return;
             }
+            if (user?.role === 'admin') {
+                toast.error("Tài khoản admin không được phép thêm yêu thích!");
+                return;
+            }
             const response = await fetch(`${apiUrl}/wishlist.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -198,10 +202,14 @@ export function useProductDetail() {
             navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
             return;
         }
+        if (user?.role === 'admin') {
+            toast.error("Tài khoản admin không được phép thêm vào giỏ hàng!");
+            return;
+        }
         if (!product) return;
         addToCart({ ...product, quantity });
         setIsInCart(true);
-        toast.success("Đã thêm vào giỏ hàng!");
+
     };
 
     // Handler: Buy now
@@ -211,8 +219,24 @@ export function useProductDetail() {
             navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
             return;
         }
+        if (user?.role === 'admin') {
+            toast.error("Tài khoản admin không được phép mua hàng!");
+            return;
+        }
         if (!product) return;
-        navigate("/checkout", { state: { product: { ...product, quantity }, quantity } });
+
+        // Tạo product object với quantity được người dùng chọn, không bị ghi đè bởi so_luong
+        const productForCheckout = {
+            ...product,
+            quantity: quantity  // Đảm bảo quantity do người dùng chọn được ưu tiên
+        };
+
+        navigate("/checkout", {
+            state: {
+                product: productForCheckout,
+                quantity: quantity
+            }
+        });
     };
 
     // Handler: Review change

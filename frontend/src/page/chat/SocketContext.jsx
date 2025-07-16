@@ -29,13 +29,11 @@ export const SocketProvider = ({ children }) => {
 
     // Socket event listeners
     newSocket.on('connect', () => {
-      console.log('Socket connected:', newSocket.id);
       setIsConnected(true);
-      toast.success('Kết nối thành công với server!');
+      //toast.success('Kết nối thành công với server!');
     });
 
     newSocket.on('disconnect', (reason) => {
-      console.log('Socket disconnected:', reason);
       setIsConnected(false);
       if (reason === 'io server disconnect') {
         // Server đã ngắt kết nối, cần reconnect thủ công
