@@ -1,25 +1,31 @@
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { networkAddressPlugin } from './vite-network-plugin.js'
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), ''); // Vite tự tìm .env ở frontend/
-
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      networkAddressPlugin() // Plugin hiển thị network addresses
+    ],
     server: {
-      host: '0.0.0.0',
+      host: true, // Thay vì '0.0.0.0', sử dụng true để tự động detect và hiển thị tất cả IP
       port: 5173,
       strictPort: true,
+      open: false, // Không tự động mở browser
+      cors: true, // Enable CORS
       watch: {
         usePolling: true,
+        interval: 1000, // Polling interval
       },
       allowedHosts: [
         'all',
         // 'explicitly-georgia-fisheries-attending.trycloudflare.com'
       ],
-      // hmr: {
-      //   clientPort: 443, // nếu bạn truy cập qua https tunnel
-      // },
+      hmr: {
+        port: 5173, // HMR port
+        host: 'localhost', // HMR host
+      },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -27,14 +33,29 @@ export default defineConfig(({ mode }) => {
       },
     },
     preview: {
-      host: '0.0.0.0',
+      host: true, // Tương tự như server
       port: 4173,
       strictPort: true,
-      allowedHosts: env.VITE_ALLOWED_HOSTS?.split(',') || ['localhost'],
+      cors: true,
+      allowedHosts: ['localhost', '127.0.0.1'], // Hardcode vì không có biến env
+    },
+    build: {
+      target: 'esnext', // Hoặc 'es2015' nếu cần hỗ trợ browser cũ hơn
+      outDir: 'dist',
+      sourcemap: false, // Set true nếu cần debug production
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            router: ['react-router-dom'],
+            ui: ['framer-motion'],
+          },
+        },
+      },
     },
     define: {
-      __APP_ENV__: JSON.stringify(env.APP_ENV ?? ''),
+      'process.env.NODE_ENV': JSON.stringify(mode),
     },
-    envPrefix: 'VITE_', // vẫn nên giữ để rõ ràng
+    envPrefix: 'VITE_', // Giữ lại để Vite load các biến VITE_*
   };
 });

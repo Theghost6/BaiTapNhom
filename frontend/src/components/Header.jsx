@@ -433,9 +433,9 @@ const Header = () => {
   return (
     <>
       {/* Mobile Header Bar */}
-      <div className="mobile-header-bar" style={{ display: 'none' }}>
+      <div className="mobile-header-bar">
         <button className="mobile-menu-toggle" onClick={() => setShowMobileMenu(true)}>
-          <FaBars size={28} />
+          <FaBars size={24} />
         </button>
         <Link to="/" className="logo-link">
           <div className="logo-container">
@@ -463,6 +463,66 @@ const Header = () => {
                   </div>
                 )}
               </button>
+              {showUserDropdown && (
+                <div className="user-dropdown">
+                  {user?.role === "admin" ? (
+                    <>
+                      <Link to="/Profile" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <UserCircle size={16} />
+                        <span>Thông tin cá nhân</span>
+                      </Link>
+                      <Link to="/admin" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <User size={16} />
+                        <span>Quản trị viên</span>
+                      </Link>
+                      <Link to="/tracuu" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <FiPackage size={16} />
+                        <span>Tra cứu đơn hàng</span>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/Profile" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <UserCircle size={16} />
+                        <span>Thông tin cá nhân</span>
+                      </Link>
+                      <Link to="/cart" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <div style={{ position: "relative", display: "inline-block" }}>
+                          <ShoppingBag size={16} />
+                          {totalQuantity > 0 && (
+                            <span className="badge">
+                              {totalQuantity}
+                            </span>
+                          )}
+                        </div>
+                        <span>Đơn hàng của tôi</span>
+                      </Link>
+                      <Link to="/lich_su_don_hang" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <History size={16} />
+                        <span>Lịch sử đơn hàng</span>
+                      </Link>
+                      <Link to="/wishlist" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                        <div style={{ position: "relative", display: "inline-block" }}>
+                          <Heart size={16} />
+                          {wishlistItems.length > 0 && (
+                            <span className="badge">
+                              {wishlistItems.length}
+                            </span>
+                          )}
+                        </div>
+                        <span>Yêu thích</span>
+                      </Link>
+                    </>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="dropdown-item logout-button"
+                  >
+                    <LogOut size={16} />
+                    <span>Đăng xuất</span>
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="user-actions">
@@ -478,9 +538,10 @@ const Header = () => {
         <div className="mobile-offcanvas-content" onClick={e => e.stopPropagation()}>
           <button className="mobile-offcanvas-close" onClick={() => setShowMobileMenu(false)}>×</button>
           {/* Search bar trong menu mobile */}
-          <div className="search-bar-container" style={{ marginBottom: 16 }}>
+          <div className="search-wrapper" style={{ marginBottom: 16 }}>
             <input
               type="text"
+              className="search-bar"
               placeholder="Bạn cần tìm gì?"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
@@ -601,9 +662,10 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="search-bar-container">
+            <div className="search-wrapper">
               <input
                 type="text"
+                className="search-bar"
                 placeholder="Bạn cần tìm gì?"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
@@ -613,7 +675,6 @@ const Header = () => {
                 className="show-suggestions-btn"
                 type="button"
                 onClick={() => setShowSuggestions((v) => !v)}
-                style={{ marginLeft: 6, padding: '7px 12px', borderRadius: 6, border: '1px solid #0D92F4', background: '#fff', cursor: 'pointer' }}
               >
                 <FaSearch size={18} />
               </button>

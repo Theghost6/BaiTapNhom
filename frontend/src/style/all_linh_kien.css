@@ -696,6 +696,37 @@
   /* Neon Purple */
 }
 
+/* Stars rating styles */
+.stars-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.star {
+  font-size: 14px;
+  color: #ddd;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.star.half-filled {
+  color: #ffd700;
+}
+
+.star.empty {
+  color: #ddd;
+}
+
+.rating-number {
+  font-size: 12px;
+  color: #666;
+  margin-left: 6px;
+}
+
 /* Clear All Button */
 .clear-all-button {
   padding: 8px 16px;
@@ -1212,117 +1243,84 @@ html {
   cursor: pointer;
 }
 
-@media (max-width: 900px) {
-  .all-products-layout {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .sidebar-filter {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    padding: 12px 8px;
-  }
-
-  .main-content {
-    padding: 12px 8px;
-    border-radius: 0;
-    box-shadow: none;
-  }
-}
-
-.products-main-area {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-
-.products-grid-area {
-  flex: 1 1 0%;
-  min-width: 0;
-}
-
-.featured-products-box {
-  width: 300px;
-  min-width: 220px;
-  background: #e3f0ff;
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(25, 118, 210, 0.13), 0 1.5px 6px rgba(25, 118, 210, 0.10);
-  padding: 22px 14px 16px 14px;
-  border: 2px solid #90caf9;
-  margin-left: 0;
-  transition: box-shadow 0.2s, border 0.2s;
-}
-
-.featured-products-box h3 {
-  color: #1565c0;
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 16px;
-  letter-spacing: 0.5px;
-  text-align: center;
-}
-
-.featured-products-box .product-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
-  border: 1.5px solid #e3e8ee;
-  transition: box-shadow 0.18s, border 0.18s, transform 0.18s;
-}
-
-.featured-products-box .product-card:hover {
-  box-shadow: 0 6px 18px rgba(25, 118, 210, 0.18);
-  border: 1.5px solid #1976d2;
-  transform: translateY(-3px) scale(1.03);
-}
-
-@media (max-width: 1100px) {
-  .featured-products-box {
-    display: none;
-  }
-
-  .products-main-area {
-    flex-direction: column;
-    gap: 0;
-  }
-}
-
-/* Loading Container Styles */
-.loading-container {
+.specs-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  width: 100%;
-  background-color: var(--background-light);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
+  gap: 12px;
+  padding: 8px 0;
 }
 
-.loading-text {
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: 600;
+.spec-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.spec-title {
+  font-size: 14px;
+  font-weight: 500;
   color: var(--text-color);
-  text-align: center;
-  opacity: 0.8;
-  animation: loadingPulse 1.5s ease-in-out infinite;
+  margin-bottom: 4px;
 }
 
-@keyframes loadingPulse {
+.spec-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: white;
+  color: var(--text-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-  0%,
-  100% {
-    opacity: 0.6;
-  }
+.spec-select:hover {
+  border-color: var(--primary-color);
+}
 
-  50% {
-    opacity: 1;
-  }
+.spec-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
+}
+
+.more-specs-info {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 8px;
+  background: rgba(128, 0, 255, 0.05);
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.selected-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 2px;
+}
+
+.selected-filter-chip:hover {
+  background: rgba(255, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.selected-filter-chip .remove-icon {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.selected-filter-chip .remove-icon:hover {
+  opacity: 1;
 }

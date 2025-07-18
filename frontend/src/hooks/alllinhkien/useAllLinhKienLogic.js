@@ -170,6 +170,10 @@ export function useAllLinhKienLogic() {
         const activeBrand = brands.find(br => br !== "Tất cả hãng" && selectedOptions.includes(br)) || "Tất cả hãng";
         const activePrice = priceRanges.find(price => price !== "Tất cả giá" && selectedOptions.includes(price)) || "Tất cả giá";
         const activeStatus = selectedOptions.find(opt => opt === "Còn hàng" || opt === "Hết hàng");
+
+        // Lấy các filter thông số kỹ thuật
+        const specsFilters = selectedOptions.filter(opt => opt.includes(":"));
+
         const result = allProducts.filter((product) => {
             if (!product.ten_sp || !product.gia_sau) return false;
             const originalCategory = categoryMapping[activeCategory];
@@ -187,7 +191,19 @@ export function useAllLinhKienLogic() {
             let matchesStatus = true;
             if (activeStatus === "Còn hàng") matchesStatus = Number(product.gia_sau) > 0;
             if (activeStatus === "Hết hàng") matchesStatus = Number(product.gia_sau) === 0;
-            return matchesSearchTerm(product) && matchesCategory && matchesBrand && matchesPrice && matchesStatus;
+
+            // Kiểm tra thông số kỹ thuật
+            let matchesSpecs = true;
+            if (specsFilters.length > 0 && product.thong_so) {
+                matchesSpecs = specsFilters.every(filter => {
+                    const [, specValue] = filter.split(": ");
+                    return Object.values(product.thong_so).some(value =>
+                        value && value.toString().toLowerCase().includes(specValue.toLowerCase())
+                    );
+                });
+            }
+
+            return matchesSearchTerm(product) && matchesCategory && matchesBrand && matchesPrice && matchesStatus && matchesSpecs;
         });
         console.log('Filtered items:', result); // Debug: log sản phẩm sau khi lọc
         return result;

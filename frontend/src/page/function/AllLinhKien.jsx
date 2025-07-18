@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGift, FaTimes, FaSearch, FaFilter, FaStar } from "react-icons/fa";
 import { PacmanLoader } from "react-spinners";
@@ -121,6 +121,29 @@ const LoadingGrid = () => (
   </div>
 );
 
+// Hàm render stars cho rating
+const renderStars = (rating) => {
+  const stars = [];
+  const numRating = parseFloat(rating) || 0;
+
+  for (let i = 1; i <= 5; i++) {
+    if (i <= numRating) {
+      stars.push(<FaStar key={i} className="star filled" />);
+    } else if (i - 0.5 <= numRating) {
+      stars.push(<FaStar key={i} className="star half-filled" />);
+    } else {
+      stars.push(<FaStar key={i} className="star empty" />);
+    }
+  }
+
+  return (
+    <div className="stars-container">
+      {stars}
+      <span className="rating-number">({numRating})</span>
+    </div>
+  );
+};
+
 // Rest of the AllLinhKien component remains unchanged
 const AllLinhKien = () => {
   const navigate = useNavigate();
@@ -165,6 +188,12 @@ const AllLinhKien = () => {
   // const [sidebarRating, setSidebarRating] = useState(""); // Bỏ đánh giá
   const [sidebarStatus, setSidebarStatus] = useState("");
 
+  // State cho thông số kỹ thuật
+  const [sidebarSpecs, setSidebarSpecs] = useState({});
+
+  // Cache cho specs để tránh tính toán lại
+  const [specsCache, setSpecsCache] = useState({});
+
   // Accordion state cho từng nhóm filter
   const [openSection, setOpenSection] = useState('category');
   const [showAllBrands, setShowAllBrands] = useState(false);
@@ -176,6 +205,7 @@ const AllLinhKien = () => {
     setSidebarPrice("");
     // setSidebarRating(""); // Bỏ đánh giá
     setSidebarStatus("");
+    setSidebarSpecs({});
     setSelectedOptions([]);
   };
 
@@ -186,6 +216,15 @@ const AllLinhKien = () => {
     if (sidebarBrand) newOptions.push(sidebarBrand);
     if (sidebarPrice) newOptions.push(sidebarPrice);
     if (sidebarStatus) newOptions.push(sidebarStatus);
+
+    // Thêm thông số kỹ thuật vào selectedOptions
+    Object.entries(sidebarSpecs).forEach(([specKey, specValue]) => {
+      if (specValue) {
+        const displayName = getSpecDisplayName(specKey, sidebarCategory);
+        newOptions.push(`${displayName}: ${specValue}`);
+      }
+    });
+
     setSelectedOptions(newOptions);
     setActiveFilter(null);
   };
@@ -196,8 +235,161 @@ const AllLinhKien = () => {
     if (brands.includes(filter)) setSidebarBrand("");
     if (priceRanges.includes(filter)) setSidebarPrice("");
     if (["Còn hàng", "Hết hàng"].includes(filter)) setSidebarStatus("");
+
+    // Xóa thông số kỹ thuật
+    if (filter.includes(":")) {
+      const newSpecs = { ...sidebarSpecs };
+      Object.keys(newSpecs).forEach(specKey => {
+        const displayName = getSpecDisplayName(specKey, sidebarCategory);
+        if (filter.startsWith(`${displayName}:`)) {
+          delete newSpecs[specKey];
+        }
+      });
+      setSidebarSpecs(newSpecs);
+    }
+
     // Cập nhật selectedOptions
     setSelectedOptions(selectedOptions.filter(opt => opt !== filter));
+  };
+
+  // Debounce category change để tránh lag
+  const [debouncedCategory, setDebouncedCategory] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedCategory(sidebarCategory);
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(timer);
+  }, [sidebarCategory]);
+
+  // Memoized và cached function để lấy thông số kỹ thuật
+  const getSpecsForCategory = useCallback((category) => {
+    // Kiểm tra cache trước
+    if (specsCache[category]) {
+      console.log('Using cached specs for:', category);
+      return specsCache[category];
+    }
+
+    console.log('Computing specs for category:', category);
+
+    // Tối ưu: Chỉ lọc sản phẩm cần thiết
+    const filteredProducts = allProducts.filter(product => {
+      const productCategory = product.loai || product.danh_muc || product.ten_danh_muc || "";
+      const normalizedCategory = normalizeText(category);
+      const normalizedProductCategory = normalizeText(productCategory);
+
+      // Optimize: Kiểm tra nhanh trước
+      if (category.includes("CPU") && (productCategory === "CPU" || normalizedProductCategory.includes("cpu"))) return true;
+      if (category.includes("RAM") && (productCategory === "RAM" || normalizedProductCategory.includes("ram"))) return true;
+      if (category.includes("GPU") && (productCategory === "GPU" || normalizedProductCategory.includes("gpu"))) return true;
+      if (category.includes("Mainboard") && (productCategory === "Mainboard" || normalizedProductCategory.includes("mainboard"))) return true;
+
+      return normalizedProductCategory.includes(normalizedCategory) || normalizedCategory.includes(normalizedProductCategory);
+    });
+
+    console.log('Filtered products for', category, ':', filteredProducts.length);
+
+    const specs = {};
+    let processedCount = 0;
+
+    // Tối ưu: Chỉ xử lý 100 sản phẩm đầu tiên để lấy specs
+    const sampleProducts = filteredProducts.slice(0, 100);
+
+    sampleProducts.forEach(product => {
+      if (product.thong_so) {
+        Object.keys(product.thong_so).forEach(specKey => {
+          const specValue = product.thong_so[specKey];
+          if (specValue && specValue !== "" && typeof specValue !== 'object') {
+            if (!specs[specKey]) {
+              specs[specKey] = new Set();
+            }
+            specs[specKey].add(String(specValue));
+          }
+        });
+        processedCount++;
+      }
+    });
+
+    // Chuyển Set thành Array và sắp xếp (giới hạn 10 items per spec)
+    const finalSpecs = {};
+    Object.keys(specs).forEach(key => {
+      const values = Array.from(specs[key]).sort();
+      finalSpecs[key] = values.slice(0, 10); // Chỉ lấy 10 giá trị đầu
+    });
+
+    console.log('Final specs (processed', processedCount, 'products):', finalSpecs);
+
+    // Cache kết quả
+    setSpecsCache(prev => ({
+      ...prev,
+      [category]: finalSpecs
+    }));
+
+    return finalSpecs;
+  }, [allProducts, specsCache]);
+
+  // Hàm lấy tên hiển thị cho thông số kỹ thuật
+  const getSpecDisplayName = (specKey, category) => {
+    const specNames = {
+      // CPU
+      cores: "Số nhân",
+      threads: "Số luồng",
+      base_clock: "Tần số cơ bản",
+      boost_clock: "Tần số tối đa",
+      socket: "Socket",
+      tdp: "TDP",
+      cache: "Bộ nhớ đệm",
+
+      // RAM
+      dung_luong: "Dung lượng",
+      toc_do: "Tốc độ",
+      loai_ram: "Loại RAM",
+      timing: "Timing",
+      voltage: "Điện áp",
+
+      // VGA/GPU
+      Chipset: "Chipset",
+      vram: "VRAM",
+      memory_type: "Loại bộ nhớ",
+      memory_bus: "Bus bộ nhớ",
+      core_clock: "Tần số nhân",
+      memory_clock: "Tần số bộ nhớ",
+
+      // Mainboard
+      chipset: "Chipset",
+      socket_cpu: "Socket CPU",
+      memorySlots: "Số khe RAM",
+      max_memory: "RAM tối đa",
+      form_factor: "Form Factor",
+
+      // Storage
+      dung_luong_luu_tru: "Dung lượng",
+      toc_do_doc: "Tốc độ đọc",
+      toc_do_ghi: "Tốc độ ghi",
+      ket_noi: "Kết nối",
+      loai_o_cung: "Loại ổ cứng",
+
+      // PSU
+      cong_suat_nguon: "Công suất",
+      efficiency: "Hiệu suất",
+      modular: "Modular",
+
+      // Cooling
+      loai_tan_nhiet: "Loại tản nhiệt",
+      kich_thuoc_quat: "Kích thước quạt",
+      rpm: "RPM",
+      noise_level: "Độ ồn",
+
+      // Peripherals
+      type: "Loại",
+      connection: "Kết nối",
+      switch_type: "Loại switch",
+      dpi: "DPI",
+      polling_rate: "Polling Rate"
+    };
+
+    return specNames[specKey] || specKey;
   };
 
   return (
@@ -214,7 +406,7 @@ const AllLinhKien = () => {
         <aside className="sidebar-filter">
           <div className="sidebar-title">Bộ lọc sản phẩm</div>
           {/* Hiển thị filter đã chọn */}
-          {(sidebarCategory || sidebarBrand || sidebarPrice || sidebarStatus) && (
+          {(sidebarCategory || sidebarBrand || sidebarPrice || sidebarStatus || Object.keys(sidebarSpecs).length > 0) && (
             <div className="selected-filters">
               {sidebarCategory && (
                 <span className="selected-filter-chip" onClick={() => handleRemoveSelectedFilter(sidebarCategory)}>
@@ -236,6 +428,17 @@ const AllLinhKien = () => {
                   {sidebarStatus} <FaTimes className="remove-icon" />
                 </span>
               )}
+              {Object.entries(sidebarSpecs).map(([specKey, specValue]) => (
+                specValue && (
+                  <span
+                    key={specKey}
+                    className="selected-filter-chip"
+                    onClick={() => handleRemoveSelectedFilter(`${getSpecDisplayName(specKey, sidebarCategory)}: ${specValue}`)}
+                  >
+                    {getSpecDisplayName(specKey, sidebarCategory)}: {specValue} <FaTimes className="remove-icon" />
+                  </span>
+                )
+              ))}
             </div>
           )}
           {/* Loại sản phẩm */}
@@ -251,7 +454,11 @@ const AllLinhKien = () => {
                       type="radio"
                       name="sidebarCategory"
                       checked={sidebarCategory === cat}
-                      onChange={() => setSidebarCategory(cat)}
+                      onChange={() => {
+                        setSidebarCategory(cat);
+                        // Reset thông số kỹ thuật khi thay đổi loại sản phẩm
+                        setSidebarSpecs({});
+                      }}
                     />
                     {cat}
                   </label>
@@ -290,6 +497,61 @@ const AllLinhKien = () => {
               </div>
             )}
           </div>
+
+          {/* Thông số kỹ thuật - chỉ hiển thị khi đã chọn loại sản phẩm */}
+          {sidebarCategory && debouncedCategory && (() => {
+            const categorySpecs = getSpecsForCategory(debouncedCategory);
+            const specKeys = Object.keys(categorySpecs);
+
+            if (specKeys.length === 0) {
+              return (
+                <div className="sidebar-section">
+                  <div className="sidebar-section-title">Thông số kỹ thuật</div>
+                  <div style={{ padding: '10px', color: '#666', fontSize: '14px' }}>
+                    {debouncedCategory !== sidebarCategory ? 'Đang tải...' : 'Không có thông số kỹ thuật'}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div className="sidebar-section">
+                <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'specs' ? '' : 'specs')} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  Thông số kỹ thuật <span>{openSection === 'specs' ? '▲' : '▼'}</span>
+                </div>
+                {openSection === 'specs' && (
+                  <div className="specs-container">
+                    {specKeys.slice(0, 3).map((specKey) => (
+                      <div key={specKey} className="spec-group">
+                        <div className="spec-title">{getSpecDisplayName(specKey, debouncedCategory)}</div>
+                        <select
+                          value={sidebarSpecs[specKey] || ""}
+                          onChange={(e) => setSidebarSpecs(prev => ({
+                            ...prev,
+                            [specKey]: e.target.value
+                          }))}
+                          className="spec-select"
+                        >
+                          <option value="">Tất cả</option>
+                          {categorySpecs[specKey].map((value, index) => (
+                            <option key={`${specKey}-${index}`} value={value}>
+                              {value}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
+                    {specKeys.length > 3 && (
+                      <div className="more-specs-info">
+                        Hiển thị 3/{specKeys.length} thông số (đã tối ưu cho hiệu suất)
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
           {/* Mức giá */}
           <div className="sidebar-section">
             <div className="sidebar-section-title" onClick={() => setOpenSection(openSection === 'price' ? '' : 'price')} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

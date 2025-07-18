@@ -25,7 +25,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="sidebar-container"
+            className="sidebar-wrapper"
             initial={{ x: "100%", opacity: 0.8, scale: 0.95 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ x: "100%", opacity: 0.8, scale: 0.95 }}

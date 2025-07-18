@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./page/function/AuthContext";
 import { CartProvider } from "./hooks/cart/useCart.jsx";
-import Sidebar from "./components/Sidebar";
 import "./style/home.css";
 import "./style/contact.css";
 import "./style/header.css";
@@ -107,12 +106,6 @@ const AdminRoute = ({ children }) => {
 };
 
 const App = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
     <>
       <GlobalStyle />
@@ -124,7 +117,6 @@ const App = () => {
                 <ScrollToTop />
                 <div className="page-container">
                   <Header />
-                  <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
                   <Suspense fallback={<div className="loading">Đang tải...</div>}>
                     <AnimatePresence mode="wait">
                       <Routes>
