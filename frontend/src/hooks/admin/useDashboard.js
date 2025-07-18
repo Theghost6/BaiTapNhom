@@ -56,23 +56,43 @@ export default function useDashboard(apiUrl, month, year, orders, users, reviews
             : 0;
     }, [statistics]);
 
-    const completedOrders = useMemo(() => statistics?.tong_thanh_toan || 0, [statistics]);
+    const completedOrders = useMemo(() => {
+        return statistics?.tong_thanh_toan ||
+            statistics?.completed_orders ||
+            (orders ? orders.filter(o => o.trang_thai === 'completed' || o.status === 'completed' || o.trang_thai === 'Đã thanh toán').length : 0) ||
+            0;
+    }, [statistics, orders]);
+
     const orderCompletionPercentage = useMemo(() => {
-        const totalOrders = statistics?.tong_don_hang || 0;
+        const totalOrders = statistics?.tong_don_hang || (orders ? orders.length : 0) || 0;
         return totalOrders ? (completedOrders / totalOrders) * 100 : 0;
-    }, [statistics, completedOrders]);
+    }, [statistics, completedOrders, orders]);
 
-    const activeUsers = useMemo(() => statistics?.nguoi_dung_hoat_dong || 0, [statistics]);
+    const activeUsers = useMemo(() => {
+        // Tính số người dùng hoạt động (tài khoản chưa bị khóa - is_active = 1)
+        return statistics?.nguoi_dung_hoat_dong ||
+            statistics?.active_users ||
+            (users ? users.filter(u => u.is_active === 1 || u.is_active === '1' || u.is_active === true).length : 0) ||
+            0;
+    }, [statistics, users]);
+
     const userActivePercentage = useMemo(() => {
-        const totalUsers = statistics?.tong_nguoi_dung || 0;
+        const totalUsers = statistics?.tong_nguoi_dung || (users ? users.length : 0) || 0;
         return totalUsers > 0 ? (activeUsers / totalUsers) * 100 : 0;
-    }, [statistics, activeUsers]);
+    }, [statistics, activeUsers, users]);
 
-    const positiveReviews = useMemo(() => statistics?.danh_gia_tich_cuc || 0, [statistics]);
+    const positiveReviews = useMemo(() => {
+        // Thử nhiều cách để lấy số đánh giá tích cực
+        return statistics?.danh_gia_tich_cuc ||
+            statistics?.positive_reviews ||
+            (reviews ? reviews.filter(r => (r.rating || r.danh_gia || r.diem) >= 3).length : 0) ||
+            0;
+    }, [statistics, reviews]);
+
     const positiveReviewPercentage = useMemo(() => {
-        const totalReviews = statistics?.tong_danh_gia || 0;
+        const totalReviews = statistics?.tong_danh_gia || (reviews ? reviews.length : 0) || 0;
         return totalReviews === 0 ? 0 : (positiveReviews / totalReviews) * 100;
-    }, [statistics, positiveReviews]);
+    }, [statistics, positiveReviews, reviews]);
 
     // Chart data cho dashboard (4 chart)
     // Không cần export chartIcons ở đây nữa, chỉ dùng biến chartIcons nếu cần

@@ -1,0 +1,21 @@
+# Ignore temporary folders
+.history/
+crawl/
+
+# Ignore logs and debug
+*.log
+*.txt
+debug.log
+debug_review.txt
+payment_debug.log
+sql_success.txt
+wishlist_debug.log
+
+# Ignore IDE/editor
+.vscode/
+.idea/
+
+# Node and build
+node_modules/
+dist/
+build/

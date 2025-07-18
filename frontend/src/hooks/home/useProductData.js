@@ -6,7 +6,7 @@ const useProductData = (productIds, fallbackData) => {
     const [error, setError] = useState(null);
 
     // Get API URL
-    const apiUrl = import.meta.env.VITE_HOST || 'http://localhost/BaiTapNhom/backend';
+    const apiUrl = import.meta.env.VITE_HOST;
 
     useEffect(() => {
         if (!productIds || productIds.length === 0) {

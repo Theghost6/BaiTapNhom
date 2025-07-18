@@ -1,7 +1,7 @@
 import React from "react";
 import "./OrdersTable.css";
 
-function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails, handleDelete, deleteOrder }) {
+function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails }) {
     return (
         <div>
             <h2>Danh sách Đơn hàng</h2>
@@ -22,7 +22,7 @@ function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails, handle
                 <tbody>
                     {orders.length === 0 ? (
                         <tr>
-                            <td colSpan="7" style={{ textAlign: "center" }}>
+                            <td colSpan="9" style={{ textAlign: "center" }}>
                                 Không có đơn hàng nào
                             </td>
                         </tr>
@@ -51,13 +51,6 @@ function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails, handle
                                 <td>
                                     <button onClick={() => handleViewOrderDetails(order.id)}>
                                         Chi tiết
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(order.id, "đơn hàng", () => deleteOrder(order.id))}
-                                        className="button-red"
-                                        style={{ marginLeft: 10 }}
-                                    >
-                                        Xóa
                                     </button>
                                 </td>
                             </tr>

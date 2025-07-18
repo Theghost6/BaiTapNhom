@@ -1,7 +1,7 @@
 import React from "react";
 import "./PaymentsTable.css";
 
-function PaymentsTable({ payments, handleDelete, deletePayment }) {
+function PaymentsTable({ payments }) {
     return (
         <div className="payments-table-container">
             <h2>Quản lý Thanh toán</h2>
@@ -16,13 +16,12 @@ function PaymentsTable({ payments, handleDelete, deletePayment }) {
                         <th>Thời gian thanh toán</th>
                         <th>Thời gian cập nhật</th>
                         <th>Mã giao dịch</th>
-                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     {payments.length === 0 ? (
                         <tr>
-                            <td colSpan="8" style={{ textAlign: "center" }}>
+                            <td colSpan="7" style={{ textAlign: "center" }}>
                                 Không có thanh toán nào
                             </td>
                         </tr>
@@ -37,14 +36,6 @@ function PaymentsTable({ payments, handleDelete, deletePayment }) {
                                 <td>{payment.thoi_gian_thanh_toan || "Chưa thanh toán"}</td>
                                 <td>{payment.thoi_gian_cap_nhat}</td>
                                 <td>{payment.ma_giao_dich || "N/A"}</td>
-                                <td>
-                                    <button
-                                        onClick={() => handleDelete(payment.id, "thanh toán", () => deletePayment(payment.id))}
-                                        className="button-red"
-                                    >
-                                        Xóa
-                                    </button>
-                                </td>
                             </tr>
                         ))
                     )}

@@ -1,7 +1,7 @@
-/* Light Mode Global Overrides - Chỉ đảm bảo background light mode, giữ nguyên màu chữ */
+/* Light Mode Global Overrides - Import color scheme chung cho toàn bộ project */
 @import url('./color-scheme.css');
 
-/* Global reset chỉ cho background */
+/* Global reset chỉ cho background - đảm bảo tất cả components sử dụng unified colors */
 html {
     color-scheme: light !important;
     background-color: var(--bg-primary) !important;
@@ -9,84 +9,142 @@ html {
 
 body {
     background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
 }
 
-/* Card background fixes - giữ nguyên màu chữ */
+/* Universal Component Fixes - áp dụng cho tất cả components */
 .card,
 .product-card,
-.item-card {
+.item-card,
+div[class*="card"] {
     background-color: var(--card-bg) !important;
     border-color: var(--card-border) !important;
     box-shadow: var(--card-shadow) !important;
 }
 
-/* Table background fixes */
-table {
+/* Table universal fixes */
+table,
+.table {
     background-color: var(--table-bg) !important;
+    color: var(--text-primary) !important;
 }
 
-tr:nth-child(even) {
+tr:nth-child(even),
+.table-stripe {
     background-color: var(--table-stripe) !important;
 }
 
-tr:hover {
+tr:hover,
+.table-hover {
     background-color: var(--table-hover) !important;
 }
 
-/* Modal background fixes */
+/* Modal universal fixes */
 .modal,
 .popup,
-.dialog {
+.dialog,
+div[class*="modal"],
+div[class*="popup"] {
     background-color: var(--modal-bg) !important;
     border-color: var(--modal-border) !important;
+    color: var(--text-primary) !important;
 }
 
 .modal-overlay,
-.popup-overlay {
+.popup-overlay,
+div[class*="overlay"] {
     background-color: var(--modal-overlay) !important;
 }
 
-/* Navigation background fixes */
+/* Navigation universal fixes */
 .nav,
 .menu,
-.navbar {
+.navbar,
+.header,
+header,
+nav,
+div[class*="nav"],
+div[class*="menu"],
+div[class*="header"] {
     background-color: var(--header-bg) !important;
+    color: var(--header-text) !important;
 }
 
-/* Sidebar background fixes */
-.sidebar {
+/* Sidebar universal fixes */
+.sidebar,
+.aside,
+aside,
+div[class*="sidebar"] {
     background-color: var(--bg-secondary) !important;
     border-color: var(--border-primary) !important;
+    color: var(--text-primary) !important;
 }
 
-/* Form background fixes - giữ nguyên màu chữ */
+/* Form universal fixes */
 input,
 textarea,
-select {
+select,
+.input,
+.form-control {
     background-color: var(--input-bg) !important;
     border-color: var(--input-border) !important;
+    color: var(--input-text) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--input-placeholder) !important;
 }
 
 input:focus,
 textarea:focus,
-select:focus {
+select:focus,
+.input:focus,
+.form-control:focus {
     border-color: var(--input-focus) !important;
     box-shadow: 0 0 0 2px var(--shadow-focus) !important;
 }
 
-/* Dropdown background fixes */
+/* Dropdown universal fixes */
 .dropdown,
-.select-dropdown {
+.select-dropdown,
+.autocomplete,
+div[class*="dropdown"],
+div[class*="select"] {
     background-color: var(--bg-primary) !important;
     border-color: var(--border-primary) !important;
-    box-shadow: var(--shadow-color) !important;
+    box-shadow: var(--shadow-md) !important;
+    color: var(--text-primary) !important;
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover,
+.dropdown-option:hover,
+div[class*="dropdown"]>*:hover {
     background-color: var(--bg-tertiary) !important;
 }
 
-/* Scrollbar fixes cho light mode */
+/* Button universal fixes */
+.btn,
+.button,
+button {
+    color: var(--text-primary) !important;
+}
+
+.btn-primary,
+.button-primary,
+button[class*="primary"] {
+    background-color: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+}
+
+.btn-secondary,
+.button-secondary,
+button[class*="secondary"] {
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--btn-secondary-text) !important;
+}
+
+/* Scrollbar universal fixes */
 ::-webkit-scrollbar {
     background-color: var(--bg-secondary) !important;
 }
@@ -95,7 +153,11 @@ select:focus {
     background-color: var(--border-primary) !important;
 }
 
-/* Prevent any dark mode background overrides */
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border-secondary) !important;
+}
+
+/* Dark Mode Override - Force light mode cho tất cả */
 @media (prefers-color-scheme: dark) {
 
     *,
@@ -107,15 +169,26 @@ select:focus {
     html,
     body {
         background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
     }
 
+    /* Universal component override */
     .card,
     .modal,
     .dropdown,
     input,
     textarea,
-    select {
+    select,
+    table,
+    .nav,
+    .menu,
+    .header,
+    .sidebar,
+    div,
+    section,
+    article {
         background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
     }
 }
 
@@ -123,5 +196,43 @@ select:focus {
 @media print {
     * {
         background-color: white !important;
+        color: black !important;
     }
+}
+
+/* Utilities - Helper classes có thể dùng trong mọi component */
+.bg-primary {
+    background-color: var(--bg-primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--bg-secondary) !important;
+}
+
+.text-primary {
+    color: var(--text-primary) !important;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.border-primary {
+    border-color: var(--border-primary) !important;
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md) !important;
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg) !important;
 }

@@ -1,5 +1,5 @@
 /* Import color scheme variables */
-@import url('./color-scheme.css');
+@import url('../../style/color-scheme.css');
 
 .reviews-table-container {
     padding: 24px 10px;

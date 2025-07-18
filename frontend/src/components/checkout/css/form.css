@@ -1,5 +1,5 @@
 /* Import color scheme variables */
-@import url('./color-scheme.css');
+@import url('../../../style/color-scheme.css');
 
 /* CSS cho dấu * bắt buộc màu đỏ */
 .required-asterisk {

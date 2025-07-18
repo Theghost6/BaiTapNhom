@@ -10,17 +10,15 @@
  *   orderAddress: Object|null,    // Địa chỉ giao hàng của đơn hàng đang xem (nếu có)
  *   selectedOrder: number|null,   // ID đơn hàng đang xem chi tiết
  *   loading: boolean,             // Trạng thái loading khi fetch dữ liệu
- *   deleteOrder: Function,        // Hàm xóa đơn hàng (id, callback)
  *   viewDetails: Function         // Hàm lấy chi tiết đơn hàng (id)
  * }
  *
  * HƯỚNG DẪN SỬ DỤNG:
  *
- * const { orders, orderItems, orderAddress, selectedOrder, loading, deleteOrder, viewDetails } = useOrders(apiUrl, trigger);
+ * const { orders, orderItems, orderAddress, selectedOrder, loading, viewDetails } = useOrders(apiUrl, trigger);
  *
  * - Nên truyền trigger (ví dụ: view, hoặc số lần reload) từ ngoài vào để đồng bộ dữ liệu khi cần (ví dụ sau khi xóa/thêm/sửa đơn hàng).
  * - Khi gọi viewDetails(id), orderItems và orderAddress sẽ chứa thông tin chi tiết đơn hàng đó.
- * - Khi gọi deleteOrder(id, cb), đơn hàng sẽ bị xóa và callback cb (nếu có) sẽ được gọi sau khi xóa thành công.
  * - loading: true khi đang tải dữ liệu đơn hàng.
  */
 import { useEffect, useState } from "react";
@@ -44,23 +42,6 @@ export default function useOrders(apiUrl, trigger) {
             .catch(() => setOrders([]))
             .finally(() => setLoading(false));
     }, [apiUrl, trigger]);
-
-    /**
-     * Xóa đơn hàng theo id. Sau khi xóa sẽ tự động cập nhật lại danh sách đơn hàng và reset chi tiết.
-     * @param {number} id - ID đơn hàng cần xóa
-     * @param {Function} [cb] - Callback sau khi xóa thành công (tùy chọn)
-     */
-    const deleteOrder = (id, cb) => {
-        axios
-            .get(`${apiUrl}/api.php?action=delete_order&id=${id}`)
-            .then(() => {
-                setOrders((prev) => prev.filter((o) => o.id !== id));
-                setOrderItems({});
-                setOrderAddress(null);
-                setSelectedOrder(null);
-                if (cb) cb();
-            });
-    };
 
     /**
      * Lấy chi tiết đơn hàng (sản phẩm, địa chỉ) theo id. Kết quả sẽ được lưu vào orderItems, orderAddress, selectedOrder.
@@ -96,5 +77,5 @@ export default function useOrders(apiUrl, trigger) {
             .catch(() => { if (cb) cb(false); });
     };
 
-    return { orders, orderItems, orderAddress, selectedOrder, loading, deleteOrder, viewDetails, updateOrderStatus };
+    return { orders, orderItems, orderAddress, selectedOrder, loading, viewDetails, updateOrderStatus };
 }

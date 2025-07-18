@@ -245,17 +245,17 @@ const Header = () => {
       setSelectedCategory(null);
     } else {
       setSelectedCategory(category);
-      
+
       // Auto-adjust subcategory panel position to prevent cutoff
       setTimeout(() => {
         const categoryDropdown = document.querySelector('.category-dropdown');
         const subcategoryPanel = document.querySelector('.subcategory-panel');
-        
+
         if (categoryDropdown && subcategoryPanel) {
           const dropdownRect = categoryDropdown.getBoundingClientRect();
           const panelRect = subcategoryPanel.getBoundingClientRect();
           const viewportHeight = window.innerHeight;
-          
+
           // If panel extends beyond viewport, adjust position
           if (panelRect.bottom > viewportHeight) {
             const overflow = panelRect.bottom - viewportHeight + 20; // 20px padding
@@ -644,6 +644,12 @@ const Header = () => {
             <div className="static-menu-buttons" style={{ display: 'flex', gap: 12, alignItems: 'center', marginLeft: 24 }}>
               <button
                 className="menu-button"
+                onClick={() => navigate("/contact")}
+              >
+                <PhoneCall size={18} style={{ marginRight: 6 }} />
+                Liên hệ
+              </button> <button
+                className="menu-button"
                 onClick={() => navigate("/blog")}
               >
                 <FaBlogger size={18} style={{ marginRight: 6 }} />
@@ -673,42 +679,6 @@ const Header = () => {
               </button>
             </div>
 
-            {showLocationPopup && (
-              <div className="consult-popup" ref={popupRef}>
-                <div className="popup-header flex justify-between items-start">
-                  <div className="consult-info space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <PhoneCall size={20} strokeWidth={2} />
-                      <span>0123 456 789</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Facebook size={20} strokeWidth={2} />
-                      <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer">
-                        Facebook
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Instagram size={20} strokeWidth={2} />
-                      <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer">
-                        Instagram
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Linkedin size={20} strokeWidth={2} />
-                      <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer">
-                        LinkedIn
-                      </a>
-                    </div>
-                  </div>
-                  <span
-                    className="close-btn cursor-pointer text-lg font-bold"
-                    onClick={() => setShowLocationPopup(false)}
-                  >
-                    ×
-                  </span>
-                </div>
-              </div>
-            )}
 
             <div className="header-actions">
               {isLoggedIn ? (
