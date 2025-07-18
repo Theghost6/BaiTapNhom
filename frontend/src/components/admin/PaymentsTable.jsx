@@ -1,46 +1,65 @@
 import React from "react";
-import "./PaymentsTable.css";
+import "./CommonTable.css";
 
-function PaymentsTable({ payments }) {
+function PaymentsTable({ payments, handleDelete, deletePayment }) {
     return (
-        <div className="payments-table-container">
-            <h2>Quản lý Thanh toán</h2>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Mã đơn hàng</th>
-                        <th>Phương thức thanh toán</th>
-                        <th>Tổng tiền</th>
-                        <th>Trạng thái</th>
-                        <th>Thời gian thanh toán</th>
-                        <th>Thời gian cập nhật</th>
-                        <th>Mã giao dịch</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {payments.length === 0 ? (
+        <div className="table-container">
+            <div className="table-scroll-wrapper">
+                <table className="admin-table">
+                    <thead>
                         <tr>
-                            <td colSpan="7" style={{ textAlign: "center" }}>
-                                Không có thanh toán nào
-                            </td>
+                            <th className="id-column">ID</th>
+                            <th className="id-column">Mã đơn hàng</th>
+                            <th>Phương thức thanh toán</th>
+                            <th className="price-column">Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th className="date-column">Thời gian thanh toán</th>
+                            <th className="date-column">Thời gian cập nhật</th>
+                            <th>Mã giao dịch</th>
+                            <th className="actions-column">Hành động</th>
                         </tr>
-                    ) : (
-                        payments.map((payment) => (
-                            <tr key={payment.id}>
-                                <td>{payment.id}</td>
-                                <td>{payment.ma_don_hang}</td>
-                                <td>{payment.phuong_thuc}</td>
-                                <td>{Number(payment.tong_so_tien || payment.tong_tien || 0).toLocaleString("vi-VN")} đ</td>
-                                <td>{payment.trang_thai_thanh_toan || payment.trang_thai}</td>
-                                <td>{payment.thoi_gian_thanh_toan || "Chưa thanh toán"}</td>
-                                <td>{payment.thoi_gian_cap_nhat}</td>
-                                <td>{payment.ma_giao_dich || "N/A"}</td>
+                    </thead>
+                    <tbody>
+                        {payments.length === 0 ? (
+                            <tr>
+                                <td colSpan="9" className="table-empty">
+                                    Không có thanh toán nào
+                                </td>
                             </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                        ) : (
+                            payments.map((payment) => (
+                                <tr key={payment.id}>
+                                    <td className="id-column">{payment.id}</td>
+                                    <td className="id-column">{payment.ma_don_hang}</td>
+                                    <td>{payment.phuong_thuc}</td>
+                                    <td className="price-column">{Number(payment.tong_so_tien || payment.tong_tien || 0).toLocaleString("vi-VN")} đ</td>
+                                    <td>
+                                        <span className={`status-badge ${payment.trang_thai_thanh_toan || payment.trang_thai === 'Đã thanh toán' ? 'success' : 'pending'}`}>
+                                            {payment.trang_thai_thanh_toan || payment.trang_thai}
+                                        </span>
+                                    </td>
+                                    <td className="date-column">
+                                        {payment.thoi_gian_thanh_toan && payment.thoi_gian_thanh_toan !== '0000-00-00 00:00:00'
+                                            ? new Date(payment.thoi_gian_thanh_toan).toLocaleString('vi-VN')
+                                            : "Chưa thanh toán"}
+                                    </td>
+                                    <td className="date-column">{payment.thoi_gian_cap_nhat ? new Date(payment.thoi_gian_cap_nhat).toLocaleString('vi-VN') : 'N/A'}</td>
+                                    <td>{payment.ma_giao_dich || "N/A"}</td>
+                                    <td className="actions-column">
+                                        <button
+                                            onClick={() => handleDelete(payment.id, "thanh toán", () => deletePayment(payment.id))}
+                                            className="table-btn btn-danger"
+                                        >
+                                            <i className="fas fa-trash"></i>
+                                            <span>Xóa</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

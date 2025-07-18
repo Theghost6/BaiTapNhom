@@ -7,6 +7,43 @@ header("Content-Type: application/json");
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 
+// Handle OPTIONS request for CORS preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// Function to load environment variables
+function loadEnv($path) {
+    if (!file_exists($path)) {
+        return;
+    }
+    
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue; // Skip comments
+        }
+        
+        if (strpos($line, '=') !== false) {
+            list($name, $value) = explode('=', $line, 2);
+            $name = trim($name);
+            $value = trim($value);
+            
+            if (!array_key_exists($name, $_ENV)) {
+                $_ENV[$name] = $value;
+                putenv("$name=$value");
+            }
+        }
+    }
+}
+
+// Load environment variables
+loadEnv(__DIR__ . '/.env');
+
+// Get backend host from environment
+$backend_host = $_ENV['BACKEND_HOST'] ?? 'http://localhost/BaiTapNhom/backend';
+
 // Define log file
 $logFile = __DIR__ . '/debug.log';
 
@@ -139,7 +176,14 @@ switch ($action) {
         $stmt->close();
         
         // Update thanh_toan if exists
-        $sql2 = "UPDATE thanh_toan SET trang_thai = ? WHERE ma_don_hang = ?";
+        if ($status === 'Đã thanh toán') {
+            // Update both status and payment time when status is "Đã thanh toán"
+            $sql2 = "UPDATE thanh_toan SET trang_thai = ?, thoi_gian_thanh_toan = NOW() WHERE ma_don_hang = ?";
+        } else {
+            // Only update status for other cases
+            $sql2 = "UPDATE thanh_toan SET trang_thai = ? WHERE ma_don_hang = ?";
+        }
+        
         $stmt2 = $conn->prepare($sql2);
         if ($stmt2) {
             $stmt2->bind_param("si", $status, $id);
@@ -545,6 +589,418 @@ switch ($action) {
         echo json_encode(['success' => $success]);
         break;
 
+    // Product Images Management
+    case 'get_product_images':
+        try {
+            if (!isset($_GET['ma_sp']) || empty($_GET['ma_sp'])) {
+                throw new Exception('Mã sản phẩm không được để trống');
+            }
+
+            $ma_sp = $_GET['ma_sp'];
+            
+            // Get product images
+            $stmt = $conn->prepare("SELECT id, ma_sp, url, thu_tu FROM anh_sp WHERE ma_sp = ? ORDER BY thu_tu ASC");
+            $stmt->bind_param("s", $ma_sp);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $images = [];
+            while ($row = $result->fetch_assoc()) {
+                $images[] = [
+                    'id' => $row['id'],
+                    'ma_sp' => $row['ma_sp'],
+                    'url' => $row['url'],
+                    'thu_tu' => $row['thu_tu']
+                ];
+            }
+            
+            $stmt->close();
+            
+            echo json_encode([
+                'success' => true,
+                'images' => $images,
+                'count' => count($images)
+            ]);
+
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        break;
+
+    case 'upload_product_image':
+        try {
+            if (!isset($_POST['ma_sp']) || empty($_POST['ma_sp'])) {
+                throw new Exception('Mã sản phẩm không được để trống');
+            }
+
+            if (!isset($_FILES['images']) || empty($_FILES['images']['name'][0])) {
+                throw new Exception('Không có ảnh nào được tải lên');
+            }
+
+            $ma_sp = $_POST['ma_sp'];
+            
+            // Verify that ma_sp exists in san_pham table
+            $check_stmt = $conn->prepare("SELECT ma_sp FROM san_pham WHERE ma_sp = ?");
+            $check_stmt->bind_param('s', $ma_sp);
+            $check_stmt->execute();
+            $check_result = $check_stmt->get_result();
+            
+            if ($check_result->num_rows === 0) {
+                $check_stmt->close();
+                throw new Exception("Sản phẩm với mã '{$ma_sp}' không tồn tại trong database");
+            }
+            $check_stmt->close();
+            
+            $upload_dir = 'uploads/products/';
+            
+            // Create upload directory if it doesn't exist
+            if (!file_exists($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            $uploaded_images = [];
+            $errors = [];
+
+            // Process multiple images
+            $file_count = count($_FILES['images']['name']);
+            
+            for ($i = 0; $i < $file_count; $i++) {
+                if ($_FILES['images']['error'][$i] === UPLOAD_ERR_OK) {
+                    $file_name = $_FILES['images']['name'][$i];
+                    $file_tmp = $_FILES['images']['tmp_name'][$i];
+                    $file_size = $_FILES['images']['size'][$i];
+                    $file_type = $_FILES['images']['type'][$i];
+
+                    // Validate file type
+                    $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!in_array($file_type, $allowed_types)) {
+                        $errors[] = "File {$file_name} không phải là ảnh hợp lệ";
+                        continue;
+                    }
+
+                    // Validate file size (5MB max)
+                    if ($file_size > 5 * 1024 * 1024) {
+                        $errors[] = "File {$file_name} quá lớn (tối đa 5MB)";
+                        continue;
+                    }
+
+                    // Generate unique file name
+                    $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+                    $unique_name = $ma_sp . '_' . time() . '_' . $i . '.' . $file_extension;
+                    $upload_path = $upload_dir . $unique_name;
+
+                    // Move uploaded file
+                    if (move_uploaded_file($file_tmp, $upload_path)) {
+                        // Create full URL for the image
+                        $image_url = $backend_host . '/' . $upload_path;
+                        
+                        // Insert into database
+                        $stmt = $conn->prepare("INSERT INTO anh_sp (ma_sp, url, thu_tu) VALUES (?, ?, ?)");
+                        $thu_tu = $i + 1; // Order starting from 1
+                        
+                        if ($stmt->bind_param('ssi', $ma_sp, $image_url, $thu_tu) && $stmt->execute()) {
+                            $uploaded_images[] = [
+                                'id' => $conn->insert_id,
+                                'ma_sp' => $ma_sp,
+                                'url' => $image_url,
+                                'thu_tu' => $thu_tu
+                            ];
+                        } else {
+                            $errors[] = "Không thể lưu thông tin ảnh {$file_name} vào database: " . $stmt->error;
+                            // Remove uploaded file if database insert fails
+                            unlink($upload_path);
+                        }
+                        $stmt->close();
+                    } else {
+                        $errors[] = "Không thể tải lên file {$file_name}";
+                    }
+                } else {
+                    $errors[] = "Lỗi tải lên file {$_FILES['images']['name'][$i]}";
+                }
+            }
+
+            // Response
+            if (!empty($uploaded_images)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => count($uploaded_images) . ' ảnh đã được tải lên thành công',
+                    'images' => $uploaded_images,
+                    'errors' => $errors
+                ]);
+            } else {
+                throw new Exception('Không có ảnh nào được tải lên thành công. Lỗi: ' . implode(', ', $errors));
+            }
+
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        break;
+
+    case 'add_product_image_urls':
+        try {
+            // Get JSON input
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            if (!isset($input['ma_sp']) || empty($input['ma_sp'])) {
+                throw new Exception('Mã sản phẩm không được để trống');
+            }
+
+            if (!isset($input['urls']) || !is_array($input['urls']) || empty($input['urls'])) {
+                throw new Exception('Danh sách URL ảnh không được để trống');
+            }
+
+            $ma_sp = $input['ma_sp'];
+            $urls = $input['urls'];
+            
+            $added_images = [];
+            $errors = [];
+
+            // Process URLs
+            foreach ($urls as $index => $url) {
+                $url = trim($url);
+                
+                // Validate URL
+                if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                    $errors[] = "URL không hợp lệ: {$url}";
+                    continue;
+                }
+
+                // Insert into database
+                $stmt = $conn->prepare("INSERT INTO anh_sp (ma_sp, url, thu_tu) VALUES (?, ?, ?)");
+                $thu_tu = $index + 1; // Order starting from 1
+                
+                if ($stmt->bind_param('ssi', $ma_sp, $url, $thu_tu) && $stmt->execute()) {
+                    $added_images[] = [
+                        'id' => $conn->insert_id,
+                        'ma_sp' => $ma_sp,
+                        'url' => $url,
+                        'thu_tu' => $thu_tu
+                    ];
+                } else {
+                    $errors[] = "Không thể lưu URL ảnh: {$url} - " . $stmt->error;
+                }
+                $stmt->close();
+            }
+
+            // Response
+            if (!empty($added_images)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => count($added_images) . ' URL ảnh đã được thêm thành công',
+                    'images' => $added_images,
+                    'errors' => $errors
+                ]);
+            } else {
+                throw new Exception('Không có URL ảnh nào được thêm thành công. Lỗi: ' . implode(', ', $errors));
+            }
+
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        break;
+
+    case 'delete_product_image':
+        try {
+            // Get JSON input
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            if (!isset($input['id']) || empty($input['id'])) {
+                throw new Exception('ID ảnh không được để trống');
+            }
+
+            $image_id = $input['id'];
+            
+            // Get image info first
+            $stmt = $conn->prepare("SELECT url FROM anh_sp WHERE id = ?");
+            $stmt->bind_param("i", $image_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows === 0) {
+                throw new Exception('Không tìm thấy ảnh');
+            }
+            
+            $image_data = $result->fetch_assoc();
+            $image_url = $image_data['url'];
+            $stmt->close();
+            
+            // Delete from database
+            $stmt = $conn->prepare("DELETE FROM anh_sp WHERE id = ?");
+            $stmt->bind_param("i", $image_id);
+            
+            if ($stmt->execute()) {
+                // Try to delete physical file if it's a local file
+                if (strpos($image_url, $backend_host . '/') === 0) {
+                    $file_path = str_replace($backend_host . '/', '', $image_url);
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
+                }
+                
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Xóa ảnh thành công'
+                ]);
+            } else {
+                throw new Exception('Không thể xóa ảnh');
+            }
+            
+            $stmt->close();
+
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        break;
+
+    // Product Technical Specifications Management
+    case 'get_product_thongso':
+        try {
+            if (!isset($_GET['ma_sp']) || empty($_GET['ma_sp'])) {
+                throw new Exception('Mã sản phẩm không được để trống');
+            }
+
+            $ma_sp = $_GET['ma_sp'];
+            
+            // Get product thong so
+            $stmt = $conn->prepare("SELECT id, ma_sp, ten_thong_so, gia_tri_thong_so, thu_tu FROM thong_so WHERE ma_sp = ? ORDER BY thu_tu ASC, id ASC");
+            $stmt->bind_param("s", $ma_sp);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $thongso = [];
+            while ($row = $result->fetch_assoc()) {
+                $thongso[] = [
+                    'id' => $row['id'],
+                    'ma_sp' => $row['ma_sp'],
+                    'ten_thong_so' => $row['ten_thong_so'],
+                    'gia_tri_thong_so' => $row['gia_tri_thong_so'],
+                    'thu_tu' => $row['thu_tu']
+                ];
+            }
+            
+            $stmt->close();
+            
+            echo json_encode([
+                'success' => true,
+                'thongso' => $thongso,
+                'count' => count($thongso)
+            ]);
+
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        break;
+
+    case 'save_product_thongso':
+        try {
+            // Get JSON input
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            if (!isset($input['ma_sp']) || empty($input['ma_sp'])) {
+                throw new Exception('Mã sản phẩm không được để trống');
+            }
+
+            if (!isset($input['thongso']) || !is_array($input['thongso'])) {
+                throw new Exception('Dữ liệu thông số không hợp lệ');
+            }
+
+            $ma_sp = $input['ma_sp'];
+            $thongso_list = $input['thongso'];
+            
+            // Verify that ma_sp exists in san_pham table
+            $check_stmt = $conn->prepare("SELECT ma_sp FROM san_pham WHERE ma_sp = ?");
+            $check_stmt->bind_param('s', $ma_sp);
+            $check_stmt->execute();
+            $check_result = $check_stmt->get_result();
+            
+            if ($check_result->num_rows === 0) {
+                $check_stmt->close();
+                throw new Exception("Sản phẩm với mã '{$ma_sp}' không tồn tại trong database");
+            }
+            $check_stmt->close();
+            
+            // Begin transaction
+            $conn->autocommit(false);
+            
+            try {
+                // Delete existing thong so for this product
+                $delete_stmt = $conn->prepare("DELETE FROM thong_so WHERE ma_sp = ?");
+                $delete_stmt->bind_param('s', $ma_sp);
+                $delete_stmt->execute();
+                $delete_stmt->close();
+                
+                $saved_thongso = [];
+                
+                // Insert new thong so
+                foreach ($thongso_list as $ts) {
+                    if (empty($ts['ten_thong_so']) || empty($ts['gia_tri_thong_so'])) {
+                        continue; // Skip empty entries
+                    }
+                    
+                    $thu_tu = isset($ts['thu_tu']) && is_numeric($ts['thu_tu']) ? intval($ts['thu_tu']) : 0;
+                    
+                    $stmt = $conn->prepare("INSERT INTO thong_so (ma_sp, ten_thong_so, gia_tri_thong_so, thu_tu) VALUES (?, ?, ?, ?)");
+                    $stmt->bind_param('sssi', $ma_sp, $ts['ten_thong_so'], $ts['gia_tri_thong_so'], $thu_tu);
+                    
+                    if ($stmt->execute()) {
+                        $saved_thongso[] = [
+                            'id' => $conn->insert_id,
+                            'ma_sp' => $ma_sp,
+                            'ten_thong_so' => $ts['ten_thong_so'],
+                            'gia_tri_thong_so' => $ts['gia_tri_thong_so'],
+                            'thu_tu' => $thu_tu
+                        ];
+                    } else {
+                        throw new Exception("Không thể lưu thông số: {$ts['ten_thong_so']} - " . $stmt->error);
+                    }
+                    $stmt->close();
+                }
+                
+                // Commit transaction
+                $conn->commit();
+                
+                echo json_encode([
+                    'success' => true,
+                    'message' => count($saved_thongso) . ' thông số đã được lưu thành công',
+                    'thongso' => $saved_thongso
+                ]);
+                
+            } catch (Exception $e) {
+                // Rollback transaction
+                $conn->rollback();
+                throw $e;
+            } finally {
+                $conn->autocommit(true);
+            }
+
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        break;
 
     default:
         echo json_encode(["error" => "Invalid action"]);

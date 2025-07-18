@@ -1,0 +1,169 @@
+/* Compatibility CSS để đảm bảo các table cũ hoạt động với style mới */
+
+/* Đảm bảo tất cả .table class sử dụng style mới */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    table-layout: auto;
+    min-width: 100%;
+}
+
+/* Header cũ và mới */
+.table th,
+.admin-table th {
+    background: #f8f9fa !important;
+    color: #374151 !important;
+    font-weight: 600 !important;
+    padding: 12px 16px !important;
+    text-align: left !important;
+    border-bottom: 2px solid #e5e7eb !important;
+    font-size: 14px !important;
+    letter-spacing: 0.025em !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+}
+
+/* Cells cũ và mới */
+.table td,
+.admin-table td {
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    vertical-align: middle !important;
+    font-size: 14px !important;
+    color: #374151 !important;
+    max-width: 200px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Hover effect */
+.table tbody tr:hover,
+.admin-table tbody tr:hover {
+    background-color: #f3f4f6 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+/* Even rows */
+.table tr:nth-child(even),
+.admin-table tr:nth-child(even) {
+    background-color: #f9fafb !important;
+}
+
+/* Container wrapper cho compatibility */
+.users-table-container,
+.orders-table-container,
+.payments-table-container,
+.reviews-table-container,
+.contacts-table-container,
+.favorites-table-container,
+.products-table-container {
+    padding: 0;
+    background: transparent;
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Legacy button styles update */
+.button-red,
+.button-yellow,
+.button-green,
+.button-blue {
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 6px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.button-red {
+    background-color: #ef4444;
+    color: white;
+}
+
+.button-red:hover {
+    background-color: #dc2626;
+}
+
+.button-yellow {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.button-yellow:hover {
+    background-color: #d97706;
+}
+
+.button-green {
+    background-color: #10b981;
+    color: white;
+}
+
+.button-green:hover {
+    background-color: #059669;
+}
+
+.button-blue {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.button-blue:hover {
+    background-color: #2563eb;
+}
+
+/* Loading cũ */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.loading_spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e5e7eb;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Table wrapper for LinhKienManager */
+.lk-table-wrapper {
+    overflow-x: auto;
+    margin: 0 -1px;
+    border-radius: 12px;
+}
+
+.lk-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.lk-table-wrapper::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 3px;
+}
+
+.lk-table-wrapper::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 3px;
+}
+
+.lk-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
