@@ -6,7 +6,7 @@
     padding: 0;
     background: transparent;
     width: 100%;
-    overflow-x: auto;
+    overflow: visible;
 }
 
 /* Bảng chính */
@@ -149,8 +149,17 @@
 }
 
 /* Đảm bảo container actions không bị overflow */
+.admin-table .actions-column {
+    white-space: nowrap;
+}
+
 .admin-table .actions-column .table-btn {
     display: inline-flex !important;
+    margin-right: 8px;
+}
+
+.admin-table .actions-column .table-btn:last-child {
+    margin-right: 0;
 }
 
 .table-btn.btn-primary {
@@ -383,11 +392,12 @@
 .table-scroll-wrapper {
     overflow-x: auto;
     overflow-y: auto;
-    margin: 0 -1px;
+    margin: 0;
     border-radius: 12px;
     position: relative;
     max-height: 60vh;
     /* Giới hạn chiều cao để có scroll dọc */
+    width: 100%;
 }
 
 /* Đảm bảo table có min-width để scroll hoạt động tốt */

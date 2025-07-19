@@ -2,6 +2,29 @@ import React from "react";
 import "./CommonTable.css";
 
 function ContactsTable({ contacts, handleDelete, deleteContact }) {
+    const handleReply = (contact) => {
+        // Tạo nội dung email mẫu
+        const subject = `Phản hồi: Liên hệ từ ${contact.ten}`;
+        const body = `Kính chào ${contact.ten},
+
+Cảm ơn bạn đã liên hệ với Nhóm 8. Chúng tôi đã nhận được tin nhắn của bạn:
+
+"${contact.noi_dung}"
+
+Phản hồi của chúng tôi:
+[Vui lòng nhập nội dung phản hồi tại đây]
+
+Trân trọng,
+Đội ngũ hỗ trợ Nhóm 8
+Email: nhom8$sh3.com
+Hotline: không có đâu hẹ hẹ`;
+
+        // Tạo Gmail compose URL
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contact.email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        // Mở Gmail trong tab mới
+        window.open(gmailUrl, '_blank');
+    };
     return (
         <div className="table-container">
             <div className="table-scroll-wrapper">
@@ -34,6 +57,14 @@ function ContactsTable({ contacts, handleDelete, deleteContact }) {
                                     <td className="description-column">{contact.noi_dung}</td>
                                     <td className="date-column">{contact.thoi_gian_gui}</td>
                                     <td className="actions-column">
+                                        <button
+                                            onClick={() => handleReply(contact)}
+                                            className="table-btn btn-primary"
+                                            title="Phản hồi qua Gmail"
+                                        >
+                                            <i className="fas fa-reply"></i>
+                                            <span>Phản hồi</span>
+                                        </button>
                                         <button
                                             onClick={() => handleDelete(contact.id, "liên hệ", () => deleteContact(contact.id))}
                                             className="table-btn btn-danger"
