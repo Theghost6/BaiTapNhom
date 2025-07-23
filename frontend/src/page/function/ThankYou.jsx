@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { LuHeartHandshake } from "react-icons/lu";
 
 const SimpleThankYou = () => {
   const canvasRef = useRef(null);
+  const mouseHeartCanvasRef = useRef(null);
   const messageRef = useRef(null);
-  const [showMessage, setShowMessage] = useState(false);
+  const [showMessage, setShowMessage] = useState(true);
   const [showHearts, setShowHearts] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [orderInfo] = useState({
     deliveryDate: (() => {
       const today = new Date();
@@ -20,11 +23,11 @@ const SimpleThankYou = () => {
   useEffect(() => {
     // Ẩn body scroll
     document.body.style.overflow = 'hidden';
-    
+
     // Thử ẩn các element thường dùng cho header/footer
     const elementsToHide = [
       'header',
-      'nav', 
+      'nav',
       'footer',
       '.header',
       '.footer',
@@ -35,7 +38,7 @@ const SimpleThankYou = () => {
     ];
 
     const hiddenElements = [];
-    
+
     elementsToHide.forEach(selector => {
       const elements = document.querySelectorAll(selector);
       elements.forEach(el => {
@@ -53,7 +56,7 @@ const SimpleThankYou = () => {
     return () => {
       // Khôi phục body scroll
       document.body.style.overflow = 'auto';
-      
+
       // Khôi phục các element đã ẩn
       hiddenElements.forEach(({ element, originalDisplay }) => {
         element.style.display = originalDisplay;
@@ -61,190 +64,25 @@ const SimpleThankYou = () => {
     };
   }, []);
 
+  // Vẽ trái tim với nhịp đập theo chuột
   useEffect(() => {
-    if (!showHearts) return;
-    
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const handleMouseMove = (event) => {
+      setMousePosition({
+        x: event.clientX,
+        y: event.clientY
+      });
+    };
 
-    const ctx = canvas.getContext('2d');
-    
-    const isDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-      (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase()
-    );
-    
-    const mobile = isDevice;
-    const koef = mobile ? 0.5 : 1;
-    
-    const updateCanvasSize = () => {
-      canvas.width = koef * window.innerWidth;
-      canvas.height = koef * window.innerHeight;
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      return { width: canvas.width, height: canvas.height };
-    };
-    
-    let { width, height } = updateCanvasSize();
-    
-    const createBackground = () => {
-      ctx.fillStyle = "rgba(255,255,255,1)";
-      ctx.fillRect(0, 0, width, height);
-    };
-    
-    createBackground();
-    
-    const heartPosition = (rad) => {
-      return [
-        Math.pow(Math.sin(rad), 3),
-        -(15 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad))
-      ];
-    };
-    
-    const scaleAndTranslate = (pos, sx, sy, dx, dy) => {
-      return [dx + pos[0] * sx, dy + pos[1] * sy];
-    };
-    
-    const handleResize = () => {
-      const dims = updateCanvasSize();
-      width = dims.width;
-      height = dims.height;
-      createBackground();
-    };
-    
-    window.addEventListener('resize', handleResize);
-    
-    const traceCount = mobile ? 20 : 50;
-    const pointsOrigin = [];
-    const dr = mobile ? 0.3 : 0.1;
-    
-    const heartScale = 1.2;
-    for (let i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 210 * heartScale, 13 * heartScale, 0, 0));
-    for (let i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 150 * heartScale, 9 * heartScale, 0, 0));
-    for (let i = 0; i < Math.PI * 2; i += dr) pointsOrigin.push(scaleAndTranslate(heartPosition(i), 90 * heartScale, 5 * heartScale, 0, 0));
-    
-    const heartPointsCount = pointsOrigin.length;
-    const targetPoints = [];
-    
-    const pulse = (kx, ky) => {
-      for (let i = 0; i < pointsOrigin.length; i++) {
-        targetPoints[i] = [];
-        targetPoints[i][0] = kx * pointsOrigin[i][0] + width / 2;
-        targetPoints[i][1] = ky * pointsOrigin[i][1] + height / 2;
-      }
-    };
-    
-    const particles = [];
-    const rand = Math.random;
-    
-    for (let i = 0; i < heartPointsCount; i++) {
-      const x = rand() * width;
-      const y = rand() * height;
-      particles[i] = {
-        vx: 0,
-        vy: 0,
-        R: 2,
-        speed: rand() + 5,
-        q: Math.floor(rand() * heartPointsCount),
-        D: 2 * (i % 2) - 1,
-        force: 0.2 * rand() + 0.7,
-        f: `hsla(${Math.floor(360 * rand())},${Math.floor(40 * rand() + 60)}%,${Math.floor(60 * rand() + 20)}%,.6)`,
-        trace: []
-      };
-      
-      for (let k = 0; k < traceCount; k++) particles[i].trace[k] = { x, y };
-    }
-    
-    const config = {
-      traceK: 0.4,
-      timeDelta: 0.01
-    };
-    
-    let time = 0;
-    let animationFrameId;
-    
-    const loop = () => {
-      if (!showHearts) return;
-      
-      const n = -Math.cos(time);
-      pulse((1 + n) * 0.5, (1 + n) * 0.5);
-      time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? 0.2 : 1) * config.timeDelta;
-      
-      ctx.fillStyle = "rgba(255,255,255,.1)"
-      ctx.fillRect(0, 0, width, height);
-      
-      for (let i = particles.length; i--;) {
-        const u = particles[i];
-        const q = targetPoints[u.q];
-        const dx = u.trace[0].x - q[0];
-        const dy = u.trace[0].y - q[1];
-        const length = Math.sqrt(dx * dx + dy * dy);
-        
-        if (10 > length) {
-          if (0.95 < rand()) {
-            u.q = Math.floor(rand() * heartPointsCount);
-          } else {
-            if (0.99 < rand()) {
-              u.D *= -1;
-            }
-            u.q += u.D;
-            u.q %= heartPointsCount;
-            if (0 > u.q) {
-              u.q += heartPointsCount;
-            }
-          }
-        }
-        
-        u.vx += -dx / length * u.speed;
-        u.vy += -dy / length * u.speed;
-        u.trace[0].x += u.vx;
-        u.trace[0].y += u.vy;
-        u.vx *= u.force;
-        u.vy *= u.force;
-        
-        for (let k = 0; k < u.trace.length - 1;) {
-          const T = u.trace[k];
-          const N = u.trace[++k];
-          N.x -= config.traceK * (N.x - T.x);
-          N.y -= config.traceK * (N.y - T.y);
-        }
-        
-        ctx.fillStyle = u.f;
-        for (let k = 0; k < u.trace.length; k++) {
-          ctx.fillRect(u.trace[k].x, u.trace[k].y, 1, 1);
-        }
-      }
-      
-      animationFrameId = window.requestAnimationFrame(loop);
-    };
-    
-    loop();
-    
+    window.addEventListener('mousemove', handleMouseMove);
+
     return () => {
-      window.removeEventListener('resize', handleResize);
-      if (animationFrameId) {
-        window.cancelAnimationFrame(animationFrameId);
-      }
+      window.removeEventListener('mousemove', handleMouseMove);
     };
+  }, []);
+
+  useEffect(() => {
+    // Không cần trái tim lớn nữa
   }, [showHearts]);
-
-  const handleHeartClick = () => {
-    setShowHearts(false);
-    setShowMessage(true);
-    
-    setTimeout(() => {
-      if (messageRef.current) {
-        messageRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }
-    }, 100);
-  };
-
-  const handleCloseMessage = () => {
-    setShowMessage(false);
-    setShowHearts(true);
-  };
 
   return (
     <>
@@ -310,7 +148,7 @@ const SimpleThankYou = () => {
           100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Đảm bảo fullscreen */
+        /* Layout fullscreen giữa trang */
         .fullscreen-overlay {
           position: fixed !important;
           top: 0 !important;
@@ -318,67 +156,83 @@ const SimpleThankYou = () => {
           width: 100vw !important;
           height: 100vh !important;
           z-index: 9999 !important;
-          background: white !important;
+          background: linear-gradient(135deg, #fef2f2 0%, #fce7f3 50%, #fdf2f8 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
+
+        /* Trái tim theo chuột với nhịp đập */
+        .mouse-heart {
+          position: fixed;
+          pointer-events: none;
+          z-index: 10000;
+          font-size: 35px;
+          color: #e11d48;
+          transform: translate(-50%, -50%);
+          transition: left 0.1s ease-out, top 0.1s ease-out;
+          animation: heartbeat 1.2s ease-in-out infinite;
+          filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.8));
+        }
+
+        @keyframes heartbeat {
+          0%, 100% { 
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.8));
+          }
+          14% { 
+            transform: translate(-50%, -50%) scale(1.3) rotate(5deg);
+            filter: drop-shadow(0 0 20px rgba(225, 29, 72, 1));
+          }
+          28% { 
+            transform: translate(-50%, -50%) scale(1) rotate(-2deg);
+            filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.8));
+          }
+          42% { 
+            transform: translate(-50%, -50%) scale(1.3) rotate(-5deg);
+            filter: drop-shadow(0 0 20px rgba(225, 29, 72, 1));
+          }
+          70% { 
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.8));
+          }
+        }
+
       `}</style>
-      
+
       <div className="fullscreen-overlay">
-        {showHearts && (
-          <div className="absolute inset-0 cursor-pointer" onClick={handleHeartClick}>
-            <canvas 
-              ref={canvasRef} 
-              className="absolute left-0 top-0 w-full h-full"
-              style={{ 
-                backgroundColor: 'rgba(255,255,255,1)',
-                zIndex: 1
-              }}
-            />
-            
-            {/* Hướng dẫn click */}
-            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-rose-400 text-lg font-medium animate-bounce">
-              ❤️ Nhấn vào trái tim để xem thông báo
-            </div>
-          </div>
-        )}
-        
-        <div 
-          ref={messageRef}
-          className={`absolute inset-0 transition-all duration-500
-                     ${showMessage ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
-          style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}
+        {/* Trái tim với nhịp đập theo chuột */}
+        <div
+          className="mouse-heart"
+          style={{
+            left: mousePosition.x,
+            top: mousePosition.y,
+          }}
         >
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <div className="thank-you-container bg-white bg-opacity-95 backdrop-blur-sm rounded-3xl shadow-xl p-8 max-w-md mx-4 text-center relative">
-              <button 
-                className="absolute top-4 right-4 text-rose-400 hover:text-rose-600 focus:outline-none transition-colors z-10"
-                onClick={handleCloseMessage}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              
-              <div className="text-5xl mb-6">💝</div>
-              
-              <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-700 via-rose-500 to-pink-500 mb-6 pop-up-text">
-                Cảm ơn bạn đã đặt hàng!
-              </h1>
-              
-              <div className="my-6 py-4 border-t border-b border-rose-200 slide-in-text">
-                <p className="text-rose-500 text-lg pop-up-delay-2">
-                  Dự kiến giao hàng: <span className="font-semibold text-rose-600">{orderInfo.deliveryDate}</span>
-                </p>
-              </div>
-              
-              <div className="mt-6 bounce-in-button">
-                <a 
-                  href="/alllinhkien" 
-                  className="inline-block px-8 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-medium hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-rose-300 transform hover:-translate-y-1 text-lg"
-                >
-                  Tiếp tục mua sắm
-                </a>
-              </div>
-            </div>
+          <LuHeartHandshake />
+        </div>
+
+        {/* Lời cảm ơn ở giữa trang */}
+        <div className="thank-you-container bg-white bg-opacity-95 backdrop-blur-sm rounded-3xl shadow-xl p-8 max-w-md mx-4 text-center relative">
+          <div className="text-5xl mb-6">💝</div>
+
+          <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-700 via-rose-500 to-pink-500 mb-6 pop-up-text">
+            Cảm ơn bạn đã đặt hàng!
+          </h1>
+
+          <div className="my-6 py-4 border-t border-b border-rose-200 slide-in-text">
+            <p className="text-rose-500 text-lg pop-up-delay-2">
+              <span className="font-semibold text-rose-600">Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất!</span>
+            </p>
+          </div>
+
+          <div className="mt-6 bounce-in-button">
+            <a
+              href="/alllinhkien"
+              className="inline-block px-8 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-medium hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-rose-300 transform hover:-translate-y-1 text-lg"
+            >
+              Tiếp tục mua sắm
+            </a>
           </div>
         </div>
       </div>

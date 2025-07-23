@@ -8,6 +8,26 @@ import "../../style/lich_su.css";
 import { toast } from "react-toastify";
 
 const OrderHistory = () => {
+  // Hàm hủy đơn hàng
+  const handleCancelOrder = async (orderId) => {
+    if (!window.confirm("Bạn có chắc muốn hủy đơn hàng này?")) return;
+    try {
+      setLoading(true);
+      const userStr = getCookie("user");
+      const user_id = userStr ? JSON.parse(userStr).id : null;
+      const response = await axios.post(`${apiUrl}/lich_su_dh.php`, { order_id: orderId, user_id });
+      if (response.data?.success) {
+        toast.success("Đã hủy đơn hàng thành công!");
+        setOrders(prev => prev.map(o => o.ma_don_hang === orderId ? { ...o, trang_thai: "Đã hủy" } : o));
+      } else {
+        toast.error(response.data?.message || "Hủy đơn hàng thất bại!");
+      }
+    } catch (err) {
+      toast.error("Lỗi khi hủy đơn hàng!");
+    } finally {
+      setLoading(false);
+    }
+  };
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -201,7 +221,7 @@ const OrderHistory = () => {
                           order.san_pham.length > 0 ? (
                           order.san_pham.map((product, index) => (
                             <tr key={index}>
-                              <td>{product.ten_san_pham}</td>
+                              <td>{product.ten_sp}</td>
                               <td>{product.so_luong}</td>
                             </tr>
                           ))
@@ -217,14 +237,11 @@ const OrderHistory = () => {
                   </div>
 
                   <div className="order-actions">
-                    <Link
-                      to={`/order-detail/${order.ma_don_hang}`}
-                      className="view-detail-btn"
-                    >
-                      Xem chi tiết
-                    </Link>
-                    {order.trang_thai === "Chờ xử lý" && (
-                      <button className="cancel-order-btn">Hủy đơn hàng</button>
+                    {/* Đã bỏ nút Xem chi tiết */}
+                    {order.trang_thai === "Chờ xử lý" && order.trang_thai_thanh_toan !== "Đã thanh toán" && (
+                      <button className="cancel-order-btn" onClick={() => handleCancelOrder(order.ma_don_hang)} disabled={loading}>
+                        Hủy đơn hàng
+                      </button>
                     )}
                     {order.trang_thai === "Đã giao hàng" && (
                       <Link

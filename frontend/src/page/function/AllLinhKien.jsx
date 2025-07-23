@@ -1,30 +1,11 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGift, FaTimes, FaSearch, FaFilter, FaStar } from "react-icons/fa";
 import { PacmanLoader } from "react-spinners";
 import { useAllLinhKienLogic } from "../../hooks/alllinhkien/useAllLinhKienLogic";
 import "../../style/all_linh_kien.css";
 
-// Utility function for formatting currency
-const formatCurrency = (amount) => {
-  const validAmount = typeof amount === 'number' ? amount : (typeof amount === 'object' && amount.value ? amount.value : 0);
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-    maximumFractionDigits: 0
-  }).format(validAmount);
-};
-
-const normalizeText = (str) => {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/Đ/g, "D");
-};
-
-// Properly define SelectedOptions as a functional component
+// UI Components định nghĩa trong file này
 const SelectedOptions = ({ selectedOptions, sortOrder, toggleOption, handleSortChange }) => (
   <div className="selected-options">
     <span className="selected-label">Đã chọn:</span>
@@ -178,220 +159,36 @@ const AllLinhKien = () => {
     currentPage,
     handlePageChange,
     allProducts,
-    loading, // Thêm loading state từ hook
+    loading,
+    // Sidebar filter states and handlers
+    sidebarCategory,
+    setSidebarCategory,
+    sidebarBrand,
+    setSidebarBrand,
+    sidebarPrice,
+    setSidebarPrice,
+    sidebarStatus,
+    setSidebarStatus,
+    sidebarSpecs,
+    setSidebarSpecs,
+    specsCache,
+    setSpecsCache,
+    openSection,
+    setOpenSection,
+    showAllBrands,
+    setShowAllBrands,
+    showAllCategories,
+    setShowAllCategories,
+    debouncedCategory,
+    setDebouncedCategory,
+    handleClearSidebarFilters,
+    handleApplySidebarFilters,
+    handleRemoveSelectedFilter,
+    getSpecsForCategory,
+    getSpecDisplayName,
+    formatCurrency,
+    normalizeText,
   } = useAllLinhKienLogic();
-
-  // State tạm thời cho filter sidebar
-  const [sidebarCategory, setSidebarCategory] = useState("");
-  const [sidebarBrand, setSidebarBrand] = useState("");
-  const [sidebarPrice, setSidebarPrice] = useState("");
-  // const [sidebarRating, setSidebarRating] = useState(""); // Bỏ đánh giá
-  const [sidebarStatus, setSidebarStatus] = useState("");
-
-  // State cho thông số kỹ thuật
-  const [sidebarSpecs, setSidebarSpecs] = useState({});
-
-  // Cache cho specs để tránh tính toán lại
-  const [specsCache, setSpecsCache] = useState({});
-
-  // Accordion state cho từng nhóm filter
-  const [openSection, setOpenSection] = useState('category');
-  const [showAllBrands, setShowAllBrands] = useState(false);
-  const [showAllCategories, setShowAllCategories] = useState(false);
-
-  const handleClearSidebarFilters = () => {
-    setSidebarCategory("");
-    setSidebarBrand("");
-    setSidebarPrice("");
-    // setSidebarRating(""); // Bỏ đánh giá
-    setSidebarStatus("");
-    setSidebarSpecs({});
-    setSelectedOptions([]);
-  };
-
-  // Khi bấm Áp dụng, cập nhật selectedOptions dựa trên các filter sidebar
-  const handleApplySidebarFilters = () => {
-    const newOptions = [];
-    if (sidebarCategory) newOptions.push(sidebarCategory);
-    if (sidebarBrand) newOptions.push(sidebarBrand);
-    if (sidebarPrice) newOptions.push(sidebarPrice);
-    if (sidebarStatus) newOptions.push(sidebarStatus);
-
-    // Thêm thông số kỹ thuật vào selectedOptions
-    Object.entries(sidebarSpecs).forEach(([specKey, specValue]) => {
-      if (specValue) {
-        const displayName = getSpecDisplayName(specKey, sidebarCategory);
-        newOptions.push(`${displayName}: ${specValue}`);
-      }
-    });
-
-    setSelectedOptions(newOptions);
-    setActiveFilter(null);
-  };
-
-  // Hàm xóa từng filter đã chọn
-  const handleRemoveSelectedFilter = (filter) => {
-    if (categories.includes(filter)) setSidebarCategory("");
-    if (brands.includes(filter)) setSidebarBrand("");
-    if (priceRanges.includes(filter)) setSidebarPrice("");
-    if (["Còn hàng", "Hết hàng"].includes(filter)) setSidebarStatus("");
-
-    // Xóa thông số kỹ thuật
-    if (filter.includes(":")) {
-      const newSpecs = { ...sidebarSpecs };
-      Object.keys(newSpecs).forEach(specKey => {
-        const displayName = getSpecDisplayName(specKey, sidebarCategory);
-        if (filter.startsWith(`${displayName}:`)) {
-          delete newSpecs[specKey];
-        }
-      });
-      setSidebarSpecs(newSpecs);
-    }
-
-    // Cập nhật selectedOptions
-    setSelectedOptions(selectedOptions.filter(opt => opt !== filter));
-  };
-
-  // Debounce category change để tránh lag
-  const [debouncedCategory, setDebouncedCategory] = useState("");
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedCategory(sidebarCategory);
-    }, 300); // 300ms delay
-
-    return () => clearTimeout(timer);
-  }, [sidebarCategory]);
-
-  // Memoized và cached function để lấy thông số kỹ thuật
-  const getSpecsForCategory = useCallback((category) => {
-    // Kiểm tra cache trước
-    if (specsCache[category]) {
-      console.log('Using cached specs for:', category);
-      return specsCache[category];
-    }
-
-    console.log('Computing specs for category:', category);
-
-    // Tối ưu: Chỉ lọc sản phẩm cần thiết
-    const filteredProducts = allProducts.filter(product => {
-      const productCategory = product.loai || product.danh_muc || product.ten_danh_muc || "";
-      const normalizedCategory = normalizeText(category);
-      const normalizedProductCategory = normalizeText(productCategory);
-
-      // Optimize: Kiểm tra nhanh trước
-      if (category.includes("CPU") && (productCategory === "CPU" || normalizedProductCategory.includes("cpu"))) return true;
-      if (category.includes("RAM") && (productCategory === "RAM" || normalizedProductCategory.includes("ram"))) return true;
-      if (category.includes("GPU") && (productCategory === "GPU" || normalizedProductCategory.includes("gpu"))) return true;
-      if (category.includes("Mainboard") && (productCategory === "Mainboard" || normalizedProductCategory.includes("mainboard"))) return true;
-
-      return normalizedProductCategory.includes(normalizedCategory) || normalizedCategory.includes(normalizedProductCategory);
-    });
-
-    console.log('Filtered products for', category, ':', filteredProducts.length);
-
-    const specs = {};
-    let processedCount = 0;
-
-    // Tối ưu: Chỉ xử lý 100 sản phẩm đầu tiên để lấy specs
-    const sampleProducts = filteredProducts.slice(0, 100);
-
-    sampleProducts.forEach(product => {
-      if (product.thong_so) {
-        Object.keys(product.thong_so).forEach(specKey => {
-          const specValue = product.thong_so[specKey];
-          if (specValue && specValue !== "" && typeof specValue !== 'object') {
-            if (!specs[specKey]) {
-              specs[specKey] = new Set();
-            }
-            specs[specKey].add(String(specValue));
-          }
-        });
-        processedCount++;
-      }
-    });
-
-    // Chuyển Set thành Array và sắp xếp (giới hạn 10 items per spec)
-    const finalSpecs = {};
-    Object.keys(specs).forEach(key => {
-      const values = Array.from(specs[key]).sort();
-      finalSpecs[key] = values.slice(0, 10); // Chỉ lấy 10 giá trị đầu
-    });
-
-    console.log('Final specs (processed', processedCount, 'products):', finalSpecs);
-
-    // Cache kết quả
-    setSpecsCache(prev => ({
-      ...prev,
-      [category]: finalSpecs
-    }));
-
-    return finalSpecs;
-  }, [allProducts, specsCache]);
-
-  // Hàm lấy tên hiển thị cho thông số kỹ thuật
-  const getSpecDisplayName = (specKey, category) => {
-    const specNames = {
-      // CPU
-      cores: "Số nhân",
-      threads: "Số luồng",
-      base_clock: "Tần số cơ bản",
-      boost_clock: "Tần số tối đa",
-      socket: "Socket",
-      tdp: "TDP",
-      cache: "Bộ nhớ đệm",
-
-      // RAM
-      dung_luong: "Dung lượng",
-      toc_do: "Tốc độ",
-      loai_ram: "Loại RAM",
-      timing: "Timing",
-      voltage: "Điện áp",
-
-      // VGA/GPU
-      Chipset: "Chipset",
-      vram: "VRAM",
-      memory_type: "Loại bộ nhớ",
-      memory_bus: "Bus bộ nhớ",
-      core_clock: "Tần số nhân",
-      memory_clock: "Tần số bộ nhớ",
-
-      // Mainboard
-      chipset: "Chipset",
-      socket_cpu: "Socket CPU",
-      memorySlots: "Số khe RAM",
-      max_memory: "RAM tối đa",
-      form_factor: "Form Factor",
-
-      // Storage
-      dung_luong_luu_tru: "Dung lượng",
-      toc_do_doc: "Tốc độ đọc",
-      toc_do_ghi: "Tốc độ ghi",
-      ket_noi: "Kết nối",
-      loai_o_cung: "Loại ổ cứng",
-
-      // PSU
-      cong_suat_nguon: "Công suất",
-      efficiency: "Hiệu suất",
-      modular: "Modular",
-
-      // Cooling
-      loai_tan_nhiet: "Loại tản nhiệt",
-      kich_thuoc_quat: "Kích thước quạt",
-      rpm: "RPM",
-      noise_level: "Độ ồn",
-
-      // Peripherals
-      type: "Loại",
-      connection: "Kết nối",
-      switch_type: "Loại switch",
-      dpi: "DPI",
-      polling_rate: "Polling Rate"
-    };
-
-    return specNames[specKey] || specKey;
-  };
-
   return (
     <div className="all-products-page">
       <div className="hero-banner">
@@ -630,6 +427,18 @@ const AllLinhKien = () => {
                 {searchTerm && (
                   <span className="search-info">cho "{searchTerm}"</span>
                 )}
+              </div>
+              <div className="sort-controls">
+                <span className="sort-label">Sắp xếp:</span>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => handleSortChange(e.target.value)}
+                  className="sort-select"
+                >
+                  <option value="default">Mặc định</option>
+                  <option value="lowToHigh">Giá: Thấp → Cao</option>
+                  <option value="highToLow">Giá: Cao → Thấp</option>
+                </select>
               </div>
             </div>
             {/* Products grid */}

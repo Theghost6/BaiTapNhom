@@ -14,6 +14,7 @@ $conn->set_charset('utf8mb4');
 
 function logDebug($message) {
     $logFile = 'debug.log';
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $timestamp = date('Y-m-d H:i:s');
     file_put_contents($logFile, "[$timestamp] $message" . PHP_EOL, FILE_APPEND);
 }
@@ -25,12 +26,14 @@ error_reporting(E_ALL);
 ob_start(); // Bắt đầu buffer output để chặn mọi output ngoài JSON
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
     http_response_code(500);
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $msg = "PHP Error [$errno] $errstr at $errfile:$errline";
     file_put_contents('debug.log', "[".date('Y-m-d H:i:s')."] $msg\n", FILE_APPEND);
     safe_json_response(['success' => false, 'error' => 'Lỗi hệ thống'], $msg);
 });
 set_exception_handler(function($e) {
     http_response_code(500);
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $msg = "Uncaught Exception: " . $e->getMessage();
     file_put_contents('debug.log', "[".date('Y-m-d H:i:s')."] $msg\n", FILE_APPEND);
     safe_json_response(['success' => false, 'error' => 'Lỗi hệ thống'], $msg);

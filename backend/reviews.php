@@ -4,6 +4,9 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/reviews_error.log');
 
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Accept");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");

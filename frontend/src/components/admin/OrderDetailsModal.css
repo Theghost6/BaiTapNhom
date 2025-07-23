@@ -60,10 +60,13 @@
     background: var(--text-muted);
 }
 
+/* Các style mới sửa cho bảng */
 .table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 10px;
+    table-layout: fixed;
+    /* Quan trọng: Fix layout để các cột không bị lệch */
 }
 
 .table th,
@@ -71,6 +74,10 @@
     border: 1px solid #e0e0e0;
     padding: 8px 12px;
     text-align: left;
+    vertical-align: top;
+    /* Căn nội dung lên phía trên */
+    word-wrap: break-word;
+    /* Tự động xuống dòng khi nội dung dài */
 }
 
 .table th {
@@ -78,6 +85,42 @@
     font-weight: 600;
 }
 
+/* Set chiều rộng cố định cho các cột */
+
+/* Chia đều chiều rộng cho tối đa 6 cột, tự động thích ứng nếu có ít hơn */
+
+/* Sử dụng CSS grid để chia đều các cột, không bị lệch khi số lượng cột thay đổi */
+.table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    table-layout: auto;
+}
+
+.table thead tr,
+.table tbody tr {
+    display: table-row;
+}
+
+.table th,
+.table td {
+    display: table-cell;
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
 .table tr:nth-child(even) {
     background: #fafafa;
+}
+
+/* Đảm bảo nội dung dài sẽ xuống dòng đẹp */
+.table td:first-child {
+    white-space: normal;
+    overflow-wrap: break-word;
 }

@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
         interval: 1000, // Polling interval
       },
       allowedHosts: [
-        'all',
+        'studies-certain-receptor-republic.trycloudflare.com',
         // 'explicitly-georgia-fisheries-attending.trycloudflare.com'
       ],
       hmr: {

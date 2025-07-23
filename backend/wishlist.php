@@ -91,7 +91,7 @@ try {
         }
     } elseif ($method === 'POST') {
         $json = file_get_contents('php://input');
-        file_put_contents('wishlist_debug.log', date('c')."\nJSON: ".$json."\n", FILE_APPEND);
+        file_put_contents('wishlist_debug.log', date('Y-m-d H:i:s', time() + 7*3600)."\nJSON: ".$json."\n", FILE_APPEND);
 
         $data = json_decode($json, true);
 
@@ -139,12 +139,13 @@ try {
             }
             $check->close();
 
-            $sql = "INSERT INTO yeu_thich (ma_nguoi_dung, ma_sp, created_at) VALUES (?, ?, NOW())";
+            $sql = "INSERT INTO yeu_thich (ma_nguoi_dung, ma_sp, created_at) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);
             if (!$stmt) {
                 throw new Exception("Prepare failed: " . $conn->error);
             }
-            $stmt->bind_param("is", $ma_nguoi_dung, $ma_sp);
+            $vietnam_time = date('Y-m-d H:i:s', time() + 7*3600);
+            $stmt->bind_param("iss", $ma_nguoi_dung, $ma_sp, $vietnam_time);
             $success = $stmt->execute();
             $insert_id = $stmt->insert_id;
             $stmt->close();

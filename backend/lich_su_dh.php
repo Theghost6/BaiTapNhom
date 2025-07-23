@@ -1,9 +1,18 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: content-type, authorization, x-requested-with");
+
+// Xử lý preflight request (OPTIONS)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 // Sử dụng file connect.php
 require_once __DIR__ . '/connect.php';
@@ -146,40 +155,32 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
-       // Trong phần xử lý GET method, thay thế đoạn code kiểm tra đã mua sản phẩm bằng:
-
-if (isset($_GET['ma_nguoi_dung']) && isset($_GET['ma_sp'])) {
-    $user_id = intval($_GET['ma_nguoi_dung']);
-    $ma_sp = $conn->real_escape_string($_GET['ma_sp']);
-
-    // Chỉ cần có đơn hàng chứa sản phẩm là được, không kiểm tra trạng thái
-    $sql = "SELECT COUNT(*) as count
-            FROM don_hang dh
-            JOIN chi_tiet_don_hang ctdh ON dh.id = ctdh.ma_don_hang
-            WHERE dh.ma_nguoi_dung = $user_id
-              AND ctdh.ma_sp = '$ma_sp'";
-
-    $result = $conn->query($sql);
-    
-    if ($result) {
-        $row = $result->fetch_assoc();
-        echo json_encode([
-            "success" => true,
-            "da_mua" => ($row['count'] > 0) ? 1 : 0
-        ]);
-    } else {
-        echo json_encode([
-            "success" => false,
-            "message" => "Lỗi truy vấn cơ sở dữ liệu"
-        ]);
-    }
-    exit;
-
+        // ...existing GET code...
+        if (isset($_GET['ma_nguoi_dung']) && isset($_GET['ma_sp'])) {
+            $user_id = intval($_GET['ma_nguoi_dung']);
+            $ma_sp = $conn->real_escape_string($_GET['ma_sp']);
+            $sql = "SELECT COUNT(*) as count
+                    FROM don_hang dh
+                    JOIN chi_tiet_don_hang ctdh ON dh.id = ctdh.ma_don_hang
+                    WHERE dh.ma_nguoi_dung = $user_id
+                      AND ctdh.ma_sp = '$ma_sp'";
+            $result = $conn->query($sql);
+            if ($result) {
+                $row = $result->fetch_assoc();
+                echo json_encode([
+                    "success" => true,
+                    "da_mua" => ($row['count'] > 0) ? 1 : 0
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Lỗi truy vấn cơ sở dữ liệu"
+                ]);
+            }
+            exit;
         } else if (isset($_GET['order_id'])) {
-            // Lấy chi tiết đơn hàng cụ thể
             $order_id = intval($_GET['order_id']);
             $order = getOrderDetail($conn, $user_id, $order_id);
-            
             if ($order) {
                 http_response_code(200);
                 echo json_encode(array("data" => $order));
@@ -188,9 +189,7 @@ if (isset($_GET['ma_nguoi_dung']) && isset($_GET['ma_sp'])) {
                 echo json_encode(array("message" => "Không tìm thấy đơn hàng"));
             }
         } else {
-            // Lấy tất cả đơn hàng
             $orders = getOrderHistory($conn, $user_id);
-            
             if (count($orders) > 0) {
                 http_response_code(200);
                 echo json_encode(array("data" => $orders));
@@ -200,7 +199,40 @@ if (isset($_GET['ma_nguoi_dung']) && isset($_GET['ma_sp'])) {
             }
         }
         break;
-    
+    case 'POST':
+        // Hủy đơn hàng
+        $input = json_decode(file_get_contents('php://input'), true);
+        $order_id = isset($input['order_id']) ? intval($input['order_id']) : 0;
+        $user_id = isset($input['user_id']) ? intval($input['user_id']) : 0;
+        if (!$order_id) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Thiếu mã đơn hàng"]);
+            break;
+        }
+        // Kiểm tra trạng thái thanh toán
+        $check_sql = "SELECT dh.trang_thai, tt.trang_thai as trang_thai_thanh_toan FROM don_hang dh LEFT JOIN thanh_toan tt ON dh.id = tt.ma_don_hang WHERE dh.id = '$order_id'";
+        $check_result = $conn->query($check_sql);
+        if ($check_result && $check_result->num_rows > 0) {
+            $row = $check_result->fetch_assoc();
+            if ($row['trang_thai'] !== 'Chờ xử lý' || $row['trang_thai_thanh_toan'] === 'Thành công') {
+                http_response_code(400);
+                echo json_encode(["success" => false, "message" => "Đơn hàng không thể hủy!"]);
+                break;
+            }
+            // Thực hiện hủy đơn hàng
+            $update_sql = "UPDATE don_hang SET trang_thai = 'Đã hủy' WHERE id = '$order_id'";
+            if ($conn->query($update_sql)) {
+                http_response_code(200);
+                echo json_encode(["success" => true, "message" => "Đã hủy đơn hàng thành công!"]);
+            } else {
+                http_response_code(500);
+                echo json_encode(["success" => false, "message" => "Lỗi khi cập nhật trạng thái đơn hàng"]);
+            }
+        } else {
+            http_response_code(404);
+            echo json_encode(["success" => false, "message" => "Không tìm thấy đơn hàng"]);
+        }
+        break;
     default:
         http_response_code(405);
         echo json_encode(array("message" => "Phương thức không được hỗ trợ"));

@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { SocketProvider } from './page/chat/SocketContext';
 import { ChatProvider } from './page/chat/ChatContext';
 import { getCookie } from "./helper/cookieHelper";
+import WafStatus from './page/chat/WafStatus';
 import { Chart, LineElement, BarElement, PointElement, ArcElement, RadarController, CategoryScale, LinearScale, RadialLinearScale, Title, Tooltip, Legend } from 'chart.js';
 
 Chart.register(
@@ -67,7 +68,6 @@ const Admin = lazy(() => import("./page/function/Admin"));
 const ThankYou = lazy(() => import("./page/function/ThankYou"));
 const TraCuuDonHang = lazy(() => import("./page/function/TraCuuDonHang"));
 const LichSuDonHang = lazy(() => import("./page/function/Lich_Su_DH"));
-const Developer = lazy(() => import("./page/function/Developer"));
 const Blog = lazy(() => import("./page/function/Blog"));
 const Invoice = lazy(() => import("./page/function/Invoice"));
 const Wishlist = lazy(() => import("./page/function/wishlist"));
@@ -263,6 +263,20 @@ const App = () => {
                           }
                         />
                         <Route
+                          path="/waf-status"
+                          element={
+                            <motion.div
+                              key="waf-status"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.5, ease: "easeInOut" }}
+                            >
+                              <WafStatus />
+                            </motion.div>
+                          }
+                        />
+                        <Route
                           path="/contact"
                           element={
                             <motion.div
@@ -276,20 +290,7 @@ const App = () => {
                             </motion.div>
                           }
                         />
-                        <Route
-                          path="/developer"
-                          element={
-                            <motion.div
-                              key="developer"
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -20 }}
-                              transition={{ duration: 0.5, ease: "easeInOut" }}
-                            >
-                              <Developer />
-                            </motion.div>
-                          }
-                        />
+                      
                         <Route
                           path="/blog"
                           element={

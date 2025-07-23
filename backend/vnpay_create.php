@@ -27,6 +27,7 @@ function sendError($code, $msg) {
 $logFile = __DIR__ . '/payment_debug.log';
 function logMessage($message) {
     global $logFile;
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - $message\n", FILE_APPEND);
 }
 $envPath = __DIR__ . '/.env';
@@ -74,6 +75,7 @@ $vnp_Amount = $orderTotal * 100;
 $vnp_Locale = "vn";
 $vnp_BankCode = "";
 $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 $vnp_ExpireDate = date('YmdHis', strtotime('+30 minutes'));
 $inputData = array(
     "vnp_Version" => "2.1.0",

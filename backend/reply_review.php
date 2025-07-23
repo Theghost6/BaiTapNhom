@@ -4,6 +4,9 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -62,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["success" => false, "message" => "Prepare failed: " . $conn->error]);
         exit;
     }
-    $stmt->bind_param("iiss", $id_danh_gia, $ma_nguoi_tra_loi, $noi_dung, $ngay);
+    $vietnam_time = date('Y-m-d H:i:s');
+    $stmt->bind_param("iiss", $id_danh_gia, $ma_nguoi_tra_loi, $noi_dung, $vietnam_time);
 
     if ($stmt->execute()) {
         file_put_contents('sql_success.txt', "Reply inserted: id_danh_gia=$id_danh_gia, time=" . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);

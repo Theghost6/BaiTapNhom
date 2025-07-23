@@ -27,6 +27,7 @@ function sendRedirect($url) {
 $logFile = __DIR__ . '/payment_debug.log';
 function logMessage($message) {
     global $logFile;
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - $message\n", FILE_APPEND);
 }
 
@@ -80,11 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['vnp_TxnRef'])) {
     $orderId = $conn->real_escape_string($_GET['vnp_TxnRef']);
     $status = $_GET['vnp_ResponseCode'] == '00' ? 'Đã thanh toán' : 'Thất bại';
     $transId = $conn->real_escape_string($_GET['vnp_TransactionNo']);
+    $vietnam_time = date('Y-m-d H:i:s', time() + 7*3600);
     $sqlPayment = "UPDATE thanh_toan SET 
                    trang_thai = '$status', 
                    ma_giao_dich = '$transId',
-                   thoi_gian_thanh_toan = NOW(),
-                   thoi_gian_cap_nhat = NOW()
+                   thoi_gian_thanh_toan = '$vietnam_time',
+                   thoi_gian_cap_nhat = '$vietnam_time'
                    WHERE ma_don_hang = '$orderId'";
     $conn->query($sqlPayment);
     logMessage("Trạng thái thanh toán được cập nhật cho đơn hàng $orderId: $status");

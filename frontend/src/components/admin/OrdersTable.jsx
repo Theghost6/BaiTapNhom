@@ -1,7 +1,7 @@
 import React from "react";
 import "./CommonTable.css";
 
-function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails, handleDelete, deleteOrder }) {
+function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails }) {
     return (
         <div className="table-container">
             <div className="table-scroll-wrapper">
@@ -42,7 +42,6 @@ function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails, handle
                                             <option value="Chưa thanh toán">Chưa thanh toán</option>
                                             <option value="Đã thanh toán">Đã thanh toán</option>
                                             <option value="Đang giao">Đang giao</option>
-                                            <option value="Hoàn thành">Hoàn thành</option>
                                             <option value="Đã hủy">Đã hủy</option>
                                         </select>
                                     </td>
@@ -56,13 +55,6 @@ function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails, handle
                                         >
                                             <i className="fas fa-eye"></i>
                                             <span>Chi tiết</span>
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(order.id, "đơn hàng", () => deleteOrder(order.id))}
-                                            className="table-btn btn-danger"
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                            <span>Xóa</span>
                                         </button>
                                     </td>
                                 </tr>

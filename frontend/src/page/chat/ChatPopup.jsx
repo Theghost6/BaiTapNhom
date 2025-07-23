@@ -1,4 +1,3 @@
-// components/chat/ChatPopup.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import {
   X,
@@ -12,7 +11,8 @@ import {
 } from 'lucide-react';
 import { useChat } from '../chat/ChatContext';
 import { useSocket } from '../chat/SocketContext';
-import '../../style/chat.css'; // Import your CSS styles
+import { toast } from 'react-toastify';
+import '../../style/chat.css';
 
 const ChatPopup = ({ user }) => {
   const [message, setMessage] = useState('');
@@ -36,17 +36,21 @@ const ChatPopup = ({ user }) => {
 
   const { onlineUsers } = useSocket();
 
-  // Auto scroll to bottom when new message
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Focus input when chat opens
   useEffect(() => {
     if (showChat && !isMinimized && inputRef.current) {
       inputRef.current.focus();
     }
   }, [showChat, isMinimized]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      toast.warn('Không thể kết nối với server chat. Vui lòng thử lại sau.');
+    }
+  }, [isConnected]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -59,7 +63,6 @@ const ChatPopup = ({ user }) => {
     sendMessage(message, user);
     setMessage('');
 
-    // Stop typing when send message
     if (typingTimeout) {
       clearTimeout(typingTimeout);
       setTypingTimeout(null);
@@ -72,15 +75,12 @@ const ChatPopup = ({ user }) => {
 
     if (!user) return;
 
-    // Start typing
     startTyping(user);
 
-    // Clear previous timeout
     if (typingTimeout) {
       clearTimeout(typingTimeout);
     }
 
-    // Stop typing after 3 seconds of inactivity
     const timeout = setTimeout(() => {
       stopTyping(user);
       setTypingTimeout(null);
@@ -112,7 +112,6 @@ const ChatPopup = ({ user }) => {
 
   return (
     <div className={`chat-popup ${isMinimized ? 'minimized' : ''}`}>
-      {/* Header */}
       <div className="chat-header">
         <div className="chat-title">
           <MessageCircle size={20} />
@@ -145,10 +144,8 @@ const ChatPopup = ({ user }) => {
         </div>
       </div>
 
-      {/* Chat Body */}
       {!isMinimized && (
         <>
-          {/* Online Users */}
           <div className="online-users">
             <div className="online-indicator">
               <div className="green-dot"></div>
@@ -156,7 +153,6 @@ const ChatPopup = ({ user }) => {
             </div>
           </div>
 
-          {/* Messages */}
           <div className="chat-messages">
             {messages.length === 0 ? (
               <div className="no-messages">
@@ -204,7 +200,6 @@ const ChatPopup = ({ user }) => {
               ))
             )}
 
-            {/* Typing Indicator */}
             {typingUsers.length > 0 && (
               <div className="typing-indicator">
                 <div className="typing-animation">
@@ -221,7 +216,6 @@ const ChatPopup = ({ user }) => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Message Input */}
           <form onSubmit={handleSendMessage} className="chat-input-form">
             <div className="chat-input-container">
               <textarea

@@ -1,4 +1,7 @@
 <?php
+// Set timezone to Vietnam (UTC+7)
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 // Đọc file .env vào biến $env
 $env = [];
 $envFile = __DIR__ . '/.env';
@@ -23,4 +26,7 @@ $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die('Kết nối thất bại: ' . $conn->connect_error);
 }
+
+// Set MySQL timezone to Vietnam
+$conn->query("SET time_zone = '+07:00'");
 ?>

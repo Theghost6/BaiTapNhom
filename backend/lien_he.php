@@ -2,6 +2,9 @@
 // Start output buffering at the very beginning
 ob_start();
 
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 // Set headers
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");

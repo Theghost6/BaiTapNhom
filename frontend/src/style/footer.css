@@ -8,21 +8,23 @@
   /* Chữ đen để tương phản trên nền trắng */
   width: 100vw;
   max-width: 100vw;
-  margin: 0;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   box-sizing: border-box;
 }
 
 .footer-container {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 0 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0;
   box-sizing: border-box;
 }
 
@@ -352,11 +354,13 @@
   .footer-container {
     flex-direction: column;
     align-items: center;
+    padding: 0 15px;
   }
 
   .footer-column {
     flex: 1 1 100%;
     text-align: center;
+    margin: 15px 0;
   }
 
   .footer-logo-container {
@@ -380,6 +384,14 @@
 }
 
 @media (max-width: 480px) {
+  .site-footer {
+    padding-top: 30px;
+  }
+
+  .footer-container {
+    padding: 0 10px;
+  }
+
   .footer-logo-image {
     height: 40px;
     width: 40px;
@@ -420,36 +432,40 @@
   }
 }
 
-/* Media queries for edge-to-edge layout on large screens */
-@media (min-width: 1200px) and (max-width: 1920px) {
+/* Media queries for edge-to-edge layout on all screens */
+@media (min-width: 481px) {
   .site-footer {
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
     width: 100vw;
     max-width: 100vw;
-    padding-left: calc(50vw - 50%);
-    padding-right: calc(50vw - 50%);
+  }
+}
+
+@media (min-width: 769px) {
+  .footer-container {
+    padding: 0 30px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .footer-container {
+    padding: 0 40px;
+    max-width: 1400px;
   }
 }
 
 @media (min-width: 1920px) {
-  .site-footer {
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-    width: 100vw;
-    max-width: 100vw;
-    padding-left: calc(50vw - 50%);
-    padding-right: calc(50vw - 50%);
+  .footer-container {
+    padding: 0 60px;
+    max-width: 1600px;
   }
 }
 
+/* Extra wide screens */
 @media (min-width: 2000px) {
-  .site-footer {
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-    width: 100vw;
-    max-width: 100vw;
-    padding-left: calc(50vw - 50%);
-    padding-right: calc(50vw - 50%);
+  .footer-container {
+    padding: 0 80px;
+    max-width: 1800px;
   }
 }

@@ -97,7 +97,55 @@
     --gradient-accent: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
-/* Dark Mode Support (Optional - uncomment nếu muốn hỗ trợ dark mode) */
+/* Universal Light Mode Override - Áp dụng cho mọi trường hợp */
+html {
+    color-scheme: light !important;
+}
+
+body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Global force light mode cho tất cả elements */
+* {
+    color-scheme: light !important;
+}
+
+/* CHỈ override containers và inputs cơ bản, KHÔNG buttons */
+.admin-container,
+.sidebar,
+.main-content,
+.search-bar-container {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Override cho inputs/selects cơ bản, HOÀN TOÀN loại trừ buttons */
+.search-input,
+.search-field-select,
+.filter-select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select:not(.btn):not([class*="btn-"]),
+textarea {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #e5e7eb !important;
+}
+
+/* Tables và modals */
+.table,
+.modal {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Dark Mode Support - Comment out để tắt dark mode tự động */
 /*
 @media (prefers-color-scheme: dark) {
     :root {
@@ -108,17 +156,28 @@
         --text-secondary: #b3b3b3;
         --text-muted: #737373;
         --border-primary: #404040;
+        --border-secondary: #4a5568;
+        --border-focus: #4299e1;
         --card-bg: #1e1e1e;
         --input-bg: #2d2d2d;
+        --input-border: #4a5568;
+        --input-text: #ffffff;
         --modal-bg: #1e1e1e;
         --table-bg: #1e1e1e;
+        --table-stripe: #252525;
+        --table-hover: #2d2d2d;
         --hover-color: #2d2d2d;
         --active-color: #404040;
+        --header-bg: rgba(30, 30, 30, 0.95);
+        --header-text: #ffffff;
+        --btn-secondary-bg: #2d2d2d;
+        --btn-secondary-text: #ffffff;
+        --btn-secondary-hover: #404040;
     }
 }
 */
 
-/* Force Light Mode - Bắt buộc sử dụng light mode cho toàn bộ trang */
+/* Force Light Mode - Bắt buộc light mode cho tất cả chế độ */
 @media (prefers-color-scheme: dark) {
     :root {
         /* Override dark mode với light mode colors */
@@ -134,6 +193,15 @@
         --table-bg: #ffffff !important;
         --header-bg: rgba(255, 255, 255, 0.95) !important;
         --header-text: #000000 !important;
+        --btn-secondary-bg: #f1f5f9 !important;
+        --btn-secondary-text: #374151 !important;
+        --btn-secondary-hover: #e2e8f0 !important;
+        --border-primary: #e5e7eb !important;
+        --border-secondary: #d1d5db !important;
+        --table-stripe: #f9fafb !important;
+        --table-hover: #f3f4f6 !important;
+        --hover-color: #f0f0f0 !important;
+        --active-color: #e0e0e0 !important;
     }
 
     /* Force color scheme */
@@ -142,6 +210,39 @@
     }
 
     body {
+        background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+    }
+
+    /* Force override all elements */
+    * {
+        color-scheme: light !important;
+    }
+
+    /* Specific overrides for containers và inputs - HOÀN TOÀN loại trừ buttons */
+    .admin-container,
+    .sidebar,
+    .main-content,
+    .search-bar-container,
+    .search-input,
+    .search-field-select,
+    .filter-select,
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="date"],
+    input[type="search"],
+    select:not(.btn):not([class*="btn-"]),
+    textarea {
+        background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-primary) !important;
+    }
+
+    /* Tables và modals */
+    .table,
+    .modal {
         background-color: var(--bg-primary) !important;
         color: var(--text-primary) !important;
     }

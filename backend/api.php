@@ -1,4 +1,7 @@
 <?php
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 // Enable CORS
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");

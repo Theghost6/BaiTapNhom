@@ -4,6 +4,9 @@ ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 // Bắt đầu output buffering để kiểm soát output
 ob_start();
 

@@ -52,7 +52,7 @@ export const SocketProvider = ({ children }) => {
 
     newSocket.on('reconnect', (attemptNumber) => {
       console.log('Socket reconnected after', attemptNumber, 'attempts');
-      toast.info('Đã kết nối lại với server!');
+      // toast.info('Đã kết nối lại với server!');
     });
 
     newSocket.on('reconnect_error', (error) => {

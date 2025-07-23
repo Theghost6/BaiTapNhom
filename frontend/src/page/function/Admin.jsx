@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../style/color-scheme.css";
 import "../../style/Admin.css";
 import "../../components/admin/TableCompatibility.css";
 import {
@@ -107,9 +108,9 @@ function Admin() {
   const apiUrl = import.meta.env.VITE_HOST;
 
   // Custom hooks
-  const { payments, loading: loadingPayments, deletePayment } = usePayments(apiUrl, view);
+  const { payments, loading: loadingPayments } = usePayments(apiUrl, view);
   const { reviews, replies, selectedReview, loading: loadingReviews, deleteReview, viewReply } = useReviews(apiUrl, view);
-  const { orders, orderItems, orderAddress, selectedOrder, loading: loadingOrders, deleteOrder, viewDetails, updateOrderStatus } = useOrders(apiUrl, view);
+  const { orders, orderItems, orderAddress, selectedOrder, loading: loadingOrders, viewDetails, updateOrderStatus } = useOrders(apiUrl, view);
   const { users, loading: loadingUsers, deleteUser, toggleUserStatus } = useUsers(apiUrl, view);
   const { contacts, loading: loadingContacts, deleteContact } = useContacts(apiUrl, view);
 
@@ -402,8 +403,6 @@ function Admin() {
               orders={filteredOrders}
               updateOrderStatus={updateOrderStatus}
               handleViewOrderDetails={handleViewOrderDetails}
-              handleDelete={handleDelete}
-              deleteOrder={deleteOrder}
             />
           </div>
         );
@@ -520,8 +519,6 @@ function Admin() {
 
             <PaymentsTable
               payments={filteredPayments}
-              handleDelete={handleDelete}
-              deletePayment={deletePayment}
             />
           </div>
         );

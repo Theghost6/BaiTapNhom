@@ -1,7 +1,7 @@
 import React from "react";
 import "./CommonTable.css";
 
-function PaymentsTable({ payments, handleDelete, deletePayment }) {
+function PaymentsTable({ payments }) {
     return (
         <div className="table-container">
             <div className="table-scroll-wrapper">
@@ -16,13 +16,12 @@ function PaymentsTable({ payments, handleDelete, deletePayment }) {
                             <th className="date-column">Thời gian thanh toán</th>
                             <th className="date-column">Thời gian cập nhật</th>
                             <th>Mã giao dịch</th>
-                            <th className="actions-column">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
                         {payments.length === 0 ? (
                             <tr>
-                                <td colSpan="9" className="table-empty">
+                                <td colSpan="8" className="table-empty">
                                     Không có thanh toán nào
                                 </td>
                             </tr>
@@ -45,15 +44,6 @@ function PaymentsTable({ payments, handleDelete, deletePayment }) {
                                     </td>
                                     <td className="date-column">{payment.thoi_gian_cap_nhat ? new Date(payment.thoi_gian_cap_nhat).toLocaleString('vi-VN') : 'N/A'}</td>
                                     <td>{payment.ma_giao_dich || "N/A"}</td>
-                                    <td className="actions-column">
-                                        <button
-                                            onClick={() => handleDelete(payment.id, "thanh toán", () => deletePayment(payment.id))}
-                                            className="table-btn btn-danger"
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                            <span>Xóa</span>
-                                        </button>
-                                    </td>
                                 </tr>
                             ))
                         )}

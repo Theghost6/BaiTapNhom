@@ -50,9 +50,9 @@ function OrderDetailsModal({ isOpen, onClose, orderId, orderItems, orderAddress 
                             {orderItems && orderItems.length > 0 ? (
                                 orderItems.map((item, idx) => (
                                     <tr key={idx}>
-                                        <td>{item.ten_san_pham || item.ten || "N/A"}</td>
-                                        <td>{item.so_luong || 1}</td>
-                                        <td>{Number(item.thanh_tien || 0).toLocaleString("vi-VN")} đ</td>
+                                        <td>{item.ten_san_pham}</td>
+                                        <td>{item.so_luong}</td>
+                                        <td>{Number(item.thanh_tien).toLocaleString("vi-VN")} đ</td>
                                     </tr>
                                 ))
                             ) : (

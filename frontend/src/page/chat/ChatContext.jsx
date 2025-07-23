@@ -1,6 +1,6 @@
-// contexts/ChatContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useSocket } from './SocketContext';
+import { getWafEnabled } from './waf';
 
 const ChatContext = createContext();
 
@@ -20,23 +20,25 @@ export const ChatProvider = ({ children }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [typingUsers, setTypingUsers] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
-  
+
   const { socket, isConnected } = useSocket();
 
   useEffect(() => {
     if (!socket) return;
 
-    // Lắng nghe tin nhắn mới
     socket.on('new_message', (message) => {
-      setMessages(prev => [...prev, message]);
-      
-      // Tăng số lượng tin nhắn chưa đọc nếu chat đang đóng
-      if (!showChat) {
-        setUnreadCount(prev => prev + 1);
+      if (message && message.content) {
+        setMessages(prev => [...prev, message]);
+        if (!showChat) {
+          setUnreadCount(prev => prev + 1);
+        }
       }
     });
 
-    // Lắng nghe trạng thái typing
+    socket.on('error', (error) => {
+      console.error('Socket error:', error);
+    });
+
     socket.on('user_typing', (data) => {
       setTypingUsers(prev => {
         if (!prev.includes(data.username)) {
@@ -50,44 +52,35 @@ export const ChatProvider = ({ children }) => {
       setTypingUsers(prev => prev.filter(user => user !== data.username));
     });
 
-    // Lắng nghe lịch sử chat
     socket.on('chat_history', (history) => {
       setChatHistory(history);
       setMessages(history);
     });
 
-    // Lắng nghe khi join room thành công
     socket.on('room_joined', (roomData) => {
       setCurrentRoom(roomData.room);
     });
 
-    // Lắng nghe khi có lỗi
-    socket.on('error', (error) => {
-      console.error('Socket error:', error);
-    });
-
     return () => {
       socket.off('new_message');
+      socket.off('error');
       socket.off('user_typing');
       socket.off('user_stop_typing');
       socket.off('chat_history');
       socket.off('room_joined');
-      socket.off('error');
     };
   }, [socket, showChat]);
 
-  // Reset unread count khi mở chat
   useEffect(() => {
     if (showChat) {
       setUnreadCount(0);
     }
   }, [showChat]);
 
-  const sendMessage = (content, user) => {
-    if (!socket || !isConnected || !content.trim()) return;
-
+  const sendMessage = async (content, user) => {
+    if (!socket || !isConnected) return;
     const messageData = {
-      content: content.trim(),
+      content: content,
       user: {
         id: user.id,
         username: user.username,
@@ -95,29 +88,22 @@ export const ChatProvider = ({ children }) => {
         role: user.role || 'user'
       },
       room: currentRoom || 'general',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      wafEnabled: getWafEnabled()
     };
-
     socket.emit('send_message', messageData);
   };
 
   const joinRoom = (roomId, user) => {
     if (!socket || !isConnected) return;
-
     socket.emit('join_room', {
       room: roomId,
-      user: {
-        id: user.id,
-        username: user.username,
-        avatar: user.avatar,
-        role: user.role || 'user'
-      }
+      user: user
     });
   };
 
   const leaveRoom = (roomId) => {
     if (!socket || !isConnected) return;
-    
     socket.emit('leave_room', { room: roomId });
     setCurrentRoom(null);
     setMessages([]);
@@ -125,7 +111,6 @@ export const ChatProvider = ({ children }) => {
 
   const startTyping = (user) => {
     if (!socket || !isConnected) return;
-    
     socket.emit('typing', {
       room: currentRoom || 'general',
       username: user.username
@@ -134,7 +119,6 @@ export const ChatProvider = ({ children }) => {
 
   const stopTyping = (user) => {
     if (!socket || !isConnected) return;
-    
     socket.emit('stop_typing', {
       room: currentRoom || 'general',
       username: user.username
@@ -153,6 +137,10 @@ export const ChatProvider = ({ children }) => {
     if (currentRoom) {
       leaveRoom(currentRoom);
     }
+  };
+
+  const clearSecurityWarnings = () => {
+    setSecurityWarnings([]);
   };
 
   const value = {

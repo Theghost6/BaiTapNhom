@@ -16,6 +16,9 @@ header("Content-Type: application/json; charset=UTF-8");
 
 $logFile = __DIR__ . '/debug.log';
 
+// Set timezone to Vietnam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 // Ghi log origin để debug
 $origin = $_SERVER['HTTP_ORIGIN'] ?? 'none';
 file_put_contents($logFile, date('Y-m-d H:i:s') . " - Origin: $origin\n", FILE_APPEND);

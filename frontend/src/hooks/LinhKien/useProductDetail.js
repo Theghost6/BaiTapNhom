@@ -29,6 +29,7 @@ export function useProductDetail() {
     const [wishlistLoading, setWishlistLoading] = useState(true);
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [canReview, setCanReview] = useState(false);
+    const [canReply, setCanReply] = useState(false);
     const [purchaseDebug, setPurchaseDebug] = useState(null);
     const tabs = ["Tổng quan", "Thông số kỹ thuật", "Đánh giá"];
 
@@ -113,19 +114,32 @@ export function useProductDetail() {
                 setPurchaseDebug({ error: "Thiếu mã sản phẩm (ma_sp)" });
                 return;
             }
+
+            // Admin chỉ có thể reply, không thể viết bình luận mới
+            if (user.role === 'admin') {
+                setCanReview(false); // Admin không được viết bình luận
+                setCanReply(true);   // Admin có thể reply
+                setPurchaseDebug({ success: true, da_mua: 0, note: "Admin chỉ có quyền phản hồi, không được viết bình luận" });
+                return;
+            }
+
             const url = `${apiUrl}/lich_su_dh.php?ma_nguoi_dung=${user.id}&ma_sp=${ma_sp}`;
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
                     setPurchaseDebug(data);
-                    setCanReview(data.success && data.da_mua === 1);
+                    const hasPurchased = data.success && data.da_mua === 1;
+                    setCanReview(hasPurchased);
+                    setCanReply(hasPurchased); // Người dùng thường cần mua mới có thể reply
                 })
                 .catch((err) => {
                     setCanReview(false);
+                    setCanReply(false);
                     setPurchaseDebug({ error: err.message });
                 });
         } else {
             setCanReview(false);
+            setCanReply(false);
             setPurchaseDebug({ error: "Thiếu mã sản phẩm (ma_sp) hoặc chưa đăng nhập" });
         }
     }, [product, isAuthenticated, user?.id, location.pathname]);
@@ -253,6 +267,13 @@ export function useProductDetail() {
             navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
             return;
         }
+
+        // Kiểm tra quyền đánh giá: Chỉ người đã mua mới được viết bình luận
+        if (!canReview) {
+            toast.error("Bạn cần mua sản phẩm này trước khi có thể đánh giá!");
+            return;
+        }
+
         if (!newReview.binh_luan.trim()) {
             toast.error("Vui lòng nhập nội dung đánh giá");
             return;
@@ -323,6 +344,13 @@ export function useProductDetail() {
             navigate("/register", { state: { returnUrl: `/linh-kien/${id}` } });
             return;
         }
+
+        // Kiểm tra quyền phản hồi: Admin hoặc người đã mua
+        if (!canReply) {
+            toast.error("Bạn cần mua sản phẩm này trước khi có thể phản hồi!");
+            return;
+        }
+
         if (!replyForms[reviewId]?.noi_dung.trim()) {
             toast.error("Vui lòng nhập nội dung phản hồi");
             return;
@@ -380,7 +408,7 @@ export function useProductDetail() {
         replyForms, setReplyForms, isSubmittingReply, setIsSubmittingReply,
         relatedProducts, setRelatedProducts, isInWishlist, setIsInWishlist,
         wishlistLoading, setWishlistLoading, showFullDescription, setShowFullDescription,
-        canReview, setCanReview, purchaseDebug, setPurchaseDebug,
+        canReview, setCanReview, canReply, setCanReply, purchaseDebug, setPurchaseDebug,
         addToCart, cartItems, isAuthenticated, user, navigate, location,
         handleToggleWishlist, handleAddToCart, handleBuyNow, handleQuantityChange,
         increaseQuantity, decreaseQuantity, handleReviewChange, handleSubmitReview,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../style/color-scheme.css';
 import './SearchBar.css';
 
 function SearchBar({

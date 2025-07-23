@@ -1,5 +1,5 @@
 const config = {
-  SOCKET_URL: import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000',
+  SOCKET_URL: import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001',
   API_URL: import.meta.env.VITE_HOST || 'http://localhost:5000',
   HOST: import.meta.env.VITE_HOST || 'http://localhost:3000',
   CHAT: {

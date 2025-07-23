@@ -86,35 +86,12 @@
   }
 }
 
-/* Large desktop (1200px - 1399px) */
-@media (min-width: 1200px) {
-  :root {
-    --container-padding: 2.5rem;
-    --section-spacing: 5rem;
-    --border-radius: 12px;
-    --grid-gap: 2.5rem;
-    --font-size-base: 1.125rem;
-    --font-size-lg: 1.5rem;
-    --font-size-xl: 1.75rem;
-  }
-}
 
-/* Extra large desktop (1400px - 1599px) */
-@media (min-width: 1400px) {
-  :root {
-    --container-padding: 3rem;
-    --section-spacing: 6rem;
-    --grid-gap: 3rem;
-    --font-size-base: 1.25rem;
-    --font-size-lg: 1.625rem;
-    --font-size-xl: 2rem;
-  }
-}
 
 /* Ultra-wide screens (1600px+) */
 @media (min-width: 1600px) {
   :root {
-    --container-padding: 3.5rem;
+    /* --container-padding: 3.5rem; */
     --section-spacing: 7rem;
     --border-radius: 16px;
     --grid-gap: 3.5rem;
@@ -138,21 +115,47 @@
 
 /* Container chính - Mobile First với responsive hoàn chỉnh */
 .home-container {
-  left: 0 !important;
-  position: relative !important;
-  top: 0 !important;
-  margin-left: 0 !important;
-  padding-left: 0 !important;
+  width: 100%;
+  max-width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
   min-height: 100vh;
-  background: #ffffff !important;
-  background-attachment: fixed;
-  margin-top: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  background: #fff;
   box-sizing: border-box;
-  border-radius: 0 !important;
+}
+
+@media (min-width: 576px) {
+  .home-container {
+    max-width: 540px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .home-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .home-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .home-container {
+    max-width: 1400px;
+  }
 }
 
 .home-container::before {
@@ -198,13 +201,14 @@
   perspective: 1000px;
   border-radius: 0 !important;
   margin-bottom: 2rem;
+  overflow: hidden;
+  padding: 20px;
 
   body {
     overflow-x: hidden !important;
   }
 
-  overflow: hidden;
-  padding: 0;
+
 
   @media (max-width: 768px) {
     .hero-slider {
@@ -218,15 +222,6 @@
   }
 }
 
-/* Hero Slider Compact Mode - Force smaller dimensions */
-.hero-slider {
-  /* Additional constraints to force smaller size */
-  min-height: 15vh !important;
-  max-height: 25vh !important;
-  position: relative !important;
-  display: block !important;
-  clear: both;
-}
 
 .hero-slider .slide-container {
   height: 100% !important;
@@ -680,14 +675,12 @@
 
 /* Brand Banner - Comprehensive Responsive Design */
 .brandBanner-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--grid-gap);
-  justify-content: center;
-  align-items: center;
-  padding: var(--container-padding);
-  max-width: 1800px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 5vw, 48px);
+  padding-right: clamp(16px, 5vw, 48px);
   box-sizing: border-box;
 }
 
@@ -2858,29 +2851,17 @@
 }
 
 /* Travel Navigation Bar Styles */
-.travel-container {
+.home-container {
   width: 100%;
-  max-width: 1400px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(13, 146, 244, 0.05);
-  /* Updated to secondary color #0D92F4 */
-  margin-bottom: 30px;
-  background-color: var(--bg-primary);
-  /* Updated to background color */
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-  top: -20px;
+  max-width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  min-height: 100vh;
+  background: #fff;
   box-sizing: border-box;
-}
-
-.travel-tabs {
-  display: flex;
-  border-bottom: 1px solid rgba(13, 146, 244, 0.05);
-  /* Updated to secondary color #0D92F4 */
-  background-color: var(--bg-primary);
-  /* Updated to background color */
+  border-radius: 0;
 }
 
 .tab-item {
@@ -4100,75 +4081,27 @@ More actions .uudai {
   .news-wrapper,
   .news-list,
   .contact-section {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(-50vw + 50%) !important;
-    margin-right: calc(-50vw + 50%) !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    box-sizing: border-box !important;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
     position: relative;
   }
 
   .home-container {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(-50vw + 50%) !important;
-    margin-right: calc(-50vw + 50%) !important;
+    width: 100% !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .hero-slider {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(-50vw + 50%) !important;
-    margin-right: calc(-50vw + 50%) !important;
-  }
-}
-
-/* Màn hình rất lớn (1920px+) */
-@media (min-width: 1920px) {
-
-  .section,
-  .section-header,
-  .brandBanner-container,
-  .destination-grid,
-  .promotion-section,
-  .services-section,
-  .newsletter-section,
-  .news-section,
-  .news-wrapper,
-  .news-list,
-  .contact-section {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(-50vw + 50%) !important;
-    margin-right: calc(-50vw + 50%) !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    position: relative;
-  }
-}
-
-/* Màn hình siêu lớn (2000px+) */
-@media (min-width: 2000px) {
-
-  .section,
-  .section-header,
-  .brandBanner-container,
-  .destination-grid,
-  .promotion-section,
-  .services-section,
-  .newsletter-section,
-  .news-section,
-  .news-wrapper,
-  .news-list,
-  .contact-section {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(-50vw + 50%) !important;
-    margin-right: calc(-50vw + 50%) !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

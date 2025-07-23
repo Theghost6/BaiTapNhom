@@ -5,7 +5,7 @@ import {
   Calendar,
 } from "lucide-react";
 import "../style/home.css";
-import "../style/all_linh_kien.css";
+// import "../style/all_linh_kien.css";
 import "../style/performance.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGift } from "react-icons/fa";

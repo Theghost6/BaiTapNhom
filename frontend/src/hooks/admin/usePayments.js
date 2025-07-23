@@ -17,14 +17,5 @@ export default function usePayments(apiUrl, trigger) {
             .finally(() => setLoading(false));
     }, [apiUrl, trigger]);
 
-    const deletePayment = (id, cb) => {
-        axios
-            .get(`${apiUrl}/api.php?action=delete_payment&id=${id}`)
-            .then(() => {
-                setPayments((prev) => prev.filter((p) => p.id !== id));
-                if (cb) cb();
-            });
-    };
-
-    return { payments, loading, deletePayment };
+    return { payments, loading };
 }
