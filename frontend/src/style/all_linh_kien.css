@@ -1091,7 +1091,7 @@ html {
 .filter-option:focus,
 .clear-all-button:focus,
 .pagination-button:focus {
-  outline: 2px solid var(--primary-color);
+  /* outline: 2px solid var(--primary-color); */
   outline-offset: 2px;
 }
 

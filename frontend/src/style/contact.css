@@ -100,7 +100,7 @@ input:focus,
 textarea:focus {
   border-color: #FF0000;
   /* Red */
-  outline: 2px solid #FF0000;
+  /* outline: 2px solid #FF0000; */
   /* Red for accessibility */
 }
 

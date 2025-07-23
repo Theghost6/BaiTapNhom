@@ -101,7 +101,7 @@ textarea:focus,
 select:focus,
 .input:focus,
 .form-control:focus {
-    border-color: var(--input-focus) !important;
+    /* border-color: var(--input-focus) !important; */
     box-shadow: 0 0 0 2px var(--shadow-focus) !important;
 }
 

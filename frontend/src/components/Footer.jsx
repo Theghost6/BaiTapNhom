@@ -39,25 +39,25 @@ const Footer = () => {
             <h3 className="column-title">Thông tin và chính sách</h3>
             <ul className="footer-links">
               <li>
-                <Link to="/online">Mua hàng và thanh toán online</Link>
+                <Link to="#">Mua hàng và thanh toán online</Link>
               </li>
               <li>
-                <Link to="/installment">Mua hàng trả góp online</Link>
+                <Link to="#">Mua hàng trả góp online</Link>
               </li>
               <li>
-                <Link to="/policy">Chính sách đổi trả</Link>
+                <Link to="#">Chính sách đổi trả</Link>
               </li>
               <li>
-                <Link to="/member">Xem ưu đãi hội viên</Link>
+                <Link to="#">Xem ưu đãi hội viên</Link>
               </li>
               <li>
                 <Link to="#">Trung tâm bảo hành chính hãng</Link>
               </li>
               <li>
-                <Link to="/search">Tra cứu hóa đơn điện tử</Link>
+                <Link to="#">Tra cứu hóa đơn điện tử</Link>
               </li>
               <li>
-                <Link to="/offline">Mua hàng trực tiếp</Link>
+                <Link to="#">Mua hàng trực tiếp</Link>
               </li>
             </ul>
           </div>
@@ -66,16 +66,16 @@ const Footer = () => {
             <h3 className="column-title">Dịch vụ và thông tin khác</h3>
             <ul className="footer-links">
               <li>
-                <Link to="/customers">Khách hàng doanh nghiệp</Link>
+                <Link to="#">Khách hàng doanh nghiệp</Link>
               </li>
               <li>
-                <Link to="/discount bill">Ưu đãi thanh toán</Link>
+                <Link to="#">Ưu đãi thanh toán</Link>
               </li>
               <li>
-                <Link to="/active">Quy chế hoạt động</Link>
+                <Link to="#">Quy chế hoạt động</Link>
               </li>
               <li>
-                <Link to="/indentification">Chính sách bảo mật thông tin cá nhân</Link>
+                <Link to="#">Chính sách bảo mật thông tin cá nhân</Link>
               </li>
               <li>
                 <Link to="/#">Chính sách bảo hành</Link>
@@ -98,7 +98,7 @@ const Footer = () => {
               </li>
               <li className="contact-item">
                 <Mail className="contact-icon" size={16} />
-                <span>Email: info@nhom11.com</span>
+                <span>Email: info@nhom8.com</span>
               </li>
               <li className="contact-item">
                 <Clock className="contact-icon" size={16} />
@@ -123,11 +123,11 @@ const Footer = () => {
       <div className="footer-bottom">
         <div className="footer-container">
           <div className="terms-links">
-            <Link to="/terms">Điều khoản sử dụng</Link>
+            <Link to="#">Điều khoản sử dụng</Link>
             <span className="separator">|</span>
-            <Link to="/privacy">Chính sách bảo mật</Link>
+            <Link to="#">Chính sách bảo mật</Link>
             <span className="separator">|</span>
-            <Link to="/payment">Phương thức thanh toán</Link>
+            <Link to="#">Phương thức thanh toán</Link>
           </div>
 
           <div className="payment-icons">

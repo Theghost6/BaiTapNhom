@@ -1086,6 +1086,7 @@
   min-height: var(--element-height);
   min-width: 120px;
   justify-content: center;
+  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
 }
 
 .view-all-button:hover {

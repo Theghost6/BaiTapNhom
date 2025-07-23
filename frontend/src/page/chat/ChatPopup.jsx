@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import { useChat } from '../chat/ChatContext';
 import { useSocket } from '../chat/SocketContext';
-import { toast } from 'react-toastify';
 import '../../style/chat.css';
 
 const ChatPopup = ({ user }) => {
@@ -45,12 +44,6 @@ const ChatPopup = ({ user }) => {
       inputRef.current.focus();
     }
   }, [showChat, isMinimized]);
-
-  useEffect(() => {
-    if (!isConnected) {
-      toast.warn('Không thể kết nối với server chat. Vui lòng thử lại sau.');
-    }
-  }, [isConnected]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

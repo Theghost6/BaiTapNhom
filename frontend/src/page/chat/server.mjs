@@ -72,7 +72,13 @@ const config = {
   PORT: process.env.PORT || 3001,
   CORS_ORIGINS: process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(',').map(origin => origin.trim())
-    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
+    : [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:5173',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173'
+    ],
   STORAGE: {
     MAX_MESSAGES: parseInt(process.env.MAX_MESSAGES) || 1000,
     DATA_DIR: process.env.DATA_DIR || './data',
@@ -85,13 +91,7 @@ const config = {
   }
 };
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://localhost:5173',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:5173'
-];
+const allowedOrigins = config.CORS_ORIGINS;
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
