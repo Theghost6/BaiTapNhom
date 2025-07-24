@@ -87,7 +87,7 @@
 }
 
 .remove-button:hover {
-  color: #8000FF; /* Tím neon khi hover */
+  color: var(--btn-primary-bg); 
 }
 
 input[type="number"] {
@@ -154,9 +154,9 @@ input[type="number"] {
 
 .continue-shopping-btn:hover,
 .clear-cart-btn:hover {
-  background: #8000FF; /* Tím neon khi hover */
+  background: var(--btn-primary-bg); /* Tím neon khi hover */
   color: var(--bg-primary); /* Trắng */
-  border-color: #8000FF; /* Tím neon */
+  border-color: var(--btn-primary-bg); /* Tím neon */
 }
 
 .cart-checkout {
@@ -194,7 +194,7 @@ input[type="number"] {
 }
 
 .checkout-button:hover {
-  background: #8000FF; /* Tím neon khi hover */
+  background: var(--btn-primary-bg); 
 }
 
 @media (max-width: 375px) {

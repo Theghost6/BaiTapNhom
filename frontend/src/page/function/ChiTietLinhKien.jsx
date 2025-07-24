@@ -123,7 +123,7 @@ const ProductDetail = () => {
                 <div className="product-quantity">
                   <span>Số lượng:</span>
                   <div className="quantity-controls">
-                    <button onClick={detail.decreaseQuantity}>-</button>
+                    <button className="quantity-btn" onClick={detail.decreaseQuantity}>-</button>
                     <input
                       type="number"
                       min="1"
@@ -131,7 +131,7 @@ const ProductDetail = () => {
                       value={quantity}
                       onChange={detail.handleQuantityChange}
                     />
-                    <button onClick={detail.increaseQuantity}>+</button>
+                    <button className="quantity-btn" onClick={detail.increaseQuantity}>+</button>
                   </div>
                   <span
                     className={`stock-info ${product.so_luong <= 5 ? "low-stock" : ""}`}
@@ -156,11 +156,8 @@ const ProductDetail = () => {
                     className={`add-to-cart-button ${isInCart ? "in-cart" : ""}`}
                     disabled={product.so_luong < 1}
                   >
-                    {product.so_luong < 1
-                      ? "Hết hàng"
-                      : isInCart
-                        ? "✅ Đã thêm vào giỏ hàng"
-                        : "🛒 Thêm vào giỏ hàng"}
+                    {product.so_luong < 1 && "Hết hàng"}
+                    {product.so_luong >= 1 && (isInCart ? "✅ Đã thêm vào giỏ hàng" : "🛒 Thêm vào giỏ hàng")}
                   </button>
                   <button
                     onClick={detail.handleToggleWishlist}

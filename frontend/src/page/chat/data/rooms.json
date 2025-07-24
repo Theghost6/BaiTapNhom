@@ -24,20 +24,9 @@
         "joinedAt": "2025-07-23T13:30:14.277Z",
         "lastSeen": "2025-07-23T13:30:28.254Z",
         "online": false
-      },
-      {
-        "id": "2",
-        "username": "unkown",
-        "identifier": "1111111119",
-        "type": "phone",
-        "role": "user",
-        "avatar": "http://192.168.102.36/BaiTapNhom/backend/uploads/avatars/avatar_1111111119.jpg",
-        "joinedAt": "2025-07-23T14:41:00.303Z",
-        "lastSeen": "2025-07-23T14:52:46.958Z",
-        "online": false
       }
     ],
     "createdAt": "2025-07-20T10:40:38.334Z",
-    "updatedAt": "2025-07-23T14:52:46.958Z"
+    "updatedAt": "2025-07-23T17:04:34.201Z"
   }
 }

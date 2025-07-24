@@ -99,7 +99,7 @@ export function useProductDetail() {
     useEffect(() => {
         if (product && cartItems) {
             const existingItem = cartItems.find(
-                (item) => item.id_product === product.id || item.id === product.id_product
+                (item) => item.id === product.id || item.id === product.id
             );
             setIsInCart(!!existingItem);
         }

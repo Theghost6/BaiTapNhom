@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
-import { Trash2, Heart } from "lucide-react";
+import { FaTrashCan } from "react-icons/fa6";
+
 import { getCookie } from "../../helper/cookieHelper";
 import "../../style/wishlist.css";
 
@@ -267,7 +268,7 @@ const Wishlist = () => {
                   className="wishlist-button"
                   aria-label="Remove from wishlist"
                 >
-                  <Trash2 size={18} />
+                  <FaTrashCan size={18} />
                 </button>
               </motion.div>
             ))}

@@ -117,6 +117,7 @@ const App = () => {
                 <ScrollToTop />
                 <div className="page-container">
                   <Header />
+                  <div style={{ height: 50 }} /> {/* Spacer để tránh header che nội dung */}
                   <Suspense fallback={<div className="loading">Đang tải...</div>}>
                     <AnimatePresence mode="wait">
                       <Routes>
@@ -290,7 +291,7 @@ const App = () => {
                             </motion.div>
                           }
                         />
-                      
+
                         <Route
                           path="/blog"
                           element={
