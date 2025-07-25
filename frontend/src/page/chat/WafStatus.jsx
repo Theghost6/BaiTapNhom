@@ -26,7 +26,7 @@ const WafDashboard = () => {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
 
-    const BACKEND_URL = 'http://localhost:3001';
+    const BACKEND_URL = import.meta.env.VITE_SOCKET_URL;
     const [socket, setSocket] = useState(null);
 
     const fetchWafInfo = async () => {
@@ -51,7 +51,7 @@ const WafDashboard = () => {
                 if (statsRes.ok) {
                     stats = await statsRes.json();
                 }
-            } catch {}
+            } catch { }
             // Merge log and blockedIPDetails from both endpoints
             setWafData(prevData => ({
                 ...data,

@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url'; // Thêm import này
+import { fileURLToPath } from 'url';
 import path from 'path';
+import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
 import { Server as SocketIoServer } from 'socket.io';
@@ -8,10 +8,11 @@ import cors from 'cors';
 import fs from 'fs/promises';
 import * as waf from './waf.js';
 
-dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url); // Đã sửa, sử dụng fileURLToPath
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+
 
 const wafLog = [];
 const WAF_LOG_FILE = path.join(__dirname, 'waf-log.log');
@@ -91,18 +92,40 @@ const config = {
   }
 };
 
+console.log('Loaded config:', config);
+console.log('process.env.PORT:', process.env.PORT);
+console.log('process.env.CORS_ORIGINS:', process.env.CORS_ORIGINS);
+
 const allowedOrigins = config.CORS_ORIGINS;
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
+    const normalizedOrigin = origin.replace(/\/$/, '').toLowerCase();
+    const normalizedAllowed = allowedOrigins.map(o => o.replace(/\/$/, '').toLowerCase());
+    if (normalizedAllowed.includes(normalizedOrigin)) {
       return callback(null, true);
     }
-    return callback(new Error('Not allowed by CORS'));
+    // Nếu không hợp lệ, trả về lỗi CORS nhưng không log ra terminal
+    const silentError = new Error('Not allowed by CORS');
+    silentError.silent = true;
+    callback(silentError);
   },
   credentials: true
 }));
 app.use(express.json());
+
+// Bắt lỗi CORS và thêm header Access-Control-Allow-Origin vào response
+app.use((err, req, res, next) => {
+  if (err && err.message === 'Not allowed by CORS') {
+    // Không log ra terminal nếu là lỗi CORS silent
+    res.status(403);
+    res.set('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.json({ error: 'CORS error', message: err.message });
+  } else {
+    if (!err?.silent) console.error(err);
+    next(err);
+  }
+});
 
 
 app.get('/api/waf-status', async (req, res) => {
