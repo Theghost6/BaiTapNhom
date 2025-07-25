@@ -38,6 +38,7 @@ function OrdersTable({ orders, updateOrderStatus, handleViewOrderDetails }) {
                                             value={order.trang_thai}
                                             onChange={(e) => updateOrderStatus(Number(order.id), e.target.value)}
                                             className="table-select"
+                                            disabled={order.trang_thai === "Đã thanh toán"}
                                         >
                                             <option value="Chưa thanh toán">Chưa thanh toán</option>
                                             <option value="Đã thanh toán">Đã thanh toán</option>
