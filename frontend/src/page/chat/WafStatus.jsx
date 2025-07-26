@@ -68,10 +68,22 @@ const WafDashboard = () => {
     };
 
     const calculateRiskLevel = (data) => {
+        function parseLogTime(str) {
+            // Try ISO first
+            const iso = new Date(str);
+            if (!isNaN(iso.getTime())) return iso;
+            // Try 'HH:mm:ss dd/MM/yyyy'
+            const match = str.match(/(\d{2}):(\d{2}):(\d{2}) (\d{2})\/(\d{2})\/(\d{4})/);
+            if (match) {
+                const [_, h, m, s, d, M, y] = match;
+                return new Date(`${y}-${M}-${d}T${h}:${m}:${s}`);
+            }
+            return new Date(); // fallback: now
+        }
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
         const recentThreats = data.log?.filter(entry => {
-            const entryTime = new Date(entry.time);
-            const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-            return entryTime > oneHourAgo && /threat|attack|block/i.test(entry.message);
+            const entryTime = parseLogTime(entry.time);
+            return entryTime > oneHourAgo && /XSS|threat|attack|block/i.test(entry.message);
         }).length || 0;
 
         if (recentThreats > 20) return 'critical';
@@ -374,10 +386,20 @@ const WafDashboard = () => {
         return d instanceof Date && !isNaN(d.getTime());
     }
     function countThreatsByHour(type) {
+        function parseLogTime(str) {
+            const iso = new Date(str);
+            if (!isNaN(iso.getTime())) return iso;
+            const match = str.match(/(\d{2}):(\d{2}):(\d{2}) (\d{2})\/(\d{2})\/(\d{4})/);
+            if (match) {
+                const [_, h, m, s, d, M, y] = match;
+                return new Date(`${y}-${M}-${d}T${h}:${m}:${s}`);
+            }
+            return new Date();
+        }
         return hours.map((h, idx) =>
             wafData.log.filter(entry => {
                 if (!entry.time || typeof entry.time !== 'string') return false;
-                const d = new Date(entry.time);
+                const d = parseLogTime(entry.time);
                 if (!isValidDate(d)) return false;
                 const entryDay = d.toISOString().slice(0, 10);
                 return entryDay === today && d.getHours() === idx && entry.message.includes(type);
