@@ -2,20 +2,8 @@
   "general": {
     "id": "general",
     "name": "Tư vấn chung",
-    "users": [
-      {
-        "id": "2",
-        "username": "unkown",
-        "identifier": "1111111119",
-        "type": "phone",
-        "role": "user",
-        "avatar": "http://localhost/BaiTapNhom/backend/uploads/avatars/avatar_1111111119.jpg",
-        "joinedAt": "2025-07-25T15:54:02.423Z",
-        "lastSeen": "2025-07-25T15:54:47.390Z",
-        "online": false
-      }
-    ],
+    "users": [],
     "createdAt": "2025-07-25T15:26:54.790Z",
-    "updatedAt": "2025-07-25T15:54:47.391Z"
+    "updatedAt": "2025-07-26T00:50:44.719Z"
   }
 }
